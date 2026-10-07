@@ -1,7 +1,7 @@
 -- NetCo4 07/10: Lua AI cua DOI BOT 6 "nguoi gia" o Hau Hoa Vien (scene 62/82/182). Script 950002, gan qua script_id trong
 -- Public/Scene/newbie_2_monster.ini; base_ai 21 (co Lua ext) -> engine goi OnInit / OnHeartBeat / OnEnterCombat / OnLeaveCombat / OnDie.
 -- Danh dam, goi dong bon, hoi mau ban than: file .ai 346-349. File nay chi lo viec AI thuong KHONG lam duoc:
---   Nga My (64601) moi nhip tim dong doi (quai ID trong x950002_g_Bot) mau thap nhat -> cast Thanh Tam Pho Thien Chu (SkillData 2008, bac 12)
+--   Nga My (2068) moi nhip tim dong doi (quai ID trong x950002_g_Bot) mau thap nhat -> cast Thanh Tam Pho Thien Chu (SkillData 2008, bac 12)
 --   len dong doi do; >= 2 dong doi duoi nguong nhom -> Phat Quang Pho Chieu (1792, hoi nhom 7m) len ban than.
 -- Khung copy tu event/bingshen/ai_hadaba.lua (boss Bang Than). Toan ASCII. Sinh bang tools/botdoi-07-10.js (bang, ini, .ai).
 -- Chua kiem trong game: quai cast chieu "than thien" len quai khac co an khong. Neu khong: bat x950002_g_DungImpact = 1
@@ -9,9 +9,11 @@
 
 x950002_g_ScriptId = 950002
 
-x950002_g_Bot = { 64601, 64602, 64603, 64604, 64605, 64606 }
+-- 07/10 khuya: ma moi 64601-64606 bi TANG HINH (client khong co trong bang quai cua no) -> dung DataID co san, mac do dung phai:
+-- 2068 Nga My, 2048 + 2198 Cai Bang, 2108 Tieu Dao, 2028 + 2178 Thieu Lam (xem tools/botdoi-07-10.js)
+x950002_g_Bot = { 2068, 2048, 2198, 2108, 2028, 2178 }
 x950002_g_SoBot = 6
-x950002_g_NgaMy = 64601
+x950002_g_NgaMy = 2068
 
 x950002_g_HoiDon = 2008        -- Thanh Tam Pho Thien Chu bac 12: hoi % mau 1 muc tieu, tam 15m
 x950002_g_HoiNhom = 1792       -- Phat Quang Pho Chieu bac 12: hoi nhom quanh minh 7m
