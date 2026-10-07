@@ -4,8 +4,7 @@
 --   Nga My (2068) moi nhip tim dong doi (quai ID trong x950002_g_Bot) mau thap nhat -> cast Thanh Tam Pho Thien Chu (SkillData 2008, bac 12)
 --   len dong doi do; >= 2 dong doi duoi nguong nhom -> Phat Quang Pho Chieu (1792, hoi nhom 7m) len ban than.
 -- Khung copy tu event/bingshen/ai_hadaba.lua (boss Bang Than). Toan ASCII. Sinh bang tools/botdoi-07-10.js (bang, ini, .ai).
--- Chua kiem trong game: quai cast chieu "than thien" len quai khac co an khong. Neu khong: bat x950002_g_DungImpact = 1
--- (hoi bang hieu ung truc tiep, khong co hoat anh chieu) sau khi co ID impact hoi mau phu hop.
+-- Nga My: cast chieu QUAI tri lieu (hieu ung) + SetHp cong mau that cho dong doi (quai khong cast chieu than thien len quai khac duoc).
 
 x950002_g_ScriptId = 950002
 
@@ -15,14 +14,16 @@ x950002_g_Bot = { 2068, 2048, 2198, 2108, 2028, 2178 }
 x950002_g_SoBot = 6
 x950002_g_NgaMy = 2068
 
-x950002_g_HoiDon = 2008        -- Thanh Tam Pho Thien Chu bac 12: hoi % mau 1 muc tieu, tam 15m
-x950002_g_HoiNhom = 1792       -- Phat Quang Pho Chieu bac 12: hoi nhom quanh minh 7m
+-- 07/10 khuya: chieu NGUOI CHOI (2008 / 1792) quai khong dung duoc (doi vu khi + tam phap) -> dung chieu QUAI tri lieu de co hieu ung
+-- (594 Bach Thao Tien Lo, 589 Linh Chi Cuu Chuyen - chi hoi ban than) + cong mau THAT cho dong doi bang SetHp.
+x950002_g_HoiDon = 594         -- chieu quai (hieu ung) khi hoi 1 dong doi
+x950002_g_HoiNhom = 589        -- chieu quai (hieu ung) khi hoi ca nhom
+x950002_g_PhanDon = 0.15       -- hoi don: +15% mau toi da cua dong doi yeu nhat
+x950002_g_PhanNhom = 0.10      -- hoi nhom: +10% mau toi da cho moi bot duoi nguong nhom
 x950002_g_NguongDon = 0.65     -- dong doi duoi 65% mau -> hoi don
 x950002_g_NguongNhom = 0.5     -- >= 2 dong doi duoi 50% -> hoi nhom
 x950002_g_CD_Hoi = 3000        -- ms giua 2 lan hoi
 x950002_g_CD_Nghi = 1000       -- ms quet lai khi khong ai can hoi
-x950002_g_DungImpact = 0       -- 1 = hoi bang LuaFnSendSpecificImpactToUnit(x950002_g_ImpactHoi) thay vi cast chieu
-x950002_g_ImpactHoi = -1
 
 -- o nho cua MonsterAI (int): 1 = CD hoi mau con lai (ms)
 x950002_IDX_CD = 1
@@ -81,6 +82,31 @@ function x950002_TimYeuNhat( sceneId, selfId )
 	return best, bestP, soYeu
 end
 
+-- cong phan * mau toi da cho 1 bot (khong vuot toi da)
+function x950002_CongMau( sceneId, id, phan )
+	local mx = GetMaxHp( sceneId, id )
+	local hp = GetHp( sceneId, id ) + floor( mx * phan )
+	if hp > mx then
+		hp = mx
+	end
+	SetHp( sceneId, id, hp )
+end
+
+-- hoi nhom: moi bot con song duoi nguong nhom +PhanNhom
+function x950002_HoiNhom( sceneId )
+	local n = GetMonsterCount( sceneId )
+	local i
+	for i = 0, n - 1 do
+		local id = GetMonsterObjID( sceneId, i )
+		if id ~= -1 and x950002_LaBot( GetMonsterDataID( sceneId, id ) ) == 1 and LuaFnIsCharacterLiving( sceneId, id ) == 1 then
+			local mx = GetMaxHp( sceneId, id )
+			if mx > 0 and GetHp( sceneId, id ) / mx < x950002_g_NguongNhom then
+				x950002_CongMau( sceneId, id, x950002_g_PhanNhom )
+			end
+		end
+	end
+end
+
 function x950002_OnHeartBeat( sceneId, selfId, nTick )
 	if LuaFnIsCharacterLiving( sceneId, selfId ) ~= 1 then
 		return
@@ -99,12 +125,12 @@ function x950002_OnHeartBeat( sceneId, selfId, nTick )
 		return
 	end
 	local x, z = GetWorldPos( sceneId, selfId )
-	if x950002_g_DungImpact == 1 and x950002_g_ImpactHoi > 0 then
-		LuaFnSendSpecificImpactToUnit( sceneId, selfId, selfId, best, x950002_g_ImpactHoi, 0 )
-	elseif soYeu >= 2 then
+	if soYeu >= 2 then
 		LuaFnUnitUseSkill( sceneId, selfId, x950002_g_HoiNhom, selfId, x, z, 0, 1 )
+		x950002_HoiNhom( sceneId )
 	else
-		LuaFnUnitUseSkill( sceneId, selfId, x950002_g_HoiDon, best, x, z, 0, 1 )
+		LuaFnUnitUseSkill( sceneId, selfId, x950002_g_HoiDon, selfId, x, z, 0, 1 )
+		x950002_CongMau( sceneId, best, x950002_g_PhanDon )
 	end
 	MonsterAI_SetIntParamByIndex( sceneId, selfId, x950002_IDX_CD, x950002_g_CD_Hoi )
 end

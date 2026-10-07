@@ -27,20 +27,35 @@ const BOT = [
   { id: 2178, ten: 'Huyền Khổ', phai: 'Thiếu Lâm', donor: 2178, gioi: -1, ai: 346, x: -3, z: 1, hp: 680000, vlck: 28000, mpck: 6000, vlpn: 30000, ptpn: 22000, trung: 11000, ne: 2200, hieuy: 150 },
 ];
 const HE = 5000;   // 07/10 chủ server: công băng / hỏa / huyền / độc mỗi hệ 5000 cho mọi bot (cột 30/33/36/39); thủ hệ giữ 60 như mẫu
-const CAP = 89, MP = 60000, BASE_AI = 21 /* chủ động, không đi lung tung, quét 10m, đuổi 60m, có Lua, gọi đồng bọn */, SCRIPT = 950002;
+// 07/10 khuya (thử trên server local): AI riêng số 33 thêm vào MonsterAITable.ini: chủ động, không đi lung tung, quét 10 m,
+// KHÔNG XÍCH (AIPARAM3/6 rất lớn -> không bao giờ "bỏ đuổi, bất tử chạy về"), có Lua, gọi đồng bọn. Trước dùng 21 (đuổi 60 m rồi về).
+const CAP = 89, MP = 60000, BASE_AI = 33, SCRIPT = 950002;
+const AI_MOI = ['[AI33]', 'DESC=NetCo4 bot doi: chu dong, khong di lung tung, quet 10m, KHONG xich (khong bo duoi / bat tu chay ve), co Lua, goi dong bon',
+  'AIPARAM0=1500', 'AIPARAM1=-1', 'AIPARAM2=0', 'AIPARAM3=9999999', 'AIPARAM4=10000', 'AIPARAM5=20000', 'AIPARAM6=9999999', 'AIPARAM7=10000', 'AIPARAM8=1', 'AIPARAM9=1', 'AIPARAM10=1'];
 const HOI_SINH_MS = 180000, GROUP = 9502, TEMPLATE = '13465', SAU = '64563';
 const INI = 'wuliang_monster.ini', GOC = { x: 176, z: 172 };   // vị trí đội = GOC + lệch (x, z) của từng bot; dời đội: đổi 2 hằng này
 const INI_CU = ['newbie_2_monster.ini'];   // ini từng chứa bot -> dọn sạch khối bot
 
-// ---- 4 file .ai: skill = ID SkillData bậc 12 (tâm pháp 12), như các .ai gốc dùng thẳng ID SkillData ----
+// ---- 4 file .ai ----
+// 07/10 khuya: SAI cũ - .ai gọi chiêu theo mã SkillTemplate; mã chiêu NGƯỜI CHƠI đòi vũ khí + tâm pháp -> quái không dùng được, chỉ đánh
+// thường ("đánh như vô phái"). Đổi sang CHIÊU QUÁI (boss gốc đang dùng, có hiệu ứng, không đòi gì). Mọi bot: máu < 50% tự trị liệu (582),
+// máu < 25% chạy về đồng đội gần nhất (AIS_ToFlee(1), tối đa 2 lần / trận) -> hồi xong AI tự lao lên đánh lại.
 const S = (id, pct, pri) => `if(AIS_GetAIState()=SATTACK&AIS_Rand()<${pct}&AIS_IsCanSkill(${id})=1){AIS_ToSkill(${id});AIS_SetTimes(-1);AIS_SetPRI(${pri});};`;
+const CHUNG = [
+  'if(AIS_GetHP()<25&AIS_GetAIState()=SATTACK){AIS_ToFlee(1);AIS_SetTimes(2);AIS_SetPRI(60);};',
+  'if(AIS_GetHP()<50&AIS_IsCanSkill(582)=1){AIS_ToSkill(582);AIS_SetTimes(-1);AIS_SetPRI(55);};',
+];
 const AI = {
-  346: { ten: 'Thieu Lam', dong: [S(292, 60, 33), S(316, 35, 34), S(460, 25, 34), S(496, 30, 35), S(304, 20, 36), S(340, 15, 37)] },   // Phục Hổ Quyền, Đại Lực Kim Cương Chưởng, Nhất Phách Lưỡng Tán, Như Lai Thần Chưởng, Kim Cương Phục Ma Khuyên (AoE), Niêm Hoa Chỉ (tán công)
-  347: { ten: 'Cai Bang', dong: [S(1012, 60, 33), S(1036, 35, 34), S(1084, 30, 35), S(1216, 30, 35), S(1060, 25, 34), S(1180, 25, 34), S(1024, 20, 36), S(1288, 20, 36)] },   // Bàn Long Kích, Xung Trận Trảm Tướng, Phi Long Tại Thiên, Kháng Long Hữu Hối, Tuyết Nê Hồng Trảo, Chấn Kinh Bách Lý, Thiên Lý Hoành Hành (AoE), Bổng Đả Cẩu Đầu
-  348: { ten: 'Tieu Dao', dong: [S(3172, 60, 33), S(3196, 35, 34), S(3316, 30, 35), S(3340, 30, 35), S(3376, 25, 34), S(3412, 25, 34), S(3400, 20, 36), S(3220, 20, 37), S(3464, 15, 38)] },   // Lạc Anh Kiếm, Đàn Chỉ Thần Công, Tiêu Tương Dạ Vũ, Khê Sơn Hành Lữ, Bài Sơn Đảo Hải, Côn Dược Bắc Minh, Kinh Đào Hãi Lãng (AoE), Họa Địa Vi Lao (vây), Tử Vụ Nhiễu Tâm (khống chế)
-  349: { ten: 'Nga My', dong: [S(1732, 60, 33), S(1756, 35, 34), S(1768, 30, 35), S(1972, 30, 35), S(1780, 20, 36), 'if(AIS_GetHP()<40&AIS_IsCanSkill(2008)=1){AIS_ToSkill(2008);AIS_SetTimes(-1);AIS_SetPRI(50);};'] },   // Điêu Thuyền Bái Nguyệt, Tây Tử Phủng Tâm, Kim Đỉnh Miên Chưởng, Cửu Âm Thần Trảo, Nguyệt Lạc Tây Sơn (AoE); <40% máu tự Thanh Tâm Phổ Thiện Chú (hồi đồng đội do Lua)
+  // Thiếu Lâm: Trí Mệnh Đả Kích, Bài Sơn Đảo Hải (AoE 5m), Chấn Địa Công Kích (AoE), Phệ Huyết (khiêu khích), Thạch Phu (tự buff khi < 70%)
+  346: { ten: 'Thieu Lam', dong: [S(591, 50, 33), S(592, 35, 35), S(562, 25, 35), S(580, 20, 34), 'if(AIS_GetHP()<70&AIS_IsCanSkill(585)=1){AIS_ToSkill(585);AIS_SetTimes(-1);AIS_SetPRI(50);};', ...CHUNG] },
+  // Cái Bang: Thống Kích, Trảm Kích, Liệt Trảo Cuồng Kích, Lợi Nha Bào Hao (AoE 5m), Thú Vương Nộ Hống (AoE khống chế 9m), Hư Huyễn Trảm (khống chế)
+  347: { ten: 'Cai Bang', dong: [S(614, 60, 33), S(612, 45, 34), S(588, 35, 35), S(590, 25, 35), S(603, 15, 36), S(600, 15, 36), ...CHUNG] },
+  // Tiêu Dao: Hàn Băng Chú, Cuồng Lôi Thiên Lao (AoE 9m), Băng Thiên Tuyết Địa (AoE 9m), Đại Tuyết Băng (AoE khống chế 9m), Như Mộng Huyễn Tượng (khống chế)
+  348: { ten: 'Tieu Dao', dong: [S(553, 60, 33), S(615, 35, 35), S(627, 25, 35), S(602, 20, 36), S(599, 15, 36), ...CHUNG] },
+  // Nga My: Liệt Hỏa Chú, Trớ Chú, Liệt Diễm Luyện Ngục (AoE 9m), Tâm Ma Tất Hiện (khống chế); tự hồi Linh Chi Cửu Chuyển < 60%; hồi đồng đội do Lua
+  349: { ten: 'Nga My', dong: [S(554, 60, 33), S(616, 40, 34), S(610, 20, 35), S(598, 15, 36), 'if(AIS_GetHP()<60&AIS_IsCanSkill(589)=1){AIS_ToSkill(589);AIS_SetTimes(-1);AIS_SetPRI(56);};', ...CHUNG] },
 };
-const aiText = (n) => ['; NetCo4 07/10: bot doi Hau Hoa Vien - ' + AI[n].ten + ' (ID SkillData bac 12). Hoi mau dong doi: NetCo4/botdoi.lua', '[common]', '[commonend]', '[skill]',
+const aiText = (n) => ['; NetCo4 07/10: bot doi - ' + AI[n].ten + ' (chieu QUAI co hieu ung; tri lieu < 50%, chay ve dong doi < 25%). Hoi mau dong doi: NetCo4/botdoi.lua', '[common]', '[commonend]', '[skill]',
   '0:if(AIS_IsCanSkill(0)=1){AIS_ToSkill(0);AIS_SetTimes(-1);AIS_SetPRI(30);};', ...AI[n].dong.map((d, i) => (i + 1) + ':' + d), '[skillend]', '[beskill]', '[beskillend]', '[damage]', '[damageend]', '[dead]', '[deadend]', ''].join('\r\n');
 
 const cnt = (s, re) => (s.match(re) || []).length;
@@ -116,6 +131,14 @@ for (const ten of INI_CU) {
   let t2 = raw2.replace(/\s*$/, '') + '\r\n';
   for (const n of Object.keys(AI)) { const d = n + '=script' + n + '.ai =NetCo4 bot ' + AI[n].ten; if (!raw2.includes(n + '=script' + n + '.ai')) t2 += d + '\r\n'; }
   if (t2 !== raw2) luu(F2, raw2, t2); else console.log('AIScript.dat da co 346-349');
+}
+// 3b) MonsterAITable.ini: thêm [AI33] (AINUMBER 33 -> 34), chạy lại = cập nhật khối
+{
+  const F = path.join(R, 'Public/Config/MonsterAITable.ini'); const raw = fs.readFileSync(F, 'latin1');
+  let t3 = raw.replace(/\r?\n\[AI33\][\s\S]*$/, '');
+  t3 = t3.replace(/\s*$/, '') + '\r\n\r\n' + AI_MOI.join('\r\n') + '\r\n';
+  t3 = t3.replace(/AINUMBER=\d+/, 'AINUMBER=34');
+  luu(F, raw, t3);
 }
 // 4) .ai
 for (const n of Object.keys(AI)) {
