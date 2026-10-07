@@ -16,8 +16,8 @@ x950002_g_NgaMy = 2068
 
 -- 07/10 khuya: chieu NGUOI CHOI (2008 / 1792) quai khong dung duoc (doi vu khi + tam phap) -> dung chieu QUAI tri lieu de co hieu ung
 -- (594 Bach Thao Tien Lo, 589 Linh Chi Cuu Chuyen - chi hoi ban than) + cong mau THAT cho dong doi bang SetHp.
-x950002_g_HoiDon = 594         -- chieu quai (hieu ung) khi hoi 1 dong doi
-x950002_g_HoiNhom = 589        -- chieu quai (hieu ung) khi hoi ca nhom
+x950002_g_HoiDon = 422         -- Thanh Tam Pho Thien Chu (chieu Nga My that, ma mau) nham vao dong doi
+x950002_g_HoiNhom = 406        -- Phat Quang Pho Chieu (chieu Nga My that, hoi nhom quanh minh)
 x950002_g_PhanDon = 0.15       -- hoi don: +15% mau toi da cua dong doi yeu nhat
 x950002_g_PhanNhom = 0.10      -- hoi nhom: +10% mau toi da cho moi bot duoi nguong nhom
 x950002_g_NguongDon = 0.65     -- dong doi duoi 65% mau -> hoi don
@@ -129,7 +129,7 @@ function x950002_OnHeartBeat( sceneId, selfId, nTick )
 		LuaFnUnitUseSkill( sceneId, selfId, x950002_g_HoiNhom, selfId, x, z, 0, 1 )
 		x950002_HoiNhom( sceneId )
 	else
-		LuaFnUnitUseSkill( sceneId, selfId, x950002_g_HoiDon, selfId, x, z, 0, 1 )
+		LuaFnUnitUseSkill( sceneId, selfId, x950002_g_HoiDon, best, x, z, 0, 1 )
 		x950002_CongMau( sceneId, best, x950002_g_PhanDon )
 	end
 	MonsterAI_SetIntParamByIndex( sceneId, selfId, x950002_IDX_CD, x950002_g_CD_Hoi )

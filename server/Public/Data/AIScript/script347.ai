@@ -1,16 +1,25 @@
-; NetCo4 07/10: bot doi - Cai Bang (chieu QUAI co hieu ung; tri lieu < 50%, chay ve dong doi < 25%). Hoi mau dong doi: NetCo4/botdoi.lua
+; NetCo4 07/10: bot doi - Cai Bang (chieu MON PHAI THAT, ma mau SkillTemplate; tri lieu < 50%, chay ve dong doi < 25%). Hoi mau dong doi: NetCo4/botdoi.lua
 [common]
 [commonend]
 [skill]
 0:if(AIS_IsCanSkill(0)=1){AIS_ToSkill(0);AIS_SetTimes(-1);AIS_SetPRI(30);};
-1:if(AIS_GetAIState()=SATTACK&AIS_Rand()<60&AIS_IsCanSkill(614)=1){AIS_ToSkill(614);AIS_SetTimes(-1);AIS_SetPRI(33);};
-2:if(AIS_GetAIState()=SATTACK&AIS_Rand()<45&AIS_IsCanSkill(612)=1){AIS_ToSkill(612);AIS_SetTimes(-1);AIS_SetPRI(34);};
-3:if(AIS_GetAIState()=SATTACK&AIS_Rand()<35&AIS_IsCanSkill(588)=1){AIS_ToSkill(588);AIS_SetTimes(-1);AIS_SetPRI(35);};
-4:if(AIS_GetAIState()=SATTACK&AIS_Rand()<25&AIS_IsCanSkill(590)=1){AIS_ToSkill(590);AIS_SetTimes(-1);AIS_SetPRI(35);};
-5:if(AIS_GetAIState()=SATTACK&AIS_Rand()<15&AIS_IsCanSkill(603)=1){AIS_ToSkill(603);AIS_SetTimes(-1);AIS_SetPRI(36);};
-6:if(AIS_GetAIState()=SATTACK&AIS_Rand()<15&AIS_IsCanSkill(600)=1){AIS_ToSkill(600);AIS_SetTimes(-1);AIS_SetPRI(36);};
-7:if(AIS_GetHP()<25&AIS_GetAIState()=SATTACK){AIS_ToFlee(1);AIS_SetTimes(2);AIS_SetPRI(60);};
-8:if(AIS_GetHP()<50&AIS_IsCanSkill(582)=1){AIS_ToSkill(582);AIS_SetTimes(-1);AIS_SetPRI(55);};
+1:if(AIS_GetAIState()=SATTACK&AIS_Rand()<50&AIS_IsCanSkill(341)=1){AIS_ToSkill(341);AIS_SetTimes(-1);AIS_SetPRI(33);};
+2:if(AIS_GetAIState()=SATTACK&AIS_Rand()<40&AIS_IsCanSkill(343)=1){AIS_ToSkill(343);AIS_SetTimes(-1);AIS_SetPRI(34);};
+3:if(AIS_GetAIState()=SATTACK&AIS_Rand()<35&AIS_IsCanSkill(345)=1){AIS_ToSkill(345);AIS_SetTimes(-1);AIS_SetPRI(34);};
+4:if(AIS_GetAIState()=SATTACK&AIS_Rand()<35&AIS_IsCanSkill(347)=1){AIS_ToSkill(347);AIS_SetTimes(-1);AIS_SetPRI(34);};
+5:if(AIS_GetAIState()=SATTACK&AIS_Rand()<30&AIS_IsCanSkill(351)=1){AIS_ToSkill(351);AIS_SetTimes(-1);AIS_SetPRI(35);};
+6:if(AIS_GetAIState()=SATTACK&AIS_Rand()<30&AIS_IsCanSkill(355)=1){AIS_ToSkill(355);AIS_SetTimes(-1);AIS_SetPRI(35);};
+7:if(AIS_GetAIState()=SATTACK&AIS_Rand()<30&AIS_IsCanSkill(358)=1){AIS_ToSkill(358);AIS_SetTimes(-1);AIS_SetPRI(35);};
+8:if(AIS_GetAIState()=SATTACK&AIS_Rand()<25&AIS_IsCanSkill(362)=1){AIS_ToSkill(362);AIS_SetTimes(-1);AIS_SetPRI(35);};
+9:if(AIS_GetAIState()=SATTACK&AIS_Rand()<25&AIS_IsCanSkill(365)=1){AIS_ToSkill(365);AIS_SetTimes(-1);AIS_SetPRI(35);};
+10:if(AIS_GetAIState()=SATTACK&AIS_Rand()<15&AIS_IsCanSkill(366)=1){AIS_ToSkill(366);AIS_SetTimes(-1);AIS_SetPRI(37);};
+11:if(AIS_GetAIState()=SATTACK&AIS_Rand()<25&AIS_IsCanSkill(342)=1){AIS_ToSkill(342);AIS_SetTimes(-1);AIS_SetPRI(36);};
+12:if(AIS_GetAIState()=SATTACK&AIS_Rand()<25&AIS_IsCanSkill(348)=1){AIS_ToSkill(348);AIS_SetTimes(-1);AIS_SetPRI(36);};
+13:if(AIS_GetAIState()=SATTACK&AIS_Rand()<20&AIS_IsCanSkill(364)=1){AIS_ToSkill(364);AIS_SetTimes(-1);AIS_SetPRI(36);};
+14:if(AIS_GetAIState()=SATTACK&AIS_Rand()<20&AIS_IsCanSkill(363)=1){AIS_ToSkill(363);AIS_SetTimes(-1);AIS_SetPRI(36);};
+15:if(AIS_GetAIState()=SATTACK&AIS_IsCanSkill(349)=1){AIS_ToSkill(349);AIS_SetTimes(1);AIS_SetPRI(45);};
+16:if(AIS_GetHP()<25&AIS_GetAIState()=SATTACK){AIS_ToFlee(1);AIS_SetTimes(2);AIS_SetPRI(60);};
+17:if(AIS_GetHP()<50&AIS_IsCanSkill(582)=1){AIS_ToSkill(582);AIS_SetTimes(-1);AIS_SetPRI(55);};
 [skillend]
 [beskill]
 [beskillend]

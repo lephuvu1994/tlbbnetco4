@@ -22,7 +22,7 @@ const BOT = [
   { id: 2068, ten: 'Chu Chỉ Nhược', phai: 'Nga My', donor: 2068, gioi: -1, ai: 349, x: 0, z: 0, hp: 540000, vlck: 6000, mpck: 26000, vlpn: 16000, ptpn: 20000, trung: 11000, ne: 2400, hieuy: 150 },
   { id: 2048, ten: 'Kiều Phong', phai: 'Cái Bang', donor: 2048, gioi: -1, ai: 347, x: 2, z: -1.5, hp: 600000, vlck: 36000, mpck: 6000, vlpn: 20000, ptpn: 14000, trung: 12000, ne: 2800, hieuy: 300 },
   { id: 2198, ten: 'Hồng Thất Công', phai: 'Cái Bang', donor: 2198, gioi: -1, ai: 347, x: -2, z: -1.5, hp: 600000, vlck: 36000, mpck: 6000, vlpn: 20000, ptpn: 14000, trung: 12000, ne: 2800, hieuy: 300 },
-  { id: 2108, ten: 'Vô Nhai Tử', phai: 'Tiêu Dao', donor: 2108, gioi: -1, ai: 348, x: 0, z: 2, hp: 520000, vlck: 6000, mpck: 36000, vlpn: 14000, ptpn: 20000, trung: 11500, ne: 2600, hieuy: 250 },
+  { id: 2108, ten: 'Vô Nhai Tử', phai: 'Tiêu Dao', donor: 2108, gioi: -1, ai: 348, x: 0, z: 2, mp: 44146, hp: 344938, vlck: 6000, mpck: 36000, vlpn: 14000, ptpn: 20000, trung: 11500, ne: 2600, hieuy: 250 },
   { id: 2028, ten: 'Huyền Từ', phai: 'Thiếu Lâm', donor: 2028, gioi: -1, ai: 346, x: 3, z: 1, hp: 680000, vlck: 28000, mpck: 6000, vlpn: 30000, ptpn: 22000, trung: 11000, ne: 2200, hieuy: 150 },
   { id: 2178, ten: 'Huyền Khổ', phai: 'Thiếu Lâm', donor: 2178, gioi: -1, ai: 346, x: -3, z: 1, hp: 680000, vlck: 28000, mpck: 6000, vlpn: 30000, ptpn: 22000, trung: 11000, ne: 2200, hieuy: 150 },
 ];
@@ -45,17 +45,31 @@ const CHUNG = [
   'if(AIS_GetHP()<25&AIS_GetAIState()=SATTACK){AIS_ToFlee(1);AIS_SetTimes(2);AIS_SetPRI(60);};',
   'if(AIS_GetHP()<50&AIS_IsCanSkill(582)=1){AIS_ToSkill(582);AIS_SetTimes(-1);AIS_SetPRI(55);};',
 ];
+// 07/10 khuya (lần 3): CHIÊU MÔN PHÁI THẬT - mã MẪU chiêu (SkillTemplate) như boss gốc script301 (Tiêu Dật Phong, Thiếu Lâm 281-309)
+// và script337/338 ("Hung thần ác sát": Thiếu Lâm 282-305, Cái Bang 342-364). Lần 1 sai vì truyền mã CẤP chiêu (SkillData) -> chỉ đánh thường;
+// lần 2 dùng chiêu quái -> hiệu ứng như pet. B(id) = chiêu buff / trận: dùng 1 lần đầu trận.
+const B = (id, pri) => `if(AIS_GetAIState()=SATTACK&AIS_IsCanSkill(${id})=1){AIS_ToSkill(${id});AIS_SetTimes(1);AIS_SetPRI(${pri});};`;
 const AI = {
-  // Thiếu Lâm: Trí Mệnh Đả Kích, Bài Sơn Đảo Hải (AoE 5m), Chấn Địa Công Kích (AoE), Phệ Huyết (khiêu khích), Thạch Phu (tự buff khi < 70%)
-  346: { ten: 'Thieu Lam', dong: [S(591, 50, 33), S(592, 35, 35), S(562, 25, 35), S(580, 20, 34), 'if(AIS_GetHP()<70&AIS_IsCanSkill(585)=1){AIS_ToSkill(585);AIS_SetTimes(-1);AIS_SetPRI(50);};', ...CHUNG] },
-  // Cái Bang: Thống Kích, Trảm Kích, Liệt Trảo Cuồng Kích, Lợi Nha Bào Hao (AoE 5m), Thú Vương Nộ Hống (AoE khống chế 9m), Hư Huyễn Trảm (khống chế)
-  347: { ten: 'Cai Bang', dong: [S(614, 60, 33), S(612, 45, 34), S(588, 35, 35), S(590, 25, 35), S(603, 15, 36), S(600, 15, 36), ...CHUNG] },
-  // Tiêu Dao: Hàn Băng Chú, Cuồng Lôi Thiên Lao (AoE 9m), Băng Thiên Tuyết Địa (AoE 9m), Đại Tuyết Băng (AoE khống chế 9m), Như Mộng Huyễn Tượng (khống chế)
-  348: { ten: 'Tieu Dao', dong: [S(553, 60, 33), S(615, 35, 35), S(627, 25, 35), S(602, 20, 36), S(599, 15, 36), ...CHUNG] },
-  // Nga My: Liệt Hỏa Chú, Trớ Chú, Liệt Diễm Luyện Ngục (AoE 9m), Tâm Ma Tất Hiện (khống chế); tự hồi Linh Chi Cửu Chuyển < 60%; hồi đồng đội do Lua
-  349: { ten: 'Nga My', dong: [S(554, 60, 33), S(616, 40, 34), S(610, 20, 35), S(598, 15, 36), 'if(AIS_GetHP()<60&AIS_IsCanSkill(589)=1){AIS_ToSkill(589);AIS_SetTimes(-1);AIS_SetPRI(56);};', ...CHUNG] },
+  // Thiếu Lâm: Phục Hổ Quyền, Đại Lực Kim Cương Chưởng, Ma Ha Vô Lượng, Nhất Phách Lưỡng Tán, Như Lai Thần Chưởng, Huyền Ấn Ngộ Phật, Từ Tâm Bi Mẫn,
+  //   Kim Cương Phục Ma Khuyên / Sư Tử Hống / Diệt Thử Triêu Thực (AoE), Niêm Hoa Chỉ (tán công); Kim Cương Bất Hoại Thể khi < 40%
+  346: { ten: 'Thieu Lam', dong: [S(281, 50, 33), S(283, 40, 34), S(291, 35, 34), S(295, 30, 35), S(298, 30, 35), S(306, 25, 35), S(307, 25, 35),
+    S(282, 30, 36), S(287, 25, 36), S(302, 20, 36), S(285, 15, 37), B(289, 45), 'if(AIS_GetHP()<40&AIS_IsCanSkill(300)=1){AIS_ToSkill(300);AIS_SetTimes(1);AIS_SetPRI(57);};', ...CHUNG] },
+  // Cái Bang: Bàn Long Kích, Xung Trận Trảm Tướng, Tuyết Nê Hồng Trảo, Phi Long Tại Thiên, Thanh Long Xuất Thủy, Chấn Kinh Bách Lý, Kháng Long Hữu Hối,
+  //   Bổng Đả Cẩu Đầu, Địa Trầm Hãm Ngân, Liệt Thổ Lao Lung, Thiên Lý Hoành Hành / Tiềm Long Vật Dụng / Thiên Hạ Vô Cẩu / Hoành Tảo Càn Khôn (AoE)
+  347: { ten: 'Cai Bang', dong: [S(341, 50, 33), S(343, 40, 34), S(345, 35, 34), S(347, 35, 34), S(351, 30, 35), S(355, 30, 35), S(358, 30, 35), S(362, 25, 35),
+    S(365, 25, 35), S(366, 15, 37), S(342, 25, 36), S(348, 25, 36), S(364, 20, 36), S(363, 20, 36), B(349, 45), ...CHUNG] },
+  // Tiêu Dao (bản sao bialk): Lạc Anh Kiếm, Đàn Chỉ Thần Công, Tiêu Tương Dạ Vũ, Khê Sơn Hành Lữ, Bài Sơn Đảo Hải, Côn Dược Bắc Minh, Vũ Việt Tinh Hiện,
+  //   Kinh Đào Hãi Lãng (AoE), Tử Vụ Nhiễu Tâm / Họa Địa Vi Lao (khống chế), trận Bát Trận Đồ / Tru Tiên Trận / Cao Sơn Lưu Thủy / Bộ Bộ Sinh Hoa / Định Hải Thần Châm,
+  //   buff Đại Phong Ca / Lạc Thần Đồ / Giang Hành Sơ Tuyết / Ba Lan Bất Kinh / Vân Thể Phong Thân
+  348: { ten: 'Tieu Dao', dong: [S(521, 50, 33), S(523, 40, 34), S(533, 35, 34), S(535, 35, 34), S(538, 30, 35), S(542, 30, 35), S(545, 30, 35), S(540, 25, 36),
+    S(546, 15, 37), S(525, 10, 37), S(527, 15, 36), S(529, 15, 36), S(531, 15, 36), S(544, 15, 36), S(543, 15, 36),
+    B(532, 45), B(536, 45), B(537, 45), B(539, 45), B(526, 45), ...CHUNG] },
+  // Nga My: Điêu Thuyền Bái Nguyệt, Tây Tử Phủng Tâm, Kim Đỉnh Miên Chưởng, Thác Nê Đái Thủy, Cửu Âm Thần Trảo, Hỗn Giang Phá Nhai, U Tuyền Trầm Chu,
+  //   Chiêu Quân Xuất Tái / Nguyệt Lạc Tây Sơn (AoE), Chướng Nhãn Pháp (khống chế); tự hồi Linh Chi Cửu Chuyển < 60%; hồi ĐỒNG ĐỘI do Lua (422 / 406)
+  349: { ten: 'Nga My', dong: [S(401, 50, 33), S(403, 40, 34), S(404, 35, 34), S(418, 30, 35), S(423, 30, 35), S(425, 25, 35), S(426, 25, 35),
+    S(402, 25, 36), S(405, 25, 36), S(415, 15, 37), B(409, 45), 'if(AIS_GetHP()<60&AIS_IsCanSkill(589)=1){AIS_ToSkill(589);AIS_SetTimes(-1);AIS_SetPRI(56);};', ...CHUNG] },
 };
-const aiText = (n) => ['; NetCo4 07/10: bot doi - ' + AI[n].ten + ' (chieu QUAI co hieu ung; tri lieu < 50%, chay ve dong doi < 25%). Hoi mau dong doi: NetCo4/botdoi.lua', '[common]', '[commonend]', '[skill]',
+const aiText = (n) => ['; NetCo4 07/10: bot doi - ' + AI[n].ten + ' (chieu MON PHAI THAT, ma mau SkillTemplate; tri lieu < 50%, chay ve dong doi < 25%). Hoi mau dong doi: NetCo4/botdoi.lua', '[common]', '[commonend]', '[skill]',
   '0:if(AIS_IsCanSkill(0)=1){AIS_ToSkill(0);AIS_SetTimes(-1);AIS_SetPRI(30);};', ...AI[n].dong.map((d, i) => (i + 1) + ':' + d), '[skillend]', '[beskill]', '[beskillend]', '[damage]', '[damageend]', '[dead]', '[deadend]', ''].join('\r\n');
 
 const cnt = (s, re) => (s.match(re) || []).length;
@@ -74,7 +88,7 @@ function luu(f, cu, moi) { if (cu === moi) return; doi.push(path.relative(R, f) 
     const d = L[tim(b.donor)]; if (!d) throw new Error('khong thay donor ' + b.donor);
     const dc = d.replace(/\r$/, '').split('\t');
     c[0] = String(b.id); c[1] = viscii(b.ten); c[2] = b.gioi >= 0 ? String(b.gioi) : dc[2]; c[3] = String(CAP); c[4] = '0'; c[7] = String(BASE_AI); c[8] = '-1'; c[9] = '9'; c[14] = '0';
-    c[15] = String(b.vlck); c[16] = String(b.vlpn); c[17] = String(b.mpck); c[18] = String(b.ptpn); c[19] = String(b.hp); c[20] = String(MP); c[21] = '0'; c[22] = '0';
+    c[15] = String(b.vlck); c[16] = String(b.vlpn); c[17] = String(b.mpck); c[18] = String(b.ptpn); c[19] = String(b.hp); c[20] = String(b.mp || MP); c[21] = '0'; c[22] = '0';
     c[30] = String(HE); c[33] = String(HE); c[36] = String(HE); c[39] = String(HE);
     c[23] = String(b.trung); c[24] = String(b.ne); c[25] = String(b.hieuy); c[26] = String(b.hieuy); c[27] = '3500'; c[28] = '800';
     for (let k = 44; k <= 50; k++) c[k] = dc[k];   // ngoại hình, hiện tên, hướng, cao tên, cỡ chọn, bóng, chân dung
