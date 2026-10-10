@@ -1588,4 +1588,5 @@ Script dùng: `MyLua/wuhunxt/odali_wuyazi.lua` (892101; hàm `WuhunSkillStudy` ~
 - Engine không đổi được GUID và không ghi được tư chất / trưởng thành / cấp / kỹ năng của pet -> chuyển giới = tạo lại cùng DataID (cấp 1; Huyền Hóa ruler 2, còn lại ruler 1 như trứng) tới khi bit cuối GUID thấp ra giới mong muốn (tối đa 12 lần), rồi xóa con cũ. Tạo con mới trước, xóa con cũ sau.
 - Chỉ pet cấp <= 5, chưa phối ngẫu, đang nghỉ, không khóa; cần 1 ô pet trống. **Miễn phí** (đang thử). Tư chất quay lại ngẫu nhiên -> lưu ý: miễn phí = được quay lại tư chất pet mới nở không giới hạn; nên thu phí trước khi mở rộng.
 - Menu `doitrunglau2.lua` số 21000-21999 (21000 danh sách -> 21100+i xác nhận -> 21300+i đổi). Tên pet hiện theo thứ tự trong bảng (tên server là GBK). Rollback tag `truoc-chuyengioi-pet-11-10`; script `tools/chuyengioi-pet-11-10.js`.
+- Thêm cùng mục ở **Vân Phi Phi** (Tô Châu 171,238; `obj/suzhou/osuzhou_yunfeifei.lua` 001050): dòng menu `AddNumText(..., 111998, ..., 21000)` + `OnEventRequest` chuyển mọi lựa chọn eventId 111998 sang `CallScriptFunction(111998, "CGMenu", ..., GetNumText())`. Rollback tag `truoc-chuyengioi-vanphiphi-11-10`.
 

@@ -46,6 +46,7 @@ function x001050_OnDefaultEvent( sceneId, selfId,targetId )
 		CallScriptFunction( 800106, "OnEnumerate", sceneId, selfId, targetId )
 		CallScriptFunction( 800108, "OnEnumerate", sceneId, selfId, targetId )
 		CallScriptFunction( 800124, "OnEnumerate", sceneId, selfId, targetId )
+		AddNumText( sceneId, 111998, "#G Chuy¬n Gi¾i Trân Thú", 6, 21000 )   -- [NetCo4 11/10] chuyen gioi pet (xu ly o MyNew/doitrunglau2.lua x111998_CGMenu)
 	EndEvent( sceneId )
 	DispatchEventList( sceneId, selfId, targetId )
 end
@@ -54,6 +55,10 @@ end
 --ÊÂ¼þÁÐ±íÑ¡ÖÐÒ»Ïî
 --**********************************
 function x001050_OnEventRequest( sceneId, selfId, targetId, eventId )
+	if eventId == 111998 then   -- [NetCo4 11/10] chuyen gioi pet: moi lua chon cua 111998 -> x111998_CGMenu
+		CallScriptFunction( 111998, "CGMenu", sceneId, selfId, targetId, GetNumText() )
+		return
+	end
 	if eventId == x001050_g_ScriptId then
 		local key	= GetNumText()
 		if key == x001050_g_key["pet_help"] then
