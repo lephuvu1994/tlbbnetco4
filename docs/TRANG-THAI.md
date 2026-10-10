@@ -1596,4 +1596,5 @@ Script dùng: `MyLua/wuhunxt/odali_wuyazi.lua` (892101; hàm `WuhunSkillStudy` ~
 - `Public/Scene/takelamagan_monster.ini`: 90 quái (cấp 101-105) `script_id -1 -> 950001`. `NetCo4/roimap.lua`: `[427] = { 20310168, 30 }` (Kim Tàm Ti dùng được, mỗi người trong tổ đội roll riêng) + `x950001_OnDie` gọi `CallScriptFunction(999998, "OnDie", ...)` khi scene 427. `MyNew/guaiwu_die.lua`: thêm 427 vào điều kiện ×12 (tổng ×48 như Vô Lượng Sơn).
 - Võ Ý mỗi con = (770 + cấp×10) × 48 = **85.440-87.360** (quái cấp cao hơn Vô Lượng Sơn nên gấp ~2,1 lần VLS 37.440-41.760; chủ server chọn cùng hệ số). Hạn Huyết Lĩnh KHÔNG đổi. Rollback tag `truoc-voy-takla-11-10`.
 - **Chỉ rơi Kim Tàm Ti** (chủ server): `MonsterDropBoxs.txt` bỏ hết hộp (cột 3-22 = -1, như Tuyết Lang Hồ) của 11 loại chỉ có ở map này 11436-11446. 11423 (Sa mạc Linh cẩu) dùng chung với Tháp Lý Mộc -> KHÔNG bỏ hộp, mà đổi 3 điểm trong `takelamagan_monster.ini` sang 11442 (cùng tên, cấp 103). Trang netco4.click đã dựng lại. Tag `truoc-takla-chikimtamti-11-10`.
+- **11/10 sau:** hồi sinh 90 quái 45 giây -> **5 giây** (`respawn_time=5000`), Kim Tàm Ti 30% -> **20%**. Tag `truoc-takla-5s-11-10`.
 
