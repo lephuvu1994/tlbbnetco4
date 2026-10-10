@@ -85,7 +85,7 @@ end
 --**********************************
 function  x111998_OnEventRequest(  sceneId,  selfId,  targetId,  eventId  )
 	 local  nNumText  =  GetNumText()
-	 if nNumText >= 21000 and nNumText < 22000 then   -- [NetCo4 11/10] chuyen gioi pet
+	 if ( nNumText >= 21000 and nNumText < 22000 ) or ( nNumText >= 30000 and nNumText < 40000 ) then   -- [NetCo4 11/10] chuyen gioi pet
 	 	 x111998_CGMenu( sceneId, selfId, targetId, nNumText )
 	 	 return
 	 end
@@ -726,7 +726,15 @@ end
 -- [NetCo4 11/10] CHUYEN GIOI TRAN THU (tools/chuyengioi-pet-11-10.js). Gioi tinh = bit cuoi GUID thap: le = Duc, chan = Cai.
 -- Tao lai cung DataID toi khi dung gioi (toi da 12 lan), roi xoa con cu. Chi pet cap <= x111998_g_CGCapMax, chua phoi ngau, dang nghi.
 --**********************************
-x111998_g_CG = {}          -- [selfId] = { h, l } pet dang chon (chong danh sach doi giua 2 lan bam)
+-- [11/10 sua] KHONG luu bang toan cuc giua 2 lan bam (server nap lai script moi lan goi -> bang bi xoa): nut Xac nhan mang ma
+-- 30000 + thu tu * 1000 + 3 so cuoi GUID thap (x111998_CGMa) -> luc bam so lai voi pet o vi tri do.
+function x111998_CGMa( l )
+	local r = mod( l, 1000 )
+	if r < 0 then
+		r = r + 1000
+	end
+	return r
+end
 x111998_g_CGCapMax = 5
 
 function x111998_CGGioi( l )
@@ -808,23 +816,24 @@ function x111998_CGMenu( sceneId, selfId, targetId, n )
 		if x111998_CGKiem( sceneId, selfId, h, l ) ~= 1 then
 			return
 		end
-		x111998_g_CG[ selfId ] = { h = h, l = l }
+		if i > 9 then
+			return
+		end
 		local ten = "trân thú thÑ " .. ( i + 1 )
 		local cu = x111998_CGGioi( l )
 		BeginEvent( sceneId )
 			AddText( sceneId, "    Chuy¬n " .. ten .. " t× " .. x111998_CGTen( cu ) .. " sang " .. x111998_CGTen( 3 - cu ) .. "? Trân thú ðßþc tÕo lÕi c¤p 1, tß ch¤t quay lÕi ngçu nhiên." )
-			AddNumText( sceneId, x111998_g_ScriptId, "#G Xác nh§n chuy¬n gi¾i", 6, 21300 + i )
+			AddNumText( sceneId, x111998_g_ScriptId, "#G Xác nh§n chuy¬n gi¾i", 6, 30000 + i * 1000 + x111998_CGMa( l ) )
 			AddNumText( sceneId, x111998_g_ScriptId, " Tr· v«", 6, 21000 )
 		EndEvent( sceneId )
 		DispatchEventList( sceneId, selfId, targetId )
 		return
 	end
-	if n >= 21300 and n < 21400 then
-		local i = n - 21300
-		local cg = x111998_g_CG[ selfId ]
-		x111998_g_CG[ selfId ] = nil
+	if n >= 30000 and n < 40000 then
+		local i = floor( ( n - 30000 ) / 1000 )
+		local ma = mod( n - 30000, 1000 )
 		local h, l = LuaFnGetPetGUID( sceneId, selfId, i )
-		if cg == nil or h == nil or l == nil or h ~= cg.h or l ~= cg.l then
+		if h == nil or l == nil or x111998_CGMa( l ) ~= ma then
 			x111998_CGTip( sceneId, selfId, "Danh sách trân thú ðã thay ð±i, hãy ch÷n lÕi." )
 			return
 		end
