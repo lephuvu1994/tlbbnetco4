@@ -1591,3 +1591,8 @@ Script dùng: `MyLua/wuhunxt/odali_wuyazi.lua` (892101; hàm `WuhunSkillStudy` ~
 - Thêm cùng mục ở **Vân Phi Phi** (Tô Châu 171,238; `obj/suzhou/osuzhou_yunfeifei.lua` 001050): dòng menu `AddNumText(..., 111998, ..., 21000)` + `OnEventRequest` chuyển mọi lựa chọn eventId 111998 sang `CallScriptFunction(111998, "CGMenu", ..., GetNumText())`. Rollback tag `truoc-chuyengioi-vanphiphi-11-10`.
 - **Sửa 11/10 00:50:** bấm Xác nhận báo "Danh sách trân thú đã thay đổi" vì mình lưu pet đang chọn trong bảng Lua toàn cục `x111998_g_CG` - server **nạp lại file script mỗi lần gọi** nên bảng bị xóa giữa 2 lần bấm. Bỏ bảng; nút Xác nhận mang mã `30000 + thứ tự*1000 + 3 số cuối GUID thấp` (`x111998_CGMa`), lúc bấm so lại pet ở vị trí đó (router 30000-39999). **Bài học: không dùng biến toàn cục Lua để giữ trạng thái giữa các lần bấm NPC.** (`tools/chuyengioi-pet-11-10.js` là bản đầu, sửa tay sau đó.) Tag `truoc-chuyengioi-sua-11-10`.
 
+## 11/10 - Tháp Khắc Lạp Mã Can (scene 427): train Võ Ý ×48 + Kim Tàm Ti 30% (cần cap-nhat + RESTART)
+
+- `Public/Scene/takelamagan_monster.ini`: 90 quái (cấp 101-105) `script_id -1 -> 950001`. `NetCo4/roimap.lua`: `[427] = { 20310168, 30 }` (Kim Tàm Ti dùng được, mỗi người trong tổ đội roll riêng) + `x950001_OnDie` gọi `CallScriptFunction(999998, "OnDie", ...)` khi scene 427. `MyNew/guaiwu_die.lua`: thêm 427 vào điều kiện ×12 (tổng ×48 như Vô Lượng Sơn).
+- Võ Ý mỗi con = (770 + cấp×10) × 48 = **85.440-87.360** (quái cấp cao hơn Vô Lượng Sơn nên gấp ~2,1 lần VLS 37.440-41.760; chủ server chọn cùng hệ số). Hạn Huyết Lĩnh KHÔNG đổi. Rollback tag `truoc-voy-takla-11-10`.
+

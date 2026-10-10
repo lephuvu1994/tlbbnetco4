@@ -9,6 +9,7 @@ x950001_g_ScriptId = 950001
 
 -- [sceneId] = { ID vat pham, % roi moi nguoi }
 x950001_g_Roi = {
+	[427] = { 20310168, 30 },   -- [11/10] Thap Khac Lap Ma Can (takelamagan, 90 quai cap 101-105): Kim Tam Ti 30% + Vo Y x48 nhu Vo Luong Son (goi 999998 trong OnDie)
 	[432] = { 20310168, 40 },   -- Han Huyet Linh: Kim Tam Ti (cuong hoa dieu van). [10/10] 20310166 30% -> 20310168 15% -> 25% -> 35% -> 50% -> 100% -> 40% (809272 chi nhan 167/168)
 	[62]  = { 38000571, 7 },   -- [07/10] 30 -> 17 -> 12; [09/10] 12 -> 7 (+3% hop 86003 = ~10%). Hau Hoa Vien: Chi Ton Cuong Hoa Tinh Hoa (map chi mo theo gio, MyNew/jiarumenpai.lua x990010_g_HHV_Mo/Dong)
 	[82]  = { 38000571, 7 },   -- Hau Hoa Vien 2
@@ -59,6 +60,9 @@ x950001_g_RoiPhoBan2 = {
 }
 
 function x950001_OnDie( sceneId, selfId, killerId )
+	if sceneId == 427 then   -- [11/10] Thap Khac Lap Ma Can: cong Vo Y (MyNew/guaiwu_die.lua x999998_OnDie, he so x48 nhu Vo Luong Son)
+		CallScriptFunction( 999998, "OnDie", sceneId, selfId, killerId )
+	end
 	local r = x950001_g_Roi[sceneId]
 	if r == nil and LuaFnGetSceneType( sceneId ) == 1 then
 		r = x950001_g_RoiPhoBan[ LuaFnGetCopySceneData_Param( sceneId, 1 ) ]

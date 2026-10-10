@@ -5,7 +5,7 @@ function x999998_OnDie( sceneId, selfId, killerId )
 	end
         local GuaiLev = GetLevel(sceneId, selfId) --怪物等级
         local Neixi = (770 + GuaiLev*10) * 4  -- [NetCo4 30/09] x4 noi tuc Vo Y theo yeu cau chu server (goc: 770 + GuaiLev*10)
-        if sceneId == 6 or sceneId == 73 or sceneId == 74 then Neixi = Neixi * 12 end   -- [NetCo4 09/10] Vo Luong Son tong x48 noi tuc (chu server; 05/10 la x3 = tong x12): 37.440-41.760/con; noi khac giu x4
+        if sceneId == 6 or sceneId == 73 or sceneId == 74 or sceneId == 427 then Neixi = Neixi * 12 end   -- [11/10] + 427 Thap Khac Lap Ma Can (goi tu roimap 950001)   -- [NetCo4 09/10] Vo Luong Son tong x48 noi tuc (chu server; 05/10 la x3 = tong x12): 37.440-41.760/con; noi khac giu x4
 	---宠物则获取其主人的名字
 	local playerID = killerId
 	local objType = GetCharacterType( sceneId, killerId )
