@@ -66,6 +66,7 @@ function  x111998_UpdateEventList(  sceneId,  selfId,targetId  )
 	 	 AddNumText(  sceneId,  x111998_g_ScriptId,  "#H Ð±i HÕnh V§n Quä ",  6,  8000  )		
 		--end		
 	 	 AddNumText(  sceneId,  x111998_g_ScriptId,  "#cFF0000 Ð±i Ð° VIP",  6,  20000  )   -- [NetCo4 11/10] event doi do VIP
+	 	 AddNumText(  sceneId,  x111998_g_ScriptId,  "#G Chuy¬n Gi¾i Trân Thú",  6,  21000  )   -- [NetCo4 11/10] chuyen gioi pet
 	 	 AddNumText(  sceneId,  x111998_g_ScriptId,  " R¶i ði",  0,  0  )
 
 	 EndEvent(sceneId)
@@ -84,6 +85,10 @@ end
 --**********************************
 function  x111998_OnEventRequest(  sceneId,  selfId,  targetId,  eventId  )
 	 local  nNumText  =  GetNumText()
+	 if nNumText >= 21000 and nNumText < 22000 then   -- [NetCo4 11/10] chuyen gioi pet
+	 	 x111998_CGMenu( sceneId, selfId, targetId, nNumText )
+	 	 return
+	 end
 	 if nNumText >= 20000 and nNumText < 21000 then   -- [NetCo4 11/10] event doi do VIP
 	 	 x111998_VipMenu( sceneId, selfId, targetId, nNumText )
 	 	 return
@@ -715,4 +720,153 @@ function x111998_VipNop( sceneId, selfId, id )
 	x111998_VipTip( sceneId, selfId, "Ð±i ð° VIP thành công" )
 	LuaFnSendSpecificImpactToUnit( sceneId, selfId, selfId, selfId, 148, 0 )
 	return 1
+end
+
+--**********************************
+-- [NetCo4 11/10] CHUYEN GIOI TRAN THU (tools/chuyengioi-pet-11-10.js). Gioi tinh = bit cuoi GUID thap: le = Duc, chan = Cai.
+-- Tao lai cung DataID toi khi dung gioi (toi da 12 lan), roi xoa con cu. Chi pet cap <= x111998_g_CGCapMax, chua phoi ngau, dang nghi.
+--**********************************
+x111998_g_CG = {}          -- [selfId] = { h, l } pet dang chon (chong danh sach doi giua 2 lan bam)
+x111998_g_CGCapMax = 5
+
+function x111998_CGGioi( l )
+	if mod( l, 2 ) ~= 0 then
+		return 1
+	end
+	return 2
+end
+
+function x111998_CGTen( gt )
+	if gt == 1 then
+		return "Ðñc"
+	end
+	return "Cái"
+end
+
+function x111998_CGTip( sceneId, selfId, str )
+	BeginEvent( sceneId )
+		AddText( sceneId, str )
+	EndEvent( sceneId )
+	DispatchMissionTips( sceneId, selfId )
+end
+
+-- 1 = doi duoc
+function x111998_CGKiem( sceneId, selfId, h, l )
+	if LuaFnIsPetAvailableByGUID( sceneId, selfId, h, l ) ~= 1 then
+		x111998_CGTip( sceneId, selfId, "Trân thú ðang khóa ho£c không thao tác ðßþc." )
+		return 0
+	end
+	local sh, sl = LuaFnGetPetSpouseGUIDByGUID( sceneId, selfId, h, l )
+	if not sh or not sl or sh ~= 0 or sl ~= 0 then
+		x111998_CGTip( sceneId, selfId, "Trân thú ðã có ph¯i ngçu, không th¬ chuy¬n gi¾i." )
+		return 0
+	end
+	local lv = LuaFnGetPetLevelByGUID( sceneId, selfId, h, l )
+	if not lv or lv > x111998_g_CGCapMax then
+		x111998_CGTip( sceneId, selfId, "Chï chuy¬n gi¾i trân thú c¤p " .. x111998_g_CGCapMax .. " tr· xu¯ng (chßa nuôi)." )
+		return 0
+	end
+	local ch, cl = LuaFnGetCurrentPetGUID( sceneId, selfId )
+	if ch ~= nil and cl ~= nil and ch == h and cl == l then
+		x111998_CGTip( sceneId, selfId, "Hãy cho trân thú nghï (không xu¤t chiªn) trß¾c." )
+		return 0
+	end
+	return 1
+end
+
+function x111998_CGMenu( sceneId, selfId, targetId, n )
+	if n == 21000 then
+		local cnt = LuaFnGetPetCount( sceneId, selfId )
+		if cnt == nil then
+			cnt = 0
+		end
+		BeginEvent( sceneId )
+			AddText( sceneId, "    Chuy¬n gi¾i Trân Thú: chï trân thú c¤p " .. x111998_g_CGCapMax .. " tr· xu¯ng, chßa ph¯i ngçu, ðang nghï. Trân thú ðßþc tÕo lÕi cùng loÕi nên tß ch¤t quay lÕi ngçu nhiên, tên ð£t riêng s¨ m¤t. C¥n 1 ô trân thú tr¯ng." )
+			if cnt <= 0 then
+				AddText( sceneId, "Các hÕ chßa có trân thú nào." )
+			end
+			for i = 0, cnt - 1 do
+				local h, l = LuaFnGetPetGUID( sceneId, selfId, i )
+				if h ~= nil and l ~= nil then
+					local did = LuaFnGetPetDataIDByGUID( sceneId, selfId, h, l )
+					local lv = LuaFnGetPetLevelByGUID( sceneId, selfId, h, l )
+					local ten = "Trân thú thÑ " .. ( i + 1 )   -- ten pet server la GBK (tieng Trung) -> goi theo thu tu trong bang
+					AddNumText( sceneId, x111998_g_ScriptId, ten .. " (c¤p " .. lv .. ", " .. x111998_CGTen( x111998_CGGioi( l ) ) .. ")", 6, 21100 + i )
+				end
+			end
+			AddNumText( sceneId, x111998_g_ScriptId, " R¶i Ði", 0, 0 )
+		EndEvent( sceneId )
+		DispatchEventList( sceneId, selfId, targetId )
+		return
+	end
+	if n >= 21100 and n < 21200 then
+		local i = n - 21100
+		local h, l = LuaFnGetPetGUID( sceneId, selfId, i )
+		if h == nil or l == nil then
+			return
+		end
+		if x111998_CGKiem( sceneId, selfId, h, l ) ~= 1 then
+			return
+		end
+		x111998_g_CG[ selfId ] = { h = h, l = l }
+		local ten = "trân thú thÑ " .. ( i + 1 )
+		local cu = x111998_CGGioi( l )
+		BeginEvent( sceneId )
+			AddText( sceneId, "    Chuy¬n " .. ten .. " t× " .. x111998_CGTen( cu ) .. " sang " .. x111998_CGTen( 3 - cu ) .. "? Trân thú ðßþc tÕo lÕi c¤p 1, tß ch¤t quay lÕi ngçu nhiên." )
+			AddNumText( sceneId, x111998_g_ScriptId, "#G Xác nh§n chuy¬n gi¾i", 6, 21300 + i )
+			AddNumText( sceneId, x111998_g_ScriptId, " Tr· v«", 6, 21000 )
+		EndEvent( sceneId )
+		DispatchEventList( sceneId, selfId, targetId )
+		return
+	end
+	if n >= 21300 and n < 21400 then
+		local i = n - 21300
+		local cg = x111998_g_CG[ selfId ]
+		x111998_g_CG[ selfId ] = nil
+		local h, l = LuaFnGetPetGUID( sceneId, selfId, i )
+		if cg == nil or h == nil or l == nil or h ~= cg.h or l ~= cg.l then
+			x111998_CGTip( sceneId, selfId, "Danh sách trân thú ðã thay ð±i, hãy ch÷n lÕi." )
+			return
+		end
+		if x111998_CGKiem( sceneId, selfId, h, l ) ~= 1 then
+			return
+		end
+		local c = TryCreatePet( sceneId, selfId, 1 )
+		if not c or c ~= 1 then
+			x111998_CGTip( sceneId, selfId, "C¥n 1 ô trân thú tr¯ng ð¬ chuy¬n gi¾i." )
+			return
+		end
+		local did = LuaFnGetPetDataIDByGUID( sceneId, selfId, h, l )
+		local moi = 3 - x111998_CGGioi( l )
+		local ruler = 1
+		if CallScriptFunction( 950000, "LaHuyenHoa", sceneId, did ) == 1 then
+			ruler = 2
+		end
+		local ret, nh, nl = 0, 0, 0
+		local lan = 0
+		while lan < 12 do
+			lan = lan + 1
+			ret, nh, nl = LuaFnCreatePetToHuman( sceneId, selfId, did, 1, ruler )
+			if not ret or ret ~= 1 or not nh or not nl then
+				x111998_CGTip( sceneId, selfId, "TÕo trân thú th¤t bÕi, trân thú cû vçn giæ nguyên." )
+				return
+			end
+			if x111998_CGGioi( nl ) == moi then
+				break
+			end
+			LuaFnDeletePetByGUID( sceneId, selfId, nh, nl )
+			if lan >= 12 then
+				x111998_CGTip( sceneId, selfId, "Chßa ra ðßþc gi¾i mong mu¯n, trân thú cû vçn giæ nguyên. Hãy thØ lÕi." )
+				return
+			end
+		end
+		if LuaFnDeletePetByGUID( sceneId, selfId, h, l ) ~= 1 then
+			LuaFnDeletePetByGUID( sceneId, selfId, nh, nl )
+			x111998_CGTip( sceneId, selfId, "Không xóa ðßþc trân thú cû, chßa chuy¬n gi¾i." )
+			return
+		end
+		x111998_CGTip( sceneId, selfId, "Chuy¬n gi¾i thành công: " .. x111998_CGTen( moi ) )
+		LuaFnSendSpecificImpactToUnit( sceneId, selfId, selfId, selfId, 18, 0 )
+		return
+	end
 end

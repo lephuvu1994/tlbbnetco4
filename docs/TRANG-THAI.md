@@ -1583,3 +1583,9 @@ Script dùng: `MyLua/wuhunxt/odali_wuyazi.lua` (892101; hàm `WuhunSkillStudy` ~
 - Giới tính pet = bit cuối GUID thấp `t_pet.lpetguid`: **lẻ = Đực, chẵn = Cái** (client `Pet.lua`; server `PetProcreateSystem::CheckRegister` so `low & 1`).
 - **11/10 00:33 THẤT BẠI, đã rollback** (revert 08d0206): hộp thoại mở từ vật phẩm (`DispatchEventList(-1)`) hiện được nhưng bấm lựa chọn bị engine chặn trước khi tới Lua: debug log `CGEventRequestHandler Faild ... NPCID:-1 ScriptID = 300027` + `Mission_EventRequest ErrorType1 [idNPC=-1]`. Khóa túi `elock.lua` chạy được là trường hợp riêng của engine. => Chọn giới tính phải qua NPC (có idNPC thật), không làm được trong hộp thoại của vật phẩm.
 
+## 11/10 - NPC Lưu Thi Thi: Chuyển Giới Trân Thú (THỬ; Lua, cần cap-nhat, KHÔNG restart)
+
+- Engine không đổi được GUID và không ghi được tư chất / trưởng thành / cấp / kỹ năng của pet -> chuyển giới = tạo lại cùng DataID (cấp 1; Huyền Hóa ruler 2, còn lại ruler 1 như trứng) tới khi bit cuối GUID thấp ra giới mong muốn (tối đa 12 lần), rồi xóa con cũ. Tạo con mới trước, xóa con cũ sau.
+- Chỉ pet cấp <= 5, chưa phối ngẫu, đang nghỉ, không khóa; cần 1 ô pet trống. **Miễn phí** (đang thử). Tư chất quay lại ngẫu nhiên -> lưu ý: miễn phí = được quay lại tư chất pet mới nở không giới hạn; nên thu phí trước khi mở rộng.
+- Menu `doitrunglau2.lua` số 21000-21999 (21000 danh sách -> 21100+i xác nhận -> 21300+i đổi). Tên pet hiện theo thứ tự trong bảng (tên server là GBK). Rollback tag `truoc-chuyengioi-pet-11-10`; script `tools/chuyengioi-pet-11-10.js`.
+
