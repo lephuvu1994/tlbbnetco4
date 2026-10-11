@@ -1611,3 +1611,8 @@ Script dùng: `MyLua/wuhunxt/odali_wuyazi.lua` (892101; hàm `WuhunSkillStudy` ~
 - Trạng thái nằm trong số lựa chọn (Lua globals mất giữa 2 lần bấm): 1000001 + ô*1000 + mã%1000; xác nhận 100000000 + (A*60+B)*10000 + (mãA%100)*100 + mãB%100; chuyển 200000000 + ... Tên món hiện bằng `#{_ITEM<mã>}` trong AddText (tên server là tiếng Trung).
 - Chưa thử trong game. Tag `truoc-chuyendo-11-10`.
 - **11/10 thử lần 1 (bialk):** mũ + hộ phù 1 ok; hộ phù 2 và áo mỗi món **2 viên ngọc không khảm được** -> nằm lại trong túi (không mất). Món VIP lỗ tối đa 3 (EquipBase cột 18). Sửa: kiểm từng viên (số ngọc trên món mới phải tăng), không khảm được thì báo người chơi (nằm túi), viên nào biến mất / không tạo được thì gửi lại qua hàng chờ quà; ghi `./txt/NetCo4Qua/_chuyendo.log` (giờ, GUID, mã, ô, cường hóa, lỗ trước/sau, từng ngọc :kham / :tui / :mat->gui). Tag `truoc-chuyendo-ngoc-11-10`.
+
+## 11/10 - Máu boss toàn game = 120% gốc; Sát Tinh về gốc (cần cap-nhat + RESTART)
+- 4.247 boss (các dòng da6cce6 đã giảm): HP cột 19 / MaxHP cột 59 = floor(gốc 651afc2 × 1,2). Trước đó 90% gốc (2d9eca5), Sát Tinh 36%.
+- Sát Tinh 11 DataID 13447-13537: máu như trên (120% gốc) + **công về đúng gốc** (bỏ nerf ×0,7 của 55fbe1f / b47b8be: cột 15, 17, 30, 33, 36, 39, 55, 57).
+- Không đổi dòng nào khác (kiểm: chỉ cột 19/59 + 8 cột công Sát Tinh). `tools/mau-boss-goc-120-11-10.js`, tag `truoc-mau-boss-120-11-10`. `tools/mau-boss.js` (hệ số ≤ 1) không dùng được nữa cho mức này.

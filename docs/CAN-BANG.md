@@ -247,3 +247,8 @@ StandardImpact 793 "步步生花陷阱伤害" (logic 001 = sát thương trực 
 - [ ] VL8 65 / 35: đếm C8 / C9 thật qua log chế sau ~20 lần.
 - [ ] (đã trả gốc 09/10) Long Văn: engine chọn dòng có ngẫu nhiên không khi số dòng ra < số dòng bật - đo ~8 mẫu trước khi dùng lại "số dòng ra".
 - [ ] Võ Hồn: lĩnh ngộ / tẩy theo trang Custom Võ Hồn, giữ cấp, Lưu Ly Diễm ra bộ ô 3 riêng.
+
+## 11/10 - Máu boss toàn game = 120% gốc; Sát Tinh về gốc (cần cap-nhat + RESTART)
+- 4.247 boss (các dòng da6cce6 đã giảm): HP cột 19 / MaxHP cột 59 = floor(gốc 651afc2 × 1,2). Trước đó 90% gốc (2d9eca5), Sát Tinh 36%.
+- Sát Tinh 11 DataID 13447-13537: máu như trên (120% gốc) + **công về đúng gốc** (bỏ nerf ×0,7 của 55fbe1f / b47b8be: cột 15, 17, 30, 33, 36, 39, 55, 57).
+- Không đổi dòng nào khác (kiểm: chỉ cột 19/59 + 8 cột công Sát Tinh). `tools/mau-boss-goc-120-11-10.js`, tag `truoc-mau-boss-120-11-10`. `tools/mau-boss.js` (hệ số ≤ 1) không dùng được nữa cho mức này.
