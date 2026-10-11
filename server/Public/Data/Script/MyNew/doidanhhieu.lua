@@ -801,7 +801,7 @@ function x111997_CDMenu( sceneId, selfId, targetId, n )
 				local ma, vt = x111997_CDMa( sceneId, selfId, o )
 				if ma > 0 and k < 20 then
 					local ch, lo, ngoc, cr, dl, t = x111997_CDDoc( sceneId, selfId, o )
-					if ch > 0 or lo > 0 or dl == 1 then
+					if ch > 0 or ngoc > 0 or dl == 1 then   -- 11/10: bo mon chi co lo trong
 						k = k + 1
 						AddText( sceneId, k..". #{_ITEM"..ma.."} #W("..t..")" )
 						AddNumText( sceneId, x111997_g_scriptId, "M\243n c\251 s\175 "..k, 6, 1000000 + 1 + o * 1000 + mod( ma, 1000 ) )
@@ -809,7 +809,7 @@ function x111997_CDMenu( sceneId, selfId, targetId, n )
 				end
 			end
 			if k == 0 then
-				AddText( sceneId, "#RTrong t\250i kh\244ng c\243 trang b\184 n\224o c\243 c\223\182ng h\243a / l\178 / \240i\234u v\229n / th\229ng linh / tinh th\244ng." )
+				AddText( sceneId, "#RTrong t\250i kh\244ng c\243 trang b\184 n\224o c\243 c\223\182ng h\243a / ng\247c / \240i\234u v\229n / th\229ng linh / tinh th\244ng." )
 			end
 		EndEvent( sceneId )
 		DispatchEventList( sceneId, selfId, targetId )
