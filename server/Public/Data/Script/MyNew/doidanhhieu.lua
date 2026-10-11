@@ -731,6 +731,24 @@ function x111997_CDBao( sceneId, selfId, targetId, str )
 end
 
 -- ma vat pham + vi tri trang bi o tui o (0-59); -1 neu khong phai trang bi chuyen duoc
+-- 11/10: ngoc kham hong -> hang cho qua (NetCo4/quatang.lua doc khi doi ban do)
+function x111997_CDGuiQua( sceneId, selfId, id )
+	local h = openfile( "./txt/NetCo4Qua/"..LuaFnGetGUID( sceneId, selfId )..".txt", "a" )
+	if h ~= nil then
+		write( h, "item "..id.." 1\n" )
+		closefile( h )
+	end
+end
+
+-- 11/10: nhat ky moi lan chuyen (ma ngoc de tra lai neu can)
+function x111997_CDLog( sceneId, selfId, str )
+	local h = openfile( "./txt/NetCo4Qua/_chuyendo.log", "a" )
+	if h ~= nil then
+		write( h, LuaFnGetCurrentTime().." "..LuaFnGetGUID( sceneId, selfId ).." "..str.."\n" )
+		closefile( h )
+	end
+end
+
 function x111997_CDMa( sceneId, selfId, o )
 	local ma = LuaFnGetItemTableIndexByIndex( sceneId, selfId, o )
 	if ma == nil or ma <= 0 then
@@ -916,13 +934,30 @@ function x111997_CDMenu( sceneId, selfId, targetId, n )
 		end
 		lan = lan + 1
 	end
-	-- ngoc: tao lai cung ma roi kham
-	local kham = 0
+	-- ngoc: tao lai cung ma roi kham. 11/10 sua: kiem tung vien (so ngoc tren B phai tang); kham hong ma vien ngoc mat -> gui lai qua hang cho qua
+	local kham, tui, tra = 0, 0, 0
+	local nhat = "ngoc"
 	for i = 1, getn( ngocDs ) do
+		nhat = nhat.." "..ngocDs[i]
+		local truoc = GetGemEmbededCount( sceneId, selfId, b )
 		local p = TryRecieveItem( sceneId, selfId, ngocDs[i], 1 )
 		if p ~= nil and p >= 0 then
 			GemEnchasing( sceneId, selfId, p, b )
-			kham = kham + 1
+			if GetGemEmbededCount( sceneId, selfId, b ) > truoc then
+				kham = kham + 1
+				nhat = nhat..":kham"
+			elseif LuaFnGetItemTableIndexByIndex( sceneId, selfId, p ) == ngocDs[i] then
+				tui = tui + 1
+				nhat = nhat..":tui"
+			else
+				x111997_CDGuiQua( sceneId, selfId, ngocDs[i] )
+				tra = tra + 1
+				nhat = nhat..":mat->gui"
+			end
+		else
+			x111997_CDGuiQua( sceneId, selfId, ngocDs[i] )
+			tra = tra + 1
+			nhat = nhat..":khongtao->gui"
 		end
 	end
 	-- creator (dieu van / thang linh / tinh thong / than khi ...)
@@ -945,6 +980,10 @@ function x111997_CDMenu( sceneId, selfId, targetId, n )
 	LuaFnRefreshItemInfo( sceneId, selfId, b )
 	LuaFnSendSpecificImpactToUnit( sceneId, selfId, selfId, selfId, 49, 0 )
 	local _, _, ngocB2, _, _, tB2 = x111997_CDDoc( sceneId, selfId, b )
+	x111997_CDLog( sceneId, selfId, maA.." -> "..maB.." o "..a.." -> "..b.." cuong hoa "..chA.." lo "..loA.."/"..GetBagGemCount( sceneId, selfId, b ).." "..nhat )
+	if tui > 0 or tra > 0 then
+		x111997_CDTip( sceneId, selfId, "#Y"..( tui + tra ).." vi\234n ng\247c kh\244ng kh\228m \240\223\254c (m\243n m\190i thi\170u l\178 / kh\244ng nh\167n lo\213i ng\247c n\224y): "..tui.." vi\234n n\162m trong t\250i, "..tra.." vi\234n g\216i l\213i - \240\177i b\228n \240\176 \240\172 nh\167n." )
+	end
 	x111997_CDTip( sceneId, selfId, "Chuy\172n \240\176 th\224nh c\244ng: "..tB2 )
 	x111997_CDBao( sceneId, selfId, targetId, "#GChuy\172n xong.#W M\243n m\190i: ".."#{_ITEM"..maB.."} #W("..tB2..")" )
 end
