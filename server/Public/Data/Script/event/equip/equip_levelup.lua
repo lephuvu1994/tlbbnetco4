@@ -16,6 +16,13 @@ end
 --×°±¸Éý¼¶
 --**********************************
 function x809263_EquipLevelUp( sceneId, selfId, nItemIndex1, nItemIndex2)
+	-- [NetCo4 11/10] TAT thang cap trang bi (LuaFnEquipLevelUp): menu Au Da Tu (osuzhou_ouyezi.lua so 6) da an nhung client goi thang duoc;
+	-- chan han de khong lach ra ma do VIP (dovip-doima-11-10: ma VIP nam ngay sau ma do thuong cung dong).
+	BeginEvent(sceneId)
+		AddText(sceneId,"Ch\209c n\229ng th\229ng c\164p trang b\184 \240\227 t\161t.")
+	EndEvent(sceneId)
+	DispatchMissionTips(sceneId,selfId)
+	do return end
 	ret = LuaFnIsItemAvailable( sceneId, selfId, nItemIndex1 )
 	if ret ~= 1 then
 		BeginEvent(sceneId)
