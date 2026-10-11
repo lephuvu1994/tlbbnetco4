@@ -1616,3 +1616,9 @@ Script dùng: `MyLua/wuhunxt/odali_wuyazi.lua` (892101; hàm `WuhunSkillStudy` ~
 - 4.247 boss (các dòng da6cce6 đã giảm): HP cột 19 / MaxHP cột 59 = floor(gốc 651afc2 × 1,2). Trước đó 90% gốc (2d9eca5), Sát Tinh 36%.
 - Sát Tinh 11 DataID 13447-13537: máu như trên (120% gốc) + **công về đúng gốc** (bỏ nerf ×0,7 của 55fbe1f / b47b8be: cột 15, 17, 30, 33, 36, 39, 55, 57).
 - Không đổi dòng nào khác (kiểm: chỉ cột 19/59 + 8 cột công Sát Tinh). `tools/mau-boss-goc-120-11-10.js`, tag `truoc-mau-boss-120-11-10`. `tools/mau-boss.js` (hệ số ≤ 1) không dùng được nữa cho mức này.
+
+## 11/10 - Đồ VIP đổi sang mã client cho Tinh Thông + tắt mọi nguồn mã mới (cần cap-nhat + RESTART)
+- Lý do: giao diện Tinh Thông của client tự chặn món không có trong `g_JTSupport_Item` (239 mã, cứng trong gói client) -> "Chỉ có trang bị cấp 50+ mới có thể Tinh Thông". 26 mã chỉ-GM cũ không có. Chủ server đã thử 10 mã mới (giám định xong tẩy Tinh Thông được).
+- Mã mới (`tools/dovip-doima-11-10.js`): thủ mũ 10210019, áo 10213019, bao tay 10212019, giày 10211019, đai 10221010, hộ kiên 10215019; công (Băng/Hỏa/Huyền/Độc/đủ 4) nhẫn 10222006-010, hạng liên 10220006-010, hộ phù 10223006-010, hộ uyển 10214011/013/015/017/019. EquipBase lấy đúng cột 32-93 + 100 của mã VIP cũ (cùng đoạn 4401-4426). Mã VIP cũ giữ nguyên (đồ đã phát vẫn đúng). NPC đổi VIP phát mã mới.
+- Tắt nguồn mã mới: DropBoxContent bỏ 205 ô trong 53 hộp (dồn trái); 16 file điểm đào báu `obj/growpoint` bỏ khỏi idx (4 nhóm toàn mã mới, odd 0 -> giữ chỗ 10200010); 4 phối phương may `g_fengren_{mao62,yi68,huwan66,xie64}_use.lua` mã mới -> mã liền kề (…018). Quét lại script / shop / chế / rương: không còn nguồn. Web bot không bán. Chưa ai giữ (DB 11/10).
+- Client vẫn hiện tên / hình / cấp của món gốc (đồ công 1 thuộc tính ghi cấp 55-85). Tag `truoc-dovip-doima-11-10`.
