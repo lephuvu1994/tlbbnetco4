@@ -988,6 +988,8 @@ class H(BaseHTTPRequestHandler):
                     ok, msg = trunglau.luu_mon(str(b.get("id", "")), None, ai)
                 elif op == "chep":   # 08/10: 📋 chep dong ma Thuong sang ma Chan (cong thuoc tinh +50/51, con lai x1,3)
                     ok, msg = trunglau.chep_sang_chan(str(b.get("id", "")), ai)
+                elif op == "giong":   # 11/10: 📋 Chan Gioi <-> Chan Ngoc giong het (dong + diem + so dong ra)
+                    ok, msg = trunglau.chep_giong(str(b.get("id", "")), ai)
                 elif op == "hu":
                     try:
                         hu = {str(h): {str(k): int(v) for k, v in (t or {}).items()} for h, t in (b.get("hu") or {}).items()}

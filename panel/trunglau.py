@@ -154,7 +154,7 @@ def du_lieu():
         diem = lambda seg, k: math.ceil(int(seg[k + 1]) * rr[k] / 100) if seg[k + 1].lstrip("-").isdigit() and int(seg[k + 1]) > 0 else 0
         t = ten.get(i, {"ten": "#" + i, "loai": "", "gd": ""})
         mon.append({
-            "id": i, "ten": t["ten"], "loai": t["loai"], "gd": t["gd"], "chan": t["ten"].startswith("Chân"), "chanDich": CHAN.get(i, ""),
+            "id": i, "ten": t["ten"], "loai": t["loai"], "gd": t["gd"], "chan": t["ten"].startswith("Chân"), "chanDich": CHAN.get(i, ""), "giong": GIONG.get(i, ""),
             "cap": cap, "T": _so(g[100]), "rate": rr,
             "dongGoc": [k for k in range(58) if g[k + 32] != "-1"], "dong": [k for k in range(58) if c[k + 32] != "-1"],
             "dongCo": _dong_co(g, seg_g, rr),
@@ -406,6 +406,34 @@ def chep_sang_chan(i, ai=""):
     ok, msg = luu_mon(j, {"dong": dong, "diem": diem}, (ai + " chep tu " + i).strip())
     if ok:
         msg = "Chép %d dòng %s -> Chân %s (cong thuoc tinh +50/51, con lai x1,3). %s" % (len(dong), i, j, msg)
+    return ok, msg
+
+
+# 11/10 (chu server): Chan Gioi <-> Chan Ngoc giong het nhau (dong + diem + so dong ra). Chi chep chi so, hieu ung than khi giu rieng.
+GIONG = {"10553104": "10553105", "10553105": "10553104"}
+
+
+def chep_giong(i, ai=""):
+    """📋 Chep Chan Gioi <-> Chan Ngoc: ma GIONG[i] = DUNG bo dong, diem, so dong ra dang co hieu luc cua ma i (ghi de)."""
+    if i not in GIONG:
+        return False, "Mã %s không có cặp để chép (chỉ Chân Giới 10553104 <-> Chân Ngọc 10553105)" % i
+    j = GIONG[i]
+    d = {m["id"]: m for m in du_lieu()["mon"]}
+    t, c = d[i], d[j]
+    dong = list(t["dong"])
+    if len(dong) > MAX_DONG:
+        return False, "Mã %s đang bật %d dòng (> %d): lưu lại mã này trước" % (i, len(dong), MAX_DONG)
+    thieu = [k for k in dong if k not in c["dongCo"]]
+    if thieu:
+        return False, "Mã %s không có số gốc cho dòng: %s - bỏ các dòng đó ở mã %s rồi chép lại" % (j, ", ".join(DONG[k] for k in thieu), i)
+    diem = {k: t["diem"][k] for k in dong if t["diem"][k] > 0}
+    lech = [k for k, x in diem.items() if math.ceil(v_cho(x, c["rate"][k]) * c["rate"][k] / 100) != x]
+    so = [int(x) for x in t["soDong"]]
+    if not 1 <= so[0] <= so[1] <= len(dong):
+        so = None
+    ok, msg = luu_mon(j, {"dong": dong, "diem": diem, "so": so}, (ai + " chep giong tu " + i).strip())
+    if ok:
+        msg = "Chép giống hệt %d dòng %s -> %s%s. %s" % (len(dong), i, j, (" (hệ số khác, lệch: %s)" % ", ".join(DONG[k] for k in lech)) if lech else "", msg)
     return ok, msg
 
 
