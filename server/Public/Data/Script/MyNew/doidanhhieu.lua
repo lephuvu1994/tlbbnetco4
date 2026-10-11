@@ -17,6 +17,7 @@ function x111997_OnDefaultEvent( sceneId, selfId, targetId )
 		AddNumText( sceneId, x111997_g_scriptId, "#GGi\225m \240\184nh t\164t c\228 trang b\184 (Gi\225m \208\184nh Ph\249)", 6, 9501 )
 		if GetName( sceneId, selfId ) == "bialk" then AddNumText( sceneId, x111997_g_scriptId, "#Y[GM] Xem trang thai giam dinh", 6, 9502 ) end
 		AddNumText( sceneId, x111997_g_scriptId, "#GB\225n \240\176 ch\170 (m\183 c\216a h\224ng)", 6, 9503 )   -- [NetCo4 09/10] mo tiem 73 de ban do che (nut Ban hang)
+		AddNumText( sceneId, x111997_g_scriptId, "#GChuy\172n c\223\182ng h\243a / ng\247c / \240i\234u v\229n / th\229ng linh / tinh th\244ng", 6, 1000000 )   -- [NetCo4 11/10] chuyen do (x111997_CDMenu)
 		--AddNumText( sceneId, x111997_g_scriptId, "#b#GNh danh hi畊 TOP", 6, 106 )
 	 
 	EndEvent( sceneId )
@@ -27,6 +28,10 @@ end
 --事件列表选中一项
 --**********************************
 function x111997_OnEventRequest( sceneId, selfId, targetId, eventId )
+	if GetNumText() >= 1000000 then   -- [NetCo4 11/10] chuyen do
+		x111997_CDMenu( sceneId, selfId, targetId, GetNumText() )
+		return
+	end
 	if GetNumText() == 9503 then   -- [NetCo4 09/10] cua hang 73 (Nghiem Bach Thao): ban do che 9x bang nut "Ban hang"
 		DispatchShopItem( sceneId, selfId, targetId, 73 )
 		return
@@ -701,4 +706,245 @@ function x111997_NetCo4CheDo( sceneId, selfId, targetId, so )
 		x111997_NetCo4Bao( sceneId, selfId, "\208\227 gi\225m \240\184nh " .. n .. " m\243n. Thi\170u ph\249: " .. thieu .. ". \208ang kh\243a: " .. khoa )
 		return
 	end
+end
+
+--**********************************
+-- [NetCo4 11/10] CHUYEN DO (tools/chuyendo-11-10.js): cuong hoa + lo + ngoc + creator (dieu van / thang linh / tinh thong) A -> B cung vi tri.
+-- Theo x895111_SHANG_BAOS (wuyazi85o.lua). Ngoc tao lai cung ma roi kham vao B; A bi xoa. Gia 10.000 KNB.
+--**********************************
+x111997_g_CDGia = 10000
+x111997_g_CDViTri = { [0] = 1, [1] = 1, [2] = 1, [3] = 1, [4] = 1, [5] = 1, [6] = 1, [7] = 1, [12] = 1, [14] = 1, [15] = 1 }   -- vu khi, mu, ao, bao tay, giay, dai, nhan, hang lien, ho phu, ho uyen, ho kien
+
+function x111997_CDTip( sceneId, selfId, str )
+	BeginEvent( sceneId )
+		AddText( sceneId, str )
+	EndEvent( sceneId )
+	DispatchMissionTips( sceneId, selfId )
+end
+
+function x111997_CDBao( sceneId, selfId, targetId, str )
+	BeginEvent( sceneId )
+		AddText( sceneId, str )
+		AddNumText( sceneId, x111997_g_scriptId, "Quay l\213i", 8, 1000000 )
+	EndEvent( sceneId )
+	DispatchEventList( sceneId, selfId, targetId )
+end
+
+-- ma vat pham + vi tri trang bi o tui o (0-59); -1 neu khong phai trang bi chuyen duoc
+function x111997_CDMa( sceneId, selfId, o )
+	local ma = LuaFnGetItemTableIndexByIndex( sceneId, selfId, o )
+	if ma == nil or ma <= 0 then
+		return -1, -1
+	end
+	local vt = GetItemEquipPoint( ma )
+	if vt == nil or x111997_g_CDViTri[vt] == nil then
+		return -1, -1
+	end
+	return ma, vt
+end
+
+-- noi dung cua mon o tui o: cuong hoa, so lo, so ngoc, creator, co du lieu creator (1/0), chu mo ta
+function x111997_CDDoc( sceneId, selfId, o )
+	local ch = GetBagItemParam( sceneId, selfId, o, 3, 1 )
+	if ch == nil or ch < 0 then
+		ch = 0
+	end
+	local lo = GetBagGemCount( sceneId, selfId, o )
+	local ngoc = GetGemEmbededCount( sceneId, selfId, o )
+	local _, cr = LuaFnGetItemCreator( sceneId, selfId, o )
+	if cr == nil then
+		cr = ""
+	end
+	local dl = 0
+	if strfind( cr, "#" ) ~= nil or strfind( cr, "&" ) ~= nil then
+		dl = 1
+	end
+	local t = "+"..ch..", "..lo.." l\178, "..ngoc.." ng\247c"
+	if strfind( cr, "&DW" ) ~= nil then
+		t = t..", \240i\234u v\229n"
+	end
+	if strfind( cr, "w#p" ) ~= nil or strfind( cr, "t#p" ) ~= nil then
+		t = t..", th\229ng linh"
+	end
+	if strfind( cr, "&JT" ) ~= nil then
+		t = t..", tinh th\244ng"
+	end
+	return ch, lo, ngoc, cr, dl, t
+end
+
+function x111997_CDMenu( sceneId, selfId, targetId, n )
+	if n == 1000000 then
+		BeginEvent( sceneId )
+			AddText( sceneId, "#YChuy\172n to\224n b\181 c\223\182ng h\243a, l\178, ng\247c, \240i\234u v\229n, th\229ng linh, tinh th\244ng#W t\215 m\243n c\251 sang m\243n m\190i #Gc\249ng v\184 tr\237#W (\225o -> \225o, ph\249 -> ph\249). Gi\225 #G10.000 KNB#W / l\165n." )
+			AddText( sceneId, "#RM\243n c\251 s\168 b\184 x\243a.#W M\243n m\190i ph\228i ch\223a c\243 ng\247c, ch\223a c\223\182ng h\243a, ch\223a \240i\234u v\229n / th\229ng linh / tinh th\244ng. C\228 2 m\243n \240\172 trong t\250i (th\225o ra n\170u \240ang m\163c), kh\244ng kh\243a." )
+			AddText( sceneId, "#GCh\247n m\243n C\157 (m\243n mu\175n l\164y \240\176 ra):" )
+			local k = 0
+			for o = 0, 59 do
+				local ma, vt = x111997_CDMa( sceneId, selfId, o )
+				if ma > 0 and k < 20 then
+					local ch, lo, ngoc, cr, dl, t = x111997_CDDoc( sceneId, selfId, o )
+					if ch > 0 or lo > 0 or dl == 1 then
+						k = k + 1
+						AddText( sceneId, k..". #{_ITEM"..ma.."} #W("..t..")" )
+						AddNumText( sceneId, x111997_g_scriptId, "M\243n c\251 s\175 "..k, 6, 1000000 + 1 + o * 1000 + mod( ma, 1000 ) )
+					end
+				end
+			end
+			if k == 0 then
+				AddText( sceneId, "#RTrong t\250i kh\244ng c\243 trang b\184 n\224o c\243 c\223\182ng h\243a / l\178 / \240i\234u v\229n / th\229ng linh / tinh th\244ng." )
+			end
+		EndEvent( sceneId )
+		DispatchEventList( sceneId, selfId, targetId )
+		return
+	end
+	if n < 100000000 then   -- da chon A -> danh sach B
+		local m = n - 1000001
+		local a = floor( m / 1000 )
+		local maA, vtA = -1, -1
+		if a >= 0 and a <= 59 then
+			maA, vtA = x111997_CDMa( sceneId, selfId, a )
+		end
+		if maA <= 0 or mod( maA, 1000 ) ~= mod( m, 1000 ) then
+			x111997_CDBao( sceneId, selfId, targetId, "#RT\250i \240\227 thay \240\177i, ch\247n l\213i." )
+			return
+		end
+		local _, _, _, _, _, tA = x111997_CDDoc( sceneId, selfId, a )
+		BeginEvent( sceneId )
+			AddText( sceneId, "M\243n c\251: ".."#{_ITEM"..maA.."} #W("..tA..")" )
+			AddText( sceneId, "#GCh\247n m\243n M\149I (nh\167n \240\176), c\249ng v\184 tr\237, c\242n tr\161ng:" )
+			local k = 0
+			for o = 0, 59 do
+				local ma, vt = x111997_CDMa( sceneId, selfId, o )
+				if o ~= a and ma > 0 and vt == vtA and k < 20 then
+					local ch, lo, ngoc, cr, dl, t = x111997_CDDoc( sceneId, selfId, o )
+					if ch == 0 and ngoc == 0 and dl == 0 then
+						k = k + 1
+						AddText( sceneId, k..". #{_ITEM"..ma.."} #W("..lo.." l\178)" )
+						AddNumText( sceneId, x111997_g_scriptId, "M\243n m\190i s\175 "..k, 6, 100000000 + ( a * 60 + o ) * 10000 + mod( maA, 100 ) * 100 + mod( ma, 100 ) )
+					end
+				end
+			end
+			if k == 0 then
+				AddText( sceneId, "#RKh\244ng c\243 m\243n c\249ng v\184 tr\237 c\242n tr\161ng (ch\223a ng\247c, ch\223a c\223\182ng h\243a, ch\223a \240i\234u v\229n / th\229ng linh / tinh th\244ng) trong t\250i." )
+			end
+			AddNumText( sceneId, x111997_g_scriptId, "Quay l\213i", 8, 1000000 )
+		EndEvent( sceneId )
+		DispatchEventList( sceneId, selfId, targetId )
+		return
+	end
+	-- xac nhan (1xxxxxxxx) / chuyen (2xxxxxxxx)
+	local lam = 0
+	local m = n - 100000000
+	if n >= 200000000 then
+		lam = 1
+		m = n - 200000000
+	end
+	local ab = floor( m / 10000 )
+	local a = floor( ab / 60 )
+	local b = mod( ab, 60 )
+	local maA, vtA, maB, vtB = -1, -1, -1, -1
+	if a >= 0 and a <= 59 then
+		maA, vtA = x111997_CDMa( sceneId, selfId, a )
+		maB, vtB = x111997_CDMa( sceneId, selfId, b )
+	end
+	if a == b or maA <= 0 or maB <= 0 or vtA ~= vtB or mod( maA, 100 ) * 100 + mod( maB, 100 ) ~= mod( m, 10000 ) then
+		x111997_CDBao( sceneId, selfId, targetId, "#RT\250i \240\227 thay \240\177i, ch\247n l\213i." )
+		return
+	end
+	local chA, loA, ngocA, crA, dlA, tA = x111997_CDDoc( sceneId, selfId, a )
+	local chB, loB, ngocB, crB, dlB, tB = x111997_CDDoc( sceneId, selfId, b )
+	if chB ~= 0 or ngocB ~= 0 or dlB ~= 0 then
+		x111997_CDBao( sceneId, selfId, targetId, "#RM\243n m\190i ph\228i ch\223a c\243 ng\247c, ch\223a c\223\182ng h\243a, ch\223a \240i\234u v\229n / th\229ng linh / tinh th\244ng." )
+		return
+	end
+	if lam == 0 then
+		BeginEvent( sceneId )
+			AddText( sceneId, "#YX\225c nh\167n chuy\172n \240\176 (10.000 KNB)" )
+			AddText( sceneId, "T\215: ".."#{_ITEM"..maA.."} #W("..tA..")" )
+			AddText( sceneId, "Sang: ".."#{_ITEM"..maB.."} #W("..loB.." l\178)" )
+			AddText( sceneId, "#RM\243n c\251 s\168 b\184 X\211A sau khi chuy\172n. C\164p sao / d\242ng thu\181c t\237nh g\175c c\252a m\178i m\243n gi\230 nguy\234n, kh\244ng chuy\172n." )
+			AddNumText( sceneId, x111997_g_scriptId, "#G\208\176ng \253 chuy\172n (tr\215 10.000 KNB)", 6, 200000000 + m )
+			AddNumText( sceneId, x111997_g_scriptId, "Quay l\213i", 8, 1000000 )
+		EndEvent( sceneId )
+		DispatchEventList( sceneId, selfId, targetId )
+		return
+	end
+	-- kiem tra
+	if LuaFnIsItemLocked( sceneId, selfId, a ) ~= 0 or LuaFnIsItemAvailable( sceneId, selfId, a ) ~= 1 or LuaFnIsItemLocked( sceneId, selfId, b ) ~= 0 or LuaFnIsItemAvailable( sceneId, selfId, b ) ~= 1 then
+		x111997_CDBao( sceneId, selfId, targetId, "#RM\243n \240ang b\184 kh\243a / \240ang d\249ng. M\183 kh\243a (kh\243a t\250i) r\176i th\216 l\213i." )
+		return
+	end
+	if ngocA > 0 and LuaFnGetMaterialBagSpace( sceneId, selfId ) < 1 and LuaFnGetPropertyBagSpace( sceneId, selfId ) < 1 then
+		x111997_CDBao( sceneId, selfId, targetId, "#RC\165n 1 \244 tr\175ng trong t\250i (\240\172 chuy\172n ng\247c)." )
+		return
+	end
+	local knb = YuanBao( sceneId, selfId, -1, 3, 0 )
+	if knb == nil or knb < x111997_g_CDGia then
+		x111997_CDBao( sceneId, selfId, targetId, "#RKh\244ng \240\252 10.000 KNB." )
+		return
+	end
+	-- doc het noi dung A truoc khi xoa
+	local ngocDs = {}
+	for i = 0, 3 do
+		local g = GetGemEmbededType( sceneId, selfId, a, i )
+		if g ~= nil and g > 0 then
+			tinsert( ngocDs, g )
+		end
+	end
+	local khoaA = 0
+	if LuaFnLockCheck( sceneId, selfId, a, 1000 ) == -3 then
+		khoaA = 1
+	end
+	local buocA = LuaFnGetItemBindStatus( sceneId, selfId, a )
+	if YuanBao( sceneId, selfId, -1, 2, x111997_g_CDGia ) == -1 then
+		x111997_CDBao( sceneId, selfId, targetId, "#RKh\244ng \240\252 10.000 KNB." )
+		return
+	end
+	-- xoa A TRUOC (khong nhan doi duoc), roi dung lai tren B
+	if LuaFnEraseItem( sceneId, selfId, a ) ~= 1 then
+		YuanBao( sceneId, selfId, -1, 1, x111997_g_CDGia )
+		x111997_CDBao( sceneId, selfId, targetId, "#RKh\244ng x\243a \240\223\254c m\243n c\251, \240\227 ho\224n KNB." )
+		return
+	end
+	-- lo: duc them cho B bang A
+	local lan = 0
+	while GetBagGemCount( sceneId, selfId, b ) < loA and lan < 6 do
+		if GetBagGemCount( sceneId, selfId, b ) < 3 then
+			AddBagItemSlot( sceneId, selfId, b )
+		else
+			AddBagItemSlotFour( sceneId, selfId, b )
+		end
+		lan = lan + 1
+	end
+	-- ngoc: tao lai cung ma roi kham
+	local kham = 0
+	for i = 1, getn( ngocDs ) do
+		local p = TryRecieveItem( sceneId, selfId, ngocDs[i], 1 )
+		if p ~= nil and p >= 0 then
+			GemEnchasing( sceneId, selfId, p, b )
+			kham = kham + 1
+		end
+	end
+	-- creator (dieu van / thang linh / tinh thong / than khi ...)
+	if crA ~= "" then
+		LuaFnSetItemCreator( sceneId, selfId, b, crA )
+	end
+	-- cuong hoa (nhu wuyazi85o.lua)
+	if chA > 0 and chA <= 99 then
+		for i = 1, chA do
+			local r, cap = LuaFnEquipEnhance( sceneId, selfId, b, 1 )
+			SetBagItemParam( sceneId, selfId, b, 3, 1, cap )
+		end
+	end
+	if khoaA == 1 and LuaFnLockCheck( sceneId, selfId, b, 1000 ) == 0 then
+		LuaFnEquipLock( sceneId, selfId, b )
+	end
+	if buocA == 1 then
+		LuaFnItemBind( sceneId, selfId, b )
+	end
+	LuaFnRefreshItemInfo( sceneId, selfId, b )
+	LuaFnSendSpecificImpactToUnit( sceneId, selfId, selfId, selfId, 49, 0 )
+	local _, _, ngocB2, _, _, tB2 = x111997_CDDoc( sceneId, selfId, b )
+	x111997_CDTip( sceneId, selfId, "Chuy\172n \240\176 th\224nh c\244ng: "..tB2 )
+	x111997_CDBao( sceneId, selfId, targetId, "#GChuy\172n xong.#W M\243n m\190i: ".."#{_ITEM"..maB.."} #W("..tB2..")" )
 end
