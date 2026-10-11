@@ -75,7 +75,25 @@ function  x391060_level2(sceneId,  selfId,  arg1)
 	 return  tonumber(myname2)
 end
 
-function  x391060_MsgBox32(sceneId,  selfId,lwIndex,txpp,lwIntex)
+-- 11/10 (chu server): UI client (EquipEducation_ShengLing) tu dong cua so ngay sau khi bam Thang Linh -> server mo lai cua so
+-- (cung UI command + care chinh nguoi choi nhu NPC Hoang Can / shengjjll 346 / 347). Trang bi phai bo lai vao o (client khong cho server dien o).
+function x391060_MsgBox32( sceneId, selfId, lwIndex, txpp, lwIntex )
+	x391060_MsgBox32Goc( sceneId, selfId, lwIndex, txpp, lwIntex )
+	local ui = 0
+	if txpp == 100 then
+		ui = 201708093
+	elseif txpp == 200 then
+		ui = 201708097
+	end
+	if ui > 0 then
+		BeginUICommand( sceneId )
+		UICommand_AddInt( sceneId, selfId )
+		EndUICommand( sceneId )
+		DispatchUICommand( sceneId, selfId, ui )
+	end
+end
+
+function  x391060_MsgBox32Goc(sceneId,  selfId,lwIndex,txpp,lwIntex)
 
 	 local  lw  =  LuaFnGetItemTableIndexByIndex(  sceneId,  selfId,  lwIndex  )
 	 if  lw<10000010  or  lw>=10957019  then

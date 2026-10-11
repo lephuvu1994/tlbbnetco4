@@ -1599,3 +1599,7 @@ Script dùng: `MyLua/wuhunxt/odali_wuyazi.lua` (892101; hàm `WuhunSkillStudy` ~
 - **11/10 sau:** hồi sinh 90 quái 45 giây -> **5 giây** (`respawn_time=5000`), Kim Tàm Ti 30% -> **20%**. Tag `truoc-takla-5s-11-10`.
 - Kim Tàm Ti Tháp Mã Can 20% -> **25%** (so với Hạn Huyết Lĩnh 40%: cùng tốc độ giết HHL vẫn hơn ~1,6 lần; HHL 10/10 tổ 4 người ~2.000-3.000 con/giờ). Tag `truoc-takla-25-11-10`.
 
+## 11/10 - Thăng Linh Vương Quyền / Thiên Đạo: tự mở lại cửa sổ sau mỗi lần bấm (Lua, cần cap-nhat, KHÔNG restart)
+- Cửa sổ do UI client `EquipEducation_ShengLing` (trong gói ẩn của OgreMain.dll): nút Thăng Linh gọi `MsgBox32` rồi **client tự đóng** (`CancleEvent` -> Hide). Không sửa được phía client.
+- Server: script 391060 `obj/dali/xian1z.lua` - `x391060_MsgBox32` thành vỏ bọc: gọi bản gốc `x391060_MsgBox32Goc` rồi gửi lại UI command 201708093 (Vương Quyền, txpp 100) / 201708097 (Thiên Đạo, txpp 200), care chính người chơi như shengjjll 346/347. Cửa sổ mở lại với ô trống: phải chuột lại trang bị rồi bấm tiếp. Server không điền sẵn được ô (UI_COMMAND 201107281 chỉ client tự PushEvent). Tiến cấp Thiên Đạo (300) và Di Dời (400) giữ như cũ.
+- `MyLua/jiaohu/jiaohuClient.lua` là bản sao không chạy (Script.dat 391060 = obj/dali/xian1z.lua). Tag `truoc-thanglinh-molai-11-10`.
