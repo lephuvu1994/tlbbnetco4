@@ -242,6 +242,11 @@ StandardImpact 793 "步步生花陷阱伤害" (logic 001 = sát thương trực 
 
 ---
 
+### Túi Boss: 1 túi/ngày, đồ ×N (13/10, chủ server)
+
+- **Trước:** trần 2–3 túi/ngày mỗi hoạt động (Tứ Tuyệt Trang không giới hạn). **Sau:** 1 túi/ngày, đồ + KNB + lượt quay × trần cũ (Tứ Tuyệt ×2). Bảng đầy đủ: `docs/TUI-BOSS.md` mục 13/10. Không có tag git (cấu hình bot); sao lưu `/opt/tlbb-backup/tuiboss-cfg-truoc-1tui-202610130017.json`.
+- Hệ quả: người chỉ chạy 1 lượt/ngày nhận gấp N lần trước (buff người chơi ít); lượt 2–3 trong ngày không còn túi. **Chưa đo.**
+
 ## 6. Nhịp hoạt động
 
 | Hoạt động | Đổi | Tag |

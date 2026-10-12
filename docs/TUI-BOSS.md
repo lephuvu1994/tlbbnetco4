@@ -73,3 +73,20 @@ Tab **🎒 Túi Boss** ở admin.netco4.click (SUPER) **và** mod.netco4.click: 
 - Thẻ **🏹 Boss đã hạ** chuyển xuống dưới thẻ Túi đồ boss.
 - API `/api/tuiboss/list` trả thêm `ic` (id → icon, `ITEMICON.icon`) để client vẽ bằng `vqIcon`.
 - Thử ở local: scratchpad `tb_mock.js` dựng trang mẫu (dữ liệu giả + icon thật), rồi chụp bằng Edge headless (`--screenshot`).
+
+## 13/10 - 1 túi/ngày, đồ ×N (chủ server)
+
+- Mọi hoạt động về **Trần/ngày = 1**; số lượng mỗi dòng món (từ và đến), KNB, lượt quay **× N**, N = trần cũ. Tứ Tuyệt Trang (trước không giới hạn) = ×2. Ghi qua API `/api/tuiboss/save` cổng SUPER (nhật ký 📜 ghi "SUPER 127.0.0.1"). Sao lưu cấu hình trước: `/opt/tlbb-backup/tuiboss-cfg-truoc-1tui-202610130017.json`. Script: `D:\Thiên Long Bát Bộ NetCo4\scratchpad-claude\tuiboss\ap-1tui.js` (`--ghi`).
+- Áp cho túi tạo sau 00:17 13/10; túi đã có giữ nguyên. Mỗi dòng ×N là 1 lần bốc ×N (cùng 1 loại trong dòng nhiều ID), không phải N lần bốc riêng: kỳ vọng như cũ, dao động lớn hơn.
+
+| Hoạt động | Trần cũ | Hệ số | KNB | Lượt quay |
+|---|---|---|---|---|
+| Q Tô Châu, Q Lâu Lan, Yến Tử Ổ | 3 | ×3 | 4.000 → 12.000 | 2 → 6 |
+| Long Quy | 3 | ×3 | 10.000 → 30.000 | 2 → 6 |
+| Ác Tặc, Ác Bá | 3 | ×3 | 1.000 → 3.000 | 1 → 3 |
+| Binh Thánh, PMF, Sát Tinh, Thiếu Thất | 2 | ×2 | 4.000 → 8.000 | 2 → 4 |
+| PMF khiêu chiến | 2 | ×2 | 8.000 → 16.000 | 2 → 4 |
+| Lâu Lan Tầm Bảo | 2 | ×2 | 5.000 → 10.000 | 1 → 2 |
+| Lang Huyên Phúc Địa | 2 | ×2 | 0 | 2 → 4 |
+| Tứ Tuyệt Trang | không giới hạn | ×2 (chủ server chọn) | 4.000 → 8.000 | 2 → 4 |
+| Kỳ Cuộc, Túc Cầu | 1 | giữ nguyên | | |
