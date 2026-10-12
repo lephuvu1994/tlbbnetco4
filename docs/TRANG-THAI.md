@@ -1647,3 +1647,8 @@ Script dùng: `MyLua/wuhunxt/odali_wuyazi.lua` (892101; hàm `WuhunSkillStudy` ~
 - **Chủ server tự chạy** (game tắt khoảng 3 phút, đếm cổng 3731 trước):
   `systemctl stop tlbb && cd /opt/tlbb-deploy && ./khoiphuc-nhanvat.sh /opt/tlbb-backup/truoc-moserver-20261004-111211.sql.gz 1010100008 admin && systemctl start tlbb`, sau đó `./tao-account.sh --doi admin <mật khẩu>`.
 - Lưu ý: cấp 119 cao hơn khóa cấp hiện tại. Không phải GM (GMList không đổi). Đồ VIP mã cũ trên nhân vật vẫn là mã cũ (không được Tinh Thông).
+
+### 12/10 - Tắt tin "Vô địch phi thiên miêu / tiểu đội ở Huyền Vũ Đảo" (game, tag `truoc-tat-tin-huyenvu-12-10`)
+- Nguồn: `event/huodong/ePetIsland_MonsterPatrol.lua` (808068, đội quái tuần tra Huyền Vũ Đảo). 2 dòng `AddGlobalCountNews` trong `x808068_BroadcastNotice` (3 câu ngẫu nhiên "... cùng tiểu đội đã có mặt tại Huyền Vũ Đảo...") và `x808068_BroadcastLocation` ("Thủ lĩnh chiến đội này... đẳng cấp cao đến N, nghe nói có người ở gần Huyền Vũ Đảo (x,z)") được comment `--[NetCo4 12/10 tat tin tuan tra Huyen Vu Dao]`. Đội quái vẫn ra như cũ.
+- Giữ tin khi có người giết đội trưởng (`#{ZSSFC_090211_05}`, `BroadMsgByChatPipe` cuối `OnDie`).
+- Sửa bằng Node latin1, byte > 0x7F giữ nguyên 791. luaparse báo lỗi ở dòng 99 (`break;`) giống hệt HEAD (có sẵn, engine vẫn chạy). Lua, cần cap-nhat, không restart.

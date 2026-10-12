@@ -22,7 +22,7 @@ function x808068_BroadcastLocation(sceneId, level, x, z)
 	local noticeMsg = format("#PThü lînh chiªn ðµi này #{_BOSS3}#PðÆng c¤p cao ðªn #G%d, #Pnghe nói có ngß¶i · g¥n #GHuy«n Vû Ðäo (%d,%d)#P ðã th¤y qua h÷.", level, x, z)
 	--PrintStr(format("%d:%d:%d:%s",level, x, z, noticeMsg));
 	if nil~=noticeMsg then
-		AddGlobalCountNews(sceneId, noticeMsg);
+		--[NetCo4 12/10 tat tin tuan tra Huyen Vu Dao] AddGlobalCountNews(sceneId, noticeMsg);
 	end
 end
 
@@ -36,7 +36,7 @@ function x808068_BroadcastNotice(sceneId)
 	local noticeMsg = Notices[index];
 	--PrintStr(format("%d:%s",index,noticeMsg));
 	if nil~=noticeMsg then
-		AddGlobalCountNews(sceneId, noticeMsg);
+		--[NetCo4 12/10 tat tin tuan tra Huyen Vu Dao] AddGlobalCountNews(sceneId, noticeMsg);
 	end
 end
 
