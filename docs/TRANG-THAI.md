@@ -1627,3 +1627,7 @@ Script dùng: `MyLua/wuhunxt/odali_wuyazi.lua` (892101; hàm `WuhunSkillStudy` ~
 ## 11/10 - NPC Hoàng Cẩn: Thăng Linh nhanh (Lua, cần cap-nhat, KHÔNG restart)
 - Cửa sổ client thăng linh tự đóng / làm trống ô sau mỗi lần bấm, server không điền ô được -> mục mới "Thăng Linh nhanh" ở Hoàng Cẩn (044800 `obj/fengmingzhen/ofenming_jiaohu.lua`): chọn món trong túi 1 lần, bảng NPC có nút Thăng Linh Vương Quyền / Thiên Đạo, bấm xong bảng hiện lại (cấp mới, số Linh Phách cần) -> bấm tiếp.
 - Gọi thẳng `x391060_MsgBox32Goc` (không mở lại cửa sổ client). Phí y như cửa sổ: VQ 20×cấp+1 Tử Vi Linh Phách (cửa sổ client ghi sai 10×cấp+1), TĐ 10×cấp+100, mỗi lần 5 vàng. Số lựa chọn: 50000 / 60000+ô*1000+mã%1000 / 300000(VQ)|400000(TĐ)+ô*1000+mã%1000. `tools/thanglinh-nhanh-11-10.js`, tag `truoc-thanglinh-nhanh-11-10`.
+
+## 12/10 - Tắt dòng [Giúp] Thẻ Tài Phú (sửa FILE CHẠY Server/Server, cần RESTART)
+- Dòng "[Giúp] … đăng kí mới … Đỗ Đại Sảng[154,171] … Thẻ Tài Phú" = mã chữ client `#{CFKBZ_20080228_01}`. Không có trong script / cấu hình / ActivityNotice / ChatHelp client - chỉ nằm cứng trong file chạy `/opt/tlbb-root/home/tlbb/Server/Server` (engine tự gửi).
+- `tools/tat-giup-thetaiphu.py --ghi` (chạy trên VPS): sao lưu `/opt/tlbb-backup/Server-truoc-tat-CFKBZ-<giờ>`, thay chuỗi bằng byte 0, giữ kích thước. File chạy KHÔNG nằm trong repo -> cap-nhat không ghi đè; **nếu thay bản engine khác phải chạy lại**. Quay lại: chép file sao lưu về + restart.
