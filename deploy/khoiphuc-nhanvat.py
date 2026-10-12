@@ -3,7 +3,7 @@
 # Lay moi bang tlbbdb co cot charguid, TRU bang/thu/ban be/quan hang (gan voi nhan vat, bang da xoa).
 # aid (tu tang) = NULL de MySQL cap so moi. t_char: doi accname sang tai khoan moi, guldid = -1 (khong bang).
 # Dong tra ve giu nguyen chu SQL goc (chuoi VISCII/GBK khong bi doi). stderr: tom tat + dong "BANG: ..." cho script goi.
-#   python3 khoiphuc-nhanvat.py <file.sql.gz> <charguid> <tai_khoan>
+#   python3 khoiphuc-nhanvat.py <file.sql.gz> <charguid> <tai_khoan> [knb]     knb: dat lai KNB (t_char.yuanbao) cua nhan vat
 import gzip, re, sys
 
 BO = {"t_guild_user", "t_guild_new", "t_relation", "t_mail", "t_pshop_new", "t_city_new"}
@@ -35,11 +35,12 @@ def tach_dong(s):
 
 
 def main():
-    if len(sys.argv) != 4:
-        sys.exit("Dung: khoiphuc-nhanvat.py <file.sql.gz> <charguid> <tai_khoan>")
-    bk, guid, acc = sys.argv[1:]
-    if not guid.isdigit() or not re.fullmatch(r"\w+", acc):
-        sys.exit("charguid phai la so, tai khoan chi gom chu/so/_")
+    if len(sys.argv) not in (4, 5):
+        sys.exit("Dung: khoiphuc-nhanvat.py <file.sql.gz> <charguid> <tai_khoan> [knb]")
+    bk, guid, acc = sys.argv[1:4]
+    knb = sys.argv[4] if len(sys.argv) == 5 else None
+    if not guid.isdigit() or not re.fullmatch(r"\w+", acc) or (knb is not None and not knb.isdigit()):
+        sys.exit("charguid / knb phai la so, tai khoan chi gom chu/so/_")
     t = gzip.open(bk, "rb").read().decode("latin1")
     a = t.find("USE `tlbbdb`")
     if a < 0:
@@ -69,7 +70,9 @@ def main():
     r[c.index("accname")] = "'%s'" % acc
     if "guldid" in c:
         r[c.index("guldid")] = "-1"
-    tom = {k: r[c.index(k)] for k in ("charname", "menpai", "level", "yuanbao", "vmoney") if k in c}
+    if knb is not None:
+        r[c.index("yuanbao")] = knb
+    tom ={k: r[c.index(k)] for k in ("charname", "menpai", "level", "yuanbao", "vmoney") if k in c}
 
     nm = re.search(r"/\*!40101 SET NAMES (\w+) \*/", t)
     out = ["SET NAMES %s;" % nm.group(1)] if nm else []

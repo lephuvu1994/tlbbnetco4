@@ -9,18 +9,26 @@
 #   ./khoiphuc-nhanvat.sh <file.sql.gz> <charguid>:<tai_khoan> [...]
 #        chay that: tai khoan phai co san (./tao-account.sh <ten> <mat khau>), game phai TAT (systemctl stop tlbb).
 #        Tu sao luu DB truoc khi ghi. Hoi go KHOIPHUC.
+#   Them:  --knb N            dat KNB (t_char.yuanbao) = N cho moi nhan vat duoc nap
+#          --knb-tk a,b,...   cung dat KNB = N cho moi nhan vat DA CO cua cac tai khoan nay (vd bia1 cua admin) - game phai tat
 set -euo pipefail
 . "$(dirname "$0")/common.sh"
 need_root
 
-[ $# -ge 2 ] || die "Dung: $0 <file.sql.gz> <charguid>:<tai_khoan> [...] [--thu]"
+[ $# -ge 2 ] || die "Dung: $0 <file.sql.gz> <charguid>:<tai_khoan> [...] [--knb N] [--knb-tk tk1,tk2] [--thu]"
 BK=$1; shift
-THU=0; CAP=()
-for a in "$@"; do
-    if [ "$a" = --thu ]; then THU=1; continue; fi
-    [[ "$a" =~ ^[0-9]+:[A-Za-z0-9_]+$ ]] || die "Sai dang '$a' (can <charguid>:<tai_khoan>)"
-    CAP+=("$a")
+THU=0; CAP=(); KNB=""; KNB_TK=""
+while [ $# -gt 0 ]; do
+    case "$1" in
+        --thu) THU=1 ;;
+        --knb) KNB=${2:-}; shift; [[ "$KNB" =~ ^[0-9]+$ ]] || die "--knb can so" ;;
+        --knb-tk) KNB_TK=${2:-}; shift; [[ "$KNB_TK" =~ ^[A-Za-z0-9_]+(,[A-Za-z0-9_]+)*$ ]] || die "--knb-tk can ten tai khoan, cach nhau dau phay" ;;
+        *) [[ "$1" =~ ^[0-9]+:[A-Za-z0-9_]+$ ]] || die "Sai dang '$1' (can <charguid>:<tai_khoan>)"; CAP+=("$1") ;;
+    esac
+    shift
 done
+[ -z "$KNB_TK" ] || [ -n "$KNB" ] || die "--knb-tk can kem --knb N"
+TK_IN="'${KNB_TK//,/\',\'}'"
 [ ${#CAP[@]} -ge 1 ] || die "Chua chon nhan vat nao"
 [ -s "$BK" ] || die "Khong thay file $BK"
 
@@ -32,7 +40,7 @@ trap 'rm -f "$TMP" "$TMP.log"' EXIT
 declare -A BANG
 for c in "${CAP[@]}"; do
     G=${c%%:*}; ACC=${c#*:}
-    python3 "$DEPLOY_DIR/khoiphuc-nhanvat.py" "$BK" "$G" "$ACC" >> "$TMP" 2> "$TMP.log" || { cat "$TMP.log"; die "Doc ban sao luu that bai ($G)"; }
+    python3 "$DEPLOY_DIR/khoiphuc-nhanvat.py" "$BK" "$G" "$ACC" $KNB >> "$TMP" 2> "$TMP.log" || { cat "$TMP.log"; die "Doc ban sao luu that bai ($G)"; }
     grep -v '^BANG: ' "$TMP.log"
     BANG[$G]=$(sed -n 's/^BANG: //p' "$TMP.log")
 done
@@ -58,9 +66,16 @@ dem() {   # $1 = DB game
     local c G t
     for c in "${CAP[@]}"; do
         G=${c%%:*}
-        log "Sau khi nap $G ($1): tai khoan $(sql "SELECT accname FROM $1.t_char WHERE charguid=$G")"
+        log "Sau khi nap $G ($1): $(sql "SELECT CONCAT('tai khoan ',accname,', KNB ',yuanbao) FROM $1.t_char WHERE charguid=$G")"
         for t in ${BANG[$G]}; do printf '   %-14s %s\n' "$t" "$(sql "SELECT COUNT(*) FROM $1.$t WHERE charguid=$G")"; done
     done
+}
+
+knb_co_san() {   # $1 = DB game: dat KNB cho nhan vat da co cua --knb-tk
+    [ -n "$KNB_TK" ] || return 0
+    sql "UPDATE $1.t_char SET yuanbao=$KNB WHERE accname IN ($TK_IN)"
+    log "KNB nhan vat co san ($KNB_TK):"
+    sql "SELECT charguid, accname, yuanbao FROM $1.t_char WHERE accname IN ($TK_IN)" | sed 's/^/   /'
 }
 
 if [ "$THU" = 1 ]; then
@@ -71,8 +86,9 @@ if [ "$THU" = 1 ]; then
     kiem_truoc tlbbdb_thu 0
     mysql_root "tlbbdb_thu < /tmp/$(basename "$TMP")"
     dem tlbbdb_thu
+    knb_co_san tlbbdb_thu
     sql "DROP DATABASE tlbbdb_thu"
-    log "Da xoa ban sao. Chay that: systemctl stop tlbb && $0 $BK ${CAP[*]} && systemctl start tlbb"
+    log "Da xoa ban sao. Chay that: bo --thu, game phai tat (systemctl stop tlbb)"
     exit 0
 fi
 
@@ -95,6 +111,7 @@ log "Da sao luu: $f"
 
 mysql_root "tlbbdb < /tmp/$(basename "$TMP")"
 dem tlbbdb
+knb_co_san tlbbdb
 
 in_chroot "$MYSQL_BIN/mysqladmin -uroot -p'$MYSQL_ROOT_PASS' shutdown"
 for i in $(seq 1 30); do is_running mysqld || break; sleep 1; done
