@@ -6,7 +6,7 @@ x100123_g_AllBoss = {508}
 
 --##ÕâÀïÊÇÏµÍ³¹«¸æ£¬¸ù¾Ý·Ö×éID·¢²¼¹«¸æ£¬Í¬Ò»×éBOSSÖ»·¢²¼Ò»´Î
 x100123_g_BossSysMsgByGroupID={}
-x100123_g_BossSysMsgByGroupID[1]={Msg="#cFF0000ÇØ»ÊÉñÓò£º#cff99ffÎåÐÐ×ðÕß½µÁÙÉñÓò£¬ÊµÁ¦·Ç·²£¡ÓÐÈË¿ÉÈ¥Õ°Ñö·ñ?#r#Y×ø±ê[91,193][120,218][229,127][206,92][160,160]",isSended=0}
+x100123_g_BossSysMsgByGroupID[1]={Msg="#cFF0000T¥n Hoàng Th¥n Vñc: #cff99ffNgû Hành Tôn Giä giáng lâm Th¥n Vñc, thñc lñc phi phàm! Ai dám ðªn chiêm ngßÞng?#r#YT÷a ðµ [91,193][120,218][229,127][206,92][160,160]",isSended=0}
 x100123_g_AllBoss[508]=
 {	
 	{ ID=42106, GroupId=1, Title="ÎåÐÐ×ðÕß", PosX=91,  PosY=193, BaseAI=21, ExtAIScript=255, ScriptID=100123 },
