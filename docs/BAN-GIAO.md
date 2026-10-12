@@ -18,6 +18,7 @@ File này là **điểm bắt đầu** cho mọi phiên Claude mới, kể cả 
 - Server riêng cho khoảng 10 người bạn chơi, không kinh doanh. Không tối ưu theo kiểu nạp tiền.
 - Trước mỗi thay đổi game: **tạo tag rollback** (`truoc-<viec>-<ngay>`), viết **tool tái chạy được** trong `tools/` (có chú thích đầu file), ghi vào `docs/TRANG-THAI.md` (và `docs/CAN-BANG.md` nếu đổi sức mạnh). Commit message theo kiểu cũ (tiếng Việt không dấu, ghi "can cap-nhat" / "can restart" / tag).
 - Web người chơi và admin **không dùng `confirm()` / `alert()` / `prompt()` của trình duyệt**. Dùng hộp riêng `gConfirm` (trang người chơi, `BotDoMin/webplay.js`) hoặc kiểu "bấm 2 lần để xác nhận" (trang admin).
+- **Mọi file làm việc để ở ổ D, không để ở ổ C** (chủ server yêu cầu 12/10, ổ C nhỏ và từng đầy làm máy lag). Đặt file tạm, file giải nén, file trích từ client, kết quả test vào `D:\Thiên Long Bát Bộ NetCo4\scratchpad-claude\<việc>`. Không dùng `$TEMP` hay `/tmp` (nằm trên C). Tải nặng (máy ảo, bộ client, npm) cũng để D. Xong việc thì xóa phần sót lại trên C. Ngoại lệ: `~/.ssh/tlbb_vps` ở lại C. Dữ liệu Claude Code (`~/.claude`) chuyển bằng `D:\Thiên Long Bát Bộ NetCo4\chuyen-claude-sang-D.ps1` (chạy khi đã tắt VS Code).
 - **Không in bí mật** ra màn hình: `PANEL_SUPER_PASSWORD` (`/opt/minigame/BotDoMin/.env`), mật khẩu MySQL, `deploy/secrets.env`. Script cần mật khẩu thì tự đọc file, không in. **Không commit bí mật.**
 
 ## 2. Quyền của Claude và cách deploy
