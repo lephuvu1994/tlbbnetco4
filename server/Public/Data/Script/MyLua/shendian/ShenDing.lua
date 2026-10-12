@@ -409,8 +409,26 @@ function  x339008_MsgBox(  sceneId,  selfId,  str  )
 	 DispatchMissionTips(  sceneId,  selfId  )
 end
 
+-- [NetCo4 12/10] Kiem so client gui TRUOC khi ghi (goc ghi truoc roi moi kiem). tools/shending-kiemdiem-12-10.js
+-- Dung 1 he > 0, khong am, tong <= buoc x cap (client: Khon Vu 30 x cap, Chan Ngu / Giam Khang 8 x cap).
+function  x339008_NetCo4_KiemDiem(  sceneId,  selfId,  buoc,  capId,  a,  b,  c,  d  )
+	 if  a == nil  or  b == nil  or  c == nil  or  d == nil  then  return 0  end
+	 if  a < 0  or  b < 0  or  c < 0  or  d < 0  then  return 0  end
+	 local  co  =  0
+	 if  a > 0  then  co = co + 1  end
+	 if  b > 0  then  co = co + 1  end
+	 if  c > 0  then  co = co + 1  end
+	 if  d > 0  then  co = co + 1  end
+	 if  co ~= 1  then  return 0  end
+	 if  a + b + c + d  >  buoc * GetMissionData(  sceneId,  selfId,  capId  )  then  return 0  end
+	 return 1
+end
 function  x339008_OnLianDanLuQianNengAccept(  sceneId,  selfId,  inden,bing,huo,xuan,du  )	 
 	 if  inden==10  then  --+ thuµc tính sñ ki®n 
+	 if  x339008_NetCo4_KiemDiem(  sceneId,  selfId,  30,  SD_SHUXINGDENGJ,  bing,  huo,  xuan,  du  )  ~=  1  then  --[NetCo4 12/10]
+	       x339008_MsgBox(  sceneId,  selfId,  "Ph\226n ph\175i kh\244ng h\254p l\174: ch\239 \240\223\254c d\176n v\224o 1 h\174, kh\244ng s\175 \226m, t\177ng kh\244ng v\223\254t \240i\172m hi\174n c\243."  )
+	       return
+	 end
 	 SetMissionData(sceneId,  selfId,  SD_BINGSHUX,bing)	 
 	 SetMissionData(sceneId,  selfId,  SD_HUOSHUX,huo)	 
 	 SetMissionData(sceneId,  selfId,  SD_XUANSHUX,xuan)	 
@@ -452,6 +470,10 @@ function  x339008_OnLianDanLuQianNengAccept(  sceneId,  selfId,  inden,bing,huo,
 	 end
 -----------------------------------------------------------	 
 	 if  inden==30  then  --+ thuµc tính sñ ki®n K
+	 if  x339008_NetCo4_KiemDiem(  sceneId,  selfId,  8,  SD_KANGXINGDENGJ,  bing,  huo,  xuan,  du  )  ~=  1  then  --[NetCo4 12/10]
+	       x339008_MsgBox(  sceneId,  selfId,  "Ph\226n ph\175i kh\244ng h\254p l\174: ch\239 \240\223\254c d\176n v\224o 1 h\174, kh\244ng s\175 \226m, t\177ng kh\244ng v\223\254t \240i\172m hi\174n c\243."  )
+	       return
+	 end
 	 SetMissionData(sceneId,  selfId,  SD_BINGKANGX,bing)	 
 	 SetMissionData(sceneId,  selfId,  SD_HUOKANGX,huo)	 
 	 SetMissionData(sceneId,  selfId,  SD_XUANKANGX,xuan)	 
@@ -494,6 +516,10 @@ function  x339008_OnLianDanLuQianNengAccept(  sceneId,  selfId,  inden,bing,huo,
 	 end	 
 ----------------------------------------------------------------
 	 if  inden==50  then  --+ thuµc tính sñ ki®n K
+	 if  x339008_NetCo4_KiemDiem(  sceneId,  selfId,  8,  SD_JIANKANGDENGJ,  bing,  huo,  xuan,  du  )  ~=  1  then  --[NetCo4 12/10]
+	       x339008_MsgBox(  sceneId,  selfId,  "Ph\226n ph\175i kh\244ng h\254p l\174: ch\239 \240\223\254c d\176n v\224o 1 h\174, kh\244ng s\175 \226m, t\177ng kh\244ng v\223\254t \240i\172m hi\174n c\243."  )
+	       return
+	 end
 	 SetMissionData(sceneId,  selfId,  SD_BINGJKANG,bing)	 
 	 SetMissionData(sceneId,  selfId,  SD_HUOJKANG,huo)	 
 	 SetMissionData(sceneId,  selfId,  SD_XUANJKANG,xuan)	 
