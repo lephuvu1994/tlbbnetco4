@@ -81,7 +81,7 @@ function  x100131_CreateMonster(  sceneId  )
 	 	 
 	 end
 	 
-	 AddGlobalCountNews(  sceneId,  x100131_g_BossSysMsgByGroupID[1].Msg  )
+	 --[NetCo4 12/10 tat tin boss] AddGlobalCountNews(  sceneId,  x100131_g_BossSysMsgByGroupID[1].Msg  )
 
 end
 
@@ -91,7 +91,7 @@ end
 function  x100131_SysMsg(  sceneId,  groupId  )
 	 if  x100131_g_BossSysMsgByGroupID[groupId].isSended==0  then
 	 	 --BroadMsgByChatPipe(  sceneId,  0,  x100131_g_BossSysMsgByGroupID[groupId].Msg,  4  )
-	 	 AddGlobalCountNews(  sceneId,  x100131_g_BossSysMsgByGroupID[groupId].Msg  )
+	 	 --[NetCo4 12/10 tat tin boss] AddGlobalCountNews(  sceneId,  x100131_g_BossSysMsgByGroupID[groupId].Msg  )
 	 	 x100131_g_BossSysMsgByGroupID[groupId].isSended=1
 	 end
 end
