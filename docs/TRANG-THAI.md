@@ -1663,5 +1663,5 @@ Script dùng: `MyLua/wuhunxt/odali_wuyazi.lua` (892101; hàm `WuhunSkillStudy` ~
 - **12/10 tối:** chủ server muốn đủ party treo auto + mọi tài khoản bot về **100.000 KNB**. Tool thêm `--knb N` (đặt `t_char.yuanbao` cho nhân vật được nạp) và `--knb-tk tk1,tk2` (đặt cho nhân vật đã có, ví dụ bia1 của `admin`). Lệnh 1 lần tắt game: Hoang→admin1, cuocdoibuon→admin2, Jr→admin3, AnhPhat→admin4, Lancee→admin5, EmVinh→admin6, 1TAYCHETROI→admin7 (mật khẩu 123456) + bia1 = 100.000 KNB. `--thu` OK đủ 7 nhân vật + bia1; 16 pet không trùng. Vàng (vmoney) giữ nguyên. Tài khoản người chơi thật KHÔNG đụng.
 
 ### 12/10 - Sinh sản trân thú: cân bằng tỉ lệ đời (tag `truoc-sinhsan-doi-12-10`)
-- `PetConfigTable.ini` `rateoflevel1..8variancepet`: 19255/27068/18668/12874/8878/6123/4222/2912 → 16000 ×6 / 2500 / 1500. Chi tiết + cơ chế: `docs/CAN-BANG.md` mục "Sinh sản trân thú".
+- `PetConfigTable.ini` `rateoflevel1..8variancepet`: 19255/27068/18668/12874/8878/6123/4222/2912 → 13334/13334/13333 ×4 / 10000 / 10000 (đời 7, 8 mỗi đời 10%; bản 1 cùng ngày 16000 ×6 / 2500 / 1500 thay ngay). Chi tiết + cơ chế: `docs/CAN-BANG.md` mục "Sinh sản trân thú".
 - **Cần chủ server:** `./cap-nhat.sh -y` + **restart game** (bảng .ini chỉ nạp lúc khởi động). Chưa restart.
