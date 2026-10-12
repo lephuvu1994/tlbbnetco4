@@ -211,7 +211,7 @@ StandardImpact 793 "步步生花陷阱伤害" (logic 001 = sát thương trực 
 - **Sau:** admin đặt tỉ lệ từng mốc 60 / 45 / 35 / 30 / 25 / 20% trên trang 💎 Custom % tẩy tư chất (`tuchat.txt`, đọc mỗi lần tẩy). **Mặc định khi deploy: không có file = engine gốc** (chưa đổi cân bằng tới khi admin lưu).
 - File: `event/equip/judge_aptitude.lua` `x809261_NetCo4_TuChat`, `panel/tuchat.py`; tag `truoc-tuchat-custom-10-10`. Mốc 60% gấp 3 lần 20% lúc chế: cân theo lượng Kim Cương Sa lưu hành. **Chưa đo** trên prod.
 
-### Sinh sản trân thú - tỉ lệ đời con (12/10, chủ server: "đời 7, 8 mỗi đời 10%, còn lại chia đều")
+### Sinh sản trân thú - tỉ lệ đời con (12–13/10, chủ server chốt: đời 7 = 10%, đời 8 = 5%, còn lại chia đều)
 
 - Engine (`PetProcreateSystem::CreatePet`, dịch ngược 12/10): con LUÔN là biến dị; bốc 1 trong 8 ô theo `rateoflevel1..8variancepet` (`Server/Config/PetConfigTable.ini`, mẫu 100000); mã con = (mã pet thứ nhất / 10) × 10 + ô. Họ không có cấp bốc được → **lùi về đời 1** (không có đuôi 1 → mã của pet thứ nhất).
 
@@ -219,10 +219,11 @@ StandardImpact 793 "步步生花陷阱伤害" (logic 001 = sát thương trực 
 |---|---|---|---|---|---|---|---|---|
 | Trước (gốc) | 19,26% | 27,07% | 18,67% | 12,87% | 8,88% | 6,12% | 4,22% | 2,91% |
 | Bản 1 (12/10, thay ngay) | 16% | 16% | 16% | 16% | 16% | 16% | 2,5% | 1,5% |
-| **Sau (12/10)** | 13,33% | 13,33% | 13,33% | 13,33% | 13,33% | 13,33% | **10%** | **10%** |
+| Bản 2 (12/10, thay ngay) | 13,33% | 13,33% | 13,33% | 13,33% | 13,33% | 13,33% | 10% | 10% |
+| **Sau (13/10)** | 14,17% | 14,17% | 14,17% | 14,17% | 14,17% | 14,17% | **10%** | **5%** |
 
-- Hiệu lực sau **restart game**. Tag `truoc-sinhsan-doi-12-10`. Buff mạnh pet biến dị cao: đời 7 ×2,4 (4,2 → 10%), đời 8 ×3,4 (2,9 → 10%), đời 5–6 (8,9 / 6,1 → 13,3%).
-- Họ thiếu cấp vẫn dồn về đời 1: họ chỉ tới đời 2 (152 họ) → đời 1 = 86,7%, tới đời 3 → 73,3%, tới đời 4 → 60%, tới đời 5 → 46,7%, tới đời 6 → 33,3%, tới đời 7 → 23,3%, đủ 8 đời (110 họ) → 13,3%. Không sửa được bằng trọng số (logic lùi nằm trong engine). **Chưa đo.**
+- Hiệu lực sau **restart game**. Tag `truoc-sinhsan-doi-12-10`. Buff mạnh pet biến dị cao: đời 7 ×2,4 (4,2 → 10%), đời 8 ×1,7 (2,9 → 5%), đời 5–6 (8,9 / 6,1 → 14,2%).
+- Họ thiếu cấp vẫn dồn về đời 1: họ chỉ tới đời 2 (152 họ) → đời 1 = 85,8%, tới đời 3 → 71,7%, tới đời 4 → 57,5%, tới đời 5 → 43,3%, tới đời 6 → 29,2%, tới đời 7 → 19,2%, đủ 8 đời (110 họ) → 14,2%. Không sửa được bằng trọng số (logic lùi nằm trong engine). **Chưa đo.**
 
 ## 5. Tu luyện / tài nguyên
 
