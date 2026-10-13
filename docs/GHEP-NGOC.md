@@ -133,3 +133,10 @@ Bản sao file cũ nằm trong `/opt/tlbb-backup/bot-truoc-*`.
   - Muốn chặn: đặt giá các phiếu về 0 ở tab admin.
 - **Bỏ 1 món lớn cho món đích nhỏ:** luật hiện tại vẫn cho phép. Ví dụ 1 ngọc 6 (18.000) đổi lấy phiếu 1.000 ở mức 75%, người chơi mất khoảng 96%. HoangFour đã bấm nhầm như vậy lúc 12:28 ngày 05/10.
   - **Chưa sửa.** Cách sửa đã đề xuất: chặn khi tỉ lệ thô vượt quá 1,5 lần tiMax, hoặc hiện cảnh báo đỏ.
+
+## ⚡ Ép thắng (14/10, chủ server)
+
+- Admin SUPER: tab Ghép Ngọc → khung **⚡ Ép thắng**: chọn ví + số lượt (1–20) → N lượt luyện kế tiếp của ví đó **THẮNG** dù tỉ lệ bao nhiêu. Server tung số ngẫu nhiên **trong** cung trúng `[lệch, lệch + tỉ lệ)` → kim trên web (góc = `roll × 3,6`) dừng đúng trong cung. Thử 2 triệu lần phép tung: 0 sai; chạy `quay()` thật ở tỉ lệ 1%: 3/3 thắng, lượt 4 về ngẫu nhiên.
+- **Chỉ ép thắng** (không có ép thua - người chơi bỏ đồ của họ vào). Lượt ép **không đăng Discord**. Nhật ký admin đánh dấu ⚡ ép (`_gnLog[].ep` = người ép); bản cho mod (`logXem`) và lịch sử người chơi không có trường này. Ghi log ADMIN `[GHÉP NGỌC] ... ÉP THẮNG`.
+- Dữ liệu `dbCache._gnEp = { uid: [{ who, t }] }`; API `/api/gn/ep` `{uid, n}`, `/api/gn/epxoa` `{uid}` (chỉ SUPER, trong khối `/api/gn/`). Code: `ghepngoc.js` (`epDat` / `epXoa` / đoạn tung trong `quay`), `ghepngoc.admin.js` (`epHtml`, vẽ lại riêng khung để không mất ô cấu hình đang sửa).
+- Deploy 14/10: sao lưu `/opt/tlbb-backup/bot-truoc-gn-ep-*`.
