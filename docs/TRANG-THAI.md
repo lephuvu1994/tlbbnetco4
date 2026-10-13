@@ -1665,3 +1665,9 @@ Script dùng: `MyLua/wuhunxt/odali_wuyazi.lua` (892101; hàm `WuhunSkillStudy` ~
 ### 12/10 - Sinh sản trân thú: cân bằng tỉ lệ đời (tag `truoc-sinhsan-doi-12-10`)
 - `PetConfigTable.ini` `rateoflevel1..8variancepet`: 19255/27068/18668/12874/8878/6123/4222/2912 → **14167 ×4 / 14166 ×2 / 10000 / 5000** (13/10 chốt: đời 7 = 10%, đời 8 = 5%; bản 12/10 16000 ×6 / 2500 / 1500 rồi 13333 ×6 / 10000 / 10000 đã thay, chưa lên VPS). Chi tiết + cơ chế: `docs/CAN-BANG.md` mục "Sinh sản trân thú".
 - **Cần chủ server:** `./cap-nhat.sh -y` + **restart game** (bảng .ini chỉ nạp lúc khởi động). Chưa restart.
+
+### 13/10 - Hệ số Võ Ý chỉnh trên web (⚙️ Cài đặt toàn server), không restart (tag `truoc-voy-cauhinh-13-10`)
+- Trước: `MyNew/guaiwu_die.lua` (999998) ghi cứng nội tức mỗi quái = (770 + cấp × 10) × **4**, ×**12** thêm ở scene 6 / 73 / 74 (Vô Lượng Sơn) + 427 (Tháp Khắc Lạp Mã Can) = ×48. Quái gọi 999998: Thông Thiên Tháp 1–5, Vô Lượng Sơn, yayuland, Vân Phù (ini) + Tháp Mã Can (qua `roimap.lua`).
+- Sau (`tools/voy-cauhinh-13-10.js`): `x999998_HeSo` đọc `Server/txt/NetCo4Cfg/voy.txt` (1 dòng `<mọi nơi> <bản đồ train>`, 1–100) **mỗi lần quái chết** → hiệu lực ngay. Không có file / số sai = 4 / 12 như cũ. Trần 3.000 quái / ngày (`odali_fanhua.lua` 2015 `WuyiExpUp`) không đổi.
+- Panel GM `panel.py`: `voy_get` / `voy_set` (về đúng mặc định 4 / 12 thì xóa file), `luu_chung` nhận `voy` / `voytrain`, state trả `voy`, `voytrain`, `voyDefault`. Bot `panel.js`: ô ⚔️ Võ Ý (2 hệ số + dòng tính sẵn ví dụ + nút mặc định) trong ⚙️ Cài đặt toàn server. Nút 💾 Lưu chung bỏ `confirm()` → **bấm 2 lần trong 6 giây** (quy tắc không popup trình duyệt).
+- Hiệu lực: Lua + panel → cap-nhat + `systemctl restart tlbb-panel` (KHÔNG cần restart game); bot → restart minigame.

@@ -135,6 +135,33 @@ def tpmax_set(n):
         f.write("%d\n" % n)
 
 
+# 13/10: HE SO VO Y (noi tuc moi quai): MyNew/guaiwu_die.lua x999998_HeSo doc file nay MOI LAN quai chet (hieu luc ngay).
+# 1 dong "<moi noi> <ban do train>": noi tuc = (770 + cap quai x 10) x moi noi, them x ban do train o Vo Luong Son (6/73/74)
+# + Thap Khac Lap Ma Can (427). Khong co file = mac dinh 4 / 12 (tong x48 o ban do train).
+VOY = CFGDIR + "/voy.txt"
+VOY_MD = (4, 12)
+
+
+def voy_get():
+    try:
+        a, b = [int(x) for x in open(VOY).read().split()[:2]]
+        if 1 <= a <= 100 and 1 <= b <= 100:
+            return a, b
+    except (OSError, ValueError):
+        pass
+    return VOY_MD
+
+
+def voy_set(a, b):
+    os.makedirs(CFGDIR, exist_ok=True)
+    if (a, b) == VOY_MD:
+        if os.path.exists(VOY):
+            os.remove(VOY)
+        return
+    with open(VOY, "w", encoding="ascii", newline="\n") as f:
+        f.write("%d %d\n" % (a, b))
+
+
 # 03/10: ROI THEM QUA SCRIPT do admin cau hinh (NetCo4/roimap.lua x950001_RoiCfg doc file nay moi lan quai chet -> hieu luc ngay).
 # Moi dong: <khoa> <ti le %> <ID1[,ID2,@nhom...]>  (nhieu ID / nhom = boc 1 mon). Moi thanh vien to doi o gan roll rieng.
 ROITHEM = CFGDIR + "/roithem.txt"
@@ -569,8 +596,12 @@ def act(form):
         return "Da them: %s - %s%% - %s. Co hieu luc ngay (quai chet tiep theo)." % (ROI_KHOA[k][0], pct, ", ".join(ROI_NHOM.get(t) or ITEM_NAME.get(t, t) for t in ids))
     if a == "luu_chung":   # 03/10: luu nhieu o 1 lan (cap toi thieu / khoa cap / EXP) - kiem het truoc roi moi ghi, restart 1 lan neu can
         cmin, cmax, ex, tp = v("capmin"), v("capmax"), v("exp"), v("tpmax")
-        if not (cmin or cmax or ex or tp):
+        va, vb = v("voy"), v("voytrain")   # 13/10: he so Vo Y (script doc moi lan quai chet, khong restart)
+        if not (cmin or cmax or ex or tp or va or vb):
             return "Khong co o nao thay doi"
+        for x, ten in ((va, "Vo Y moi noi"), (vb, "Vo Y ban do train")):
+            if x and (not RE_INT.match(x) or not 1 <= int(x) <= 100):
+                return "He so %s phai 1-100. Chua luu gi." % ten
         if tp and (not RE_INT.match(tp) or not (int(tp) == 0 or 10 <= int(tp) <= 159)):
             return "Tam phap toi da 10-159 (0 = luat goc: cap nhan vat + 10). Chua luu gi."
         if cmin and (not RE_INT.match(cmin) or not 0 <= int(cmin) <= 119):
@@ -602,7 +633,12 @@ def act(form):
         if tp:
             tpmax_set(int(tp))
             doi.append("tam phap toi da %s" % (int(tp) or "luat goc (cap nhan vat + 10)"))
-        rs = bool(cmax or ex)   # cap toi thieu + tam phap toi da la script, khong can restart
+        if va or vb:
+            a0, b0 = voy_get()
+            a1, b1 = int(va) if va else a0, int(vb) if vb else b0
+            voy_set(a1, b1)
+            doi.append("Vo Y x%d moi noi, x%d them o ban do train (tong x%d)" % (a1, b1, a1 * b1))
+        rs = bool(cmax or ex)   # cap toi thieu + tam phap toi da + Vo Y la script, khong can restart
         audit("luu chung: %s%s (online: %d)" % (", ".join(doi), ", restart" if rs else "", online_count()))
         if rs:
             restart_game()
@@ -864,6 +900,7 @@ def api_state():
             "accounts": [{"id": i, "name": n, "online": on} for i, n, on in accs],
             "chars": out_chars, "capmin": capmin, "capmax": capmax_get(), "itemCount": len(ITEMS),
             "expparam": exp_get(), "expDefault": exp_macdinh(), "tpmax": tpmax_get(), "roithem": roi_state(),   # 03/10
+            "voy": voy_get()[0], "voytrain": voy_get()[1], "voyDefault": list(VOY_MD),   # 13/10
             "pets": [{"id": i, "name": n} for i, n in PET_V2]}
 
 
