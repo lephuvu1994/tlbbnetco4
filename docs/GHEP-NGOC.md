@@ -137,6 +137,6 @@ Bản sao file cũ nằm trong `/opt/tlbb-backup/bot-truoc-*`.
 ## ⚡ Ép thắng (14/10, chủ server)
 
 - Admin SUPER: tab Ghép Ngọc → khung **⚡ Ép thắng**: chọn ví + số lượt (1–20) → N lượt luyện kế tiếp của ví đó **THẮNG** dù tỉ lệ bao nhiêu. Server tung số ngẫu nhiên **trong** cung trúng `[lệch, lệch + tỉ lệ)` → kim trên web (góc = `roll × 3,6`) dừng đúng trong cung. Thử 2 triệu lần phép tung: 0 sai; chạy `quay()` thật ở tỉ lệ 1%: 3/3 thắng, lượt 4 về ngẫu nhiên.
-- **Chỉ ép thắng** (không có ép thua - người chơi bỏ đồ của họ vào). Lượt ép **không đăng Discord**. Nhật ký admin đánh dấu ⚡ ép (`_gnLog[].ep` = người ép); bản cho mod (`logXem`) và lịch sử người chơi không có trường này. Ghi log ADMIN `[GHÉP NGỌC] ... ÉP THẮNG`.
+- **Chỉ ép thắng** (không có ép thua - người chơi bỏ đồ của họ vào). Lượt ép **đăng Discord như thường** (14/10 chủ server đổi: nội dung y hệt lượt thật, không đánh dấu; bản đầu cùng ngày chặn đăng). Nhật ký admin đánh dấu ⚡ ép (`_gnLog[].ep` = người ép); bản cho mod (`logXem`) và lịch sử người chơi không có trường này. Ghi log ADMIN `[GHÉP NGỌC] ... ÉP THẮNG`.
 - Dữ liệu `dbCache._gnEp = { uid: [{ who, t }] }`; API `/api/gn/ep` `{uid, n}`, `/api/gn/epxoa` `{uid}` (chỉ SUPER, trong khối `/api/gn/`). Code: `ghepngoc.js` (`epDat` / `epXoa` / đoạn tung trong `quay`), `ghepngoc.admin.js` (`epHtml`, vẽ lại riêng khung để không mất ô cấu hình đang sửa).
 - Deploy 14/10: sao lưu `/opt/tlbb-backup/bot-truoc-gn-ep-*`.
