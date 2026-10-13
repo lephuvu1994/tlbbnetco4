@@ -225,6 +225,10 @@ StandardImpact 793 "步步生花陷阱伤害" (logic 001 = sát thương trực 
 - Hiệu lực sau **restart game**. Tag `truoc-sinhsan-doi-12-10`. Buff mạnh pet biến dị cao: đời 7 ×2,4 (4,2 → 10%), đời 8 ×1,7 (2,9 → 5%), đời 5–6 (8,9 / 6,1 → 14,2%).
 - Họ thiếu cấp vẫn dồn về đời 1: họ chỉ tới đời 2 (152 họ) → đời 1 = 85,8%, tới đời 3 → 71,7%, tới đời 4 → 57,5%, tới đời 5 → 43,3%, tới đời 6 → 29,2%, tới đời 7 → 19,2%, đủ 8 đời (110 họ) → 14,2%. Không sửa được bằng trọng số (logic lùi nằm trong engine). **Chưa đo.**
 
+### Mũ top 1 / 2 / 3 (13/10, chủ server)
+
+- Trùng Lâu Khôi 10410121 (top 1) thua mũ thường 9★ ở 10/15 dòng (vd phòng ngoại 4.000 vs Thỏ Nhĩ Đoá 15.999) → nâng dòng đó lên mũ thường max × 1,5; thêm top 2 10410127 (×0,9, +9% sát thương) / top 3 10410126 (×0,7, +7%). Bảng số: `docs/TRUNG-LAU-CUSTOM.md` mục 13/10. Tag `truoc-mu-top23-13-10`. Chỉ phát cho top server, chưa ai giữ mũ Giáng Sinh nào (DB 13/10). **Chưa đo** trong game.
+
 ## 5. Tu luyện / tài nguyên
 
 - **Công Lực Đan** (`Gonglidan.lua` 390102, đan 39999901): đang **+100, trần 99.999** (bản gốc).

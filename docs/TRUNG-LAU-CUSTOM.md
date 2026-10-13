@@ -38,6 +38,31 @@ Mục **💎 Custom % tẩy tư chất** trong khu 🧰 Công cụ (chỉ cổng
 - **Tỉ lệ gốc để so** (% công cao nhất của vũ khí = max 2 chỉ số): min 1 → mỗi mốc 20–60 ≈ 0,77–0,78%, dưới 20% ≈ 95,3%; min 126 → mỗi mốc ≈ 1,47–1,53%, dưới 20% ≈ 91,0%.
 - **Đã thử trên server test 10/10** (60% = 100%): chủ server OK.
 
+## 13/10 - Mũ top 2 / top 3 + nâng mũ top 1 (chủ server)
+
+- **Top 2 = 10410127** (Hoan Lạc Thánh Đản Mạo cấp 92), **top 3 = 10410126** (cấp 82), cùng kiểu dáng với Trùng Lâu Khôi 10410121 (top 1). Cùng ô Mũ → mặc 1 trong 3.
+- Gốc trong repo: `tools/mu-top23-13-10.js` - EquipBase 9 sao (quy tắc 9), đoạn 100 (gốc 102 / 92 theo cấp), 11 dòng, hiệu ứng **7581** (+9% sát thương) / **7582** (+7%) = chép 7580 (logic 88, kích hoạt 100%), cột 40 `伤害修正率` 10 → 9 / 7. Icon buff 755 giữ nguyên (chữ client ghi "10%"). Tag `truoc-mu-top23-13-10`.
+- `panel/trunglau.py`: thêm vào **cuối** `IDS` → đoạn riêng **4528 / 4529**; tham số hiệu ứng mới `hs` (sát thương thêm %, tối đa 100) - trang hiện ô "Sát thương thêm (%) khi dính" cho mọi hiệu ứng có cột này. Bot `trunglau.panel.js`: 2 nhóm mới (bialk `c824791`).
+- **Số (15 dòng như Trùng Lâu Khôi đang chạy):** top 1 dòng nào chưa đủ → **mũ thường max × 1,5** (mũ đội được cấp ≤ 119, cấp phẩm chất theo quy tắc cột 90; max chủ yếu là Thỏ Nhĩ Đoá 9★ 10410034/35 và Huyền Vũ Thánh Cân 10210019); top 2 = top 1 × 0,9; top 3 = top 1 × 0,7 → cả 3 đều hơn mũ thường, đúng thứ hạng. Thử trên bản sao file game (WSL): số ra lệch ±1 do làm tròn engine, 6 mã Trùng Lâu khác giữ nguyên. Script tính: `D:\Thiên Long Bát Bộ NetCo4\scratchpad-claude\mu\so-cuoi.js`.
+
+| Dòng | Mũ thường max | Top 1 (trước → sau) | Top 2 | Top 3 |
+|---|---|---|---|---|
+| Sinh lực | 26.000 | 20.000 → **39.000** | 35.100 | 27.300 |
+| Ngoại công | 422 | 4.000 | 3.600 | 2.800 |
+| Phòng ngoại | 15.999 | 4.000 → **23.999** | 21.599 | 16.799 |
+| Nội công | 0 | 4.000 | 3.600 | 2.800 |
+| Phòng nội | 7.157 | 4.000 → **10.736** | 9.662 | 7.515 |
+| Chính xác | 271 | 2.500 | 2.250 | 1.750 |
+| Né tránh | 2.600 | 600 → **3.900** | 3.510 | 2.730 |
+| Hội công | 0 | 20 | 18 | 14 |
+| Cường lực | 230 | 250 → **345** | 311 | 241 |
+| Nội lực | 230 | 250 → **345** | 311 | 241 |
+| Thể lực | 186 | 200 → **279** | 251 | 195 |
+| Trí lực | 186 | 200 → **279** | 251 | 195 |
+| Thân pháp | 135 | 150 → **203** | 183 | 142 |
+| Phòng hội công | 32 | 20 → **48** | 43 | 34 |
+| Tất cả thuộc tính | 60 | 30 → **90** | 81 | 63 |
+
 ## Admin chỉnh được gì
 
 | Thứ | Ở đâu | Áp cho ai | Khi nào có hiệu lực |

@@ -33,8 +33,8 @@ F_RATE = "Server/Config/ItemSegRate.txt"
 TENVIET = os.path.join(REPO, "docs", "vat-pham", "ten-viet.tsv")
 
 # dong moi 10553100-10553114 + 2 ma CU giao dich duoc han (khong khoa): Gioi 10422016, Ngoc 10423024 (them 08/10, chu server can ban trade)
-IDS = [str(i) for i in range(10553100, 10553115)] + ["10422016", "10423024"] + [str(i) for i in range(10157001, 10157010)] + ["10410121"]   # 09/10: + Long Van +1..+9 (doan 4518-4526); 13/10: + mu Trung Lau Khoi (doan 4527)
-SEG0 = 4501                      # doan rieng theo thu tu IDS: 10553100 -> 4501 ... 10553114 -> 4515, 10422016 -> 4516, 10423024 -> 4517, Long Van 10157001..009 -> 4518..4526 (doan goc 4244 dung chung ~430 mon), 10410121 -> 4527 (doan goc 100 dung chung 351 mon)
+IDS = [str(i) for i in range(10553100, 10553115)] + ["10422016", "10423024"] + [str(i) for i in range(10157001, 10157010)] + ["10410121", "10410127", "10410126"]   # 09/10: + Long Van +1..+9 (doan 4518-4526); 13/10: + mu Trung Lau Khoi (doan 4527) + mu top 2 / top 3 (doan 4528 / 4529, tools/mu-top23-13-10.js)
+SEG0 = 4501                      # doan rieng theo thu tu IDS: 10553100 -> 4501 ... 10553114 -> 4515, 10422016 -> 4516, 10423024 -> 4517, Long Van 10157001..009 -> 4518..4526 (doan goc 4244 dung chung ~430 mon), 10410121 -> 4527, 10410127 -> 4528, 10410126 -> 4529 (doan goc 100 dung chung 351 mon)
 # THEM MA MOI: chi them vao CUOI IDS (doan cap theo vi tri - chen giua lam lech doan cua moi ma phia sau)
 MAX_DONG = 16                    # tran so dong cua engine (cot 93)
 DONG = ["Sinh lực tối đa", "Sinh lực tối đa %", "Hồi sinh lực", "Nội lực tối đa (MP)", "Nội lực tối đa % (MP)", "Hồi nội lực (MP)",
@@ -48,7 +48,8 @@ DONG = ["Sinh lực tối đa", "Sinh lực tối đa %", "Hồi sinh lực", "N
         "Phòng hội công", "Tất cả thuộc tính", "Hút sinh lực", "Hút nội lực", "Tăng 1 kỹ năng", "Tăng mọi kỹ năng",
         "Tỉ lệ kỹ năng đặc biệt", "Bỏ qua kháng băng", "Bỏ qua kháng hỏa", "Bỏ qua kháng huyền", "Bỏ qua kháng độc"]
 # tham so hieu ung: khoa -> ten o (GBK) trong dong StandardImpact; "dur" = cot 21 (chi so 20) cua dong hieu ung con
-THAM = {"rate": "伤害目标时的激发几率", "mien": "免疫率", "phan": "反射率", "tran": "反射伤害上限"}
+THAM = {"rate": "伤害目标时的激发几率", "mien": "免疫率", "phan": "反射率", "tran": "反射伤害上限",
+        "hs": "伤害修正率，填100相当于将伤害放大到2倍"}   # 13/10: hs = sat thuong them % (mu Trung Lau Khoi 7580 = 10, top 2 7581 = 9, top 3 7582 = 7)
 SUB = ("给目标或攻击者的子效果1", "给自己的子效果1")
 HIEUUNG_TEN = {"遮目": "Che mắt", "望月": "Phong huyệt", "逆天": "Tê liệt", "破军": "Phá Quân (bỏ qua phòng thủ)",
                "减免": "Giảm miễn", "反伤": "Phản đòn"}
@@ -214,7 +215,7 @@ def nguoi_giu(sql, viscii):
 # ------------------------------------------------------------------ kiem + ap
 def kiem_mon(i, m, rate_cap, co=None):
     if i not in IDS:
-        return "Mã %s không nằm trong danh sách chỉnh được (Trùng Lâu 10553100-10553114, 10422016, 10423024; Long Văn 10157001-10157009; mũ Trùng Lâu Khôi 10410121)" % i
+        return "Mã %s không nằm trong danh sách chỉnh được (Trùng Lâu 10553100-10553114, 10422016, 10423024; Long Văn 10157001-10157009; mũ Trùng Lâu Khôi 10410121, mũ top 2 10410127, mũ top 3 10410126)" % i
     dong = m.get("dong")
     if not isinstance(dong, list) or not dong:
         return "Mã %s: chưa chọn dòng nào" % i
@@ -245,7 +246,7 @@ def kiem_hu(hu, si_r, cho_phep):
         for k, x in tham.items():
             if k not in cho_phep[hid]:
                 return "Hiệu ứng %s không có tham số %s" % (hid, k)
-            if not isinstance(x, int) or x < 0 or x > {"rate": 100, "mien": 100, "phan": 100, "tran": 100000000, "dur": 600000}[k]:
+            if not isinstance(x, int) or x < 0 or x > {"rate": 100, "mien": 100, "phan": 100, "tran": 100000000, "dur": 600000, "hs": 100}[k]:
                 return "Hiệu ứng %s: %s ngoài khoảng cho phép" % (hid, k)
     return None
 
