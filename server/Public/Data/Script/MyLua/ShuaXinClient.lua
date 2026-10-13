@@ -1911,8 +1911,8 @@ end
 
 
 function x892002_AHa_ShiZhuangDianZhui(sceneId, selfId)  --µã×º
-	-- [NetCo4 01/10] tat Kien Khon Boi tu dong (8500 = tu nhat do, server cu gan cho MOI nguoi moi lan lam moi buff). Vat pham 30008033/30008009 van dung duoc.
-	-- LuaFnSendSpecificImpactToUnit(sceneId, selfId, selfId, selfId,8500,0)
+	-- [NetCo4 13/10] BAT LAI Kien Khon Boi tu gan (8500 = tu nhat do 2 gio online, gan lai moi lan lam moi buff) - chu server; 01/10 da tat (tag truoc-tat-kienkhon-01-10).
+	LuaFnSendSpecificImpactToUnit(sceneId, selfId, selfId, selfId,8500,0)
 	local itemId=LuaFnGetItemTableIndexByIndex( sceneId, selfId, 116 )	
 	if itemId<=0 then
 		x892002_AHa_ShiZhuangDianZhui_CancelAllBuff(sceneId, selfId)

@@ -158,7 +158,22 @@ function x950000_OnImpactFadeOut( sceneId, selfId, impactId )
 	end
 end
 
+-- [NetCo4 13/10] chu server: binh tu nhat do (Kien Khon) luon co nhu luc mo server. Engine chi kiem impact 57 (Kien Khon Ho)
+-- hoac 8500 (Kien Khon Boi) roi bo gioi han khoang cach khi mo tui do roi; client tu nhat. Chua co ca 2 thi gan 8500
+-- (24 gio online tu 13/10). Goi o dang nhap + doi ban do. AHa_ReMyBuff (ShuaXinClient) khong chay luc dang nhap voi GUID
+-- >= 1010003010 (scene.lua return som) nen khong trong vao do duoc.
+function x950000_BinhNhat( sceneId, selfId )
+	if LuaFnHaveImpactOfSpecificDataIndex( sceneId, selfId, 57 ) == 1 then
+		return
+	end
+	if LuaFnHaveImpactOfSpecificDataIndex( sceneId, selfId, 8500 ) == 1 then
+		return
+	end
+	LuaFnSendSpecificImpactToUnit( sceneId, selfId, selfId, selfId, 8500, 0 )
+end
+
 function x950000_NhanQua( sceneId, selfId )
+	x950000_BinhNhat( sceneId, selfId )   -- [NetCo4 13/10] binh tu nhat do
 	x950000_HoiMauPet( sceneId, selfId )   -- [NetCo4 10/10] tran thu day mau khi doi ban do
 	x950000_CapMin( sceneId, selfId )
 	x950000_TamPhap1( sceneId, selfId )   -- [NetCo4 03/10] tam phap nhan vat cu ve 1 (1 lan)
