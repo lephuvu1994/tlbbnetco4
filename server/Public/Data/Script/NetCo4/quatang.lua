@@ -172,7 +172,38 @@ function x950000_BinhNhat( sceneId, selfId )
 	LuaFnSendSpecificImpactToUnit( sceneId, selfId, selfId, selfId, 8500, 0 )
 end
 
+-- [NetCo4 14/10] doc duoc am khi (vd Kim Si Linh Vu "Hac Dinh Hong cap 10": Hoa cong / Khang Hoa / Mau toi da) chi hien tooltip, khong cong:
+-- EquipBase cot 19 (hieu ung) engine chi gan cho VU KHI. Am khi (o 117): gan dung hieu ung cua ma (bang EquipBase 14/10: 10155021 -> 7539,
+-- 10155100..10155139 -> ma - 10147560 = 7540..7579; 41 hieu ung logic 11, nhom loai tru 19801, vinh vien), go hieu ung am khi khac.
+-- Goi o dang nhap + doi ban do (NhanQua) va khi AHa_ReMyBuff chay (ShuaXinClient GetWUqibuff). Doi am khi -> doi ban do moi cap nhat.
+function x950000_AmKhiHU( itemId )
+	if itemId == 10155021 then
+		return 7539
+	end
+	if itemId >= 10155100 and itemId <= 10155139 then
+		return itemId - 10147560
+	end
+	return -1
+end
+
+function x950000_AmKhiDoc( sceneId, selfId )
+	local id = LuaFnGetItemTableIndexByIndex( sceneId, selfId, 117 )
+	local hu = -1
+	if id ~= nil and id > 0 then
+		hu = x950000_AmKhiHU( id )
+	end
+	for h = 7539, 7579 do
+		if h ~= hu and LuaFnHaveImpactOfSpecificDataIndex( sceneId, selfId, h ) == 1 then
+			LuaFnCancelSpecificImpact( sceneId, selfId, h )
+		end
+	end
+	if hu > 0 and LuaFnHaveImpactOfSpecificDataIndex( sceneId, selfId, hu ) ~= 1 then
+		LuaFnSendSpecificImpactToUnit( sceneId, selfId, selfId, selfId, hu, 0 )
+	end
+end
+
 function x950000_NhanQua( sceneId, selfId )
+	x950000_AmKhiDoc( sceneId, selfId )   -- [NetCo4 14/10] doc duoc am khi
 	x950000_BinhNhat( sceneId, selfId )   -- [NetCo4 13/10] binh tu nhat do
 	x950000_HoiMauPet( sceneId, selfId )   -- [NetCo4 10/10] tran thu day mau khi doi ban do
 	x950000_CapMin( sceneId, selfId )

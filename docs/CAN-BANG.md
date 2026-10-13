@@ -234,6 +234,11 @@ StandardImpact 793 "步步生花陷阱伤害" (logic 001 = sát thương trực 
 
 - Trùng Lâu Khôi 10410121 (top 1) thua mũ thường 9★ ở 10/15 dòng (vd phòng ngoại 4.000 vs Thỏ Nhĩ Đoá 15.999) - chủ server chốt **giữ nguyên top 1**; thêm top 2 10410127 (×0,9, +9% sát thương) / top 3 10410126 (×0,8, +8%). Cả 3 vẫn thua Thỏ Nhĩ Đoá 9★ ở thủ / sinh lực / né / thuộc tính (chấp nhận). Bảng số: `docs/TRUNG-LAU-CUSTOM.md` mục 13/10. Tag `truoc-mu-top23-13-10`. Chỉ phát cho top server, chưa ai giữ mũ Giáng Sinh nào (DB 13/10). **Chưa đo** trong game.
 
+### Độc dược ám khí - từ 14/10 cộng thật (trước: chỉ tooltip)
+
+- Người mặc Kim Sí Linh Vũ (41 mã, chỉ GM có) giờ nhận thật dòng độc dược, vd Hạc Đỉnh Hồng 10: **+50.688 máu tối đa, +2.161 hỏa công, +513 kháng hỏa**. Đang mặc 10155109 / 119 / 129 / 139 / 101: Whynot, bialk, bia1, cuocdoibuon, Lancee, Hoang. Chi tiết `docs/TRANG-THAI.md` 14/10. **Chưa đo.**
+
+
 ## 5. Tu luyện / tài nguyên
 
 - **Công Lực Đan** (`Gonglidan.lua` 390102, đan 39999901): đang **+100, trần 99.999** (bản gốc).

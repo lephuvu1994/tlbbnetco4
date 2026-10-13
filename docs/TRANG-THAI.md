@@ -1688,3 +1688,8 @@ Script dùng: `MyLua/wuhunxt/odali_wuyazi.lua` (892101; hàm `WuhunSkillStudy` ~
 - Chi tiết: `docs/CAN-BANG.md` mục "Li Hỏa". `roithem.txt` VPS đã thêm 3 dòng (Kỳ Cuộc có hiệu lực ngay). Túc Cầu + Hậu Hoa Viên cần `cap-nhat.sh -y` (Lua tự nạp, không restart game).
 - `panel/panel.py` `ROI_KHOA` thêm `sattinh` / `tuccau` / `hhv`: trước đó dòng `sattinh` sẽ BỊ XÓA ở lần admin thêm / xóa dòng rơi trên web (roi_ghi chỉ ghi khóa trong danh sách). Cần `systemctl restart tlbb-panel`; trước khi restart panel, ĐỪNG thêm / xóa dòng rơi trên web.
 - netco4.click đã dựng lại (sao lưu `bangroi-truoc-lihoa-20261014-0000`).
+
+### 14/10 - Độc dược ám khí "cộng ảo" (tag `truoc-amkhi-doc-14-10`)
+- **Triệu chứng:** ám khí Kim Sí Linh Vũ "Độc Dược Hạc Đỉnh Hồng cấp 10" hiện Huyết Giới Hạn +50.688 / Hỏa Công +2.161 / Kháng Hỏa +513 trong tooltip nhưng không cộng vào nhân vật.
+- **Gốc:** dòng độc dược = hiệu ứng `EquipBase` cột 19 của từng mã ám khí (41 mã: 10155021 → 7539, 10155100–10155139 → mã − 10147560 = 7540–7579; StandardImpact logic 11, nhóm loại trừ 19801, vĩnh viễn; vd 7559 = Hỏa công 2161, Kháng Hỏa 513, MAX_HP 50688). Tiêu đề cột 19: engine chỉ gắn khi vị trí là **vũ khí**; ám khí (vị trí 17, ô 117) cần script. Bản gốc có đoạn gắn trong `ShuaXinClient.lua` `x892002_GetWUqibuff` nhưng đã comment (và viết cứng 7579 cho mọi cây).
+- **Sửa:** `NetCo4/quatang.lua` `x950000_AmKhiDoc` (gắn đúng hiệu ứng của mã đang mặc, gỡ hiệu ứng ám khí khác) gọi đầu `NhanQua` (đăng nhập + đổi bản đồ) + gọi từ `GetWUqibuff` (khi AHa_ReMyBuff chạy). Đổi ám khí → đổi bản đồ mới cập nhật. Tag `truoc-amkhi-doc-14-10`. Lua, cần cap-nhat, không restart.

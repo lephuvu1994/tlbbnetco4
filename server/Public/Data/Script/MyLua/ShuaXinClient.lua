@@ -1907,6 +1907,8 @@ local itemId=LuaFnGetItemTableIndexByIndex( sceneId, selfId,102)
 --else
 --LuaFnCancelSpecificImpact(sceneId,selfId,7539)
 --end
+ -- [NetCo4 14/10] doan tren (viet cung 7579, da comment tu ban goc) thay bang: gan dung hieu ung doc duoc cua am khi dang mac
+ CallScriptFunction( 950000, "AmKhiDoc", sceneId, selfId )
 end 
 
 
