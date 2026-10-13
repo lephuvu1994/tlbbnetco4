@@ -256,6 +256,10 @@ StandardImpact 793 "步步生花陷阱伤害" (logic 001 = sát thương trực 
 - **Trước:** không quái nào rơi; chỉ Tiệm Nguyên Bảo kệ 227 (1 viên 500 / 10 viên 5.000) + quà Hoạt Lực 890536 (mốc 2, 1 trong 10 món). Script 760577 / 760590 / 760600 / OpenUi 892922 có Li Hỏa nhưng KHÔNG đăng ký trong Script.dat (chết).
 - **Sau (roithem.txt trên VPS, mỗi người roll riêng):** Kỳ Cuộc **30% mỗi quân cờ** (`kycuoc_co 30 20700063`, ~200 quân / lượt → **~60 viên / người / lượt**), Túc Cầu boss Tôn Mỹ Mỹ **30%** (`tuccau`, khóa mới - `efuben_cuju.lua`), quái Hậu Hoa Viên 1/2/3 **5% mỗi con** (`hhv`, khóa mới - `roimap.lua x950001_g_MapCfg`). Tag `truoc-lihoa-roi-13-10`; sao lưu `roithem-truoc-lihoa-*`. **Chưa đo.**
 
+### Kim Tàm Ti 20310168 - Tháp Khắc Lạp Mã Cán (427)
+
+- `NetCo4/roimap.lua` `x950001_g_Roi[427]`, mỗi quái mỗi người: 30% → 20% → 25% (11/10) → **30% (14/10, chủ server)**. 90 quái cấp 101–105, hồi sinh 5 giây. So sánh: Hàn Huyết Lĩnh (432) 40%. Tag `truoc-thap-30-14-10`. Lua, cần `cap-nhat.sh`, không restart. **Chưa đo.**
+
 ## 6. Nhịp hoạt động
 
 | Hoạt động | Đổi | Tag |
