@@ -90,3 +90,4 @@ Tab **🎒 Túi Boss** ở admin.netco4.click (SUPER) **và** mod.netco4.click: 
 | Lang Huyên Phúc Địa | 2 | ×2 | 0 | 2 → 4 |
 | Tứ Tuyệt Trang | không giới hạn | ×2 (chủ server chọn) | 4.000 → 8.000 | 2 → 4 |
 | Kỳ Cuộc, Túc Cầu | 1 | giữ nguyên | | |
+- **13/10 sau (chủ server):** dòng **Miên Bố 8 / Bí Ngân 8** (`[20501008, 20502008]`) hạ về **30–100** ở 6 hoạt động đang 30–150 (Q Tô Châu, Q Lâu Lan, Yến Tử Ổ, Long Quy, Ác Tặc, Ác Bá). Các hoạt động đang 20–100 và Kỳ Cuộc / Túc Cầu 10–50 giữ nguyên (đã ≤ 100). Áp cho túi tạo sau 03:23 13/10. Sao lưu: `/opt/tlbb-backup/tuiboss-cfg-truoc-mbbn8-202610130323.json`. Script: `D:\Thiên Long Bát Bộ NetCo4\scratchpad-claude\tuiboss\mbbn8-30-100.js` (`--ghi`; không có `--ghi` = chỉ xem).
