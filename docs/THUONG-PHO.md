@@ -116,6 +116,8 @@ Game xóa đồ trong RAM (ShareMemory) trước rồi mới ghi phiếu. Nếu 
 - **Đồ 🔒 cố định không bao giờ qua rương** (rương tặng / Ghép Ngọc được → thành đường gỡ khoá). Ví clone bị chặn ở cổng clone của `webplay.js` (route không nằm trong danh sách chừa).
 - Kinh tế: món đưa vào danh sách trở thành đồ giao dịch được trên web. Nếu món đó cũng là "đồ vào" của Ghép Ngọc thì đồ farm trong game đổi được thành món đích - cân nhắc trước khi gắn.
 
+- **13/10 (chủ server):** thêm **61 mã ngọc 7** (507xxxxx - mọi mã ngọc 7 có trong danh sách Thương Phố, gồm cả ngọc kép Minh Tinh Thạch) vào danh sách → 239 món. Trước đó chỉ có ngọc 6 (33 mã) nên ngọc 7 gửi vào Thương Phố được mà không qua rương được. Ghi qua API `/api/tpik/save` (gộp danh sách cũ, ghi đè cả danh sách); sao lưu `/opt/tlbb-backup/tpik-truoc-ngoc7-202610132250.json`. Ngọc 7 không có giá bán rương (nhóm bán chỉ ngọc 6 + Yếu Quyết) → chỉ tặng / nhận vào game / Ghép Ngọc.
+
 ## Nhận Rương Ích Kỷ vào game qua NPC (10/10, bialk `dd59e22`)
 
 - Chủ server: nhận đồ 🧰 Rương Ích Kỷ qua NPC giống Thương Phố, **dùng chung nút** NPC Ví Web "Nhận đồ Thương Phố".
