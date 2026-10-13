@@ -147,7 +147,12 @@ for (const id in scriptMon) for (const lab of scriptMon[id]) { if (!MA[id] || !M
   const Q = [[20800034, 20], [20501008, 1], [20502008, 1]];
   them('Q Tô Châu', dai(4060, 4169), Q);
   them('Q Lâu Lan', dai(13000, 13269), Q);
-  them('Kỳ Cuộc', [...dai(1770, 1809), ...dai(12000, 12039), ...dai(12050, 12089)], [[30600084, 20]]);
+  // 13/10: + Li Hỏa 20700063 30% mỗi quân cờ (roithem.txt: kycuoc_co 30 20700063)
+  them('Kỳ Cuộc', [...dai(1770, 1809), ...dai(12000, 12039), ...dai(12050, 12089)], [[30600084, 20], [20700063, 30]]);
+  // 13/10: Túc Cầu boss Tôn Mỹ Mỹ (efuben_cuju x402040_OnDie -> RoiCfg "tuccau", roithem: tuccau 30 20700063) Li Hỏa 30%
+  them('Túc Cầu', [...dai(3720, 3729)], [[20700063, 30]]);
+  // 13/10: quái Hậu Hoa Viên 1/2/3 (roimap x950001_g_MapCfg -> RoiCfg "hhv", roithem: hhv 5 20700063) Li Hỏa 5% - ngoài Chí Tôn Cường Hóa của g_Roi
+  them('Hậu Hoa Viên (rơi thêm)', ['11469', '1375'], [[20700063, 5]]);
   // 05/10 23h: Sát Tinh (shengsileitai.lua x892009_OnDie -> RoiCfg "sattinh", roithem.txt: sattinh 25 @ngoc6a,@ngoc6b): MỖI boss 25% 1 viên
   // ngọc 6 bốc đều trong 29 loại túi A + B (roimap x950001_g_Nhom) -> mỗi loại 25/29 %. Lộ Quân Dật 13465 còn hộp bảng 90088 riêng (05/10 khuya chuyển từ Ngô Vĩnh).
   const N6 = [50602001, 50602002, 50602003, 50602004, 50602005, 50602006, 50602007, 50602008, 50613004, 50614001, 50603001,

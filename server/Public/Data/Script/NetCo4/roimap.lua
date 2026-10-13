@@ -59,7 +59,14 @@ x950001_g_RoiPhoBan2 = {
 	[50220] = { x950001_g_Boc[1], 10 },
 }
 
+-- [13/10] ban do -> khoa roithem.txt (roi them do admin cau hinh tren web, ngoai mon co dinh cua x950001_g_Roi)
+x950001_g_MapCfg = { [62] = "hhv", [82] = "hhv", [182] = "hhv" }   -- Hau Hoa Vien 1 / 2 / 3
+
 function x950001_OnDie( sceneId, selfId, killerId )
+	local kcfg = x950001_g_MapCfg[sceneId]
+	if kcfg ~= nil then
+		x950001_RoiCfg( sceneId, selfId, killerId, kcfg )
+	end
 	if sceneId == 427 then   -- [11/10] Thap Khac Lap Ma Can: cong Vo Y (MyNew/guaiwu_die.lua x999998_OnDie, he so x48 nhu Vo Luong Son)
 		CallScriptFunction( 999998, "OnDie", sceneId, selfId, killerId )
 	end
@@ -83,7 +90,8 @@ end
 -- Panel game ghi Server/txt/NetCo4Cfg/roithem.txt (ngoai repo, cap-nhat.sh khong dung toi). Doc moi lan quai chet -> sua tren web co hieu luc ngay.
 -- Moi dong:  <khoa> <ti le %> <ID1[,ID2,...]>   vd:  kycuoc_co 1.75 50601001,50601002   (nhieu ID = boc 1, ti le cho phep le 2 so)
 -- Moi thanh vien to doi o gan roll rieng tung dong. Goi tu OnDie:  CallScriptFunction( 950001, "RoiCfg", sceneId, selfId, killerId, "<khoa>" )
--- Khoa dang goi: kycuoc_co (quan co Ky Cuoc 401001/401002), kycuoc_boss (Vien Co Ky Hon).
+-- Khoa dang goi: kycuoc_co (quan co Ky Cuoc 401001/401002), kycuoc_boss (Vien Co Ky Hon), sattinh (Sat Tinh 892009),
+-- tuccau (boss Tuc Cau 402040, 13/10), hhv (quai Hau Hoa Vien 62/82/182 qua x950001_g_MapCfg, 13/10).
 x950001_g_CfgFile = "./txt/NetCo4Cfg/roithem.txt"
 -- Nhom dat ten (dung trong file cau hinh bang @ten, vd "kycuoc_co 1.75 @ngoc6"). Them nhom moi: them o day + panel.py ROI_NHOM.
 x950001_g_Nhom = {

@@ -1683,3 +1683,8 @@ Script dùng: `MyLua/wuhunxt/odali_wuyazi.lua` (892101; hàm `WuhunSkillStudy` ~
 ### 13/10 - Mũ top 2 / top 3 (tag `truoc-mu-top23-13-10`) - chi tiết `docs/TRUNG-LAU-CUSTOM.md`
 - Repo: EquipBase 10410127 / 10410126 + StandardImpact 7581 / 7582 + `panel/trunglau.py` (IDS, tham số `hs`). Bot `trunglau.panel.js` đã chép lên VPS.
 - **Thứ tự bắt buộc:** chủ server `cap-nhat.sh -y` + `systemctl restart tlbb-panel` → Claude đặt số 2 mũ mới (top 2 = top 1 × 0,9, top 3 × 0,8; top 1 giữ nguyên) qua panel `/api/trunglau` op `mon` (KHÔNG ghi `trunglau.json` trước khi panel chạy code mới: code cũ báo "mã không nằm trong danh sách" và áp lại hỏng) → **restart game**.
+
+### 13-14/10 - Li Hỏa rơi Kỳ Cuộc 30% / Túc Cầu 30% / Hậu Hoa Viên 5% (tag `truoc-lihoa-roi-13-10`)
+- Chi tiết: `docs/CAN-BANG.md` mục "Li Hỏa". `roithem.txt` VPS đã thêm 3 dòng (Kỳ Cuộc có hiệu lực ngay). Túc Cầu + Hậu Hoa Viên cần `cap-nhat.sh -y` (Lua tự nạp, không restart game).
+- `panel/panel.py` `ROI_KHOA` thêm `sattinh` / `tuccau` / `hhv`: trước đó dòng `sattinh` sẽ BỊ XÓA ở lần admin thêm / xóa dòng rơi trên web (roi_ghi chỉ ghi khóa trong danh sách). Cần `systemctl restart tlbb-panel`; trước khi restart panel, ĐỪNG thêm / xóa dòng rơi trên web.
+- netco4.click đã dựng lại (sao lưu `bangroi-truoc-lihoa-20261014-0000`).

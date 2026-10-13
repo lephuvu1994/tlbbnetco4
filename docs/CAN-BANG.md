@@ -251,6 +251,11 @@ StandardImpact 793 "步步生花陷阱伤害" (logic 001 = sát thương trực 
 - **Trước:** trần 2–3 túi/ngày mỗi hoạt động (Tứ Tuyệt Trang không giới hạn). **Sau:** 1 túi/ngày, đồ + KNB + lượt quay × trần cũ (Tứ Tuyệt ×2). Bảng đầy đủ: `docs/TUI-BOSS.md` mục 13/10. Không có tag git (cấu hình bot); sao lưu `/opt/tlbb-backup/tuiboss-cfg-truoc-1tui-202610130017.json`.
 - Hệ quả: người chỉ chạy 1 lượt/ngày nhận gấp N lần trước (buff người chơi ít); lượt 2–3 trong ngày không còn túi. **Chưa đo.**
 
+### Li Hỏa 20700063 (nguyên liệu tôi luyện Tinh Thông, 10 viên/lần) - nguồn rơi 13/10 (chủ server)
+
+- **Trước:** không quái nào rơi; chỉ Tiệm Nguyên Bảo kệ 227 (1 viên 500 / 10 viên 5.000) + quà Hoạt Lực 890536 (mốc 2, 1 trong 10 món). Script 760577 / 760590 / 760600 / OpenUi 892922 có Li Hỏa nhưng KHÔNG đăng ký trong Script.dat (chết).
+- **Sau (roithem.txt trên VPS, mỗi người roll riêng):** Kỳ Cuộc **30% mỗi quân cờ** (`kycuoc_co 30 20700063`, ~200 quân / lượt → **~60 viên / người / lượt**), Túc Cầu boss Tôn Mỹ Mỹ **30%** (`tuccau`, khóa mới - `efuben_cuju.lua`), quái Hậu Hoa Viên 1/2/3 **5% mỗi con** (`hhv`, khóa mới - `roimap.lua x950001_g_MapCfg`). Tag `truoc-lihoa-roi-13-10`; sao lưu `roithem-truoc-lihoa-*`. **Chưa đo.**
+
 ## 6. Nhịp hoạt động
 
 | Hoạt động | Đổi | Tag |

@@ -820,6 +820,7 @@ end
 --**********************************
 function x402040_OnDie(sceneId, objId, killerId)
 	CallScriptFunction( 950001, "TB_Ghi", sceneId, objId, killerId )   -- [NetCo4 05/10] tui do boss Tuc Cau (roimap.lua, chi ghi khi ID co trong danh sach)
+	CallScriptFunction( 950001, "RoiCfg", sceneId, objId, killerId, "tuccau" )   -- [NetCo4 13/10] roi them do admin cau hinh (roithem.txt khoa tuccau, vd Li Hoa 30%)
 	--É±ËÀ¹ÖÎïtoÕ ðµ Ðúng³èÎïÔmµt ñÈ¡ÆäÖ÷ÈËtoÕ ðµ ID....
 	local playerID = killerId
 	local objType = GetCharacterType( sceneId, killerId )
