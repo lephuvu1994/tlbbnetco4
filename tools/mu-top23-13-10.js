@@ -8,7 +8,7 @@
 const fs = require('fs'), path = require('path');
 const R = path.join(__dirname, '..', 'server'); const GHI = process.argv.includes('--ghi'); let loi = 0;
 const doc = (f) => fs.readFileSync(path.join(R, f), 'latin1'); const ghi = (f, s) => { if (GHI && !loi) fs.writeFileSync(path.join(R, f), s, 'latin1'); };
-const MU = [['10410127', '7581', '9'], ['10410126', '7582', '7']];
+const MU = [['10410127', '7581', '9'], ['10410126', '7582', '7']];   // 13/10 ban 2: 7582 doi tiep 7 -> 8 (scratchpad mu/sua-ban2.js) - tool nay chi dung lap lan dau
 const dem = (s) => { let c = 0; for (let i = 0; i < s.length; i++) if (s.charCodeAt(i) > 127) c++; return c; };
 
 // 1. EquipBase

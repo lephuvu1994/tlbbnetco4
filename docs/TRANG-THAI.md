@@ -1682,4 +1682,4 @@ Script dùng: `MyLua/wuhunxt/odali_wuyazi.lua` (892101; hàm `WuhunSkillStudy` ~
 
 ### 13/10 - Mũ top 2 / top 3 (tag `truoc-mu-top23-13-10`) - chi tiết `docs/TRUNG-LAU-CUSTOM.md`
 - Repo: EquipBase 10410127 / 10410126 + StandardImpact 7581 / 7582 + `panel/trunglau.py` (IDS, tham số `hs`). Bot `trunglau.panel.js` đã chép lên VPS.
-- **Thứ tự bắt buộc:** chủ server `cap-nhat.sh -y` + `systemctl restart tlbb-panel` → Claude đặt số 3 mũ qua panel `/api/trunglau` op `mon` (KHÔNG ghi `trunglau.json` trước khi panel chạy code mới: code cũ báo "mã không nằm trong danh sách" và áp lại hỏng) → **restart game**.
+- **Thứ tự bắt buộc:** chủ server `cap-nhat.sh -y` + `systemctl restart tlbb-panel` → Claude đặt số 2 mũ mới (top 2 = top 1 × 0,9, top 3 × 0,8; top 1 giữ nguyên) qua panel `/api/trunglau` op `mon` (KHÔNG ghi `trunglau.json` trước khi panel chạy code mới: code cũ báo "mã không nằm trong danh sách" và áp lại hỏng) → **restart game**.

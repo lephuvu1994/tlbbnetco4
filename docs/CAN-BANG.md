@@ -227,7 +227,7 @@ StandardImpact 793 "步步生花陷阱伤害" (logic 001 = sát thương trực 
 
 ### Mũ top 1 / 2 / 3 (13/10, chủ server)
 
-- Trùng Lâu Khôi 10410121 (top 1) thua mũ thường 9★ ở 10/15 dòng (vd phòng ngoại 4.000 vs Thỏ Nhĩ Đoá 15.999) → nâng dòng đó lên mũ thường max × 1,5; thêm top 2 10410127 (×0,9, +9% sát thương) / top 3 10410126 (×0,7, +7%). Bảng số: `docs/TRUNG-LAU-CUSTOM.md` mục 13/10. Tag `truoc-mu-top23-13-10`. Chỉ phát cho top server, chưa ai giữ mũ Giáng Sinh nào (DB 13/10). **Chưa đo** trong game.
+- Trùng Lâu Khôi 10410121 (top 1) thua mũ thường 9★ ở 10/15 dòng (vd phòng ngoại 4.000 vs Thỏ Nhĩ Đoá 15.999) - chủ server chốt **giữ nguyên top 1**; thêm top 2 10410127 (×0,9, +9% sát thương) / top 3 10410126 (×0,8, +8%). Cả 3 vẫn thua Thỏ Nhĩ Đoá 9★ ở thủ / sinh lực / né / thuộc tính (chấp nhận). Bảng số: `docs/TRUNG-LAU-CUSTOM.md` mục 13/10. Tag `truoc-mu-top23-13-10`. Chỉ phát cho top server, chưa ai giữ mũ Giáng Sinh nào (DB 13/10). **Chưa đo** trong game.
 
 ## 5. Tu luyện / tài nguyên
 

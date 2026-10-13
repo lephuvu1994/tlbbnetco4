@@ -43,25 +43,26 @@ Mục **💎 Custom % tẩy tư chất** trong khu 🧰 Công cụ (chỉ cổng
 - **Top 2 = 10410127** (Hoan Lạc Thánh Đản Mạo cấp 92), **top 3 = 10410126** (cấp 82), cùng kiểu dáng với Trùng Lâu Khôi 10410121 (top 1). Cùng ô Mũ → mặc 1 trong 3.
 - Gốc trong repo: `tools/mu-top23-13-10.js` - EquipBase 9 sao (quy tắc 9), đoạn 100 (gốc 102 / 92 theo cấp), 11 dòng, hiệu ứng **7581** (+9% sát thương) / **7582** (+7%) = chép 7580 (logic 88, kích hoạt 100%), cột 40 `伤害修正率` 10 → 9 / 7. Icon buff 755 giữ nguyên (chữ client ghi "10%"). Tag `truoc-mu-top23-13-10`.
 - `panel/trunglau.py`: thêm vào **cuối** `IDS` → đoạn riêng **4528 / 4529**; tham số hiệu ứng mới `hs` (sát thương thêm %, tối đa 100) - trang hiện ô "Sát thương thêm (%) khi dính" cho mọi hiệu ứng có cột này. Bot `trunglau.panel.js`: 2 nhóm mới (bialk `c824791`).
-- **Số (15 dòng như Trùng Lâu Khôi đang chạy):** top 1 dòng nào chưa đủ → **mũ thường max × 1,5** (mũ đội được cấp ≤ 119, cấp phẩm chất theo quy tắc cột 90; max chủ yếu là Thỏ Nhĩ Đoá 9★ 10410034/35 và Huyền Vũ Thánh Cân 10210019); top 2 = top 1 × 0,9; top 3 = top 1 × 0,7 → cả 3 đều hơn mũ thường, đúng thứ hạng. Thử trên bản sao file game (WSL): số ra lệch ±1 do làm tròn engine, 6 mã Trùng Lâu khác giữ nguyên. Script tính: `D:\Thiên Long Bát Bộ NetCo4\scratchpad-claude\mu\so-cuoi.js`.
+- **Số - bản chốt (chủ server 13/10, từ bản gốc đang chạy của top 1):** top 1 **giữ nguyên**; top 2 = top 1 × 0,9; top 3 = top 1 × 0,8; hiệu ứng +10% / +9% / +8% (7582: 7 → 8). Bản trước (nâng top 1 lên mũ thường max × 1,5, top 3 × 0,7) đã bỏ trước khi áp. Lưu ý: ở phòng ngoại / phòng nội / sinh lực / né / thuộc tính, cả 3 mũ **thấp hơn** Thỏ Nhĩ Đoá 9★ (10410034/35, chưa ai giữ) - chủ server chấp nhận; công / chính xác vượt xa mọi mũ.
 
-| Dòng | Mũ thường max | Top 1 (trước → sau) | Top 2 | Top 3 |
-|---|---|---|---|---|
-| Sinh lực | 26.000 | 20.000 → **39.000** | 35.100 | 27.300 |
-| Ngoại công | 422 | 4.000 | 3.600 | 2.800 |
-| Phòng ngoại | 15.999 | 4.000 → **23.999** | 21.599 | 16.799 |
-| Nội công | 0 | 4.000 | 3.600 | 2.800 |
-| Phòng nội | 7.157 | 4.000 → **10.736** | 9.662 | 7.515 |
-| Chính xác | 271 | 2.500 | 2.250 | 1.750 |
-| Né tránh | 2.600 | 600 → **3.900** | 3.510 | 2.730 |
-| Hội công | 0 | 20 | 18 | 14 |
-| Cường lực | 230 | 250 → **345** | 311 | 241 |
-| Nội lực | 230 | 250 → **345** | 311 | 241 |
-| Thể lực | 186 | 200 → **279** | 251 | 195 |
-| Trí lực | 186 | 200 → **279** | 251 | 195 |
-| Thân pháp | 135 | 150 → **203** | 183 | 142 |
-| Phòng hội công | 32 | 20 → **48** | 43 | 34 |
-| Tất cả thuộc tính | 60 | 30 → **90** | 81 | 63 |
+| Dòng | Top 1 10410121 (giữ) | Top 2 10410127 (−10%) | Top 3 10410126 (−20%) |
+|---|---|---|---|
+| Sinh lực | 20.000 | 18.000 | 16.000 |
+| Ngoại công | 4.000 | 3.600 | 3.200 |
+| Phòng ngoại | 4.000 | 3.600 | 3.200 |
+| Nội công | 4.000 | 3.600 | 3.200 |
+| Phòng nội | 4.000 | 3.600 | 3.200 |
+| Chính xác | 2.500 | 2.250 | 2.000 |
+| Né tránh | 600 | 540 | 480 |
+| Hội công | 20 | 18 | 16 |
+| Cường lực | 250 | 225 | 200 |
+| Nội lực | 250 | 225 | 200 |
+| Thể lực | 200 | 180 | 160 |
+| Trí lực | 200 | 180 | 160 |
+| Thân pháp | 150 | 135 | 120 |
+| Phòng hội công | 20 | 18 | 16 |
+| Tất cả thuộc tính | 30 | 27 | 24 |
+| Hiệu ứng sát thương | +10% (7580) | +9% (7581) | +8% (7582) |
 
 ## Admin chỉnh được gì
 
