@@ -122,3 +122,10 @@ Nâng Chân ở NPC Tuyết Phi Phi (`wuyazi85o.lua` nhánh 36) **tạo món m�
 - Bảng Thường → Chân (`trunglau.py` `CHAN`, khớp script NPC): Liên 10553100 / 10553112 → 10553103; Giới 10553101 / 10553113 / 10422016 → 10553104; Ngọc 10553102 / 10553114 / 10423024 → 10553105; Đai 10553106 → 10553107; Vai 10553108 → 10553109; Giáp 10553110 → 10553111. Nhóm dùng chung không tách: chép mã nào thì Chân theo mã đó.
 - Món đang có: **điểm** tự đổi theo mã (sau restart); **dòng** chỉ đổi khi tạo lại món - Chân: Tẩy Chân-Trùng Lâu (1 Ma Huyết Thạch 30505813 + 100 vàng, ra đúng bộ dòng 1 lần); Thường: không có đường tẩy.
 - Code: `panel/trunglau.py` `chep_sang_chan` / `diem_chan`, API `POST /api/trunglau` `op: chep`; bot `trunglau.panel.js` (`tlChep`), `panel.js` cho phép op `chep` (chỉ cổng SUPER). Đã thử trên bản sao 3 bảng game ở `/tmp` VPS (đã xóa).
+
+## 13/10 - Mũ "Trùng Lâu Khôi" (mũ Giáng Sinh 10410121) vào trang Custom
+
+- Thêm `10410121` vào **cuối** `IDS` (`panel/trunglau.py`) → đoạn riêng **4527** (đoạn gốc 100 dùng chung **351 món**, không được sửa số ở đó). Nhóm mới trên trang: *Mũ "Trùng Lâu Khôi"* (`bialk/BotDoMin/trunglau.panel.js`). Thêm mã mới sau này: chỉ thêm vào CUỐI `IDS`, chèn giữa sẽ lệch đoạn của mọi mã phía sau.
+- Đoạn 100 có số cho **41 loại dòng** (17 loại không có số: giảm thời gian 4 hệ, tốc đánh, hồi chiêu, hút sinh lực / nội lực, tăng kỹ năng…). Trần **16 dòng**.
+- Chủ server chốt 14 dòng: Sinh lực 20.000, Ngoại công 4.000, Nội công 4.000, Phòng ngoại 4.000, Phòng nội 4.000, Chính xác 2.500, Né tránh 600, Cường lực 250, Nội lực 250, Thể lực 200, Trí lực 200, Thân pháp 150, Phòng hội công 20, Tất cả thuộc tính 30. Hiệu ứng **7580 giữ nguyên** (+10% sát thương mọi đòn, rate 100). Thử trên bản sao file game (VPS `/tmp`): 14 dòng ra đúng số, chỉ đổi dòng EquipBase của mũ + thêm đoạn 4527, StandardImpact không đổi, cấu hình Trùng Lâu khác áp lại y nguyên.
+- Mũ đã phát: **số** đổi theo sau restart, **dòng** giữ bộ 11 dòng cũ (mũ không có đường tẩy) → muốn đủ 14 dòng thì phát mũ mới. Tooltip tên / mô tả vẫn là mũ Giáng Sinh (client).
