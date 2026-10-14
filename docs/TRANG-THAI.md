@@ -1702,3 +1702,10 @@ Script dùng: `MyLua/wuhunxt/odali_wuyazi.lua` (892101; hàm `WuhunSkillStudy` ~
 ### 14/10 - Túc Cầu: Li Hỏa 20700063 30% cho TOÀN BỘ quái (trước chỉ boss) (tag `truoc-tuccau-lihoa-14-10`)
 - `event/fuben/efuben_cuju_4.lua` `x402045_OnDie` (quả nhỏ / giữa 3680–3719, bóng lớn 9160–9199, cả bản 3xxxx) gọi thêm `RoiCfg "tuccau"` → dùng chung dòng `roithem.txt` `tuccau 30 20700063` với boss Tôn Mỹ Mỹ. Tử Vi Linh Phách 30% giữ nguyên. Mỗi người trong tổ roll riêng. Tool `tools/tuccau-lihoa-toanbo-14-10.js`. Lua, cần cap-nhat, không restart; đổi % = sửa số trong `roithem.txt` (hiệu lực ngay).
 - Một lượt khoảng 25–66 quả → ~8–20 Li Hỏa / người / lượt (trước ~0,3). Trang netco4.click đã dựng lại.
+
+### 14/10 - Tẩy phẩm chất ám khí dễ ra bậc cao (tag `truoc-amkhi-phamchat-14-10`, cần cap-nhat + RESTART)
+- `Server/Config/DarkConfigTable.ini` (trọng số phần nghìn bậc 0–4; phẩm chất = cột 102 EquipBase + bậc × 40 + rand 0–39, ám khí cấp 90: bậc 4 = 2160–2199). Tool `tools/amkhi-phamchat-14-10.js`.
+- **Thiên Thối Thần Ngọc 30503120 (HighDark):** 0 / 875 / 100 / 20 / 5 → **0 / 550 / 250 / 100 / 100** (bậc 4 = 10%, đúng 2199 = 1/400 lần, trước 1/8.000).
+- **Bách Thối Thạch 30503119 (LowDark):** 738 / 200 / 50 / 10 / 2 → **500 / 270 / 150 / 50 / 30** (bậc 4 = 3%).
+- DefaultDark (ám khí mới tạo) giữ nguyên. Ám khí đang có giữ phẩm chất tới lần tẩy sau. Phẩm chất / 1000 = hệ số nhân 5 dòng chỉ số gốc (2027 → 2199 = +8,5%).
+- Sự cố: commit `2a20c43` chỉ có tool hỏng (heredoc Git Bash mất dấu `` trong regex → tool báo lỗi, không sửa gì; dòng commit nằm ngoài chuỗi `&&` nên vẫn chạy). Commit sau đó mới là bản đúng. Bài học: tool có `` viết bằng Write tool; commit chung một chuỗi `&&` với bước sửa.
