@@ -241,7 +241,7 @@ StandardImpact 793 "步步生花陷阱伤害" (logic 001 = sát thương trực 
 
 ## 5. Tu luyện / tài nguyên
 
-- **Công Lực Đan** (`Gonglidan.lua` 390102, đan 39999901): **14/10 chủ server: +100.000 / viên, trần 999.999** (trước: +100, trần 99.999 bản gốc). Tag `truoc-congluc-100k-14-10`. Lua, cần cap-nhat, không restart. **Chưa đo.**
+- **Công Lực Đan** (`Gonglidan.lua` 390102, đan 39999901): đang **+100, trần 99.999** (bản gốc). 14/10 thử +100.000 / trần 999.999 rồi chủ server trả lại ngay (tag `truoc-congluc-100k-14-10`).
   - 07/10 thử +180.000 (1 viên = 1.800 viên) rồi trả lại ngay.
   - Muốn đổi lại: `node tools/congluc-dan-07-10.js <số> --ghi`.
 - **Chi phí full 15 sách tu luyện** (0 → 150): 172.350 công lực, 12,07 tỉ EXP, 670.500 vàng.
