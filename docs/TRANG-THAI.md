@@ -1698,3 +1698,7 @@ Script dùng: `MyLua/wuhunxt/odali_wuyazi.lua` (892101; hàm `WuhunSkillStudy` ~
 - `event/huodong/seek_treasure.lua` `x808039_OnDie` (dùng chung mọi quái 12102–12146 + boss): thêm `CallScriptFunction( 950001, "RoiDo", ..., 38002047, 40 )` ngay sau `TB_Ghi`. Mỗi người trong tổ ở gần roll riêng, rơi trên xác quái. Tool `tools/lltb-tuphu-14-10.js`. Lua, cần cap-nhat, không restart.
 - Một lượt = 200 quái + boss, 1 lượt / ngày → kỳ vọng **~80 viên / người / ngày** (tổ 4 người ~320). Tử Phủ Tinh Tủy = vật phẩm tẩy điểm Võ Ý (`shenqichongxi.lua`, 1 viên + 5 vàng / lần); trước chỉ có từ quà điểm danh tuần (`XieziQianDao.lua`).
 - Trang netco4.click: `tools/bang-roi/build.js` thêm mục "Lâu Lan Tầm Bảo" (12102–12146, 40%), đã dựng lại.
+
+### 14/10 - Túc Cầu: Li Hỏa 20700063 30% cho TOÀN BỘ quái (trước chỉ boss) (tag `truoc-tuccau-lihoa-14-10`)
+- `event/fuben/efuben_cuju_4.lua` `x402045_OnDie` (quả nhỏ / giữa 3680–3719, bóng lớn 9160–9199, cả bản 3xxxx) gọi thêm `RoiCfg "tuccau"` → dùng chung dòng `roithem.txt` `tuccau 30 20700063` với boss Tôn Mỹ Mỹ. Tử Vi Linh Phách 30% giữ nguyên. Mỗi người trong tổ roll riêng. Tool `tools/tuccau-lihoa-toanbo-14-10.js`. Lua, cần cap-nhat, không restart; đổi % = sửa số trong `roithem.txt` (hiệu lực ngay).
+- Một lượt khoảng 25–66 quả → ~8–20 Li Hỏa / người / lượt (trước ~0,3). Trang netco4.click đã dựng lại.

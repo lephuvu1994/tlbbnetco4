@@ -150,7 +150,9 @@ for (const id in scriptMon) for (const lab of scriptMon[id]) { if (!MA[id] || !M
   // 13/10: + Li Hỏa 20700063 30% mỗi quân cờ (roithem.txt: kycuoc_co 30 20700063)
   them('Kỳ Cuộc', [...dai(1770, 1809), ...dai(12000, 12039), ...dai(12050, 12089)], [[30600084, 20], [20700063, 30]]);
   // 13/10: Túc Cầu boss Tôn Mỹ Mỹ (efuben_cuju x402040_OnDie -> RoiCfg "tuccau", roithem: tuccau 30 20700063) Li Hỏa 30%
-  them('Túc Cầu', [...dai(3720, 3729)], [[20700063, 30]]);
+  // 14/10: Li Hỏa 30% cho TOÀN BỘ quái Túc Cầu: quả nhỏ / giữa 3680-3719, bóng lớn 9160-9199 (efuben_cuju_4 x402045_OnDie -> RoiCfg "tuccau") + boss 3720-3729
+  { const bong = []; for (const n of [9160, 9170, 9180, 9190, 39160, 39170, 39180, 39190]) for (let k = 0; k < 10; k++) bong.push(String(n + k));
+    them('Túc Cầu', [...dai(3680, 3729), ...bong], [[20700063, 30]]); }
   // 14/10: Lâu Lan Tầm Bảo (seek_treasure.lua x808039_OnDie -> roimap RoiDo): MỌI quái (nhỏ 12102-12119, giữa 12120-12137, boss 12138-12146) Tử Phủ Tinh Tủy 40%
   { const L = []; for (let i = 12102; i <= 12146; i++) L.push(String(i)); them('Lâu Lan Tầm Bảo', L, [[38002047, 40]]); }
   // 13/10: quái Hậu Hoa Viên 1/2/3 (roimap x950001_g_MapCfg -> RoiCfg "hhv", roithem: hhv 5 20700063) Li Hỏa 5% - ngoài Chí Tôn Cường Hóa của g_Roi
