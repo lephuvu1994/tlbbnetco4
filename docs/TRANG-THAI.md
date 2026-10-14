@@ -1726,3 +1726,4 @@ Script dùng: `MyLua/wuhunxt/odali_wuyazi.lua` (892101; hàm `WuhunSkillStudy` ~
 
 ### 14/10 - Hàng quà admin thêm loại EXP (tag `truoc-qua-exp-14-10`)
 - `quatang.lua` "exp <số>" → `AddExp`; `panel/panel.py` kiểm 1–2.000.000.000; bot tab GM quà có "EXP kinh nghiệm" (bialk `e7db60c`, đã deploy). Cần `cap-nhat.sh -y` + `systemctl restart tlbb-panel`, không restart game.
+- **14/10 23:2x:** quà EXP chỉ ra **700.000 / lần** dù gửi 100 triệu: `AddExp` của engine kẹp 700.000 (`LuaFnTbl::LuaFnAddExp` `cmpl $0xaae60`). Đổi sang `LuaAddExpMore` (→ `Obj_Human::GainExp`, không kẹp; không có hàm thì về AddExp). Tag `truoc-qua-exp-more-14-10`, `6e92cff`. Các lần gửi 23:16–23:21 (100tr, 100tr, 200tr, 5tr) chỉ nhận 700.000 mỗi lần - cần gửi bù.
