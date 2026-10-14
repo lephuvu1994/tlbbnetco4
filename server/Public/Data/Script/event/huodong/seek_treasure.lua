@@ -179,6 +179,7 @@ end
 --**********************************
 function x808039_OnDie( sceneId, objId, killerId )
 	CallScriptFunction( 950001, "TB_Ghi", sceneId, objId, killerId )   -- [NetCo4 01/10] tui do giet boss (roimap.lua, chi ghi khi ID co trong danh sach)
+	CallScriptFunction( 950001, "RoiDo", sceneId, objId, killerId, 38002047, 40 )   -- [NetCo4 14/10] moi quai: Tu Phu Tinh Tuy 40%, moi nguoi trong to roll rieng
 	--Ðúng·ñÐúng¸±±¾
 	sceneType = LuaFnGetSceneType(sceneId) ;
 	if sceneType~=1 then

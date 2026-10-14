@@ -151,6 +151,8 @@ for (const id in scriptMon) for (const lab of scriptMon[id]) { if (!MA[id] || !M
   them('Kỳ Cuộc', [...dai(1770, 1809), ...dai(12000, 12039), ...dai(12050, 12089)], [[30600084, 20], [20700063, 30]]);
   // 13/10: Túc Cầu boss Tôn Mỹ Mỹ (efuben_cuju x402040_OnDie -> RoiCfg "tuccau", roithem: tuccau 30 20700063) Li Hỏa 30%
   them('Túc Cầu', [...dai(3720, 3729)], [[20700063, 30]]);
+  // 14/10: Lâu Lan Tầm Bảo (seek_treasure.lua x808039_OnDie -> roimap RoiDo): MỌI quái (nhỏ 12102-12119, giữa 12120-12137, boss 12138-12146) Tử Phủ Tinh Tủy 40%
+  { const L = []; for (let i = 12102; i <= 12146; i++) L.push(String(i)); them('Lâu Lan Tầm Bảo', L, [[38002047, 40]]); }
   // 13/10: quái Hậu Hoa Viên 1/2/3 (roimap x950001_g_MapCfg -> RoiCfg "hhv", roithem: hhv 5 20700063) Li Hỏa 5% - ngoài Chí Tôn Cường Hóa của g_Roi
   them('Hậu Hoa Viên (rơi thêm)', ['11469', '1375'], [[20700063, 5]]);
   // 05/10 23h: Sát Tinh (shengsileitai.lua x892009_OnDie -> RoiCfg "sattinh", roithem.txt: sattinh 25 @ngoc6a,@ngoc6b): MỖI boss 25% 1 viên
