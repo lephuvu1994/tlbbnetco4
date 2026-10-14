@@ -1717,3 +1717,12 @@ Script dùng: `MyLua/wuhunxt/odali_wuyazi.lua` (892101; hàm `WuhunSkillStudy` ~
 
 ### 14/10 - Tu luyện: buff chỉ số gắn lại mỗi lần vào bản đồ, công lực không bị ghi đè, 4 cuốn kinh mạch có tác dụng (tag `truoc-tuluyen-fix-14-10`)
 - Chi tiết: `docs/CAN-BANG.md` mục "Tu luyện 15 cuốn". Cần `cap-nhat.sh -y` (không restart); người chơi đổi bản đồ / vào lại là có đủ buff.
+
+### 14/10 - Soát 5 kỹ năng tiến cấp Thiên Long (chưa sửa, chờ chủ server)
+- 1718 Chính Dương Thủ·Phát Kình (SkillData 8136, +1.097 vs gốc 527), 1719 Tam Dương Khai Thái·Phụ (8137, +23.700 vs 7.905), 1721 Bát Môn Kim Tỏa·Cố Bộ (8139, định thân 10 giây vs 6): ổn.
+- 1720 Trung Xung Kiếm·Vô Trợ (8138): hồi chiêu thật **35 giây**, tooltip ghi 60 (lợi cho người chơi, chỉ lệch chữ). Bản gốc 2728: thật 60 giây.
+- **1722 Tuyết Ủng Lam Quan·Xuyên Thích (8140) LỖI:** "攻击的效果" = **16784** (循环身法 Thân pháp +4.840 vĩnh viễn, cùng nhóm loại trừ 16300 với buff tu luyện Thân pháp) thay vì hiệu ứng sát thương (gốc 648 = công +18.582; tooltip tiến cấp ghi +24.577); "给目标的效果" = **2071 không tồn tại** → 50% phong huyệt không bao giờ xảy ra (gốc 649 phong huyệt 5 giây). Sửa đề xuất: hiệu ứng mới chép 648 với 24.577 + target 649. Cần restart.
+- Ngoài lề: bản gốc 2500 Bát Môn Kim Tỏa hồi chiêu thật 120 giây, tooltip 50.
+
+### 14/10 - Hàng quà admin thêm loại EXP (tag `truoc-qua-exp-14-10`)
+- `quatang.lua` "exp <số>" → `AddExp`; `panel/panel.py` kiểm 1–2.000.000.000; bot tab GM quà có "EXP kinh nghiệm" (bialk `e7db60c`, đã deploy). Cần `cap-nhat.sh -y` + `systemctl restart tlbb-panel`, không restart game.
