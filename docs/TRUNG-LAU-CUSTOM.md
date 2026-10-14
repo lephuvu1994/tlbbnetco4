@@ -155,3 +155,10 @@ Nâng Chân ở NPC Tuyết Phi Phi (`wuyazi85o.lua` nhánh 36) **tạo món m�
 - Đoạn 100 có số cho **41 loại dòng** (17 loại không có số: giảm thời gian 4 hệ, tốc đánh, hồi chiêu, hút sinh lực / nội lực, tăng kỹ năng…). Trần **16 dòng**.
 - Chủ server chốt 14 dòng: Sinh lực 20.000, Ngoại công 4.000, Nội công 4.000, Phòng ngoại 4.000, Phòng nội 4.000, Chính xác 2.500, Né tránh 600, Cường lực 250, Nội lực 250, Thể lực 200, Trí lực 200, Thân pháp 150, Phòng hội công 20, Tất cả thuộc tính 30. Hiệu ứng **7580 giữ nguyên** (+10% sát thương mọi đòn, rate 100). Thử trên bản sao file game (VPS `/tmp`): 14 dòng ra đúng số, chỉ đổi dòng EquipBase của mũ + thêm đoạn 4527, StandardImpact không đổi, cấu hình Trùng Lâu khác áp lại y nguyên.
 - Mũ đã phát: **số** đổi theo sau restart, **dòng** giữ bộ 11 dòng cũ (mũ không có đường tẩy) → muốn đủ 14 dòng thì phát mũ mới. Tooltip tên / mô tả vẫn là mũ Giáng Sinh (client).
+
+## 14/10 - Chân-Trùng Lâu Ngọc bản cũ 10423025 vào trang Custom (chỉ admin phát, không nâng, chỉnh riêng)
+
+- Thêm vào **cuối** `IDS` → đoạn riêng **4530**; nhóm riêng trên trang. **Không** có trong `CHAN` / `GIONG` (không nâng lên / xuống, không nút chép) - chủ server: "chỉ admin give, không nâng được, tùy chỉnh riêng". Không script nâng / tẩy nào nhận mã này (chỉ `stiletto.lua` cho đục lỗ, `gem_embed.lua` **chặn khảm ngọc khóa** vào nó - quy định gốc 2008).
+- Gốc: khóa, quy tắc phẩm chất 9 (giống 10553105 → đặt được đúng mọi số), 9 dòng cố định (Sinh lực, Nội lực MP, Chính xác, Né tránh, Hội công, Thể lực, Trí lực, Thân pháp, Tất cả thuộc tính), chọn được **41 loại dòng** (đoạn 100), trần 16. Hiệu ứng **riêng 5965** "真重楼" (không món nào dùng chung): đánh trúng **2%** → con 5966 Tê liệt **20 giây**; engine tự áp theo cột 19 (không cần bảng `g_x892002_CC3` của ShuaXinClient như mã dòng mới).
+- Không đổi qua trang: công cơ bản 331 (bản mới 886, cột 26/27), không bộ (bản mới bộ 156, cột 8/9), tên trắng / icon / mô tả "20 giây" (client).
+- Thử trên bản sao file game (VPS `/tmp`) 14/10: lưu được, đoạn 4530, chỉ đổi dòng EquipBase 10423025 + thêm đoạn 4530, cấu hình khác áp lại y nguyên.

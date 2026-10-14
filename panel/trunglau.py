@@ -33,8 +33,8 @@ F_RATE = "Server/Config/ItemSegRate.txt"
 TENVIET = os.path.join(REPO, "docs", "vat-pham", "ten-viet.tsv")
 
 # dong moi 10553100-10553114 + 2 ma CU giao dich duoc han (khong khoa): Gioi 10422016, Ngoc 10423024 (them 08/10, chu server can ban trade)
-IDS = [str(i) for i in range(10553100, 10553115)] + ["10422016", "10423024"] + [str(i) for i in range(10157001, 10157010)] + ["10410121", "10410127", "10410126"]   # 09/10: + Long Van +1..+9 (doan 4518-4526); 13/10: + mu Trung Lau Khoi (doan 4527) + mu top 2 / top 3 (doan 4528 / 4529, tools/mu-top23-13-10.js)
-SEG0 = 4501                      # doan rieng theo thu tu IDS: 10553100 -> 4501 ... 10553114 -> 4515, 10422016 -> 4516, 10423024 -> 4517, Long Van 10157001..009 -> 4518..4526 (doan goc 4244 dung chung ~430 mon), 10410121 -> 4527, 10410127 -> 4528, 10410126 -> 4529 (doan goc 100 dung chung 351 mon)
+IDS = [str(i) for i in range(10553100, 10553115)] + ["10422016", "10423024"] + [str(i) for i in range(10157001, 10157010)] + ["10410121", "10410127", "10410126"] + ["10423025"]   # 14/10: + Chan-Trung Lau Ngoc ban cu (doan 4530, chi admin phat, khong nang, chinh rieng); 09/10: + Long Van +1..+9 (doan 4518-4526); 13/10: + mu Trung Lau Khoi (doan 4527) + mu top 2 / top 3 (doan 4528 / 4529, tools/mu-top23-13-10.js)
+SEG0 = 4501                      # doan rieng theo thu tu IDS: 10553100 -> 4501 ... 10553114 -> 4515, 10422016 -> 4516, 10423024 -> 4517, Long Van 10157001..009 -> 4518..4526 (doan goc 4244 dung chung ~430 mon), 10410121 -> 4527, 10410127 -> 4528, 10410126 -> 4529 (doan goc 100 dung chung 351 mon), 10423025 -> 4530 (hieu ung rieng 5965, engine tu ap theo cot 19)
 # THEM MA MOI: chi them vao CUOI IDS (doan cap theo vi tri - chen giua lam lech doan cua moi ma phia sau)
 MAX_DONG = 16                    # tran so dong cua engine (cot 93)
 DONG = ["Sinh lực tối đa", "Sinh lực tối đa %", "Hồi sinh lực", "Nội lực tối đa (MP)", "Nội lực tối đa % (MP)", "Hồi nội lực (MP)",
@@ -215,7 +215,7 @@ def nguoi_giu(sql, viscii):
 # ------------------------------------------------------------------ kiem + ap
 def kiem_mon(i, m, rate_cap, co=None):
     if i not in IDS:
-        return "Mã %s không nằm trong danh sách chỉnh được (Trùng Lâu 10553100-10553114, 10422016, 10423024; Long Văn 10157001-10157009; mũ Trùng Lâu Khôi 10410121, mũ top 2 10410127, mũ top 3 10410126)" % i
+        return "Mã %s không nằm trong danh sách chỉnh được (Trùng Lâu 10553100-10553114, 10422016, 10423024; Long Văn 10157001-10157009; mũ Trùng Lâu Khôi 10410121, mũ top 2 10410127, mũ top 3 10410126; Chân-Trùng Lâu Ngọc bản cũ 10423025)" % i
     dong = m.get("dong")
     if not isinstance(dong, list) or not dong:
         return "Mã %s: chưa chọn dòng nào" % i
