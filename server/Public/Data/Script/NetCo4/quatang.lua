@@ -281,9 +281,9 @@ function x950000_NhanQua( sceneId, selfId )
 			got = got + 1
 		elseif kind == "exp" then
 			-- [NetCo4 14/10] "exp <so>": cong kinh nghiem (panel / trang admin, 1 - 2.000.000.000 moi dong)
-			-- AddExp cua engine kep 700.000 / lan (dich nguoc LuaFnAddExp) -> dung LuaAddExpMore (GainExp, khong kep); khong co ham thi AddExp
-			if LuaAddExpMore ~= nil then
-				LuaAddExpMore( sceneId, selfId, tonumber( a ) )
+			-- AddExp cua engine kep 700.000 / lan (dich nguoc LuaFnAddExp) -> dung AddExpMore (LuaAddExpMore -> GainExp, khong kep); khong co ham thi AddExp
+			if AddExpMore ~= nil then   -- ten Lua dang ky cua LuaFnTbl::LuaAddExpMore (14/10)
+				AddExpMore( sceneId, selfId, tonumber( a ) )
 			else
 				AddExp( sceneId, selfId, tonumber( a ) )
 			end
