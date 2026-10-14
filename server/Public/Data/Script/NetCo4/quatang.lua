@@ -279,6 +279,10 @@ function x950000_NhanQua( sceneId, selfId )
 				SetLevel( sceneId, selfId, tonumber( a ) )
 			end
 			got = got + 1
+		elseif kind == "exp" then
+			-- [NetCo4 14/10] "exp <so>": cong kinh nghiem (panel / trang admin, 1 - 2.000.000.000 moi dong)
+			AddExp( sceneId, selfId, tonumber( a ) )
+			got = got + 1
 		elseif kind == "xoa" then
 			-- Xoa toi da n cai, co bao nhieu xoa bay nhieu. Khong tinh la "nhan qua" (khong hien thong bao)
 			local id = tonumber( a )

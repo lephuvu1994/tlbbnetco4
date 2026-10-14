@@ -481,7 +481,7 @@ def act(form):
             msgs = [act(dict(form, guid=t)) for t in targets]
             bad = [m for m in msgs if not m.startswith("Da xep")]
             return bad[0] if bad else "Da xep hang qua cho %d nhan vat" % len(targets)
-        if not RE_INT.match(g) or kind not in ("item", "xoa", "knb", "vang", "diemtang", "level", "nangngoc", "vip", "popup", "pet") or not RE_INT.match(val) or not RE_INT.match(cnt):
+        if not RE_INT.match(g) or kind not in ("item", "xoa", "knb", "vang", "diemtang", "level", "exp", "nangngoc", "vip", "popup", "pet") or not RE_INT.match(val) or not RE_INT.match(cnt):
             return "Du lieu qua khong hop le"
         if kind == "pet" and val not in PET_IDS:
             return "Khong co pet ID %s trong PetAttrTable (xem docs/pet-huyen-hoa.md)" % val
@@ -499,6 +499,8 @@ def act(form):
             return "Diem Tang 1-10000000 moi lan"
         if kind == "level" and not 1 <= int(val) <= 119:
             return "Cap 1-119"
+        if kind == "exp" and not 1 <= int(val) <= 2000000000:   # 14/10: quatang.lua AddExp (int32) - nhan khi vao game / doi ban do
+            return "EXP 1-2.000.000.000 moi lan"
         if kind == "nangngoc" and not 2 <= int(val) <= 7:
             return "Cap ngoc 2-7 (cap 7 la cao nhat)"
         if kind == "popup":
@@ -812,7 +814,7 @@ def page(msg="", q=""):
     # Nhan vat + phat qua
     give_form = ('<form method="post" class="row"><input type="hidden" name="t" value="%s"><input type="hidden" name="a" value="qua">'
                  '<input type="hidden" name="guid" value="%%s"><select name="loai"><option value="item">Vat pham (ID)</option><option value="xoa">XOA vat pham (ID)</option><option value="nangngoc">Nang ngoc trong tui len cap (2-7)</option>'
-                 '<option value="knb">KNB</option><option value="vang">Vang</option><option value="diemtang">Diem Tang</option><option value="level">Len cap (1-119)</option><option value="vip">Cap VIP (0-10)</option><option value="popup">Qua popup (cua so, chon nguoi)</option><option value="pet12">Pet Huyen Hoa 12000 (admin cap)</option><option value="petv2">Pet Huyen Hoa V2 (chi so binh thuong)</option><option value="pettt">Pet Huyen Hoa Tan Thu (cap mang 5)</option><option value="petall">Pet khac (tat ca)</option></select>'
+                 '<option value="knb">KNB</option><option value="vang">Vang</option><option value="diemtang">Diem Tang</option><option value="level">Len cap (1-119)</option><option value="exp">EXP (kinh nghiem)</option><option value="vip">Cap VIP (0-10)</option><option value="popup">Qua popup (cua so, chon nguoi)</option><option value="pet12">Pet Huyen Hoa 12000 (admin cap)</option><option value="petv2">Pet Huyen Hoa V2 (chi so binh thuong)</option><option value="pettt">Pet Huyen Hoa Tan Thu (cap mang 5)</option><option value="petall">Pet khac (tat ca)</option></select>'
                  '<input name="gt" placeholder="ID vat pham" size="12" required pattern="\\d{1,10}">'
                  '<select name="gtpet" style="display:none;max-width:300px"></select>'
                  '<input name="sl" placeholder="SL" size="3" value="1" pattern="\\d{1,3}"><button%%s>%%s</button></form>') % TOKEN
