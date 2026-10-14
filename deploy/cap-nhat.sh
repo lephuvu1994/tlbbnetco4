@@ -72,7 +72,8 @@ if [ -s "$DST/Server/txt/NetCo4Cfg/trunglau.json" ]; then
     log "Trung Lau: $(python3 "$REPO/panel/trunglau.py" --ap-lai 2>&1 | tail -1)"
 fi
 # 04/10: TRONG SO TAY 3 DONG AM KHI admin ap tren web (panel act amkhi_ap) nam NGOAI repo -> rsync vua ghi de DarkSkillStudy.txt, ap lai
-if [ -s "$DST/Server/txt/NetCo4Cfg/amkhi.json" ]; then
+# 14/10: + TI LE PHAM CHAT AM KHI (panel act amkhipc_ap -> amkhi_pc.json) - rsync vua ghi de DarkConfigTable.ini, ap lai
+if [ -s "$DST/Server/txt/NetCo4Cfg/amkhi.json" ] || [ -s "$DST/Server/txt/NetCo4Cfg/amkhi_pc.json" ]; then
     log "Am khi: $(python3 "$REPO/panel/amkhi.py" --ap-lai 2>&1 | tail -1)"
 fi
 log "Da cap nhat. Ban cu cua cac file bi thay: $bk"

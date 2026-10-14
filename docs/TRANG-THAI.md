@@ -1709,3 +1709,8 @@ Script dùng: `MyLua/wuhunxt/odali_wuyazi.lua` (892101; hàm `WuhunSkillStudy` ~
 - **Bách Thối Thạch 30503119 (LowDark):** 738 / 200 / 50 / 10 / 2 → **500 / 270 / 150 / 50 / 30** (bậc 4 = 3%).
 - DefaultDark (ám khí mới tạo) giữ nguyên. Ám khí đang có giữ phẩm chất tới lần tẩy sau. Phẩm chất / 1000 = hệ số nhân 5 dòng chỉ số gốc (2027 → 2199 = +8,5%).
 - Sự cố: commit `2a20c43` chỉ có tool hỏng (heredoc Git Bash mất dấu `` trong regex → tool báo lỗi, không sửa gì; dòng commit nằm ngoài chuỗi `&&` nên vẫn chạy). Commit sau đó mới là bản đúng. Bài học: tool có `` viết bằng Write tool; commit chung một chuỗi `&&` với bước sửa.
+
+### 14/10 - Bảng tỉ lệ phẩm chất ám khí chỉnh trên web (🧰 Công cụ › 🗡️ ám khí)
+- `panel/amkhi.py` thêm `pc_du_lieu` / `pc_ap` / `pc_tra`: sửa 15 khóa của `Server/Config/DarkConfigTable.ini` (Bách Thối LowDark, Thiên Thối HighDark, ám khí mới tạo DefaultDark; 5 bậc phần nghìn, mỗi cột tổng **đúng 1000**), lưu `NetCo4Cfg/amkhi_pc.json`; `ap_lai` áp lại cả trọng số 3 dòng lẫn phẩm chất. `panel.py` act `amkhipc_ap` (pl / ph / pd) / `amkhipc_tra`, cờ `restart`. `deploy/cap-nhat.sh` gọi `amkhi.py --ap-lai` khi có amkhi.json **hoặc** amkhi_pc.json.
+- Bot `panel.js` (`akPcHtml` …): bảng 5 bậc × 3 cột, % từng bậc, tổng, xác suất ra đúng 2199 (= bậc 4 / 40), nút điền bảng repo / gốc game cũ, Áp / Áp + Restart / Về bảng repo **bấm 2 lần trong 6 giây** (không confirm()).
+- Thử trên bản sao `/tmp` VPS: đọc, chặn tổng 999, ghi giữ CRLF, ap_lai, trả về repo giống hệt. Hiệu lực: cap-nhat + `systemctl restart tlbb-panel`; mỗi lần đổi tỉ lệ cần restart game.

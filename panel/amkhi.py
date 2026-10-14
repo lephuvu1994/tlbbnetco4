@@ -74,7 +74,7 @@ def du_lieu():
             ds.append({"id": sk, "ten": TEN.get(sk, "#%d" % sk), "goc": int(c[cw]), "hien": w_hien})
         out.append({"cap": cap, "ds": ds})
     cfg = doc_cfg()
-    return {"dong": out, "dangAp": bool(cfg), "t": cfg.get("t", 0), "ai": cfg.get("ai", "")}
+    return {"dong": out, "dangAp": bool(cfg), "t": cfg.get("t", 0), "ai": cfg.get("ai", ""), "pc": pc_du_lieu()}   # 14/10: + pham chat
 
 
 def _ghi(w):
@@ -135,17 +135,126 @@ def tra():
     return True, "Da tra trong so tay am khi ve goc. Co hieu luc sau khi restart."
 
 
+# ------------------------------------------------------------------ 14/10: PHAM CHAT AM KHI
+# Item::ResetDarkQuality: pham chat = cot 102 EquipBase (am khi cap 90 = 2000) + bac x 40 + rand(0..39); bac 0-4 boc theo trong so
+# PHAN NGHIN trong Server/Config/DarkConfigTable.ini: LowDark = tay bang Bach Thoi Thach 30503119, HighDark = Thien Thoi Than Ngoc
+# 30503120, DefaultDark = am khi moi tao. File .ini doc luc khoi dong -> sau khi ap phai RESTART. Ban dang ap luu amkhi_pc.json
+# (ngoai repo), cap-nhat.sh rsync ghi de .ini bang ban repo roi goi --ap-lai. Ban repo 14/10 da la bang can bang (Thien Thoi bac 4 10%).
+CFG_PC = GAME + "/Server/txt/NetCo4Cfg/amkhi_pc.json"
+F_PC_GAME = GAME + "/Server/Config/DarkConfigTable.ini"
+F_PC_REPO = os.path.join(REPO, "server", "Server", "Config", "DarkConfigTable.ini")
+PC_NHOM = [("low", "LowDark_Quality_GorwRate", "Bách Thối Thạch 30503119"),
+           ("high", "HighDark_Quality_GorwRate", "Thiên Thối Thần Ngọc 30503120"),
+           ("def", "DefaultDark_Quality_GrowRate", "Ám khí mới tạo (rơi / chế)")]
+PC_GAME_GOC = {"low": [738, 200, 50, 10, 2], "high": [0, 875, 100, 20, 5], "def": [874, 100, 20, 5, 1]}   # game goc truoc 14/10
+
+
+def _pc_doc(path):
+    s = open(path, "rb").read().decode("latin-1")
+    kv = {}
+    for l in s.replace("\r", "").split("\n"):
+        if "=" in l:
+            k, v = l.split("=", 1)
+            kv[k.strip()] = v.strip()
+    out = {}
+    for khoa, ten, _ in PC_NHOM:
+        out[khoa] = [int(kv.get(ten + str(i), "0") or 0) for i in range(5)]
+    return out
+
+
+def doc_cfg_pc():
+    try:
+        return json.load(open(CFG_PC, encoding="utf-8"))
+    except (OSError, ValueError):
+        return {}
+
+
+def pc_du_lieu():
+    repo = _pc_doc(F_PC_REPO)
+    try:
+        hien = _pc_doc(F_PC_GAME)
+    except OSError:
+        hien = repo
+    cfg = doc_cfg_pc()
+    return {"nhom": [{"k": k, "ten": t, "repo": repo[k], "hien": hien[k], "gameGoc": PC_GAME_GOC[k]} for k, _, t in PC_NHOM],
+            "dangAp": bool(cfg), "t": cfg.get("t", 0), "ai": cfg.get("ai", "")}
+
+
+def _pc_ghi(w):
+    """w = {low: [5], high: [5], def: [5]}. Dung ban repo lam khuon, chi thay so sau dau '=' cua 15 khoa, giu moi byte khac."""
+    s = open(F_PC_REPO, "rb").read().decode("latin-1")
+    eol = "\r\n" if "\r\n" in s else "\n"
+    ten = {t + str(i): str(w[k][i]) for k, t, _ in PC_NHOM for i in range(5)}
+    out = []
+    for l in s.split(eol):
+        k = l.split("=", 1)[0].strip() if "=" in l else ""
+        out.append(k + "=" + ten[k] if k in ten else l)
+    tmp = F_PC_GAME + ".moi"
+    open(tmp, "wb").write(eol.join(out).encode("latin-1"))
+    os.replace(tmp, F_PC_GAME)
+
+
+def pc_kiem(low, high, de):
+    w = {}
+    for (k, _, ten), s in zip(PC_NHOM, (low, high, de)):
+        try:
+            a = [int(x) for x in str(s).replace(" ", "").split(",") if x != ""]
+        except ValueError:
+            return None, "%s: phai la so nguyen" % ten
+        if len(a) != 5 or any(x < 0 or x > 1000 for x in a):
+            return None, "%s: can 5 so 0-1000 (bac 0-4)" % ten
+        if sum(a) != 1000:
+            return None, "%s: tong phai dung 1000 (phan nghin), dang %d" % (ten, sum(a))
+        w[k] = a
+    return w, None
+
+
+def pc_ap(low, high, de, ai=""):
+    w, err = pc_kiem(low, high, de)
+    if err:
+        return False, err
+    _pc_ghi(w)
+    os.makedirs(os.path.dirname(CFG_PC), exist_ok=True)
+    tmp = CFG_PC + ".moi"
+    json.dump({"w": w, "t": int(time.time()), "ai": ai}, open(tmp, "w", encoding="utf-8"))
+    os.replace(tmp, CFG_PC)
+    return True, "Da ap ti le pham chat am khi. Co hieu luc sau khi restart."
+
+
+def pc_tra():
+    if not doc_cfg_pc():
+        return False, "Dang dung bang trong repo roi"
+    open(F_PC_GAME, "wb").write(open(F_PC_REPO, "rb").read())
+    try:
+        os.remove(CFG_PC)
+    except OSError:
+        pass
+    return True, "Da tra ti le pham chat am khi ve bang trong repo. Co hieu luc sau khi restart."
+
+
 def ap_lai():
-    """Goi tu cap-nhat.sh sau rsync: ap lai amkhi.json (neu co) len ban repo moi nhat."""
+    """Goi tu cap-nhat.sh sau rsync: ap lai amkhi.json + amkhi_pc.json (neu co) len ban repo moi nhat."""
+    kq = []
     cfg = doc_cfg()
     if not cfg:
-        return "khong co trong so am khi rieng"
-    w = {int(k): v for k, v in cfg.get("w", {}).items()}
-    base = {x["cap"]: len(x["ds"]) for x in du_lieu()["dong"]}
-    if set(w) != {40, 70, 90} or any(len(w[c]) != base[c] for c in base):
-        return "BO QUA: amkhi.json khong khop so lua chon cua ban repo (kiem lai tren admin)"
-    _ghi(w)
-    return "ap lai trong so tay am khi"
+        kq.append("khong co trong so tay 3 dong rieng")
+    else:
+        w = {int(k): v for k, v in cfg.get("w", {}).items()}
+        base = {x["cap"]: len(x["ds"]) for x in du_lieu()["dong"]}
+        if set(w) != {40, 70, 90} or any(len(w[c]) != base[c] for c in base):
+            kq.append("BO QUA: amkhi.json khong khop so lua chon cua ban repo (kiem lai tren admin)")
+        else:
+            _ghi(w)
+            kq.append("ap lai trong so tay 3 dong")
+    pc = doc_cfg_pc()
+    if pc:
+        w, err = pc_kiem(*[",".join(str(x) for x in pc.get("w", {}).get(k, [])) for k, _, _ in PC_NHOM])
+        if err:
+            kq.append("BO QUA pham chat: " + err)
+        else:
+            _pc_ghi(w)
+            kq.append("ap lai ti le pham chat")
+    return "; ".join(kq)
 
 
 if __name__ == "__main__":

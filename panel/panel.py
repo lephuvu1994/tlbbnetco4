@@ -670,6 +670,16 @@ def act(form):
                              stdout=open("/tmp/panel-restart.log", "w"), stderr=subprocess.STDOUT)
             return msg + " Dang restart server (khoang 3 phut)."
         return msg
+    if a in ("amkhipc_ap", "amkhipc_tra"):   # 14/10: ti le pham chat am khi (DarkConfigTable.ini) - bot gui pl / ph / pd = 5 so phan nghin
+        ok, msg = amkhi.pc_ap(v("pl"), v("ph"), v("pd")) if a == "amkhipc_ap" else amkhi.pc_tra()
+        if not ok:
+            return msg
+        rs = v("restart") == "1"
+        audit("pham chat am khi: %s%s (online: %d)" % (msg, ", restart" if rs else "", online_count()))
+        if rs:
+            restart_game()
+            return msg + " Dang restart server (khoang 3 phut)."
+        return msg
     if a in ("amkhi_ap", "amkhi_tra"):   # 04/10: trong so tay 3 dong am khi - doi DarkSkillStudy.txt cua game (ngoai repo)
         if a == "amkhi_ap":
             ok, msg = amkhi.ap(v("wa"), v("wb"), v("wc"))   # wa/wb/wc = dong cap 40/70/90 (bot chi chuyen khoa [a-z_])
