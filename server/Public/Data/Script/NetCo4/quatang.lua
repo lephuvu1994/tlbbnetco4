@@ -204,6 +204,7 @@ end
 
 function x950000_NhanQua( sceneId, selfId )
 	x950000_AmKhiDoc( sceneId, selfId )   -- [NetCo4 14/10] doc duoc am khi
+	CallScriptFunction( 892002, "AHa_ReMyBuff", sceneId, selfId )   -- [NetCo4 14/10] gan lai MOI buff chi so (tu luyen, dieu van, linh phach...) moi lan vao ban do
 	x950000_BinhNhat( sceneId, selfId )   -- [NetCo4 13/10] binh tu nhat do
 	x950000_HoiMauPet( sceneId, selfId )   -- [NetCo4 10/10] tran thu day mau khi doi ban do
 	x950000_CapMin( sceneId, selfId )

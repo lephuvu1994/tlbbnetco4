@@ -816,6 +816,11 @@ local ID = LuaFnGetItemTableIndexByIndex( sceneId, selfId, 109 )
 	shuxingtable2 =shuxingtable2+s_b+(sxs_b*2)+hg+(h*4)+LPH+xy_h+GetZHENy[17]+InfantBUFF[17]+WuYiSX_HUO  --µÃµ½»ðÊôÐÔ/±¦½£/Éó¶¨/µñÎÆ
 	shuxingtable3 =shuxingtable3+s_c+(sxs_c*2)+xg+(x*4)+LPI+xy_x+GetZHENy[18]+InfantBUFF[18]+WuYiSX_XUAN  --µÃµ½ÐþÊôÐÔ/±¦½£/Éó¶¨/µñÎÆ
 	shuxingtable4 =shuxingtable4+s_d+(sxs_d*2)+dg+(d*4)+LPJ+xy_d+GetZHENy[19]+InfantBUFF[19]+WuYiSX_DU  --µÃµ½¶¾ÊôÐÔ/±¦½£/Éó¶¨/µñÎÆ
+	-- [NetCo4 14/10] 4 cuon kinh mach (truoc khong co tac dung) -> cong thuoc tinh, cap / 3 diem (1 diem = 15) = +5 / cap, cap 150 = +750
+	shuxingtable2 = shuxingtable2 + floor( GetMissionData( sceneId, selfId, XIULIAN_SHOUSHAOYANG ) / 3 )   -- Thu Thieu Duong: Hoa cong
+	shuxingtable3 = shuxingtable3 + floor( GetMissionData( sceneId, selfId, XIULIAN_ZUTAIYIN ) / 3 )   -- Tuc Thai Am: Huyen cong
+	shuxingtable1 = shuxingtable1 + floor( GetMissionData( sceneId, selfId, XIULIAN_RENMAI ) / 3 )   -- Nham Mach: Bang cong
+	shuxingtable4 = shuxingtable4 + floor( GetMissionData( sceneId, selfId, XIULIAN_DUMAI ) / 3 )   -- Doc Mach: Doc cong
 	shuxingtablecc1 =shuxingtablecc1+(sxk_a*2)+ss_a+bk+LPK+InfantBUFF2[1]  --µÃµ½±ù¿¹ÐÔ/±¦½£/µñÎÆ
 	shuxingtablecc2 =shuxingtablecc2+(sxk_b*2)+ss_b+hk+LPL+InfantBUFF2[2]  --µÃµ½»ð¿¹ÐÔ/±¦½£/µñÎÆ	
 	shuxingtablecc3 =shuxingtablecc3+(sxk_c*2)+ss_c+xk+LPM+InfantBUFF2[3]  --µÃµ½Ðþ¿¹ÐÔ/±¦½£/µñÎÆ		

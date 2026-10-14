@@ -571,7 +571,9 @@ end
 function  x390101_ReGongLi(sceneId,selfId)  -- công lñc khôi phøc 
         if  GetMissionData(sceneId,selfId,MF_GetNewUserCard3)  ~=  GetDayTime()  then
               SetMissionData(sceneId,selfId,MF_GetNewUserCard3,GetDayTime())
-              SetMissionData(sceneId,selfId,XIULIAN_GONGLI,200);  -- công lñc khôi phøc 200
+              if GetMissionData(sceneId,selfId,XIULIAN_GONGLI) < 200 then   -- [NetCo4 14/10] chi nang len 200, khong ghi de cong luc du tu Cong Luc Dan
+              SetMissionData(sceneId,selfId,XIULIAN_GONGLI,200);
+              end  -- công lñc khôi phøc 200
         end
 end
 function x1390101_TalkMsg( sceneId, selfId, targetId, str )	

@@ -270,6 +270,15 @@ StandardImpact 793 "步步生花陷阱伤害" (logic 001 = sát thương trực 
 
 - `NetCo4/roimap.lua` `x950001_g_Roi[427]`, mỗi quái mỗi người: 30% → 20% → 25% (11/10) → **30% (14/10, chủ server)**. 90 quái cấp 101–105, hồi sinh 5 giây. So sánh: Hàn Huyết Lĩnh (432) 40%. Tag `truoc-thap-30-14-10`. Lua, cần `cap-nhat.sh`, không restart. **Chưa đo.**
 
+### Tu luyện 15 cuốn (14/10)
+
+- **Cơ chế (soát 14/10):** 15 cuốn = 5 thuộc tính (MD 301–305) + 6 chiến đấu (471–476) + 4 kinh mạch (481–484). Chỉ số gắn bằng buff `ShuaXinClient.lua` `x892002_AHa_ReMyBuff`: mọi nguồn (tu luyện, điêu văn, linh phách, chân nguyên…) cộng vào 1 buff / chỉ số, mã = gốc + điểm (Cường 13000+N +10/điểm; Ngoại / Nội công 28000 / 28400 +200; Phòng 28800 / 29200 +100; Chính xác 29600 (½ cấp) +100; Né 31000 (½ cấp) +80; Băng / Hỏa / Huyền / Độc công 17000 / 18050 / 19100 / 20150 +15, trần 1.049 điểm). Cấp 150: thuộc tính +1.500, công +30.000, phòng +15.000, chính xác +7.500, né +6.000.
+- **Lỗi đã sửa (tag `truoc-tuluyen-fix-14-10`, Lua, cần cap-nhat, không restart):**
+  - **A** buff chỉ số hay mất: AHa_ReMyBuff không chạy lúc đăng nhập (`scene.lua` return sớm với GUID ≥ 1010003010) + DB chỉ lưu 20 hiệu ứng → sau restart 14/10 01:42 Hoang / bia1 / Huyền Sát / cuocdoibuon / Lancee không còn buff chỉ số nào. Sửa: `quatang.lua` NhanQua gọi AHa_ReMyBuff (đăng nhập + đổi bản đồ).
+  - **B** `XiuLian.lua` `x390101_ReGongLi`: công lực "khôi phục 200" mỗi ngày GHI ĐÈ (mất phần dư từ Công Lực Đan) → chỉ nâng lên 200 khi đang < 200.
+  - **C** 4 cuốn kinh mạch trước KHÔNG có tác dụng → Thủ Thiếu Dương = Hỏa công, Túc Thái Âm = Huyền công, Nhâm Mạch = Băng công, Đốc Mạch = Độc công: `floor(cấp / 3)` điểm buff (1 điểm = 15) → +15 mỗi 3 cấp, cấp 150 = **+750**. Tooltip client của 4 cuốn vẫn ghi tác dụng cũ (không sửa được). **Chưa đo.**
+
+
 ## 6. Nhịp hoạt động
 
 | Hoạt động | Đổi | Tag |
