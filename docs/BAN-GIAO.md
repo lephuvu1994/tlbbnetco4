@@ -11,6 +11,8 @@ File này là **điểm bắt đầu** cho mọi phiên Claude mới, kể cả 
 
 ---
 
+> **14/10/2026: SẮP ĐÓNG SERVER.** Chủ server đóng TLBB khoảng **21–24/10** để mở server Gunny, muốn người chơi lên endgame trong ~10 ngày → tỉ lệ rơi / EXP cao là **cố ý**. Nói rõ khối lượng 1 lần rồi làm, không cản vì cân bằng lâu dài. Ưu tiên việc nhanh, ít rủi ro. Trước khi đóng: nhắc sao lưu DB + file game + bot ra ngoài VPS.
+
 ## 1. Chủ server và cách làm việc
 
 - Chủ server (tài khoản game **bialk**, GUID **1010100017**) nói tiếng Việt. **Luôn trả lời bằng tiếng Việt**, gọn, rõ.
