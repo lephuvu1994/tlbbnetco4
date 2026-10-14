@@ -84,6 +84,10 @@ StandardImpact 793 "步步生花陷阱伤害" (logic 001 = sát thương trực 
 - `Public/Config/SkillData_V1.txt` dòng **8149** (溪山行旅·精准) cột 33 "给目标的效果的发生几率": **48 → 70** (hiệu ứng 761 Hư Nhược: mục tiêu nhận sát thương ×2, 20 giây; chiêu hồi 10 giây). Tooltip client vẫn ghi 50% (bảng client, không sửa được; số gốc thật là 48 dù tooltip ghi 50).
 - Bản thường 535 (dòng 3329–3340, hiệu ứng 762) **giữ 30%**. Cần cap-nhat + **restart game**. Tag `truoc-khesonhanhlu-70-14-10`. **Chưa đo** (PK: gần như luôn ×2 sát thương khi đấu Tiêu Dao tiến cấp).
 
+### Tuyết Ủng Lam Quan · Xuyên Thích (Thiên Long tiến cấp 1722) — 14/10 sửa lỗi
+
+- SkillData 8140: hiệu ứng đòn đánh 16784 (Thân pháp +4.840 vĩnh viễn - nhầm) -> **32711** (mới, công +24.577 đúng tooltip); phong huyệt 2071 (không tồn tại) -> **649** (5 giây), tỉ lệ 50%. Trước đó bản tiến cấp yếu hơn bản thường (2620: +18.582, 32%). Cần restart. Tag `truoc-tuyetung-fix-14-10`. **Chưa đo.**
+
 ### Cách lần ra số sát thương của một chiêu bất kỳ (dùng lại được)
 
 1. `skillbook.lua`: ID sách → `id` chiêu (SkillTemplate).
