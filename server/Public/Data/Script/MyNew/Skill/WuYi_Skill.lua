@@ -31,11 +31,11 @@ function x808243_OnImpactFadeOut( sceneId, selfId, impactId )
 
         --特殊情况
 	if GetHp( sceneId, selfId ) == 0  or GetHp( sceneId, targetId ) == 0 or selfId == targetId or (LuaFnUnitIsEnemy(sceneId, selfId, targetId) ~= 1 )  then
-	   x808243_NotifyTip( sceneId, selfId, "不能攻击此目标")
+	   x808243_NotifyTip( sceneId, selfId, "Kh\244ng th\172 t\164n c\244ng m\248c ti\234u n\224y")
 	   return
 	end
 	if LuaFnIsUnbreakable(sceneId,targetId) >= 1 then
-	   x808243_NotifyTip( sceneId, selfId, "目标处于无敌状态")
+	   x808243_NotifyTip( sceneId, selfId, "M\248c ti\234u \240ang \183 tr\213ng th\225i v\244 \240\184ch")
 	   return
 	end
 

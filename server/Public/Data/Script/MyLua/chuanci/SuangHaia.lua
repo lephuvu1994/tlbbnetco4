@@ -34,7 +34,7 @@ function x899039_OnImpactFadeOut( sceneId, selfId, impactId )
 	   return	
 	end
 	if LuaFnIsUnbreakable(sceneId,targetId) >= 1 then--目标处于无敌状态
-           x899039_NotifyTip( sceneId, selfId, "目标处于无敌状态" )
+           x899039_NotifyTip( sceneId, selfId, "M\248c ti\234u \240ang \183 tr\213ng th\225i v\244 \240\184ch" )
 	   return
 	end
 

@@ -13,11 +13,11 @@ function x808241_OnImpactFadeOut( sceneId, selfId, impactId )
 
         --特殊情况
 	if GetHp( sceneId, selfId ) == 0  or GetHp( sceneId, targetId ) == 0 or selfId == targetId or (LuaFnUnitIsEnemy(sceneId, selfId, targetId) ~= 1 )  then
-	   x808241_NotifyTip( sceneId, selfId, "不能攻击此目标")
+	   x808241_NotifyTip( sceneId, selfId, "Kh\244ng th\172 t\164n c\244ng m\248c ti\234u n\224y")
 	   return
 	end
 	if LuaFnIsUnbreakable(sceneId,targetId) >= 1 then
-	   x808241_NotifyTip( sceneId, selfId, "目标处于无敌状态")
+	   x808241_NotifyTip( sceneId, selfId, "M\248c ti\234u \240ang \183 tr\213ng th\225i v\244 \240\184ch")
 	   return
 	end
 
@@ -29,7 +29,7 @@ function x808241_OnImpactFadeOut( sceneId, selfId, impactId )
            local DD = ( GetMissionData(sceneId,selfId,484) - GetMissionData(sceneId,targetId,484) )
            local sanhai = floor((120+AA+BB+CC+DD)/15)
 	   if sanhai <= 0 then
-		x808241_NotifyTip( sceneId, selfId, "对方修炼等级比你高很多，控制无效")
+		x808241_NotifyTip( sceneId, selfId, "Tu luy\174n c\252a \240\175i ph\223\189ng cao h\189n b\213n qu\225 nhi\171u, kh\175ng ch\170 v\244 hi\174u")
 	      return	
            end
 	   if sanhai >= 24 then
@@ -66,7 +66,7 @@ function x808241_OnImpactFadeOut( sceneId, selfId, impactId )
            local DD = GetMissionData(sceneId,selfId,484) - GetMissionData(sceneId,targetId,484)
            local sanhai = floor((120+AA+BB+CC+DD)/24)
 	    if sanhai <= 0 then
-		x808241_NotifyTip( sceneId, selfId, "对方修炼等级比你高很多，伤害值无效")
+		x808241_NotifyTip( sceneId, selfId, "Tu luy\174n c\252a \240\175i ph\223\189ng cao h\189n b\213n qu\225 nhi\171u, s\225t th\223\189ng v\244 hi\174u")
 	       return	
             end
 	    if sanhai >= 15 then
