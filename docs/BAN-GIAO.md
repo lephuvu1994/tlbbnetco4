@@ -64,6 +64,7 @@ File này là **điểm bắt đầu** cho mọi phiên Claude mới, kể cả 
 
    Chưa làm tính tới lúc viết file này.
 3. Mở lại Real-time protection của Windows Defender (đã tắt 12/10).
+4. **15/10 - Công Lực Đan chỉnh trên web** (game `74d9fb6`, bot `c73caeb`, **đã push, chưa deploy**): chủ server chạy `./cap-nhat.sh` + `systemctl restart tlbb-panel`; rồi deploy bot `panel.js` (Claude làm được khi chủ server bảo); rồi **cắn thử 1 viên** - Lua chưa chạy thật lần nào (không có luac). Chi tiết TRANG-THAI "15/10 - Công Lực Đan".
 
 ## 4. Việc đã làm 08/10 → 12/10 (tóm tắt; chi tiết + tag ở TRANG-THAI)
 
@@ -101,6 +102,7 @@ File này là **điểm bắt đầu** cho mọi phiên Claude mới, kể cả 
 | Chuyển giới pet | Đang miễn phí, có thể bị dùng để quay lại tư chất |
 | Mô tả Chân Nguyên trong client sai số | Ví dụ Hỏa phẩm 5 cấp 9 thật +675, mô tả ghi +450. Số thật = đơn vị × phẩm × cấp (`ShuaXinClient.lua` `x892002_g_adddsuxingvalue`). Mô tả nằm ở client, không sửa được |
 | Vòng quay may mắn | Đang BẬT, bộ quà do chủ server tự thêm lại (11/10 xóa hết) |
+| **Số Công Lực Đan** (mỗi viên / trần) | Đã đổi rồi trả lại 2 lần (07/10 +180.000, 14/10 +100.000). Từ 15/10 chủ server tự chỉnh trên web, Claude **không** sửa Lua nữa. Full 15 sách = **172.350** công lực > trần gốc 99.999: muốn nạp 1 lần là xong thì phải nâng **trần**, tăng mỗi viên không đủ |
 | Nút "Trả tất cả về gốc" của Custom Trùng Lâu | Nên thêm xác nhận 2 lần (sự cố 11/10 21:48) |
 
 ## 6. Kiến thức đã kiểm chứng (đừng mất công tìm lại)
@@ -116,6 +118,7 @@ File này là **điểm bắt đầu** cho mọi phiên Claude mới, kể cả 
 ### Lua / engine
 - **Hộp thoại mở từ VẬT PHẨM** (`DispatchEventList(sceneId, selfId, -1)`) hiện được nhưng **không bấm được lựa chọn** (engine chặn NPCID -1). Lựa chọn phải đi qua NPC thật.
 - **Biến toàn cục Lua mất giữa 2 lần bấm NPC**, vì server nạp lại file script mỗi lần gọi. Trạng thái phải mã hóa vào **số của lựa chọn** (ví dụ ô túi × 1000 + mã % 1000, để kiểm món còn đúng). Mẫu: `x111997_CDMenu`, `x044800_TLNhanh`, `x111998_CGMenu`.
+- **Cấu hình admin chỉnh trên web, không restart**: panel ghi 1 dòng vào `Server/txt/NetCo4Cfg/<ten>.txt`, Lua đọc bằng `openfile` / `read(h, "*l")` / `strfind` **mỗi lần gọi** (script nạp lại mỗi lần nên không cache được). Không có file = số gốc. Mẫu: `voy.txt` (`guaiwu_die.lua`), `tpmax.txt`, `congluc.txt` (`Gonglidan.lua` `x390102_CauHinh`). Đồ dùng: chặn ở `OnConditionCheck` (chạy trước `OnDeplete`) thì không mất vật phẩm.
 - Lựa chọn thêm từ script khác vào NPC: `OnEventRequest` của script chính nhận `eventId` = id script kia. Chuyển tiếp bằng `CallScriptFunction(id, "Fn", sceneId, selfId, targetId, GetNumText())`.
 - **Giới tính pet = bit cuối của GUID thấp** (`t_pet.lpetguid`: lẻ = Đực, chẵn = Cái). Không có hàm set GUID / tư chất / cấp / kỹ năng pet. Tên pet phía server là GBK tiếng Trung, đừng hiện trong hộp thoại.
 - **Không có hàm Lua đọc giá trị từng dòng thuộc tính** của món đồ (trừ ám khí). Giá trị dòng tính lại từ `EquipBase` + `ItemSegValue` mỗi lần vào game (`tlbb-equip-attr`: cột 32–89 trọng số dòng, 90 quy tắc phẩm chất, 91 đoạn giá trị, 92 / 93 số dòng, 100 T; giá trị = ceil(V × Rate × 0.01f)). Đổi bảng là đổi luôn mọi món cùng mã đã có.
@@ -171,6 +174,7 @@ File này là **điểm bắt đầu** cho mọi phiên Claude mới, kể cả 
 | Quay lại 1 thay đổi game | `git revert` commit hoặc `git checkout <tag> -- <file>` → push → chủ server `cap-nhat.sh` (+ restart nếu là bảng) |
 | Quay lại bot | Thư mục `/opt/tlbb-backup/bot-truoc-<hash>-<giờ>` → chép lại → `systemctl restart minigame` |
 | Custom Trùng Lâu bị trả về gốc nhầm | Mỗi lần lưu có bản sao lưu game files `/opt/tlbb-backup/trunglau-<giờ>`. Dựng lại cấu hình bằng `trunglau.du_lieu()` với `TLBB_GAME` trỏ vào bản sao lưu (cách làm 12/10, TRANG-THAI) |
+| Công Lực Đan về gốc ngay | Web: nút ↩ Gốc rồi Lưu (xóa file), hoặc `rm /opt/tlbb-root/home/tlbb/Server/txt/NetCo4Cfg/congluc.txt`. Bỏ hẳn tính năng: tag `truoc-congluc-web-15-10` |
 | Binary `Server/Server` | Sao lưu `/opt/tlbb-backup/Server-truoc-tat-CFKBZ-<giờ>`; bản UPX gốc `Server/Server.upx-goc` |
 
 ## 9. Bản đồ tài liệu
