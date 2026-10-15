@@ -281,6 +281,26 @@ StandardImpact 793 "步步生花陷阱伤害" (logic 001 = sát thương trực 
   - **B** `XiuLian.lua` `x390101_ReGongLi`: công lực "khôi phục 200" mỗi ngày GHI ĐÈ (mất phần dư từ Công Lực Đan) → chỉ nâng lên 200 khi đang < 200.
   - **C** 4 cuốn kinh mạch trước KHÔNG có tác dụng → Thủ Thiếu Dương = Hỏa công, Túc Thái Âm = Huyền công, Nhâm Mạch = Băng công, Đốc Mạch = Độc công: `floor(cấp / 3)` điểm buff (1 điểm = 15) → +15 mỗi 3 cấp, cấp 150 = **+750**. Tooltip client của 4 cuốn vẫn ghi tác dụng cũ (không sửa được). **Chưa đo.**
 
+### Xuyên thích + bí truyền Võ Ý (15/10, chủ server)
+
+- **Cơ chế xuyên thích (soát 15/10):** biến 500 = xuyên thích, 501 = xuyên phòng. Cả hai tính trong `ShuaXinClient.lua` `x892002_DelSSitem` từ cường hóa 9 món, bảo kiếm và trận pháp; 501 lấy một nửa. Có điểm thì được buff 10475: mỗi đòn trúng tự gắn 10476, 0,5 giây sau 10476 hết thì `SuangHaia.lua` 899039 trừ máu **mục tiêu đang chọn** (`LuaFnSetDamage` → `HealthIncrement`, engine chạy đúng).
+  - Lên người: (500 mình − 501 địch) mỗi đòn, ví dụ 18.960 − 4.860 = **14.100**.
+  - Lên quái: ≈ 500 ÷ 5 (khoảng **3.800**).
+  - Lên thú: 500 ÷ 2.
+  - **Không có số sát thương bay lên**, chỉ thấy máu tụt. Vì vậy người chơi tưởng xuyên thích không có tác dụng. Lên boss vài triệu máu thì 3.800 / đòn gần như không thấy.
+  - 15/10: 5/14 nhân vật có 500 = 0.
+- **Đổi 1 (a):** điểm Võ Ý Xuyên thích / Xuyên phòng (`WUYI_5`) trước đây không cộng vào đâu.
+  - Nay 1 điểm Xuyên thích = **+100** vào 500, 1 điểm Xuyên phòng = **+50** vào 501 (cũng chia 2 như trang bị).
+  - Nhân vật nhiều nhất hiện có 64 / 57 điểm → +6.400 / +2.850.
+  - Sửa ở `DelSSitem`, sau khi tính trận pháp.
+- **Đổi 2 (b):** `SuangHaia.lua` `x899039_WuYiCheck` trước đây tung 1–6; trúng cuốn chưa học thì mất lượt.
+  - Nay chỉ chọn trong các cuốn **đã học**, giữ trọng số cũ: cuốn 1 = 3, cuốn 2 / 3 / 4 = 1.
+  - Cuốn 4 chỉ tự phát 10 / 11. Kỹ năng 12 Thông Minh có đường riêng trong XinFa888.
+  - Cuốn 5 (Trầm Phong / Song Sinh / Bối Thủy 943–945) là **chiêu tự bấm**: SkillData 31772 / 31782 / 31792 gắn thẳng hiệu ứng cấp 10 (1579 / 1589 / 1599), hồi 5 phút. Không phải lỗi.
+- **Thời gian hồi bí truyền:** giữ nguyên, 20 giây cho cuốn 1 và 300 giây cho cuốn 2–4. Học ít cuốn nay ra chiêu đều hơn, còn tổng tần suất vẫn bị chặn bởi thời gian hồi.
+- **Tag:** `truoc-voy-xt-15-10`. Là Lua, cần `cap-nhat`, không cần restart. Điểm Võ Ý vào 500 / 501 khi AHa_ReMyBuff chạy lại: đổi bản đồ / đăng nhập (`quatang.lua` NhanQua) hoặc khi thêm điểm Võ Ý.
+- **Chưa đo:** máu mục tiêu tụt thêm khi có xuyên thích; tần suất ra chiêu Võ Ý trước / sau.
+
 
 ## 6. Nhịp hoạt động
 
@@ -301,6 +321,7 @@ StandardImpact 793 "步步生花陷阱伤害" (logic 001 = sát thương trực 
 - [ ] VL8 65 / 35: đếm C8 / C9 thật qua log chế sau ~20 lần.
 - [ ] (đã trả gốc 09/10) Long Văn: engine chọn dòng có ngẫu nhiên không khi số dòng ra < số dòng bật - đo ~8 mẫu trước khi dùng lại "số dòng ra".
 - [ ] Võ Hồn: lĩnh ngộ / tẩy theo trang Custom Võ Hồn, giữ cấp, Lưu Ly Diễm ra bộ ô 3 riêng.
+- [ ] Xuyên thích (15/10): máu mục tiêu tụt thêm mỗi đòn (người: 500 − 501 địch, quái: ≈ 500/5); điểm Võ Ý vào 500/501 sau đổi bản đồ; tần suất chiêu bí truyền với người học 1–2 cuốn.
 
 ## 11/10 - Máu boss toàn game = 120% gốc; Sát Tinh về gốc (cần cap-nhat + RESTART)
 - 4.247 boss (các dòng da6cce6 đã giảm): HP cột 19 / MaxHP cột 59 = floor(gốc 651afc2 × 1,2). Trước đó 90% gốc (2d9eca5), Sát Tinh 36%.

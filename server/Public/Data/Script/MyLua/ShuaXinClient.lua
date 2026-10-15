@@ -321,6 +321,10 @@ function x892002_DelSSitem(sceneId, selfId)  --´©´Ì
         end
         end
 
+        -- [NetCo4 15/10] Vo Y: diem Xuyen thich / Xuyen phong (WUYI_5) truoc doc ra nhung khong cong vao dau.
+        -- 1 diem Xuyen thich = +100 (500); 1 diem Xuyen phong = +100 vao udqk -> +50 (501), cung chia 2 nhu trang bi
+        atfm = atfm + floor( GetMissionData( sceneId, selfId, WUYI_5 ) / 10000 ) * 100
+        udqk = udqk + mod( GetMissionData( sceneId, selfId, WUYI_5 ), 10000 ) * 100
         SetMissionData( sceneId, selfId, 500,atfm )
         SetMissionData( sceneId, selfId, 501,udqk/2 )  
 	    local suansish=GetMissionData( sceneId, selfId, 500 )

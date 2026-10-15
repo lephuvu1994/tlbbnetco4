@@ -83,35 +83,36 @@ function x899039_WuYiCheck(sceneId, selfId)
            return
         end
 
+        -- [NetCo4 15/10] Chi chon trong cac cuon DA HOC, giu trong so cu (cuon 1 = 3, cuon 2/3/4 = 1).
+        -- Ban cu: trung cuon trong thi gan lai TickStep nhung khong xet lai -> mat luot (hoc it cuon = it ra chieu).
+        -- Cuon 4 chi tu phat 10/11 (12 Thong Minh tu phat o XinFa888); cuon 5 (13-15) la chieu tu bam, khong tu phat.
         local skillnum = 0
-        local TickStep = random(6)
-
-        --if TickStep > 6 then
-           --return
-        --end
-
-        if TickStep <= 3 then
-           if WY_Book_1_skill ~= 0 then
-              skillnum = WY_Book_1_skill
-           else
-              TickStep = random(4,6)
-           end
-        elseif TickStep == 4 then
-           if WY_Book_2_skill ~= 0 then
-              skillnum = WY_Book_2_skill
-           else
-              TickStep = random(5,6)
-           end
-        elseif TickStep == 5 then
-           if WY_Book_3_skill ~= 0 then
-              skillnum = WY_Book_3_skill
-           else
-              TickStep = 6
-           end
-        elseif TickStep == 6 then
-           if WY_Book_4_skill == 10 or WY_Book_4_skill == 11 then
-              skillnum = WY_Book_4_skill
-           end
+        local w1, w2, w3, w4 = 0, 0, 0, 0
+        if WY_Book_1_skill >= 1 and WY_Book_1_skill <= 3 then
+           w1 = 3
+        end
+        if WY_Book_2_skill >= 4 and WY_Book_2_skill <= 6 then
+           w2 = 1
+        end
+        if WY_Book_3_skill >= 7 and WY_Book_3_skill <= 9 then
+           w3 = 1
+        end
+        if WY_Book_4_skill == 10 or WY_Book_4_skill == 11 then
+           w4 = 1
+        end
+        local TickStep = w1 + w2 + w3 + w4
+        if TickStep <= 0 then
+           return
+        end
+        TickStep = random(TickStep)
+        if TickStep <= w1 then
+           skillnum = WY_Book_1_skill
+        elseif TickStep <= w1 + w2 then
+           skillnum = WY_Book_2_skill
+        elseif TickStep <= w1 + w2 + w3 then
+           skillnum = WY_Book_3_skill
+        else
+           skillnum = WY_Book_4_skill
         end
 
         if skillnum ~= 0 then

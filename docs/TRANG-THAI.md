@@ -1740,3 +1740,11 @@ Script dùng: `MyLua/wuhunxt/odali_wuyazi.lua` (892101; hàm `WuhunSkillStudy` ~
 - **Chỉ số Võ Ý (潜灵, WUYI_1..5):** máu, Băng / Hỏa / Huyền / Độc công, chính xác, né được cộng vào buff chỉ số (ShuaXinClient AHa_ReMyBuff). **Xuyên thứ / Xuyên phòng (WUYI_5) đọc ra nhưng KHÔNG cộng vào đâu** (WuYiSX_CC / WuYiSX_CF không dùng; xuyên thứ thật = biến nhiệm vụ 500/501 tính trong DelSSitem từ cường hóa / bảo kiếm / trận pháp).
 - **Bí truyền (5 cuốn x 3 kỹ năng, WUYI_SKILL_A/BC/DE, học ở 900033 shenqichongxi.lua):** kích hoạt khi đánh bằng chiêu có hiệu ứng 1178 (152 dòng SkillData) -> 899039 SuangHaia.lua -> chỉ khi xuyên thứ mình > xuyên phòng mục tiêu -> WuYiCheck gửi UI 2014092002 (CLIENT tự tung chiêu Võ Ý 931–942) -> hiệu ứng 1601–1615 hết -> WuYi_Skill.lua 808243 gắn buff 1450–1599 theo cấp. Lỗi: (1) chọn cuốn: random 1–6, cuốn trống thì gán lại TickStep nhưng không vào nhánh khác -> mất lượt; (2) cuốn 5 (kỹ năng 13–15) và kỹ năng 12 không bao giờ được WuYiCheck chọn (12 có nhánh riêng XinFa888); (3) WuYi_Skill impact 1614/1615 rơi vào nhiều nhánh if (>=1613, >=1614, >=1615) -> gắn buff 2–3 lần.
 - 15/10 đã dịch 7 câu tiếng Trung (tag `truoc-voy-dich-15-10`). Chữ trong cửa sổ Võ Ý (#{XIEZI_...}) là của client, không sửa được.
+- **Đính chính (soát kỹ hơn):**
+  - (2) sai một nửa. Cuốn 5 (943–945) là chiêu TỰ BẤM (SkillData 31772/31782/31792 gắn thẳng hiệu ứng cấp 10), không đi qua WuYiCheck. Kỹ năng 12 tự phát ở XinFa888.
+  - (3) là code chết. StandardImpact không có 1613–1615, nên các nhánh >=1613 trong WuYi_Skill không bao giờ chạy.
+  - (1) có thật, đã sửa.
+- **15/10 đã sửa (tag `truoc-voy-xt-15-10`, Lua, cần cap-nhat, không restart):**
+  - (a) Võ Ý Xuyên thích +100/điểm vào 500 và Xuyên phòng +50/điểm vào 501 (`DelSSitem`).
+  - (b) WuYiCheck chỉ chọn trong các cuốn đã học, trọng số 3/1/1/1.
+  - Cơ chế xuyên thích và mức sát thương: `docs/CAN-BANG.md` mục "Xuyên thích + bí truyền Võ Ý".
