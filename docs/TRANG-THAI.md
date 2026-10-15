@@ -1753,3 +1753,8 @@ Script dùng: `MyLua/wuhunxt/odali_wuyazi.lua` (892101; hàm `WuhunSkillStudy` ~
 - Kim Si Linh Vũ (10155021, 10155100–139) khắc / song cực / cường hóa / tháo điêu văn như trang bị thường, nhóm vũ khí: công thuộc tính + giảm kháng. Băng Phách Thần Châm giữ đường riêng.
 - Lên cấp Kim Si ở Yến Thanh giữ điêu văn.
 - Tag `truoc-kimsi-dieuvan-15-10`. Lua, cần cap-nhat, không restart. Chi tiết: `docs/CAN-BANG.md` mục "Kim Si Linh Vũ khắc được điêu văn".
+
+### 15/10 - Dược Trần / Nguyên Tinh: chuột phải ăn cả chồng
+- `MyLua/zhenyuan/zhenyuanitem.lua` (889904): Dược Trần 38000945–952 và Nguyên Tinh 38000387–389, mỗi lần dùng ăn hết mọi viên CÙNG MÃ (không khóa) trong túi. Tổng điểm như ăn từng viên; thông báo hiện tổng điểm.
+- Trước đây mỗi lần chỉ ăn 1 viên và phải chờ thanh thi triển.
+- Tag `truoc-duoctran-ca-chong-15-10`. Lua, cần cap-nhat, không restart.

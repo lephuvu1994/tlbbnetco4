@@ -104,19 +104,27 @@ function  x889904_OnActivateOnce(  sceneId,  selfId  )
 	 return  0
 	 end
 	 
+	-- [NetCo4 15/10] chuot phai 1 lan an CA CHONG cung loai (truoc: moi lan 1 vien + thanh thi trien). OnDeplete da tru 1 vien, tru not phan con lai.
+	local  so  =  1
+	if  ( itemTblIndex >= 38000387 and itemTblIndex <= 38000389 ) or ( itemTblIndex >= 38000945 and itemTblIndex <= 38000952 ) then
+		local  conlai  =  LuaFnGetAvailableItemCount( sceneId, selfId, itemTblIndex )
+		if  conlai > 0 and LuaFnDelAvailableItem( sceneId, selfId, itemTblIndex, conlai ) == 1 then
+			so  =  1 + conlai
+		end
+	end
 	     if  itemTblIndex    >=38000387  and  itemTblIndex  <=  38000389  then
             local  YaoChengnum  =  GetMissionData(sceneId,  selfId,  x889904_ZhenYuanPa);
-            SetMissionData(sceneId,  selfId,  x889904_ZhenYuanPa,YaoChengnum+x889904_g_sitem1[itemTblIndex  ]);
+            SetMissionData(sceneId,  selfId,  x889904_ZhenYuanPa,YaoChengnum+x889904_g_sitem1[itemTblIndex  ]*so);
             LuaFnSendSpecificImpactToUnit(sceneId,  selfId,  selfId,  selfId,  151,  0)
-            x889904_ShowNotice(  sceneId,  selfId,  " Gia tång thành công "..x889904_g_sitem1[itemTblIndex  ].." ði¬m Nguyên Tinh "  )
+            x889904_ShowNotice(  sceneId,  selfId,  " Gia tång thành công "..(x889904_g_sitem1[itemTblIndex  ]*so).." ði¬m Nguyên Tinh "  )
             CallScriptFunction((889903),  "OpenZhenYuan",sceneId,  selfId,"u")
 	     return  1
             end
       if  itemTblIndex    >=38000945  and  itemTblIndex  <=  38000952  then
         local  YaoChengnum  =  GetMissionData(sceneId,  selfId,  SD_YAOCHEN);
-            SetMissionData(sceneId,  selfId,  SD_YAOCHEN,YaoChengnum+x889904_g_sitem1[itemTblIndex  ]);
+            SetMissionData(sceneId,  selfId,  SD_YAOCHEN,YaoChengnum+x889904_g_sitem1[itemTblIndex  ]*so);
             LuaFnSendSpecificImpactToUnit(sceneId,  selfId,  selfId,  selfId,  151,  0)
-            x889904_ShowNotice(  sceneId,  selfId,  " Gia tång thành công  "..x889904_g_sitem1[itemTblIndex  ].." ði¬m Thu¯c Tr¥n "  )
+            x889904_ShowNotice(  sceneId,  selfId,  " Gia tång thành công  "..(x889904_g_sitem1[itemTblIndex  ]*so).." ði¬m Thu¯c Tr¥n "  )
       end
 
     	         return  1;
