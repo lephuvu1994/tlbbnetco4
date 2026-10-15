@@ -301,6 +301,21 @@ StandardImpact 793 "步步生花陷阱伤害" (logic 001 = sát thương trực 
 - **Tag:** `truoc-voy-xt-15-10`. Là Lua, cần `cap-nhat`, không cần restart. Điểm Võ Ý vào 500 / 501 khi AHa_ReMyBuff chạy lại: đổi bản đồ / đăng nhập (`quatang.lua` NhanQua) hoặc khi thêm điểm Võ Ý.
 - **Chưa đo:** máu mục tiêu tụt thêm khi có xuyên thích; tần suất ra chiêu Võ Ý trước / sau.
 
+### Kim Si Linh Vũ khắc được điêu văn + song cực (15/10, chủ server)
+
+- **Trước:** ám khí chỉ có đường riêng của Băng Phách Thần Châm.
+  - 10155002 + điêu văn Thể lực 30110001–010 → song cực 10155011–020.
+  - Băng Phách cấp 10 lên Kim Si Linh Vũ ở Yến Thanh.
+  - Kim Si 10155021 / 10155100–139 bị từ chối mọi thao tác điêu văn. Get_DWXS coi Kim Si là "song cực 10", cho +20 điểm thể lực.
+- **Sau:** Kim Si đi đường khắc như trang bị thường: `&DW<loại><cấp><loại2><cấp2>` trong tên người chế.
+  - Nhóm vũ khí: **công thuộc tính** (30110041–080) và **giảm kháng** (30110121–160). Song cực = 1 công + 1 giảm kháng (code cấm 2 dòng cùng nhóm).
+  - Cường hóa / tháo: cùng Kim Tàm Ti / chi phí như trang bị thường.
+  - Chỉ số vào buff qua `Get_DWXS` (vòng ô 100–118 đã gồm ô 117), cộng thêm vào phần "song cực 10" sẵn có.
+- **File:** `MyLua/diaowen/aHaDiaoWenSys_1.lua` (809272): 5 nhánh `EquipType == 17` thêm `x809272_LaKimSi(...) ~= 1`; nhóm vũ khí thêm 17; hàm `x809272_LaKimSi`.
+- **File:** `obj/luoyang/oluoyang_yanqing.lua` (Yến Thanh 000034): `x000034_GiuDW` chép tên người chế khi thăng / Thời Đắc / Luyện Đắc Kim Si. Trước đây SHANG_BAOS chỉ chép ngọc, nên lên cấp sẽ mất điêu văn.
+- **Tag:** `truoc-kimsi-dieuvan-15-10`. Là Lua, cần `cap-nhat`, không cần restart.
+- **Chưa đo:** tooltip client có hiện điêu văn trên ám khí không (chỉ số vẫn cộng); chỉ số thật sau khi khắc (đổi bản đồ để AHa_ReMyBuff chạy lại); luyện cấp Kim Si giữ điêu văn.
+
 
 ## 6. Nhịp hoạt động
 
@@ -321,6 +336,7 @@ StandardImpact 793 "步步生花陷阱伤害" (logic 001 = sát thương trực 
 - [ ] VL8 65 / 35: đếm C8 / C9 thật qua log chế sau ~20 lần.
 - [ ] (đã trả gốc 09/10) Long Văn: engine chọn dòng có ngẫu nhiên không khi số dòng ra < số dòng bật - đo ~8 mẫu trước khi dùng lại "số dòng ra".
 - [ ] Võ Hồn: lĩnh ngộ / tẩy theo trang Custom Võ Hồn, giữ cấp, Lưu Ly Diễm ra bộ ô 3 riêng.
+- [ ] Kim Si Linh Vũ điêu văn (15/10): khắc công + giảm kháng, song cực, tooltip, luyện cấp ở Yến Thanh giữ điêu văn.
 - [ ] Xuyên thích (15/10): máu mục tiêu tụt thêm mỗi đòn (người: 500 − 501 địch, quái: ≈ 500/5); điểm Võ Ý vào 500/501 sau đổi bản đồ; tần suất chiêu bí truyền với người học 1–2 cuốn.
 
 ## 11/10 - Máu boss toàn game = 120% gốc; Sát Tinh về gốc (cần cap-nhat + RESTART)

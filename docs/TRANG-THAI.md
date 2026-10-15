@@ -1748,3 +1748,8 @@ Script dùng: `MyLua/wuhunxt/odali_wuyazi.lua` (892101; hàm `WuhunSkillStudy` ~
   - (a) Võ Ý Xuyên thích +100/điểm vào 500 và Xuyên phòng +50/điểm vào 501 (`DelSSitem`).
   - (b) WuYiCheck chỉ chọn trong các cuốn đã học, trọng số 3/1/1/1.
   - Cơ chế xuyên thích và mức sát thương: `docs/CAN-BANG.md` mục "Xuyên thích + bí truyền Võ Ý".
+
+### 15/10 - Kim Si Linh Vũ khắc điêu văn + song cực
+- Kim Si Linh Vũ (10155021, 10155100–139) khắc / song cực / cường hóa / tháo điêu văn như trang bị thường, nhóm vũ khí: công thuộc tính + giảm kháng. Băng Phách Thần Châm giữ đường riêng.
+- Lên cấp Kim Si ở Yến Thanh giữ điêu văn.
+- Tag `truoc-kimsi-dieuvan-15-10`. Lua, cần cap-nhat, không restart. Chi tiết: `docs/CAN-BANG.md` mục "Kim Si Linh Vũ khắc được điêu văn".

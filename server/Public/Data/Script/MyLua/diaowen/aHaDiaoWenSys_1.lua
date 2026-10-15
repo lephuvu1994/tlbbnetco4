@@ -330,7 +330,7 @@ function  x809272_DWChaichu(  sceneId,  selfId,  arg1,arg2  )    --OK
 	 local  nItemId1  =  LuaFnGetItemTableIndexByIndex(  sceneId,  selfId,  arg1  )
 	 local  nItemId2  =  LuaFnGetItemTableIndexByIndex(  sceneId,  selfId,  arg2  )
 	 local  EquipType	 =  LuaFnGetBagEquipType(  sceneId,  selfId,  arg1  )
-	 	 if  EquipType  ==  17  then
+	 	 if  EquipType  ==  17  and  x809272_LaKimSi( nItemId1 )  ~=  1  then
 	 	 	 if  nItemId1  <  10155011  and  10155020  >nItemId1  then  
 	 	 	 x809272_NotifyTip(  sceneId,  selfId,  " nên trang b¸ không thuµc v« ðiêu vån trang b¸ "  )
                                       else	 
@@ -409,7 +409,7 @@ function  x809272_DWChaichu1(  sceneId,  selfId,  arg1,arg2  )    --OK
 	 local  nItemId1  =  LuaFnGetItemTableIndexByIndex(  sceneId,  selfId,  arg1  )
 	 local  nItemId2  =  LuaFnGetItemTableIndexByIndex(  sceneId,  selfId,  arg2  )
 	 local  EquipType	 =  LuaFnGetBagEquipType(  sceneId,  selfId,  arg1  )
-	 	 if  EquipType  ==  17  then
+	 	 if  EquipType  ==  17  and  x809272_LaKimSi( nItemId1 )  ~=  1  then
 	 	 	 if  nItemId1  <  10155011  and  10155020  >nItemId1  then  
 	 	 	 x809272_NotifyTip(  sceneId,  selfId,  " nên trang b¸ không thuµc v« ðiêu vån trang b¸ "  )
                                       else
@@ -485,7 +485,7 @@ function  x809272_DWQianghua(  sceneId,  selfId,  arg1,arg2  )  --ok
 	 local  index99,index999  ,str1=  x809272_DWShikeJC(  sceneId,  selfId,  arg1  )
 	 local  nItemId1  =  LuaFnGetItemTableIndexByIndex(  sceneId,  selfId,  arg1  )
 	 local  EquipType	 =  LuaFnGetBagEquipType(  sceneId,  selfId,  arg1  )
-	 	 if  EquipType  ==  17  then
+	 	 if  EquipType  ==  17  and  x809272_LaKimSi( nItemId1 )  ~=  1  then
 	 	 	 if  nItemId1  <  10155011    then  
 	 	 	 x809272_NotifyTip(  sceneId,  selfId,  " nên ám khí không có ðiêu vån tin tÑc "  )	 
                           return  
@@ -556,7 +556,7 @@ function  x809272_DWQianghua1(  sceneId,  selfId,  arg1,arg2  )  --ok
 	 local  index99,index999  ,str1=  x809272_DWShikeJC(  sceneId,  selfId,  arg1  )
 	 local  nItemId1  =  LuaFnGetItemTableIndexByIndex(  sceneId,  selfId,  arg1  )
 	 local  EquipType	 =  LuaFnGetBagEquipType(  sceneId,  selfId,  arg1  )
-	 	 if  EquipType  ==  17  then
+	 	 if  EquipType  ==  17  and  x809272_LaKimSi( nItemId1 )  ~=  1  then
 	 	 	 if  nItemId1  <  10155011    then  
 	 	 	 x809272_NotifyTip(  sceneId,  selfId,  " nên trang b¸ chßa thñc kh¡c thÑ hai ðiêu vån "  )	 
                           return  
@@ -640,7 +640,7 @@ function  x809272_DWShike(  sceneId,  selfId,  arg1,arg2,arg3  )    -- ðiêu vån 
 	 
 	 local  index99,index999  =  x809272_DWShikeJC(  sceneId,  selfId,  arg1  )--x809272_xuhuandiaowen(sceneId,  selfId,  arg1)
 	 local  nItemId1  =  LuaFnGetItemTableIndexByIndex(  sceneId,  selfId,  arg1  )
-	 if  EquipType  ==17  then  
+	 if  EquipType  ==17  and  x809272_LaKimSi( nItemId1 )  ~=  1  then  
 	 	 if    nItemId1  ==10155002  and  (cailiao2>=30110001  and  cailiao2<=30110010)  then
 	 	 	 	   if  cailiao1~=30121001  then
 	 	                   x809272_NotifyTip(  sceneId,  selfId,  " xin/m¶i bö vào ðiêu vån thñc kh¡c dong t« . ")
@@ -676,7 +676,7 @@ function  x809272_DWShike(  sceneId,  selfId,  arg1,arg2,arg3  )    -- ðiêu vån 
 	 if  index99<=0  then
 	   if  (EquipType==1  or  EquipType==3  or  EquipType==4  or  EquipType==5  or  EquipType==15  or  EquipType==2  or  EquipType==7)  and  (cailiao2  <=30110040  or  (cailiao2  >=30110161  and  cailiao2  <=30110200  ))  then
 	   index=1
-	 elseif  (EquipType==14  or  EquipType==7  or  EquipType==0  or  EquipType==18  or  EquipType==10  or  EquipType==9  or  EquipType==7  )  and  ((cailiao2  >=30110041  and  cailiao2  <=30110080  )  or(cailiao2  >=30110121  and  cailiao2  <=30110160  )  )  then
+	 elseif  (EquipType==14  or  EquipType==17  or  EquipType==7  or  EquipType==0  or  EquipType==18  or  EquipType==10  or  EquipType==9  or  EquipType==7  )  and  ((cailiao2  >=30110041  and  cailiao2  <=30110080  )  or(cailiao2  >=30110121  and  cailiao2  <=30110160  )  )  then
 	   index=1
 	 elseif  (EquipType==6  or  EquipType==11  or  EquipType==12  or  EquipType==13  or  EquipType==7  )  and  ((cailiao2  >=30110111  and  cailiao2  <=30110120)    or  (cailiao2  >=30110121  and  cailiao2  <=30110160  ))then
 	   index=1
@@ -720,7 +720,7 @@ function  x809272_DWShike(  sceneId,  selfId,  arg1,arg2,arg3  )    -- ðiêu vån 
 	 --------------
 	 if  (EquipType==1  or  EquipType==3  or  EquipType==4  or  EquipType==5  or  EquipType==15  or  EquipType==2  or  EquipType==7)  and  (cailiao2  <=30110040  or  (cailiao2  >=30110161  and  cailiao2  <=30110200  ))  then
 	   index=1
-	 elseif  (EquipType==14  or  EquipType==7  or  EquipType==0  or  EquipType==18  or  EquipType==10  or  EquipType==9  or  EquipType==7  )  and  ((cailiao2  >=30110041  and  cailiao2  <=30110080  )  or(cailiao2  >=30110121  and  cailiao2  <=30110160  )  )  then
+	 elseif  (EquipType==14  or  EquipType==17  or  EquipType==7  or  EquipType==0  or  EquipType==18  or  EquipType==10  or  EquipType==9  or  EquipType==7  )  and  ((cailiao2  >=30110041  and  cailiao2  <=30110080  )  or(cailiao2  >=30110121  and  cailiao2  <=30110160  )  )  then
 	   index=1
 	 elseif  (EquipType==6  or  EquipType==11  or  EquipType==12  or  EquipType==13  or  EquipType==7  )  and  ((cailiao2  >=30110111  and  cailiao2  <=30110120)    or  (cailiao2  >=30110121  and  cailiao2  <=30110160  ))  then
 	 index=1
@@ -840,3 +840,12 @@ end
 
 
 
+
+-- [NetCo4 15/10] Kim Si Linh Vu (10155021, 10155100-10155139) khac dieu van nhu trang bi thuong (&DW trong ten nguoi che),
+-- nhom vu khi: cong thuoc tinh (30110041-080) + giam khang (30110121-160). Bang Phach Than Cham giu duong rieng.
+function x809272_LaKimSi( itemId )
+	if itemId == 10155021 or ( itemId >= 10155100 and itemId <= 10155139 ) then
+		return 1
+	end
+	return 0
+end

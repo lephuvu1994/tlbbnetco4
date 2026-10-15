@@ -626,7 +626,7 @@ function x000034_AN_qilb( sceneId, selfId,arg1,arg2)
 	end
        LuaFnCostMoneyWithPriority(sceneId, selfId, 4000000);
 	    local pos1 =	TryRecieveItem( sceneId, selfId, 10155021, 1)
-		CallScriptFunction( 895111, "SHANG_BAOS", sceneId, selfId ,arg1,pos1)
+		CallScriptFunction( 895111, "SHANG_BAOS", sceneId, selfId ,arg1,pos1)  x000034_GiuDW( sceneId, selfId, arg1, pos1 )
 		LuaFnEraseItem( sceneId, selfId,  arg1)
 		local nam = GetName(sceneId,selfId)
 		BroadMsgByChatPipe(sceneId, selfId, "#H Chúc m×ng ngß¶i ch½i #Y["..nam.."] #cff99ccthång c¤p #cFF0000Bång phách Th¥n Châm(Ðiêu Vån 10) #cff99cclên #cFF0000Kim Si Linh #cff99ccthành công! ", 4)
@@ -645,7 +645,7 @@ function x000034_AN_qilb( sceneId, selfId,arg1,arg2)
 	end	
 	LuaFnDelAvailableItem(sceneId,selfId,38000448,50)	
       local pos1 =	TryRecieveItem( sceneId, selfId,sunm+1, 1)	
-			CallScriptFunction( 895111, "SHANG_BAOS", sceneId, selfId ,arg1,pos1)
+			CallScriptFunction( 895111, "SHANG_BAOS", sceneId, selfId ,arg1,pos1)  x000034_GiuDW( sceneId, selfId, arg1, pos1 )
 			LuaFnEraseItem( sceneId, selfId,  arg1)		
      x000034_NotifyTips( sceneId, selfId, "Nâng c¤p thành công")
    end
@@ -661,22 +661,22 @@ function x000034_AN_qilb( sceneId, selfId,arg1,arg2)
 
 	if sunm == 10155021 and arg2 ==0 then 
 	local pos1 =TryRecieveItem( sceneId, selfId, 10155100, 1)
-	CallScriptFunction( 895111, "SHANG_BAOS", sceneId, selfId ,arg1,pos1)
+	CallScriptFunction( 895111, "SHANG_BAOS", sceneId, selfId ,arg1,pos1)  x000034_GiuDW( sceneId, selfId, arg1, pos1 )
 	LuaFnEraseItem( sceneId, selfId,  arg1)	
 	x000034_NotifyTips( sceneId, selfId, "thành công")
 	elseif sunm == 10155021 and arg2 ==1 then 
 	local pos1 =TryRecieveItem( sceneId, selfId, 10155110, 1)
-		CallScriptFunction( 895111, "SHANG_BAOS", sceneId, selfId ,arg1,pos1)
+		CallScriptFunction( 895111, "SHANG_BAOS", sceneId, selfId ,arg1,pos1)  x000034_GiuDW( sceneId, selfId, arg1, pos1 )
 		LuaFnEraseItem( sceneId, selfId,  arg1)	
 	x000034_NotifyTips( sceneId, selfId, "thành công")
 	elseif sunm == 10155021 and arg2 ==2 then 
 	local pos1 =TryRecieveItem( sceneId, selfId, 10155120, 1)
-		CallScriptFunction( 895111, "SHANG_BAOS", sceneId, selfId ,arg1,pos1)
+		CallScriptFunction( 895111, "SHANG_BAOS", sceneId, selfId ,arg1,pos1)  x000034_GiuDW( sceneId, selfId, arg1, pos1 )
 		LuaFnEraseItem( sceneId, selfId,  arg1)	
 	x000034_NotifyTips( sceneId, selfId, "thành công")
 	elseif sunm == 10155021 and arg2 ==3 then 
 	local pos1 =TryRecieveItem( sceneId, selfId, 10155130, 1)
-		CallScriptFunction( 895111, "SHANG_BAOS", sceneId, selfId ,arg1,pos1)
+		CallScriptFunction( 895111, "SHANG_BAOS", sceneId, selfId ,arg1,pos1)  x000034_GiuDW( sceneId, selfId, arg1, pos1 )
 		LuaFnEraseItem( sceneId, selfId,  arg1)	
 	x000034_NotifyTips( sceneId, selfId, "thành công")
 	end	
@@ -685,3 +685,16 @@ function x000034_AN_qilb( sceneId, selfId,arg1,arg2)
 	
 	
 end	
+
+-- [NetCo4 15/10] Kim Si Linh Vu khac duoc dieu van (&DW trong ten nguoi che). Thang / luyen cap tao mon moi,
+-- SHANG_BAOS chi chep ngoc -> chep them ten nguoi che de khong mat dieu van.
+function x000034_GiuDW( sceneId, selfId, cu, moi )
+	if moi == nil or moi < 0 then
+		return
+	end
+	local _, ten = LuaFnGetItemCreator( sceneId, selfId, cu )
+	if ten ~= nil and strfind( ten, "&DW" ) ~= nil then
+		LuaFnSetItemCreator( sceneId, selfId, moi, ten )
+		LuaFnRefreshItemInfo( sceneId, selfId, moi )
+	end
+end
