@@ -1727,3 +1727,11 @@ Script dùng: `MyLua/wuhunxt/odali_wuyazi.lua` (892101; hàm `WuhunSkillStudy` ~
 ### 14/10 - Hàng quà admin thêm loại EXP (tag `truoc-qua-exp-14-10`)
 - `quatang.lua` "exp <số>" → `AddExp`; `panel/panel.py` kiểm 1–2.000.000.000; bot tab GM quà có "EXP kinh nghiệm" (bialk `e7db60c`, đã deploy). Cần `cap-nhat.sh -y` + `systemctl restart tlbb-panel`, không restart game.
 - **14/10 23:2x:** quà EXP chỉ ra **700.000 / lần** dù gửi 100 triệu: `AddExp` của engine kẹp 700.000 (`LuaFnTbl::LuaFnAddExp` `cmpl $0xaae60`). Đổi sang `LuaAddExpMore` (→ `Obj_Human::GainExp`, không kẹp; không có hàm thì về AddExp). Tag `truoc-qua-exp-more-14-10`, `6e92cff`. Các lần gửi 23:16–23:21 (100tr, 100tr, 200tr, 5tr) chỉ nhận 700.000 mỗi lần - cần gửi bù.
+
+### 15/10 - Công Lực Đan chỉnh trên web (⚙️ Cài đặt toàn server › 💊 Công Lực Đan)
+- `Gonglidan.lua` (390102, đan 39999901) thêm `x390102_CauHinh`: đọc `Server/txt/NetCo4Cfg/congluc.txt` = "<mỗi viên> <trần>" **mỗi lần cắn** (giống Võ Ý `voy.txt`). Không có file / số sai = gốc 100 / 99.999. Giới hạn: mỗi viên 1–10.000.000, trần 100–99.999.999 (MissionData int32).
+- Sửa 2 lỗi bản gốc lộ ra khi cho đổi trần: (1) công lực ≥ trần → `OnConditionCheck` chặn, báo "Công lực đã đạt tối đa <trần>", **không mất viên**; (2) hạ trần thấp hơn công lực đang có → cắn không ép công lực xuống trần. Thông báo hiện số thực nhận (`total-gongli`).
+- `panel/panel.py` `congluc_get` / `congluc_set` + ô `cldan` / `cltran` trong act `luu_chung` (không restart), state trả `cldan` / `cltran` / `clDefault`. Bot `panel.js`: ô 💊 cạnh Võ Ý, tự tính "= N viên gốc · full 15 sách (172.350) cần N viên". Bot relay đã cho qua mọi khóa `[a-z_]{1,12}`, không sửa server bot.
+- Tool sửa Lua: `tools/congluc-cauhinh-15-10.js` (chạy lại báo "đã sửa"); xóa `tools/congluc-dan-07-10.js`. Rollback tag `truoc-congluc-web-15-10`.
+- Hiệu lực: `cap-nhat.sh` + `systemctl restart tlbb-panel` + deploy bot (`panel.js`); **không restart game**. Mô tả đan trong client vẫn ghi "100" (chữ client).
+- Đã thử: `py_compile panel.py` + hàm get/set (mặc định / ghi / file hỏng / về gốc xóa file) trên bản sao /tmp VPS; `node --check panel.js`. **Chưa chạy Lua thật** (không có luac) - thử 1 viên trong game sau deploy.

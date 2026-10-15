@@ -51,9 +51,35 @@ end
 --ÏµÍ³»áÔÚ¼¼ÄÜ¼ì²âµÄÊ±¼äµãµ÷ÓÃÕâ¸ö½Ó¿Ú£¬²¢¸ù¾İÕâ¸öº¯ÊıµÄ·µ»ØÖµÈ·¶¨ÒÔºóµÄÁ÷³ÌÊÇ·ñÖ´ĞĞ¡£
 --·µ»Ø1£ºÌõ¼ş¼ì²âÍ¨¹ı£¬¿ÉÒÔ¼ÌĞøÖ´ĞĞ£»·µ»Ø0£ºÌõ¼ş¼ì²âÊ§°Ü£¬ÖĞ¶ÏºóĞøÖ´ĞĞ¡£
 --**********************************
+-- [NetCo4 15/10] Cong Luc Dan chinh tren web admin: Server/txt/NetCo4Cfg/congluc.txt = "<moi vien> <tran>" (panel GM - Cai dat toan server).
+-- Doc moi lan can dan (hieu luc ngay, khong restart). Khong co file / so sai = 100 / 99999 nhu goc.
+function x390102_CauHinh()
+	local a, b = 100, 99999
+	local h = openfile( "./txt/NetCo4Cfg/congluc.txt", "r" )
+	if h == nil then
+		return a, b
+	end
+	local s = read( h, "*l" )
+	closefile( h )
+	local _, _, x, y = strfind( s or "", "^%s*(%d+)%s+(%d+)" )
+	x = tonumber( x or "" )
+	y = tonumber( y or "" )
+	if x ~= nil and x >= 1 and x <= 10000000 then a = x end
+	if y ~= nil and y >= 100 and y <= 99999999 then b = y end
+	return a, b
+end
+
 function x390102_OnConditionCheck( sceneId, selfId )
 	--Ğ£ÑéÊ¹ÓÃµÄÎïÆ·
 	if(1~=LuaFnVerifyUsedItem(sceneId, selfId)) then
+		return 0
+	end
+	local _, tran = x390102_CauHinh()	-- [NetCo4 15/10] da cham tran thi khong cho can (truoc: mat vien ma khong duoc gi)
+	if GetMissionData( sceneId, selfId, XIULIAN_GONGLI ) >= tran then
+		BeginEvent( sceneId )
+			AddText( sceneId, "C\244ng l\241c \240\227 \240\213t t\175i \240a "..tran )
+		EndEvent( sceneId )
+		DispatchMissionTips( sceneId, selfId )
 		return 0
 	end
 	
@@ -98,15 +124,18 @@ end
 --**********************************
 function x390102_OnActivateOnce( sceneId, selfId )
 	local gongli=GetMissionData( sceneId, selfId, XIULIAN_GONGLI )
-	local num=100	--ÕâÀïÊÇÕâ¸öÎïÆ·¼Ó¹¦Á¦µÄÊıÖµ
+	local num, tran = x390102_CauHinh()	-- [NetCo4 15/10] tu web admin (congluc.txt), mac dinh 100 / 99999 nhu goc	--ÕâÀïÊÇÕâ¸öÎïÆ·¼Ó¹¦Á¦µÄÊıÖµ
 	local total=gongli+num
-	if total>99999 then	--Õâ¸öÊÇ¿ØÖÆ¹¦Á¦µÄ×î´óÖµÎª100
-		total=99999
+	if total>tran then	--Õâ¸öÊÇ¿ØÖÆ¹¦Á¦µÄ×î´óÖµÎª100
+		total=tran
+	end
+	if total<gongli then	-- [NetCo4 15/10] tran ha thap hon cong luc dang co: giu nguyen, khong ep ve tran
+		total=gongli
 	end
 	SetMissionData(sceneId, selfId, XIULIAN_GONGLI, total);
 	CallScriptFunction( 390101, "ReturnAttr", sceneId, selfId )	--·²ÊÇĞŞ¸Äµ½ĞŞÁ¶ÊôĞÔµÄ£¬¶¼Òª¼ÓÉÏÕâÒ»ĞĞ£¬ÈÃ¿Í»§¶ËµÄÏÔÊ¾Í¬²½
 	BeginEvent( sceneId )
-		AddText( sceneId, "Công Lñc cüa các hÕ +100" )
+		AddText( sceneId, "Công Lñc cüa các hÕ +"..(total-gongli) )
 	EndEvent( sceneId )
 	DispatchMissionTips( sceneId, selfId )
 	

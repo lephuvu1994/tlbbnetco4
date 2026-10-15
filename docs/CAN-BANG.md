@@ -245,9 +245,8 @@ StandardImpact 793 "步步生花陷阱伤害" (logic 001 = sát thương trực 
 
 ## 5. Tu luyện / tài nguyên
 
-- **Công Lực Đan** (`Gonglidan.lua` 390102, đan 39999901): đang **+100, trần 99.999** (bản gốc). 14/10 thử +100.000 / trần 999.999 rồi chủ server trả lại ngay (tag `truoc-congluc-100k-14-10`).
-  - 07/10 thử +180.000 (1 viên = 1.800 viên) rồi trả lại ngay.
-  - Muốn đổi lại: `node tools/congluc-dan-07-10.js <số> --ghi`.
+- **Công Lực Đan** (`Gonglidan.lua` 390102, đan 39999901): **từ 15/10 chỉnh trên web** (GM › ⚙️ Cài đặt toàn server › 💊 Công Lực Đan) - mỗi viên + trần, file `Server/txt/NetCo4Cfg/congluc.txt` ("<mỗi viên> <trần>"), Lua đọc mỗi lần cắn, không restart. Không có file = gốc **+100, trần 99.999**. Chạm trần thì không cho cắn; hạ trần không làm giảm công lực đang có.
+  - Lịch sử: 07/10 thử +180.000, 14/10 thử +100.000 / trần 999.999 - cả hai lần chủ server trả lại ngay. Tool cũ `congluc-dan-07-10.js` đã xóa (Lua không còn số cứng).
 - **Chi phí full 15 sách tu luyện** (0 → 150): 172.350 công lực, 12,07 tỉ EXP, 670.500 vàng.
 - **Chưa sửa, có ảnh hưởng cân bằng:**
   - Hạo Thiên Chân Kinh đòi cấp 90 → khóa 89 không học được.

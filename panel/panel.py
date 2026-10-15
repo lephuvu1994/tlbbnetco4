@@ -162,6 +162,32 @@ def voy_set(a, b):
         f.write("%d %d\n" % (a, b))
 
 
+# 15/10: CONG LUC DAN 39999901: MyLua/xiulian/Gonglidan.lua x390102_CauHinh doc file nay MOI LAN can dan (hieu luc ngay).
+# 1 dong "<moi vien> <tran>". Khong co file = goc 100 / 99999. Cong luc da >= tran thi khong cho can; ha tran khong lam giam cong luc dang co.
+CONGLUC = CFGDIR + "/congluc.txt"
+CONGLUC_MD = (100, 99999)
+
+
+def congluc_get():
+    try:
+        a, b = [int(x) for x in open(CONGLUC).read().split()[:2]]
+        if 1 <= a <= 10000000 and 100 <= b <= 99999999:
+            return a, b
+    except (OSError, ValueError):
+        pass
+    return CONGLUC_MD
+
+
+def congluc_set(a, b):
+    os.makedirs(CFGDIR, exist_ok=True)
+    if (a, b) == CONGLUC_MD:
+        if os.path.exists(CONGLUC):
+            os.remove(CONGLUC)
+        return
+    with open(CONGLUC, "w", encoding="ascii", newline="\n") as f:
+        f.write("%d %d\n" % (a, b))
+
+
 # 03/10: ROI THEM QUA SCRIPT do admin cau hinh (NetCo4/roimap.lua x950001_RoiCfg doc file nay moi lan quai chet -> hieu luc ngay).
 # Moi dong: <khoa> <ti le %> <ID1[,ID2,@nhom...]>  (nhieu ID / nhom = boc 1 mon). Moi thanh vien to doi o gan roll rieng.
 ROITHEM = CFGDIR + "/roithem.txt"
@@ -603,11 +629,16 @@ def act(form):
     if a == "luu_chung":   # 03/10: luu nhieu o 1 lan (cap toi thieu / khoa cap / EXP) - kiem het truoc roi moi ghi, restart 1 lan neu can
         cmin, cmax, ex, tp = v("capmin"), v("capmax"), v("exp"), v("tpmax")
         va, vb = v("voy"), v("voytrain")   # 13/10: he so Vo Y (script doc moi lan quai chet, khong restart)
-        if not (cmin or cmax or ex or tp or va or vb):
+        da, dt = v("cldan"), v("cltran")   # 15/10: Cong Luc Dan moi vien / tran (script doc moi lan can, khong restart)
+        if not (cmin or cmax or ex or tp or va or vb or da or dt):
             return "Khong co o nao thay doi"
         for x, ten in ((va, "Vo Y moi noi"), (vb, "Vo Y ban do train")):
             if x and (not RE_INT.match(x) or not 1 <= int(x) <= 100):
                 return "He so %s phai 1-100. Chua luu gi." % ten
+        if da and (not RE_INT.match(da) or not 1 <= int(da) <= 10000000):
+            return "Cong Luc Dan moi vien 1-10.000.000. Chua luu gi."
+        if dt and (not RE_INT.match(dt) or not 100 <= int(dt) <= 99999999):
+            return "Tran cong luc 100-99.999.999. Chua luu gi."
         if tp and (not RE_INT.match(tp) or not (int(tp) == 0 or 10 <= int(tp) <= 159)):
             return "Tam phap toi da 10-159 (0 = luat goc: cap nhan vat + 10). Chua luu gi."
         if cmin and (not RE_INT.match(cmin) or not 0 <= int(cmin) <= 119):
@@ -644,7 +675,12 @@ def act(form):
             a1, b1 = int(va) if va else a0, int(vb) if vb else b0
             voy_set(a1, b1)
             doi.append("Vo Y x%d moi noi, x%d them o ban do train (tong x%d)" % (a1, b1, a1 * b1))
-        rs = bool(cmax or ex)   # cap toi thieu + tam phap toi da + Vo Y la script, khong can restart
+        if da or dt:
+            a0, b0 = congluc_get()
+            a1, b1 = int(da) if da else a0, int(dt) if dt else b0
+            congluc_set(a1, b1)
+            doi.append("Cong Luc Dan +%d / vien, tran %d" % (a1, b1))
+        rs = bool(cmax or ex)   # cap toi thieu + tam phap toi da + Vo Y + Cong Luc Dan la script, khong can restart
         audit("luu chung: %s%s (online: %d)" % (", ".join(doi), ", restart" if rs else "", online_count()))
         if rs:
             restart_game()
@@ -917,6 +953,7 @@ def api_state():
             "chars": out_chars, "capmin": capmin, "capmax": capmax_get(), "itemCount": len(ITEMS),
             "expparam": exp_get(), "expDefault": exp_macdinh(), "tpmax": tpmax_get(), "roithem": roi_state(),   # 03/10
             "voy": voy_get()[0], "voytrain": voy_get()[1], "voyDefault": list(VOY_MD),   # 13/10
+            "cldan": congluc_get()[0], "cltran": congluc_get()[1], "clDefault": list(CONGLUC_MD),   # 15/10
             "pets": [{"id": i, "name": n} for i, n in PET_V2]}
 
 
