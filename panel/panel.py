@@ -405,11 +405,41 @@ RE_PASS = re.compile(r"^[A-Za-z0-9_@.!-]{6,32}$")
 RE_INT = re.compile(r"^\d{1,10}$")
 
 
+# 16/10: billing_go v1.3.5 KHONG ghi web.account.is_online (chi giu danh sach online trong RAM) -> doc billing.log.
+# "billing service starting" = xoa het; "user [X] <nv> entered game" / "keep: user [X]" = online; "user [X] logout game" = thoat.
+# Moi dong log ban moi ghi 2 lan (co mau + khong mau): dung tap hop nen khong sao.
+BILLING_LOG = ROOT + "/home/billing.log"
+RE_BL = re.compile(r"(billing service starting)|user \[([^\]\n]+)\] [^\n]*?entered game|keep: user \[([^\]\n]+)\]|user \[([^\]\n]+)\] logout game")
+
+
+def billing_online():
+    try:
+        with open(BILLING_LOG, "rb") as f:
+            f.seek(0, 2)
+            n = f.tell()
+            f.seek(max(0, n - 3000000))
+            data = f.read().decode("utf-8", "replace")
+    except OSError:
+        return None
+    if "billing service starting" not in data:
+        return None   # chua phai log ban moi -> dung is_online nhu cu
+    on = set()
+    for m in RE_BL.finditer(data):
+        if m.group(1):
+            on = set()
+        elif m.group(2) or m.group(3):
+            on.add(m.group(2) or m.group(3))
+        elif m.group(4):
+            on.discard(m.group(4))
+    return on
+
+
 def accounts():
-    # is_online do billing ghi khi dang nhap / thoat. Restart/crash server de lai gia tri cu,
-    # nen neu khong co ket noi game nao thi coi nhu khong ai online.
+    # is_online do billing CU ghi khi dang nhap / thoat (ban moi thi doc billing.log, xem billing_online).
+    # Restart/crash server de lai gia tri cu, nen neu khong co ket noi game nao thi coi nhu khong ai online.
     anyone = online_count() > 0
-    return [(r[0].decode(), r[1].decode(), anyone and r[2].decode() == "1")
+    bl = billing_online()
+    return [(r[0].decode(), r[1].decode(), anyone and (r[1].decode() in bl if bl is not None else r[2].decode() == "1"))
             for r in sql("SELECT id, name, is_online FROM web.account ORDER BY id")]
 
 

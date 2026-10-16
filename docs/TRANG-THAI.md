@@ -1788,3 +1788,14 @@ Script dùng: `MyLua/wuhunxt/odali_wuyazi.lua` (892101; hàm `WuhunSkillStudy` ~
   - `panel.py`: cho phép loại `tamphap`, cấp 1–159.
 - **Thứ tự bắt buộc:** cap-nhat (Lua mới) → `systemctl restart tlbb-panel` → xếp quà. quatang.lua bản cũ gặp loại quà lạ sẽ **bỏ mất dòng đó**.
 - Tag `truoc-qua-tamphap-16-10`.
+
+### 16/10 23:00 - Admin không thấy ai online sau khi thay billing → panel đọc billing.log
+- billing_go v1.3.5 **không ghi** `web.account.is_online` (chỉ giữ danh sách online trong RAM), mà panel / trang admin lấy online từ cột đó. Vì vậy sau khi thay billing, danh sách online luôn rỗng.
+- `panel.py` thêm `billing_online()`: đọc 3 MB cuối `/home/billing.log`.
+  - "billing service starting" = xóa hết danh sách.
+  - "user [X] … entered game" / "keep: user [X]" = đang online.
+  - "user [X] logout game" = đã thoát.
+  - Log không có dòng của bản mới thì vẫn đọc `is_online` như cũ.
+  - Vẫn giữ luật cũ: không có kết nối 3731 thì coi như không ai online.
+- Thử trên log thật lúc 23:00: ra `bialk`, khớp 1 kết nối game.
+- Cần cap-nhat + `systemctl restart tlbb-panel` (không đụng game).
