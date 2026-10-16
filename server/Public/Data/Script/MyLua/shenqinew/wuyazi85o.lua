@@ -493,16 +493,35 @@ if equipitmo ~=nil and equipitmo >=100 and Caoliaocount ~= nil  then
 return
 end
 ------------
+-- [NetCo4 16/10] bam 1 lan = khe hop LIEN TUC toi cap 9: moi cap van tru dung so Huyen Binh Thach + 5 vang nhu goc, het thi dung
+local QiHeNum = NewQiHeLevl
 if Caoliaocount ~= nil then	
-	 if 0 == x895111_CostCheak( sceneId, selfId, x895111_xuanbingshi,Caoliaocount,50000 ) then
-    	return
-   end		
+	local dalen = 0
+	while QiHeNum < 9 do
+		local can = nil
+		for _,Data in count do
+			if QiHeNum == Data[1] then
+				can = Data[2]
+			end
+		end
+		if can == nil then
+			break
+		end
+		if 0 == x895111_CostCheak( sceneId, selfId, x895111_xuanbingshi, can, 50000 ) then
+			break
+		end
+		QiHeNum = QiHeNum + 1
+		dalen = dalen + 1
+	end
+	if dalen == 0 then
+		return
+	end
+	x895111_NotifyTips( sceneId, selfId, "Kh\170 h\254p l\234n "..dalen.." c\164p, hi\174n c\164p "..QiHeNum )
 else
 	 x895111_NotifyTips( sceneId, selfId, "sai l¥m ko biªt" )
 	 return
 end
 
-  local QiHeNum = NewQiHeLevl + 1
   local AddQiHe = gsub(myname,"(&QHD)".."%w","%1"..QiHeNum,1)    
   LuaFnSetItemCreator( sceneId, selfId, equipitm, AddQiHe )
   LuaFnRefreshItemInfo( sceneId, selfId, equipitm ) 

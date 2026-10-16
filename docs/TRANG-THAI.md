@@ -1799,3 +1799,8 @@ Script dùng: `MyLua/wuhunxt/odali_wuyazi.lua` (892101; hàm `WuhunSkillStudy` ~
   - Vẫn giữ luật cũ: không có kết nối 3731 thì coi như không ai online.
 - Thử trên log thật lúc 23:00: ra `bialk`, khớp 1 kết nối game.
 - Cần cap-nhat + `systemctl restart tlbb-panel` (không đụng game).
+
+### 16/10 - Thần Khí Khế Hợp: bấm 1 lần lên thẳng cấp 9
+- `MyLua/shenqinew/wuyazi85o.lua` (895111, tepp 25, NPC Âu Dã Thanh): trước mỗi lần bấm chỉ +1 cấp độ phù hợp, cửa sổ đóng phải mở lại.
+- Nay 1 lần bấm khế hợp liên tục tới cấp 9. Mỗi cấp vẫn trừ đúng số Huyền Binh Thạch (30505815) theo `x895111_XuanBingNum` + 5 vàng như gốc. Thiếu đá / vàng thì dừng ở cấp đã đạt và báo "Khế hợp lên N cấp, hiện cấp X". **Không đổi giá.**
+- Tag `truoc-khehop-1lan-16-10`. Lua, cần cap-nhat, không restart.
