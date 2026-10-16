@@ -36,6 +36,7 @@ Khi sửa shop game thì **không đụng shop web**.
 | 04/10 | 153 | Tiệm Bảo Thạch (tab Hợp Thành Phù / Điêu Trác Phù) | **Bảo Thạch Điêu Trác Phù cấp 4/5/6/7** (30900029–32): 4.000/5.000/6.000/7.000 → **500/1.000/2.000/3.000 KNB** (lần đầu 2b5571f đặt nhầm 1.000/2.000/3.000/7.000) | 765cd01 | truoc-dieutrac-actac-04-10 |
 | 05/10 | 153, 180 | Tiệm Bảo Thạch / Khu Buôn Bán > Vật phẩm mới | **Điểm Kim Chi Tiễn 20109101** (kệ 153) 20.000 → **5.000 KNB**; **Hàn Ngọc Tinh Túy 20310111** (kệ 180) 20.000 → **7.000 KNB**. Mỗi món chỉ có ở 1 kệ. Sửa bằng `node tools/shop-gia.js --doi <kệ> <ID> <giá> --ghi` | (commit này) | truoc-gia-kimchi-hanngoc-05-10 |
 | 16/10 | 133, 134 | Sách kỹ năng trân thú | **Phá Trận** là chiêu bị động (chủ server chốt), về **5.000 KNB**: Cao cấp Phá Trận 30402078 (kệ 134) 50.000 → 5.000, Phá Trận 30402077 (kệ 133) 20.000 → 5.000. Lúc xếp giá 02/10 bị tính là chủ động vì `SkillTemplate_V1` cột 27 = 1. **Đã hoàn 45.000 KNB** cho hoang / Whynot (GUID 1010100014), người mua bản Cao cấp giá 50.000 lúc 15/10 21:13 (hàng chờ quà panel, ghi `/opt/tlbb-backup/panel.log`) | (commit này) | truoc-phatran-5000-16-10 |
+| 16/10 | 133, 134 | Sách kỹ năng trân thú | **Hư Nhược, Suất Bán** cũng là bị động (chủ server chốt), về **5.000 KNB**: Cao cấp Hư Nhược 30402076 + Cao cấp Suất Bán 30402080 (kệ 134) 50.000 → 5.000; Hư Nhược 30402075 + Suất Bán 30402079 (kệ 133) 20.000 → 5.000. Soát toàn bộ log từ 28/09: admin2 (30/09) và admin (01/10) mua lúc giá còn 1.960, không hoàn; **bialk** (GUID 1010100017) mua Cao cấp Hư Nhược + Cao cấp Phá Trận 09/10 23:16 giá 50.000/cuốn → **hoàn 90.000 KNB** (hàng chờ panel). Cùng với hoang 45.000 là đủ, không còn ai mua 3 cuốn này giá 50.000 | (commit này) | truoc-hunhuoc-suatban-5000-16-10 |
 | 08/10 | 212 | Shop KNB > Chí Tôn Cửa Hàng (888902 `shoplist[101]`) | **Gỡ Thiên Địa Huyền Tinh 39901012** (200.000 KNB): chủ server chốt chỉ admin phát. Dồn 2 ô sau lên (38001105 2.000, 38001106 2.500 giữ). Nguồn còn lại: Rương Thiên Tam Thần (1/5, cần chìa 100.000 KNB). Dùng để nâng Trùng Lâu → Chân Trùng Lâu (100 viên, `wuyazi85o.lua` tepp 36) | a2ede5a | truoc-go-huyentinh-08-10 |
 
 ### Chưa đổi, còn chờ chủ server
@@ -91,22 +92,22 @@ Trước 02/10:
 
 | Nhóm | Giá KNB | Số sách |
 |---|---|---|
-| Chủ động có chữ "Cao cấp" | 50.000 | 16 |
-| Chủ động thường | 20.000 | 26 |
+| Chủ động có chữ "Cao cấp" | 50.000 | 14 |
+| Chủ động thường | 20.000 | 24 |
 | 5 chiêu mạnh không có chữ "Cao cấp" | 10.000 | 5 |
-| Bị động, cả thường lẫn Cao cấp | 5.000 | 38 |
+| Bị động, cả thường lẫn Cao cấp | 5.000 | 42 |
 
-**50.000:** 30402026 Cao cấp Huyết Bạo, 030 Băng Bạo, 034 Trọng Sinh, 036 Cộng Sinh, 038 Trì Liệu, 040 Nhục Tường, 042 Thần Hữu, 044 Thị Huyết, 046 Huyết Tế, 048 Ngụy Trang, 050 Phụ Thân, 072 Mãnh Kích, 076 Hư Nhược, 080 Suất Bán, 092 Liên Kích, 094 Thống Kích. Tất cả ở kệ 134.
+**50.000:** 30402026 Cao cấp Huyết Bạo, 030 Băng Bạo, 034 Trọng Sinh, 036 Cộng Sinh, 038 Trì Liệu, 040 Nhục Tường, 042 Thần Hữu, 044 Thị Huyết, 046 Huyết Tế, 048 Ngụy Trang, 050 Phụ Thân, 072 Mãnh Kích, 092 Liên Kích, 094 Thống Kích. Tất cả ở kệ 134.
 
-**20.000:** 30402025 Huyết Bạo, 029 Băng Bạo, 033 Trọng Sinh, 035 Cộng Sinh, 037 Trì Liệu, 039 Nhục Tường, 041 Thần Hữu, 043 Thị Huyết, 045 Huyết Tế, 047 Ngụy Trang, 049 Phụ Thân, 051 Hàn Băng Chú, 052 Liệt Hỏa Chú, 053 Huyết Độc Chú, 054 Huyền Lôi Chú, 071 Mãnh Kích (kệ 102), 075 Hư Nhược, 079 Suất Bán, 081 Giải Huyệt, 082 Thanh Tỉnh, 083 Minh Mục, 084 Khinh Linh, 085 Cố Nguyên, 086 Sái Thoát, 091 Liên Kích, 093 Thống Kích. Trừ Mãnh Kích, tất cả ở kệ 133.
+**20.000:** 30402025 Huyết Bạo, 029 Băng Bạo, 033 Trọng Sinh, 035 Cộng Sinh, 037 Trì Liệu, 039 Nhục Tường, 041 Thần Hữu, 043 Thị Huyết, 045 Huyết Tế, 047 Ngụy Trang, 049 Phụ Thân, 051 Hàn Băng Chú, 052 Liệt Hỏa Chú, 053 Huyết Độc Chú, 054 Huyền Lôi Chú, 071 Mãnh Kích (kệ 102), 081 Giải Huyệt, 082 Thanh Tỉnh, 083 Minh Mục, 084 Khinh Linh, 085 Cố Nguyên, 086 Sái Thoát, 091 Liên Kích, 093 Thống Kích. Trừ Mãnh Kích, tất cả ở kệ 133.
 
 **10.000:** 30402087 Băng Thiên Tuyết Địa, 088 Liệt Hỏa Liệu Nguyên, 089 Huyết Độc Vạn Lí, 090 Ngũ Lôi Oanh Đính, 095 Bào Hao. Tất cả ở kệ 134.
 
 **5.000:**
 - **Kệ 102:** 30402005 Trì Độn, 006 Giảo Hoạt, 007 Hàm Hậu, 008 Bính Mệnh, 009 Pháp Hồn, 010 Man Lực, 011 Tá Lực, 013 Di Hồn, 015 Thuấn Ảnh, 017 Cường Thân, 019 Ngưng Thần.
-- **Kệ 133:** 055 Phản Kích, 059 Phản Chấn, 061 Linh Động, 063 Hợp Khí, 065 Đả Nộ, 067 Trung Tâm, 069 Nội Lực, 073 Thức Phá, **077 Phá Trận** (từ 16/10), 096 Băng Hồn, 097 Hỏa Hồn, 098 Độc Hồn, 099 Huyền Hồn.
-- **Kệ 134, bản Cao cấp:** 012 Tá Lực, 014 Di Hồn, 016 Thuấn Ảnh, 018 Cường Thân, 020 Ngưng Thần, 056 Phản Kích, 060 Phản Chấn, 062 Linh Động, 064 Hợp Khí, 066 Đả Nộ, 068 Trung Tâm, 070 Nội Lực, 074 Thức Phá, **078 Phá Trận** (từ 16/10).
+- **Kệ 133:** 055 Phản Kích, 059 Phản Chấn, 061 Linh Động, 063 Hợp Khí, 065 Đả Nộ, 067 Trung Tâm, 069 Nội Lực, 073 Thức Phá, **075 Hư Nhược, 077 Phá Trận, 079 Suất Bán** (từ 16/10), 096 Băng Hồn, 097 Hỏa Hồn, 098 Độc Hồn, 099 Huyền Hồn.
+- **Kệ 134, bản Cao cấp:** 012 Tá Lực, 014 Di Hồn, 016 Thuấn Ảnh, 018 Cường Thân, 020 Ngưng Thần, 056 Phản Kích, 060 Phản Chấn, 062 Linh Động, 064 Hợp Khí, 066 Đả Nộ, 068 Trung Tâm, 070 Nội Lực, 074 Thức Phá, **076 Hư Nhược, 078 Phá Trận, 080 Suất Bán** (từ 16/10).
 
-**Lưu ý phân loại:** cột 27 = 1 (pet tự phát) gồm Mãnh Kích, Hư Nhược, Phá Trận, Suất Bán, Liên Kích, Thống Kích… Từ 16/10 chủ server coi **Phá Trận** là bị động (5.000). Các chiêu còn lại trong nhóm vẫn giữ giá chủ động, chưa chốt.
+**Lưu ý phân loại:** cột 27 = 1 (pet tự phát) gồm Mãnh Kích, Hư Nhược, Phá Trận, Suất Bán, Liên Kích, Thống Kích… Từ 16/10 chủ server coi **Hư Nhược, Phá Trận, Suất Bán** là bị động (5.000). Mãnh Kích, Liên Kích, Thống Kích và các chiêu còn lại trong nhóm giữ giá chủ động.
 
 Tên trong `CommonItem.txt` của 30402073/074 bị lỗi chữ thành "Thứcấphá". Tên đúng là Thức Phá.
