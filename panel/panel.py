@@ -507,7 +507,7 @@ def act(form):
             msgs = [act(dict(form, guid=t)) for t in targets]
             bad = [m for m in msgs if not m.startswith("Da xep")]
             return bad[0] if bad else "Da xep hang qua cho %d nhan vat" % len(targets)
-        if not RE_INT.match(g) or kind not in ("item", "xoa", "knb", "vang", "diemtang", "level", "exp", "nangngoc", "vip", "popup", "pet") or not RE_INT.match(val) or not RE_INT.match(cnt):
+        if not RE_INT.match(g) or kind not in ("item", "xoa", "knb", "vang", "diemtang", "level", "exp", "nangngoc", "vip", "popup", "pet", "tamphap") or not RE_INT.match(val) or not RE_INT.match(cnt):
             return "Du lieu qua khong hop le"
         if kind == "pet" and val not in PET_IDS:
             return "Khong co pet ID %s trong PetAttrTable (xem docs/pet-huyen-hoa.md)" % val
@@ -527,6 +527,8 @@ def act(form):
             return "Cap 1-119"
         if kind == "exp" and not 1 <= int(val) <= 2000000000:   # 14/10: quatang.lua AddExp (int32) - nhan khi vao game / doi ban do
             return "EXP 1-2.000.000.000 moi lan"
+        if kind == "tamphap" and not 1 <= int(val) <= 159:   # 16/10: quatang.lua nang moi tam phap mon phai len cap nay
+            return "Cap tam phap 1-159"
         if kind == "nangngoc" and not 2 <= int(val) <= 7:
             return "Cap ngoc 2-7 (cap 7 la cao nhat)"
         if kind == "popup":

@@ -335,6 +335,22 @@ function x950000_NhanQua( sceneId, selfId )
 			else
 				tinsert( left, "pet "..a )
 			end
+		elseif kind == "tamphap" then
+			-- [NetCo4 16/10] "tamphap <cap>": nang moi tam phap cua mon phai dang o len <cap> (chi nang, khong ha).
+			-- Chua vao mon phai thi giu dong lai, vao phai roi doi ban do se nhan.
+			local mp = GetMenPai( sceneId, selfId )
+			if mp == nil or mp < 0 or mp > 12 or mp == 9 then
+				tinsert( left, lines[i] )
+			else
+				local ds = x950000_g_TPList[mp + 1]
+				for j = 1, getn( ds ) do
+					local lv = LuaFnGetXinFaLevel( sceneId, selfId, ds[j] )
+					if lv ~= nil and lv < tonumber( a ) then
+						LuaFnSetXinFaLevel( sceneId, selfId, ds[j], tonumber( a ) )
+					end
+				end
+				got = got + 1
+			end
 		elseif kind == "vip" then
 			-- Cap VIP = CHONG_ZHI_CHONGSHU (ScriptGlobal.lua). VIP>=1 mo phuc loi ngay (shengjjll.lua
 			-- index 20-37), so luong qua tang theo cap. Ban goc chi len VIP bang nap tien.

@@ -1780,3 +1780,11 @@ Script dùng: `MyLua/wuhunxt/odali_wuyazi.lua` (892101; hàm `WuhunSkillStudy` ~
 - Bot bialk `7c9c13b`, đã deploy và restart minigame. Sao lưu: `/opt/tlbb-backup/bot-truoc-vangrate-20261016-2228`.
 - Ô "Tỉ lệ 1 KNB = ? vàng" nằm cạnh hạn đổi vàng (Cài đặt), nhận 0,01–100, mặc định 2. Mỗi lần nhận tối đa 100.000 vàng (giới hạn của panel GM), tức tối đa floor(100.000 / tỉ lệ) KNB mỗi lần. Hạn đổi vàng/ngày đếm theo **KNB web** (prod đang 400.000).
 - Kiểm kinh tế trước khi tăng: đường vàng → KNB duy nhất trong game là handler ẩn của Kim Ngũ Gia (1 vàng = 14 KNB), đã chặn ở game `96658ac` (**cần cap-nhat**).
+
+### 16/10 - Quà panel mới "tamphap <cấp>" + hủy quà lên cấp 99 cho hoang01–06
+- Chủ server đổi ý: hủy 6 quà `level 99` của hoang01–06 (GUID 1010100020–025). Lúc gỡ chưa ai nhận (DB vẫn cấp 80/81). File gỡ ra lưu ở `/opt/tlbb-backup/qua-level99-huy-20261016-*`.
+- Thêm loại quà `tamphap <cấp>`:
+  - `quatang.lua`: nâng mọi tâm pháp của môn phái đang ở (`x950000_g_TPList`) lên cấp đó, chỉ nâng, không hạ. Chưa vào phái thì giữ dòng lại.
+  - `panel.py`: cho phép loại `tamphap`, cấp 1–159.
+- **Thứ tự bắt buộc:** cap-nhat (Lua mới) → `systemctl restart tlbb-panel` → xếp quà. quatang.lua bản cũ gặp loại quà lạ sẽ **bỏ mất dòng đó**.
+- Tag `truoc-qua-tamphap-16-10`.
