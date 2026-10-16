@@ -35,6 +35,10 @@ end
 ------------------------------------------------------------------------  
 ------------------------------------------------------------------------  
 function x002059_OnEventRequest(sceneId,selfId,targetId,eventId)  
+	-- [don-dep 16/10] chan handler an doi vang / diem -> KNB (310-342): menu da tat nhung handler con, goi duoc bang goi tin sua
+	if GetNumText() >= 310 and GetNumText() <= 342 then
+		return
+	end
     local Sex = GetSex(sceneId,selfId)  
     if Sex == 0 then  
         Sex = "ti¬u muµi"  

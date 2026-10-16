@@ -33,3 +33,10 @@ Code chết (không đăng ký trong `Script.dat`, không chạy được): `MyL
 - Binary server không có source.
 - Client: Windows Defender báo `Bin/RSSParser.dll` là `Trojan:Win32/Occamy!rfn` và `Bin/UpFile.exe` là `Trojan:Win32/Wacatac.H!ml`. `UpFile.exe` đã bỏ khỏi gói client. `RSSParser.dll` bắt buộc phải có để chạy game, người dùng tự quyết thêm ngoại lệ. Chưa có kết quả VirusTotal (SHA256 `1b19cdb793f4b6a840e080b1bdcb660f0ce7274b835d9b68db0f190cc5d0577c`).
 - Launcher client từng tự tải bản vá từ `hoiucthienlong.com` (tên miền cũ, có thể bị người khác mua lại). Đã tắt trong `Patch/patchinfo.txt`.
+
+## 16/10 - Kim Ngũ Gia (002059, Đại Lý): handler ẩn đổi ra KNB
+- `obj/dali/odali_jinwuye.lua`: menu "Chuyển đổi thành Kim Nguyên Bảo" đã comment từ trước, nhưng `x002059_OnEventRequest` vẫn chạy các mã 310–342.
+  - 310–312: trừ 1 / 10 / 100 vàng → cộng 14 / 140 / 1.400 KNB.
+  - 320–342: đổi điểm môn phái / cống hiến bang / Điểm Tặng → KNB.
+- Gọi được bằng gói tin sửa. KNB trong game ra web 1:1 qua NPC Ví Web, mà web đổi KNB → vàng, nên đây là vòng in tiền.
+- Phát hiện khi kiểm kinh tế trước lúc tăng tỉ lệ web KNB → vàng. Đã chặn: đầu hàm trả về ngay khi GetNumText() trong 310–342 (`-- [don-dep 16/10]`). Tag `truoc-kimngugia-chan-knb-16-10`.
