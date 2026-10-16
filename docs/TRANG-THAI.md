@@ -1775,3 +1775,8 @@ Script dùng: `MyLua/wuhunxt/odali_wuyazi.lua` (892101; hàm `WuhunSkillStudy` ~
   - Script chỉ phát phần còn chỗ và báo đúng số đã nhận. Đã đầy (còn < 1 vàng chỗ) thì báo "Vàng khóa đã đầy (tối đa 14.400)" và **không** tính là đã nhận hôm nay.
   - Thực tế mỗi ngày nhận tối đa tới 14.400 vàng khóa đang giữ.
 - Tag `truoc-quangay-5000-80000-16-10`. Lua NPC, cần cap-nhat, không restart.
+
+### 16/10 22:28 - Web: tỉ lệ đổi KNB → vàng không khóa do admin đặt (đang 1 KNB = 2 vàng)
+- Bot bialk `7c9c13b`, đã deploy và restart minigame. Sao lưu: `/opt/tlbb-backup/bot-truoc-vangrate-20261016-2228`.
+- Ô "Tỉ lệ 1 KNB = ? vàng" nằm cạnh hạn đổi vàng (Cài đặt), nhận 0,01–100, mặc định 2. Mỗi lần nhận tối đa 100.000 vàng (giới hạn của panel GM), tức tối đa floor(100.000 / tỉ lệ) KNB mỗi lần. Hạn đổi vàng/ngày đếm theo **KNB web** (prod đang 400.000).
+- Kiểm kinh tế trước khi tăng: đường vàng → KNB duy nhất trong game là handler ẩn của Kim Ngũ Gia (1 vàng = 14 KNB), đã chặn ở game `96658ac` (**cần cap-nhat**).
