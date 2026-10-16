@@ -17,7 +17,8 @@
 | Repo trên VPS | `/opt/tlbb-repo` (git clone của repo này). `/opt/tlbb-deploy` → symlink tới `/opt/tlbb-repo/deploy` |
 | Sao lưu | `/opt/tlbb-backup` (DB gốc, DB hằng ngày lúc 4h, bản trước mỗi lần cập nhật) |
 | Cổng mở | `24700` SSH, `7384` Login, `3731` Game, `80`/`443` web. `8443` (panel game) **chỉ IP admin** `14.169.52.21`, `123.21.72.218` (03/10, sau 4 lần bị dò/SYN flood); IP nhà đổi thì `ufw allow from <IP> to any port 8443 proto tcp comment 'panel - IP admin'`. Bot gọi panel qua `127.0.0.1:8443` nên không bị chặn. Còn lại ufw chặn. MySQL và billing chỉ nghe `127.0.0.1` |
-| Tiến trình | `mysqld` (5.0.45), `billing` (liuguangw/billing_go, `/home/config.json`), `ShareMemory`, `Login`, `World`, `Server` |
+| Tiến trình | `mysqld` (5.0.45), `billing` (liuguangw/billing_go **v1.3.5 x32** từ 16/10, `/home/config.json`), `ShareMemory`, `Login`, `World`, `Server` |
+| Billing (16/10) | **Không đưa lại bản 2019** (md5 `defe4416…`, còn ở `/home/billing.cu-2019`). Bản đó thiếu 12 byte cuối gói trả lời 0xA2 / 0xA3 / 0xA6 → Login lệch dòng dữ liệu (log `Invalid PacketHeadFlag` mỗi 0,2 giây) → **mọi đăng nhập mới treo "Đang kiểm tra mật mã"**; 29/09–16/10 bị 83 lần, có lần treo 3,5 giờ. v1.3.5 md5 `cc9181a9…`. Config phải có `pc_max_client_count: 0` và `max_client_count: 0` (bản mới mặc định 3 nick/máy, 500 người). Thay / trả bản cũ: `deploy/thay-billing.sh <thư mục> \| --tra` (chỉ bật lại billing, không restart game; Login tự nối lại) |
 | Client | phiên bản `1005`. `Patch/LoginServer.txt` trỏ `103.216.118.123:7384`, tên server `NetCo4` |
 
 Binary `Login`/`World`/`Server`/`ShareMemory` **không có source** (bản leak). Chỉ sửa được script Lua và bảng dữ liệu.

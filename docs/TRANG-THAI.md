@@ -1758,3 +1758,13 @@ Script dùng: `MyLua/wuhunxt/odali_wuyazi.lua` (892101; hàm `WuhunSkillStudy` ~
 - `MyLua/zhenyuan/zhenyuanitem.lua` (889904): Dược Trần 38000945–952 và Nguyên Tinh 38000387–389, mỗi lần dùng ăn hết mọi viên CÙNG MÃ (không khóa) trong túi. Tổng điểm như ăn từng viên; thông báo hiện tổng điểm.
 - Trước đây mỗi lần chỉ ăn 1 viên và phải chờ thanh thi triển.
 - Tag `truoc-duoctran-ca-chong-15-10`. Lua, cần cap-nhat, không restart.
+
+### 16/10 22:13 - Thay billing 2019 → billing_go v1.3.5 (sửa treo "Đang kiểm tra mật mã")
+- **Nguyên nhân:** billing 2019 (md5 `defe4416…`) trả gói 0xA2 (kiểm mật khẩu), 0xA3 (vào game), 0xA6 (giữ kết nối) **thiếu 12 byte cuối** (mLeftTime / mStorePoint / mUserPoint). Login của bản game này đọc đủ 12 byte. Gặp 2 gói trả lời sát nhau thì Login đọc lố sang gói sau → lệch dòng dữ liệu → log `Invalid PacketHeadFlag` mỗi 0,2 giây, mọi đăng nhập mới treo; người đã trong game không sao.
+- **Đã bị bao nhiêu lần:** 29/09–16/10 có 83 lần lệch trong 27 file log. Treo ~40 phút (11/10), ~52 phút (13/10), ~23 phút (15/10), 18:30–22:13 (16/10). Không riêng tài khoản nào, nhưng càng nhiều nick vào cùng lúc càng dễ dính.
+- **Sửa:** billing_go v1.3.5 x32 (phát hành 12/05/2025, sha256 tgz `b5a7d62c…19e7a5`, md5 binary `cc9181a9…`).
+  - Thử ở local trước: gói keep trả 21 byte dữ liệu (tên + kết quả + 12), bialk / hoang đăng nhập và vào game, Login 0 lỗi.
+  - VPS 22:13: chỉ bật lại billing, **không restart game**. Login tự nối lại và hết lệch ngay (lỗi cuối 22:13:50), bialk vào lúc 22:14.
+  - Config thêm `max_client_count 0`, `pc_max_client_count 0`, `point_fix 0`, `bill_type 0`.
+- **Sao lưu:** `/opt/tlbb-backup/billing-2019-truoc-v135-20261016`, `/opt/tlbb-backup/billing-config-truoc-v135-20261016.json`, cùng `/home/billing.cu-2019` + `config.json.cu-2019`. Trả bản cũ: `bash deploy/thay-billing.sh --tra`.
+- **Còn lại (vô hại):** bản mới tự ghi `/home/billing.log`, mà tlbb.sh cũng đẩy stdout vào cùng file → mỗi dòng log xuất hiện 2 lần (1 dòng có mã màu).
