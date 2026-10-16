@@ -166,10 +166,10 @@ for (const id in scriptMon) for (const lab of scriptMon[id]) { if (!MA[id] || !M
     50601001, 50601002, 50604002, 50611001, 50611002, 50612001, 50612002, 50612003, 50612004, 50612005, 50612006, 50612007, 50612008, 50613001, 50613002, 50613003, 50613005, 50613006];
   them('Sát Tinh (Sinh Tử Lôi Đài)', ['13447', '13456', '13465', '13474', '13483', '13492', '13501', '13510', '13519', '13528', '13537'], N6.map((x) => [x, 25 / N6.length])); }
 
-// 16/10: phiếu 1.000 KNB 5% mọi quái 4 bản đồ (roimap x950001_g_MapCfg -> RoiCfg "bando", roithem: bando 5 39910001).
+// 16/10: phiếu 1.000 KNB 1% (17/10, trước 5%) mọi quái 4 bản đồ (roimap x950001_g_MapCfg -> RoiCfg "bando", roithem: bando 1 39910001 - 17/10 5 -> 1).
 // Thánh Hỏa Cung (537) gắn script 950001 từ 16/10 (shenghuogong_monster.ini), hiệu lực sau restart game.
 { const BANDO = new Set(['xuelanghu_monster.ini', 'takelamagan_monster.ini', 'hanxieling_monster.ini', 'shenghuogong_monster.ini']);
-  for (const id in spawn) { const them = []; for (const s of spawn[id]) if (s[1] > 0 && maps[s[0]] && BANDO.has(String(maps[s[0]][2]).toLowerCase())) them.push([s[0], 0, 0, 0, [39910001, 5]]);
+  for (const id in spawn) { const them = []; for (const s of spawn[id]) if (s[1] > 0 && maps[s[0]] && BANDO.has(String(maps[s[0]][2]).toLowerCase())) them.push([s[0], 0, 0, 0, [39910001, 1]]);
     for (const x of them) if (!spawn[id].some((y) => y[0] === x[0] && y[4] && y[4][0] === 39910001)) spawn[id].push(x); } }
 
 // ---- ghep: chi quai co dong roi (co it nhat 1 hop) hoac co diem spawn

@@ -281,6 +281,7 @@ StandardImpact 793 "步步生花陷阱伤害" (logic 001 = sát thương trực 
 ### Phiếu 1.000 KNB (39910001) 5% mỗi quái ở 4 bản đồ (16/10, chủ server)
 
 - Bản đồ: Tuyết Lang Hồ 179, Tháp Khắc Lạp Mã Cán 427, Hạn Huyết Lĩnh 432, Thánh Hỏa Cung 537.
+- **17/10: hạ 5% → 1%** (chủ server; roithem `bando 1 39910001`, sao lưu `roithem-truoc-bando1-*`). Ước tính ~10.000 KNB/giờ cho 1 người farm 1.000 quái.
 - Cách gắn: khóa roithem mới `bando` (`roimap.lua` `x950001_g_MapCfg`, `panel.py` `ROI_KHOA`). Dòng `bando 5 39910001` chỉ thêm được **sau** cap-nhat + restart tlbb-panel.
 - Thánh Hỏa Cung: 98 quái `script_id=-1` → 950001 (`shenghuogong_monster.ini`), **cần restart game**.
 - **Cảnh báo kinh tế:** 1 người farm ~1.000 quái/giờ (Tháp KLMC 90 quái, hồi sinh 5 giây) ra ~50 phiếu = **~50.000 KNB/giờ**. Web lại đang đổi 1 KNB = 2 vàng. Chỉnh tỉ lệ trên web ở tab Rơi thêm.
