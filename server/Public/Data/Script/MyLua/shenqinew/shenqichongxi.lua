@@ -289,18 +289,29 @@ function  x900033_ShangGuTopo(sceneId,selfId,eventId,PosId,arg1,arg2,arg3)
 	 	 return
 	 end
 
-	 local  nDelJZ,  nDelMoney  =  LuaFnCostMoneyWithPriority(sceneId,  selfId,  50000);
-                if  nDelJZ  ==  -1  then
-	 	 x900033_NotifyTips(  sceneId,  selfId,  " kim ti«n kh¤u tr× th¤t bÕi "  )
+	 -- [NetCo4 16/10] bam 1 lan = duc linh LIEN TUC toi cap 20: moi cap van tru dung Phuc Hi Ngoc (FuXiCost) + 5 vang nhu goc, het thi dung
+	 local  dalen  =  0
+	 while  myQLZ  <  20  do
+	 	 if  LuaFnGetAvailableItemCount(sceneId,  selfId,  38002049)  <  FuXiCost[myQLZ]  then
+	 	 	 break
+	 	 end
+	 	 if  LuaFnGetMoney(  sceneId,  selfId  )  +  GetMoneyJZ(  sceneId,  selfId  )  <  50000  then
+	 	 	 break
+	 	 end
+	 	 local  nDelJZ,  nDelMoney  =  LuaFnCostMoneyWithPriority(sceneId,  selfId,  50000);
+	 	 if  nDelJZ  ==  -1  then
+	 	 	 break
+	 	 end
+	 	 if  LuaFnDelAvailableItem(sceneId,selfId,38002049,FuXiCost[myQLZ])  ~=  1  then
+	 	 	 break
+	 	 end
+	 	 myQLZ  =  myQLZ  +  1
+	 	 dalen  =  dalen  +  1
+	 end
+	 if  dalen  ==  0  then
+	 	 x900033_NotifyTips(  sceneId,  selfId,  "Kh\244ng tr\215 \240\223\254c v\224ng / Ph\248c Hi Ng\247c, th\216 l\213i"  )
 	 	 return
 	 end
-
-                if    LuaFnDelAvailableItem(sceneId,selfId,38002049,FuXiCost[myQLZ])  ~=  1  then
-                        x900033_NotifyTips(  sceneId,  selfId,  "[ phøc hi ng÷c ] kh¤u tr× th¤t bÕi "  )
-                        return
-                end
-
-                myQLZ  =  myQLZ  +  1
                 local  NEWname  =  ""
                 if  myQLZ  <  10  then
                       NEWname  =  gsub(myname,"(#S%w)%w","%1"..myQLZ)

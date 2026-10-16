@@ -1804,3 +1804,8 @@ Script dùng: `MyLua/wuhunxt/odali_wuyazi.lua` (892101; hàm `WuhunSkillStudy` ~
 - `MyLua/shenqinew/wuyazi85o.lua` (895111, tepp 25, NPC Âu Dã Thanh): trước mỗi lần bấm chỉ +1 cấp độ phù hợp, cửa sổ đóng phải mở lại.
 - Nay 1 lần bấm khế hợp liên tục tới cấp 9. Mỗi cấp vẫn trừ đúng số Huyền Binh Thạch (30505815) theo `x895111_XuanBingNum` + 5 vàng như gốc. Thiếu đá / vàng thì dừng ở cấp đã đạt và báo "Khế hợp lên N cấp, hiện cấp X". **Không đổi giá.**
 - Tag `truoc-khehop-1lan-16-10`. Lua, cần cap-nhat, không restart.
+
+### 16/10 - Thượng Cổ Thần Khí Dục Linh: bấm 1 lần lên liên tục tới cấp 20
+- `MyLua/shenqinew/shenqichongxi.lua` (900033 `x900033_ShangGuTopo` eventId 2, NPC Tiêu Dao Tử): giữ các bước kiểm cũ (thiếu cho cấp đầu thì báo như cũ), sau đó lặp tới cấp 20.
+- Mỗi cấp trừ đúng Phục Hi Ngọc 38002049 theo `FuXiCost` (2, 10, 20, 26 … 242; tổng cấp 1→20 = 1.687 viên) + 5 vàng như gốc. Hết ngọc / vàng thì dừng; thông báo cuối hiện cấp khí linh đạt được. **Không đổi giá.**
+- Tag `truoc-duclinh-1lan-16-10`. Lua, cần cap-nhat, không restart.
