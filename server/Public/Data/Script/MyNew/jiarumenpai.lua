@@ -9,9 +9,9 @@ x990010_MenPaiShiZhuang  ={10124000,10124001,10124002,10124004,10124003,10124005
 x990010_MenPaiName  ={" Thiªu Lâm "," Minh Giáo "," Cái Bang "," Võ Ðang "," Nga Mi "," Tinh Túc "," Thiên Long "," Thiên S½n "," Tiêu Dao "," không cØa phái "," Mµ Dung "," Ðß¶ng Môn "," QuÖ C¯c "}
 
 x990010_g_scriptId  =  990010
-x990010_g_VangNgay = 2000        -- [NetCo4 30/09] vang khong khoa mien phi moi ngay (1 lan / nhan vat / ngay)
+x990010_g_VangNgay = 5000        -- [NetCo4 30/09] vang khong khoa mien phi moi ngay (1 lan / nhan vat / ngay)
 x990010_g_VangDir = "./txt/NetCo4Web/"   -- trang thai <GUID>.vang = so ngay yyyymmdd
-x990010_g_VangKhoaNgay = 8000    -- [NetCo4 01/10] vang KHOA mien phi moi ngay (1 lan / nhan vat / ngay), them ngoai 2.000 vang khong khoa. Trang thai <GUID>.vangkhoa
+x990010_g_VangKhoaNgay = 80000    -- [NetCo4 01/10] vang KHOA mien phi moi ngay (1 lan / nhan vat / ngay), them ngoai 2.000 vang khong khoa. Trang thai <GUID>.vangkhoa
 -- [NetCo4 30/09] Gio mo cua Hau Hoa Vien (scene 62/82/182). Mo tu HHV_Mo gio den truoc HHV_Dong gio. Mo=0, Dong=24 = mo ca ngay.
 x990010_g_HHV_Mo = 0     -- [07/10] mo 24/24, gioi han bang x990010_g_HHV_Giay (truoc: 22 - 24)
 x990010_g_HHV_Dong = 24
@@ -86,8 +86,8 @@ function  x990010_OnDefaultEvent(  sceneId,  selfId,  targetId  )
 	 	 AddNumText(  sceneId,  x990010_g_scriptId,  "#GTr¸ li®u",  3,  500)
 		 AddNumText(sceneId, x990010_g_scriptId, "#c66ccccNh§n Skill S½ C¤p", 6, 918)
 		 AddNumText(sceneId, x990010_g_scriptId, "#GNh§n 80.000 Ði¬m T£ng (mi­n phí)", 6, 919) -- [NetCo4 30/09]
-		 AddNumText(sceneId, x990010_g_scriptId, "#YNh§n 2.000 vàng hôm nay (1 l¥n/ngày)", 6, 920) -- [NetCo4 30/09]
-		 AddNumText(sceneId, x990010_g_scriptId, "#YNh\167n 8.000 v\224ng kh\243a h\244m nay (1 l\165n/ng\224y)", 6, 921) -- [NetCo4 01/10]
+		 AddNumText(sceneId, x990010_g_scriptId, "#YNh§n 5.000 vàng hôm nay (1 l¥n/ngày)", 6, 920) -- [NetCo4 30/09]
+		 AddNumText(sceneId, x990010_g_scriptId, "#YNh\167n 80.000 v\224ng kh\243a h\244m nay (1 l\165n/ng\224y)", 6, 921) -- [NetCo4 01/10]
 		 AddNumText(sceneId, x990010_g_scriptId, "#cFF00FFT\244ng B\237 T\184ch (xem / x\170p / \240\177i)", 6, 922) -- [NetCo4 01/10]
 		 
 		--if LuaFnGetGUID( sceneId, selfId ) == 1010000020     then
@@ -529,6 +529,15 @@ function x990010_VangKhoaNgay( sceneId, selfId, targetId )
 			return
 		end
 	end
+	-- [NetCo4 16/10] engine cat vang khoa o 144.000.000 dong (14.400 vang): chi phat phan con cho; day roi thi KHONG tinh la da nhan
+	local them = x990010_g_VangKhoaNgay * 10000
+	if GetMoneyJZ( sceneId, selfId ) + them > 144000000 then
+		them = 144000000 - GetMoneyJZ( sceneId, selfId )
+	end
+	if them < 10000 then
+		x990010_NotifyFailBox( sceneId, selfId, targetId, "V\224ng kh\243a \240\227 \240\165y (t\175i \240a 14.400 v\224ng), ti\234u b\190t r\176i quay l\213i nh\167n." )
+		return
+	end
 	h = openfile( path, "w" )
 	if h == nil then
 		x990010_NotifyFailBox( sceneId, selfId, targetId, "L\178i ghi file, b\225o GM." )
@@ -536,9 +545,9 @@ function x990010_VangKhoaNgay( sceneId, selfId, targetId )
 	end
 	write( h, today.."\n" )
 	closefile( h )
-	AddMoneyJZ( sceneId, selfId, x990010_g_VangKhoaNgay * 10000 )
+	AddMoneyJZ( sceneId, selfId, them )
 	LuaFnSendSpecificImpactToUnit( sceneId, selfId, selfId, selfId, 18, 0 )
-	x990010_NotifyFailBox( sceneId, selfId, targetId, "C\225c h\213 \240\227 nh\167n #Y8.000 v\224ng kh\243a#W h\244m nay." )
+	x990010_NotifyFailBox( sceneId, selfId, targetId, "C\225c h\213 \240\227 nh\167n #Y"..floor( them / 10000 ).." v\224ng kh\243a#W h\244m nay." )
 end
 
 -- [NetCo4 01/10] Tong Bi Tich (mission 443 = tong x 1.000.000 + sach). Cac muc chon goi x900048_OnEventRequest key 201-205.

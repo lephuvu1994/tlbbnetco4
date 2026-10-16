@@ -1768,3 +1768,10 @@ Script dùng: `MyLua/wuhunxt/odali_wuyazi.lua` (892101; hàm `WuhunSkillStudy` ~
   - Config thêm `max_client_count 0`, `pc_max_client_count 0`, `point_fix 0`, `bill_type 0`.
 - **Sao lưu:** `/opt/tlbb-backup/billing-2019-truoc-v135-20261016`, `/opt/tlbb-backup/billing-config-truoc-v135-20261016.json`, cùng `/home/billing.cu-2019` + `config.json.cu-2019`. Trả bản cũ: `bash deploy/thay-billing.sh --tra`.
 - **Còn lại (vô hại):** bản mới tự ghi `/home/billing.log`, mà tlbb.sh cũng đẩy stdout vào cùng file → mỗi dòng log xuất hiện 2 lần (1 dòng có mã màu).
+
+### 16/10 - NPC NetCo4 quà ngày: vàng 2.000 → 5.000, vàng khóa 8.000 → 80.000
+- `MyNew/jiarumenpai.lua` (990010): `x990010_g_VangNgay` 5000, `x990010_g_VangKhoaNgay` 80000, chữ menu đổi theo.
+- **Trần engine:** `Obj_Human::AddMoneyJZ` cắt vàng khóa ở 144.000.000 đồng = **14.400 vàng** (đọc từ Server.elf: `cmp $0x8954400` → gán bằng trần). Phần vượt sẽ mất.
+  - Script chỉ phát phần còn chỗ và báo đúng số đã nhận. Đã đầy (còn < 1 vàng chỗ) thì báo "Vàng khóa đã đầy (tối đa 14.400)" và **không** tính là đã nhận hôm nay.
+  - Thực tế mỗi ngày nhận tối đa tới 14.400 vàng khóa đang giữ.
+- Tag `truoc-quangay-5000-80000-16-10`. Lua NPC, cần cap-nhat, không restart.
