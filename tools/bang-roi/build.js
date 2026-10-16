@@ -135,7 +135,7 @@ for (const id in scriptMon) for (const lab of scriptMon[id]) { if (!MA[id] || !M
   for (const v of ['SmallMonsterId_1', 'SmallMonsterId_2', 'SmallMonsterId_3', 'MiddleMonsterId']) { const m = t.match(new RegExp('x402040_g_' + v + '\s*=\s*\{([^}]*)\}')); if (m) for (const n of m[1].match(/\d+/g)) ids.add(n); }
   const big = t.match(/x402040_g_BigFootBall\s*=\s*\{([^}]*)\}/); if (big) for (const n of big[1].match(/\d+/g)) for (let k = 0; k < 10; k++) ids.add(String(+n + k));
   const key = 'sc:Túc Cầu'; if (!(key in mapIdx)) { mapIdx[key] = maps.length; maps.push(['Túc Cầu', 'sc', '']); }
-  for (const id of ids) if (MA[id]) (spawn[id] = spawn[id] || []).push([mapIdx[key], 0, 0, 0, [30600084, 30]]); }
+  for (const id of ids) if (MA[id]) (spawn[id] = spawn[id] || []).push([mapIdx[key], 0, 0, 0, [30600084, 100]]); }   // 16/10: roithem tuccau 100 30600084 (30 -> 100)
 // [03/10] roi qua script tung rieng tung nguoi: Q To Chau (1130) / Q Lau Lan (1129) + quai ai 3 (roimap g_RoiPhoBan):
 // moi quai 30% Cuu Thien Ngoc Toai + 10% Mien Bo 6 / Bi Ngan 6 (boc 1 -> ghi 5% + 5%); Ky Cuoc (RoiCfg, roithem.txt tren VPS
 // 03/10): moi quan co 20% Tu Vi Linh Phach (+ 2% ngoc cap 6 tui B ghi o phan chu thich, roithem.txt: kycuoc_co 2 @ngoc6b - 05/10 20h35, truoc 4). Sua ty le o day khi doi cau hinh.
@@ -148,11 +148,14 @@ for (const id in scriptMon) for (const lab of scriptMon[id]) { if (!MA[id] || !M
   them('Q Tô Châu', dai(4060, 4169), Q);
   them('Q Lâu Lan', dai(13000, 13269), Q);
   // 13/10: + Li Hỏa 20700063 30% mỗi quân cờ (roithem.txt: kycuoc_co 30 20700063)
-  them('Kỳ Cuộc', [...dai(1770, 1809), ...dai(12000, 12039), ...dai(12050, 12089)], [[30600084, 20], [20700063, 30]]);
+  them('Kỳ Cuộc', [...dai(1770, 1809), ...dai(12000, 12039), ...dai(12050, 12089)], [[30600084, 100], [20700063, 30]]);   // 16/10: Tử Vi 20 -> 100
+  // 16/10: boss Viễn Cổ Kỳ Hồn (RoiCfg "kycuoc_boss", roithem: kycuoc_boss 100 30600084) - ngoài hộp bảng 50049
+  them('Kỳ Cuộc', dai(1850, 1859), [[30600084, 100]]);
   // 13/10: Túc Cầu boss Tôn Mỹ Mỹ (efuben_cuju x402040_OnDie -> RoiCfg "tuccau", roithem: tuccau 30 20700063) Li Hỏa 30%
   // 14/10: Li Hỏa 30% cho TOÀN BỘ quái Túc Cầu: quả nhỏ / giữa 3680-3719, bóng lớn 9160-9199 (efuben_cuju_4 x402045_OnDie -> RoiCfg "tuccau") + boss 3720-3729
   { const bong = []; for (const n of [9160, 9170, 9180, 9190, 39160, 39170, 39180, 39190]) for (let k = 0; k < 10; k++) bong.push(String(n + k));
-    them('Túc Cầu', [...dai(3680, 3729), ...bong], [[20700063, 30]]); }
+    them('Túc Cầu', [...dai(3680, 3729), ...bong], [[20700063, 30]]);
+    them('Túc Cầu', dai(3720, 3729), [[30600084, 100]]); }   // 16/10: boss Túc Cầu Tử Vi 100% (roithem tuccau 100 30600084); quả túc cầu ghi ở khối trên
   // 14/10: Lâu Lan Tầm Bảo (seek_treasure.lua x808039_OnDie -> roimap RoiDo): MỌI quái (nhỏ 12102-12119, giữa 12120-12137, boss 12138-12146) Tử Phủ Tinh Tủy 40%
   { const L = []; for (let i = 12102; i <= 12146; i++) L.push(String(i)); them('Lâu Lan Tầm Bảo', L, [[38002047, 40]]); }
   // 13/10: quái Hậu Hoa Viên 1/2/3 (roimap x950001_g_MapCfg -> RoiCfg "hhv", roithem: hhv 5 20700063) Li Hỏa 5% - ngoài Chí Tôn Cường Hóa của g_Roi
@@ -162,6 +165,12 @@ for (const id in scriptMon) for (const lab of scriptMon[id]) { if (!MA[id] || !M
   const N6 = [50602001, 50602002, 50602003, 50602004, 50602005, 50602006, 50602007, 50602008, 50613004, 50614001, 50603001,
     50601001, 50601002, 50604002, 50611001, 50611002, 50612001, 50612002, 50612003, 50612004, 50612005, 50612006, 50612007, 50612008, 50613001, 50613002, 50613003, 50613005, 50613006];
   them('Sát Tinh (Sinh Tử Lôi Đài)', ['13447', '13456', '13465', '13474', '13483', '13492', '13501', '13510', '13519', '13528', '13537'], N6.map((x) => [x, 25 / N6.length])); }
+
+// 16/10: phiếu 1.000 KNB 5% mọi quái 4 bản đồ (roimap x950001_g_MapCfg -> RoiCfg "bando", roithem: bando 5 39910001).
+// Thánh Hỏa Cung (537) gắn script 950001 từ 16/10 (shenghuogong_monster.ini), hiệu lực sau restart game.
+{ const BANDO = new Set(['xuelanghu_monster.ini', 'takelamagan_monster.ini', 'hanxieling_monster.ini', 'shenghuogong_monster.ini']);
+  for (const id in spawn) { const them = []; for (const s of spawn[id]) if (s[1] > 0 && maps[s[0]] && BANDO.has(String(maps[s[0]][2]).toLowerCase())) them.push([s[0], 0, 0, 0, [39910001, 5]]);
+    for (const x of them) if (!spawn[id].some((y) => y[0] === x[0] && y[4] && y[4][0] === 39910001)) spawn[id].push(x); } }
 
 // ---- ghep: chi quai co dong roi (co it nhat 1 hop) hoac co diem spawn
 const mons = []; const usedBox = new Set(), usedItem = new Set();

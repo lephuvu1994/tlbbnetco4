@@ -269,6 +269,23 @@ StandardImpact 793 "步步生花陷阱伤害" (logic 001 = sát thương trực 
 - **Trước:** không quái nào rơi; chỉ Tiệm Nguyên Bảo kệ 227 (1 viên 500 / 10 viên 5.000) + quà Hoạt Lực 890536 (mốc 2, 1 trong 10 món). Script 760577 / 760590 / 760600 / OpenUi 892922 có Li Hỏa nhưng KHÔNG đăng ký trong Script.dat (chết).
 - **Sau (roithem.txt trên VPS, mỗi người roll riêng):** Kỳ Cuộc **30% mỗi quân cờ** (`kycuoc_co 30 20700063`, ~200 quân / lượt → **~60 viên / người / lượt**), Túc Cầu boss Tôn Mỹ Mỹ **30%** (`tuccau`, khóa mới - `efuben_cuju.lua`), quái Hậu Hoa Viên 1/2/3 **5% mỗi con** (`hhv`, khóa mới - `roimap.lua x950001_g_MapCfg`). Tag `truoc-lihoa-roi-13-10`; sao lưu `roithem-truoc-lihoa-*`. **Chưa đo.**
 
+### Tử Vi Linh Phách 30600084: Kỳ Cuộc + Túc Cầu 100% (16/10, chủ server)
+
+- `roithem.txt` qua API panel, **hiệu lực ngay**; bản cũ lưu ở `/opt/tlbb-backup/roithem-truoc-tuvi100-*`.
+  - Kỳ Cuộc: `kycuoc_co` 20 → **100** (mỗi quân cờ), thêm `kycuoc_boss 100` (boss Viễn Cổ Kỳ Hồn).
+  - Túc Cầu: thêm `tuccau 100` (mỗi quả túc cầu + boss Tôn Mỹ Mỹ).
+- `efuben_cuju_4.lua`: bỏ dòng RoiDo 30% cứng để khỏi roll 2 lần (cần cap-nhat; trước lúc đó quả túc cầu roll cả 30% cũ lẫn 100% mới).
+- Hộp bảng 50049 (boss Kỳ Cuộc / Túc Cầu ~53%) **giữ nguyên**, vì hộp này còn dùng cho Phệ Hồn Hoa Yêu, Nứt Hải Ma Long, Diệt Thế Hỏa Phượng…
+- Mỗi người trong tổ đứng gần tự roll. **Chưa đo.**
+
+### Phiếu 1.000 KNB (39910001) 5% mỗi quái ở 4 bản đồ (16/10, chủ server)
+
+- Bản đồ: Tuyết Lang Hồ 179, Tháp Khắc Lạp Mã Cán 427, Hạn Huyết Lĩnh 432, Thánh Hỏa Cung 537.
+- Cách gắn: khóa roithem mới `bando` (`roimap.lua` `x950001_g_MapCfg`, `panel.py` `ROI_KHOA`). Dòng `bando 5 39910001` chỉ thêm được **sau** cap-nhat + restart tlbb-panel.
+- Thánh Hỏa Cung: 98 quái `script_id=-1` → 950001 (`shenghuogong_monster.ini`), **cần restart game**.
+- **Cảnh báo kinh tế:** 1 người farm ~1.000 quái/giờ (Tháp KLMC 90 quái, hồi sinh 5 giây) ra ~50 phiếu = **~50.000 KNB/giờ**. Web lại đang đổi 1 KNB = 2 vàng. Chỉnh tỉ lệ trên web ở tab Rơi thêm.
+- Tag `truoc-phieu-bando-16-10`. **Chưa đo.**
+
 ### Kim Tàm Ti 20310168 - Tháp Khắc Lạp Mã Cán (427)
 
 - `NetCo4/roimap.lua` `x950001_g_Roi[427]`, mỗi quái mỗi người: 30% → 20% → 25% (11/10) → **30% (14/10, chủ server)**. 90 quái cấp 101–105, hồi sinh 5 giây. So sánh: Hàn Huyết Lĩnh (432) 40%. Tag `truoc-thap-30-14-10`. Lua, cần `cap-nhat.sh`, không restart. **Chưa đo.**

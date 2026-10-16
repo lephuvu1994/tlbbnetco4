@@ -198,6 +198,7 @@ ROI_KHOA = {   # khoa -> (ten hien thi, so con moi luot de uoc tinh)
     "sattinh": ("Sat Tinh (Sinh Tu Loi Dai) - moi boss", 12),
     "tuccau": ("Tuc Cau - boss Ton My My", 1),                     # 13/10: efuben_cuju.lua x402040_OnDie
     "hhv": ("Hau Hoa Vien 1/2/3 - moi quai", 72),                  # 13/10: roimap.lua x950001_g_MapCfg (scene 62/82/182)
+    "bando": ("4 ban do: Tuyet Lang Ho / Thap Khac Lap Ma Can / Han Huyet Linh / Thanh Hoa Cung - moi quai", 800),   # 16/10: roimap.lua x950001_g_MapCfg scene 179/427/432/537
 }
 ROI_NHOM = {   # phai khop x950001_g_Nhom trong roimap.lua
     "@ngoc6": "20 loai ngoc cap 6 thuong",

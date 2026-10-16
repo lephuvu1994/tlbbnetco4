@@ -60,7 +60,8 @@ x950001_g_RoiPhoBan2 = {
 }
 
 -- [13/10] ban do -> khoa roithem.txt (roi them do admin cau hinh tren web, ngoai mon co dinh cua x950001_g_Roi)
-x950001_g_MapCfg = { [62] = "hhv", [82] = "hhv", [182] = "hhv" }   -- Hau Hoa Vien 1 / 2 / 3
+x950001_g_MapCfg = { [62] = "hhv", [82] = "hhv", [182] = "hhv",   -- Hau Hoa Vien 1 / 2 / 3
+	[179] = "bando", [427] = "bando", [432] = "bando", [537] = "bando" }   -- [16/10] Tuyet Lang Ho / Thap Khac Lap Ma Can / Han Huyet Linh / Thanh Hoa Cung (phieu 1.000 KNB 5%)
 
 function x950001_OnDie( sceneId, selfId, killerId )
 	local kcfg = x950001_g_MapCfg[sceneId]
