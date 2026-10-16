@@ -1809,3 +1809,11 @@ Script dùng: `MyLua/wuhunxt/odali_wuyazi.lua` (892101; hàm `WuhunSkillStudy` ~
 - `MyLua/shenqinew/shenqichongxi.lua` (900033 `x900033_ShangGuTopo` eventId 2, NPC Tiêu Dao Tử): giữ các bước kiểm cũ (thiếu cho cấp đầu thì báo như cũ), sau đó lặp tới cấp 20.
 - Mỗi cấp trừ đúng Phục Hi Ngọc 38002049 theo `FuXiCost` (2, 10, 20, 26 … 242; tổng cấp 1→20 = 1.687 viên) + 5 vàng như gốc. Hết ngọc / vàng thì dừng; thông báo cuối hiện cấp khí linh đạt được. **Không đổi giá.**
 - Tag `truoc-duclinh-1lan-16-10`. Lua, cần cap-nhat, không restart.
+
+### 16/10 - Khóa / mở tài khoản trên trang admin
+- billing_go v1.3.5 chặn đăng nhập khi **`web.account.id_card = '1'`** (source `models/check_login.go`, trả mã 7 "đình quyền"). Bản này **không** dùng `is_lock` (đó là của billing 2019).
+- Đã thử trên server local bằng gói 0xA2 thật (`deploy/thu-khoa-local.sh`): chưa khóa = 1, khóa = 7, mở = 1.
+- `panel.py`: lệnh `khoa_tk` (ten, khoa 0/1) ghi `id_card='1'` + `is_lock=1` (hoặc NULL / 0), không khóa được `admin`, có audit. `/api/state` có `accounts[].khoa`.
+- Bot (bialk): tab GM, bảng tài khoản có nhãn 🔒 khoá và nút 🔒 Khoá / 🔓 Mở khoá; nhật ký ADMIN `[GM] khoa_tk`.
+- **Chỉ chặn lần đăng nhập sau.** Người đang trong game không bị đá.
+- Cần cap-nhat + `systemctl restart tlbb-panel` (panel game) và restart minigame (bot).

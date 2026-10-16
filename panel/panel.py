@@ -443,6 +443,10 @@ def accounts():
             for r in sql("SELECT id, name, is_online FROM web.account ORDER BY id")]
 
 
+def accounts_khoa():   # 16/10: ten tai khoan dang bi khoa (id_card = '1', xem act khoa_tk)
+    return {r[0].decode() for r in sql("SELECT name FROM web.account WHERE id_card='1'")}
+
+
 def chars():
     rows = sql("SELECT charguid, accname, charname, level FROM tlbbdb.t_char WHERE isvalid=1 ORDER BY charguid")
     return [(r[0].decode(), viscii(r[1]), viscii(r[2]), r[3].decode()) for r in rows]
@@ -526,6 +530,21 @@ def act(form):
         sql("DELETE FROM web.account WHERE name='%s'" % n)
         audit("xoa tai khoan %s" % n)
         return "Da xoa tai khoan %s" % n
+    if a == "khoa_tk":   # 16/10: khoa / mo tai khoan. billing_go v1.3.5 chan dang nhap khi id_card = '1' (models/check_login.go);
+        # is_lock ghi kem cho dong bo (billing cu / tao-account.sh --ds). Chi chan lan DANG NHAP SAU, nguoi dang trong game khong bi da.
+        n, k = v("ten"), v("khoa")
+        if not RE_ACC.match(n) or n == "admin":
+            return "Khong khoa duoc tai khoan nay"
+        if k not in ("0", "1"):
+            return "khoa phai 0 hoac 1"
+        if not sql("SELECT id FROM web.account WHERE name='%s'" % n):
+            return "Khong co tai khoan %s" % n
+        if k == "1":
+            sql("UPDATE web.account SET id_card='1', is_lock=1 WHERE name='%s'" % n)
+        else:
+            sql("UPDATE web.account SET id_card=NULL, is_lock=0 WHERE name='%s'" % n)
+        audit("%s tai khoan %s" % ("khoa" if k == "1" else "mo khoa", n))
+        return ("Da khoa tai khoan %s (chan tu lan dang nhap sau; dang trong game thi khong bi da)" if k == "1" else "Da mo khoa tai khoan %s") % n
     if a == "qua":
         g, kind, val, cnt = v("guid"), v("loai"), v("gt"), v("sl") or "1"
         if kind in ("pet12", "petv2", "petall", "pettt"):   # 4 o chon pet (cung danh sach ten, khac ban) -> loai "pet"
@@ -969,6 +988,10 @@ def api_state():
         accs, chs = accounts(), chars()
     except Exception as e:  # MySQL tat
         accs, chs, err = [], [], str(e)
+    try:
+        khoa = accounts_khoa()   # 16/10
+    except Exception:
+        khoa = set()
     online_acc = {n for _, n, on in accs if on}
     gms = set(gm_guids())
     try:
@@ -981,7 +1004,7 @@ def api_state():
         out_chars.append({"guid": g, "account": acc, "name": name, "level": lv, "online": acc in online_acc,
                           "gm": g in gms, "pending": tom_tat(pend), "hasPending": bool(pend)})
     return {"procs": procs, "online": online_count(), "ram": [tot - avail, tot], "dbError": err,
-            "accounts": [{"id": i, "name": n, "online": on} for i, n, on in accs],
+            "accounts": [{"id": i, "name": n, "online": on, "khoa": n in khoa} for i, n, on in accs],
             "chars": out_chars, "capmin": capmin, "capmax": capmax_get(), "itemCount": len(ITEMS),
             "expparam": exp_get(), "expDefault": exp_macdinh(), "tpmax": tpmax_get(), "roithem": roi_state(),   # 03/10
             "voy": voy_get()[0], "voytrain": voy_get()[1], "voyDefault": list(VOY_MD),   # 13/10
