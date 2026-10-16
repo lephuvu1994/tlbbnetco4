@@ -1817,3 +1817,7 @@ Script dùng: `MyLua/wuhunxt/odali_wuyazi.lua` (892101; hàm `WuhunSkillStudy` ~
 - Bot (bialk): tab GM, bảng tài khoản có nhãn 🔒 khoá và nút 🔒 Khoá / 🔓 Mở khoá; nhật ký ADMIN `[GM] khoa_tk`.
 - **Chỉ chặn lần đăng nhập sau.** Người đang trong game không bị đá.
 - Cần cap-nhat + `systemctl restart tlbb-panel` (panel game) và restart minigame (bot).
+- **16/10 23:53 – khóa chặn luôn web** (bot `4e1c3a5`, đã deploy). Danh sách tài khoản bị khóa lấy từ panel game (`accounts[].khoa`), làm mới 30 giây một lần.
+  - Chặn đăng nhập web bằng tài khoản đó.
+  - Đá các phiên web đang mở của ví gắn tài khoản đó, hoặc gắn nhân vật thuộc tài khoản đó (kể cả ví clone).
+  - Sao lưu bản cũ: `/opt/tlbb-backup/bot-truoc-khoaweb-20261016-2353`.
