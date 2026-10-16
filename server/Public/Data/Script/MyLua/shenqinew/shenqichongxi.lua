@@ -474,12 +474,31 @@ function  x900033_ShangGuTopo(sceneId,selfId,eventId,PosId,arg1,arg2,arg3)
                       return
                 end
 
-                if    LuaFnDelAvailableItem(sceneId,selfId,CostCailiao,x900033_g_SkillLevCost[arg1][hunLev])  ~=  1  then
-                        x900033_NotifyTips(  sceneId,  selfId,  "[#{_ITEM"..CostCailiao.."}] kh¤u tr× th¤t bÕi "  )
-                        return
-                end
-
-                hunLev  =  hunLev  +  1
+	 -- [NetCo4 17/10] bam 1 lan = thang cap hon vi LIEN TUC toi cap 10: moi cap van tru dung Hon Ngoc (x900033_g_SkillLevCost) nhu goc, het thi dung
+	 local  dalen  =  0
+	 while  hunLev  <=  9  do
+	 	 if  LuaFnGetAvailableItemCount(sceneId,  selfId,  CostCailiao)  <  x900033_g_SkillLevCost[arg1][hunLev]  then
+	 	 	 break
+	 	 end
+	 	 if  LuaFnDelAvailableItem(sceneId,selfId,CostCailiao,x900033_g_SkillLevCost[arg1][hunLev])  ~=  1  then
+	 	 	 break
+	 	 end
+	 	 dalen  =  dalen  +  1
+	 	 hunLev  =  hunLev  +  1
+	 end
+	 if  dalen  ==  0  then
+	 	 x900033_NotifyTips(  sceneId,  selfId,  "Kh\244ng tr\215 \240\223\254c H\176n Ng\247c, th\216 l\213i"  )
+	 	 return
+	 end
+	 hunLev  =  hunLev  -  1      -- cap luu moi (0-9, hien thi +1)
+	 if  arg1  ==  1  then
+	 	 name11  =  gsub(myname,"(#S%w%w%w)%w","%1"..hunLev)
+	 elseif  arg1  ==  2  then
+	 	 name11  =  gsub(myname,"(#S%w%w%w%w%w)%w","%1"..hunLev)
+	 else
+	 	 name11  =  gsub(myname,"(#S%w%w%w%w%w%w%w)%w","%1"..hunLev)
+	 end
+	 hunLev  =  hunLev  +  1      -- cap hien thi cho dong thong bao (nhu goc)
 	 LuaFnSetItemCreator(  sceneId,  selfId,  PosId,  name11  )
 	 LuaFnRefreshItemInfo(  sceneId,  selfId,  PosId  )
                 LuaFnSendSpecificImpactToUnit(sceneId,  selfId,  selfId,  selfId,  148,  0)  -- ð£c hi®u 

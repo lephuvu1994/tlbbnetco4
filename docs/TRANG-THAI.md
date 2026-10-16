@@ -1821,3 +1821,12 @@ Script dùng: `MyLua/wuhunxt/odali_wuyazi.lua` (892101; hàm `WuhunSkillStudy` ~
   - Chặn đăng nhập web bằng tài khoản đó.
   - Đá các phiên web đang mở của ví gắn tài khoản đó, hoặc gắn nhân vật thuộc tài khoản đó (kể cả ví clone).
   - Sao lưu bản cũ: `/opt/tlbb-backup/bot-truoc-khoaweb-20261016-2353`.
+
+### 17/10 - Tru Tiên Vạn Tượng: thăng cấp hồn vị bấm 1 lần lên liên tục tới cấp 10
+- `MyLua/shenqinew/shenqichongxi.lua` (900033 `x900033_ShangGuTopo` eventId 4): giữ bước kiểm cũ, sau đó lặp tới cấp 10.
+- Mỗi cấp trừ đúng Hồn Ngọc theo `x900033_g_SkillLevCost`:
+  - Mệnh 38002041: 5 … 95, tổng 1→10 = 355 viên.
+  - Địa 38002043: tổng 313 viên.
+  - Thiên 38002045: tổng 268 viên.
+- Hết ngọc thì dừng. **Không đổi giá.**
+- Tag `truoc-honvi-1lan-17-10`. Lua, cần cap-nhat, không restart.
