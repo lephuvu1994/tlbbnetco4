@@ -283,6 +283,7 @@ StandardImpact 793 "步步生花陷阱伤害" (logic 001 = sát thương trực 
 - Bản đồ: Tuyết Lang Hồ 179, Tháp Khắc Lạp Mã Cán 427, Hạn Huyết Lĩnh 432, Thánh Hỏa Cung 537.
 - **17/10: hạ 5% → 1%** (chủ server; roithem `bando 1 39910001`, sao lưu `roithem-truoc-bando1-*`). Ước tính ~10.000 KNB/giờ cho 1 người farm 1.000 quái.
 - **17/10 (sau đó): nâng 1% → 3%** (chủ server thấy khó ra; roithem `bando 3 39910001`, sao lưu `roithem-truoc-bando3-*`). Ước tính ~30.000 KNB/giờ cho 1 người farm 1.000 quái.
+- **17/10 CHỐT 2%** (chủ server; roithem `bando 2 39910001`, sao lưu `roithem-truoc-bando2-*`). Ước tính ~20.000 KNB/giờ cho 1 người farm 1.000 quái.
 - **17/10: phiếu 39910001–39910006 xếp chồng được.** Trước đó `CommonItem` cột 12 (ItemRule) = 16, có "重叠" = 0, nên mỗi tờ chiếm 1 ô dù cột chồng ghi 200. Nay đổi sang rule 65: giống hệt 16 (bỏ / giao dịch / dùng / cất ngân hàng, không bán NPC), chỉ khác là cho chồng. **Cần restart game.**
   - Dùng phiếu: log `item_*.log` mã 414 cho thấy mỗi lần dùng trừ đúng 1 tờ (`YuanBaoPiao.lua` `LuaFnDelAvailableItem 1`), không có tiêu hao kép.
   - Tag `truoc-phieu-chong-17-10`. **Chưa thử trong game:** nhặt phiếu có gộp vào chồng không, client có cho kéo gộp tay không.
