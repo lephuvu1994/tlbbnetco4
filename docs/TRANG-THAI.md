@@ -1838,4 +1838,6 @@ Script dùng: `MyLua/wuhunxt/odali_wuyazi.lua` (892101; hàm `WuhunSkillStudy` ~
   - Đọc từ Server.elf: tham số 5 = số giờ, 0 = không hạn. Mỗi ô giữ 1 danh hiệu nên hạng 2 / 3 cùng bảng không giữ song song được.
   - `ShuaXinClient.lua` AHa_ReMyBuff: `GetCurTitle` thuộc 18 mã top (101–115, 118–120) → +3 bậc buff Cường / Nội / Thể / Trí / Thân = **+30 mỗi chỉ số**, chỉ tính danh hiệu đang đeo. Đổi danh hiệu thì có hiệu lực ở lần đổi bản đồ sau.
   - `shengjjll.lua` index 40 (nút Nhận thưởng Bảng Top): khóa. Nút cũ cấp danh hiệu 24 giờ (sẽ đè danh hiệu vĩnh viễn) + buff +10 cộng dồn 7521–7538.
-  - Lua, cần cap-nhat, không restart. **Đang thử trên local.**
+  - **Đủ 18 danh hiệu** (`c6a6073`, tag `truoc-danhhieu18-17-10`): hạng 2 / 3 mượn ô 8–19 (Rose, Hero 1–4, Jiaofei, GodOfFire, GuildWar ×3, Luoyang, PiaoMiao), CHỈ cấp khi ô trống (`GetTitle <= 0`) → ai giành danh hiệu thật ở hệ đó thì nó đè danh hiệu top ở ô đó. Ô 14–17 setter nhận (uchar, uint): chưa chắc client hiện đúng tên.
+  - Chủ server chốt: chỉ +30 khi ĐANG ĐEO, không cộng dồn sở hữu.
+  - Lua, cần cap-nhat (kèm `panel.py` itemsao → `systemctl restart tlbb-panel`), không restart game. Đã đưa lệnh cho chủ server 17/10.
