@@ -164,6 +164,11 @@ StandardImpact 793 "步步生花陷阱伤害" (logic 001 = sát thương trực 
   - 08/10: **+ Tọa Kỵ** (`{8,9,10,18}`), tag `truoc-lo4-toaky-08-10`. Bảng client "Đục Lỗ Cực Hạn" (`stiletto.lua` có nhánh loại 8, 1 Kim Chi Tiễn / Hàn Ngọc Tinh Túy + 3.000 vàng) **không cho kéo tọa kỵ vào** → dùng đường NPC quét túi. Trước đó 93 lần đục lỗ 4 trong Audit, 0 lần tọa kỵ. **Chưa đo:** client có hiện / cho khảm ô 4 trên tọa kỵ không.
   - Ám Khí vẫn phải dùng Kim Chi Tiễn: Điểm Kim Chi Tiễn 20109101 = 20.000 KNB (03/10).
   - **Chưa đo:** Võ Hồn cấp 8 chưa có `&WH` có nhận lỗ qua đường này không.
+- **Đục lỗ 4 nhanh 2.000 KNB / món (17/10, chủ server; NPC Quách Kiến An menu 2022 xem trước → 2023 xác nhận, `tools/duclo4-nhanh-17-10.js`, tag `truoc-duclo4-nhanh-17-10`):**
+  - Quét túi: món ĐÚNG 3 lỗ → lỗ 4 (`AddBagItemSlotFour`), trừ 2.000 KNB trước từng món, không lên 4 lỗ thì hoàn. Món chưa đủ 3 lỗ / đã 4 lỗ / khóa mật khẩu: không tốn.
+  - Loại 0–7, 11–15, 17 (Ám Khí). Bỏ 8 / 9 / 10 / 18 (đã Free ở 2021), 16 Thời Trang.
+  - **So với giá cũ:** đường thường cần Điểm Kim Chi Tiễn 20109101 / Hàn Ngọc Tinh Túy 20310111 = **20.000 KNB** mỗi lỗ (shop, 03/10) → rẻ hơn 10 lần, 2 món kia gần như hết tác dụng cho lỗ 4.
+  - **Chưa đo:** `AddBagItemSlotFour` với trang bị thường (trước giờ chỉ gọi cho loại 8/9/10/18). Thử local trước.
 - **Thú cưỡi 10141214** (幻雪羊驼): quy tắc phẩm chất 7 → **9** (07/10).
   - Tốc độ vẫn +100%; 10141215/16 là +120%.
   - Chỉ món tạo sau restart mới là C9.

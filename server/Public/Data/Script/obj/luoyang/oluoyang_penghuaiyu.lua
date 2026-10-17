@@ -102,6 +102,7 @@ end
 	 	 AddNumText(  sceneId,  x000110_g_scriptId,  "#cFF0000 Ðøc Nhanh 3 l²",  6,  2010  )
 	 	 AddNumText(  sceneId,  x000110_g_scriptId,  "#G Khäm Ng÷c Tñ Ðµng Bµ Tân Thü 3 l²",  6,  2020  )
 		 AddNumText(  sceneId,  x000110_g_scriptId,  "#G Ðøc l² 4 Long Vån + Võ H°n + L®nh Bài + T÷a KÜ (Free)",  6,  2021  )   -- [NetCo4 08/10] bat lai, Long Van + Vo Hon + Lenh Bai + Toa Ky (khong Am Khi)
+		 AddNumText(  sceneId,  x000110_g_scriptId,  "#G \208\248c l\178 4 nhanh (2000 KNB / m\243n \240\252 3 l\178)",  6,  2022  )   -- [NetCo4 17/10] tools/duclo4-nhanh-17-10.js
 	 	 AddNumText(  sceneId,  x000110_g_scriptId,  "#G Ðøc L² Cñc HÕn ",  6,  10  )
 	 	 --AddNumText(  sceneId,  x000110_g_scriptId,  " trang b¸ ðánh l² ",  6,  2  )  -- ði r½i ðánh l² chÑc nång , không thñc døng 
 	 	 --AddNumText(  sceneId,  x000110_g_scriptId,  " Cß¶ng Hóa Trang B¸ ",  6,  1001  )
@@ -204,6 +205,14 @@ end
 		   x000110_yiqianaddbiaoshi(  sceneId,  selfId,targetId)
 	 	   return
 	 end
+	if  GetNumText()  ==  2022  then   -- [NetCo4 17/10] Duc lo 4 nhanh: xem truoc
+		x000110_Lo4Xem(  sceneId,  selfId,  targetId  )
+		return
+	end
+	if  GetNumText()  ==  2023  then   -- [NetCo4 17/10] Duc lo 4 nhanh: xac nhan
+		x000110_Lo4Duc(  sceneId,  selfId,  targetId  )
+		return
+	end
 	 if  GetNumText()==  2021  then
 	 	   
 		   
@@ -762,4 +771,88 @@ local tEquipGemTable = {8,9,10,18}   -- [NetCo4 08/10] Long Van + Vo Hon + Lenh 
 	end
 		LuaFnSendSpecificImpactToUnit( sceneId, selfId, selfId, selfId, 18, 0 )
 
+end
+
+-- [NetCo4 17/10] DUC LO 4 NHANH (tools/duclo4-nhanh-17-10.js). Quet tui: mon DUNG 3 lo -> lo 4, x000110_g_Lo4Gia KNB / mon.
+-- Khong tinh tien mon chua du 3 lo / da 4 lo / khoa mat khau. Loai 8, 9, 10, 18 da co nut Free 2021; 16 Thoi Trang bo.
+x000110_g_Lo4Gia = 2000
+x000110_g_Lo4Loai = { 0, 1, 2, 3, 4, 5, 6, 7, 11, 12, 13, 14, 15, 17 }
+
+-- 1 = mon thuoc loai duoc duc lo 4 nhanh
+function x000110_Lo4LoaiDung( sceneId, selfId, i )
+	local EquipType = LuaFnGetBagEquipType( sceneId, selfId, i )
+	for j, loai in x000110_g_Lo4Loai do
+		if loai == EquipType then
+			return 1
+		end
+	end
+	return 0
+end
+
+-- dem: du (dung 3 lo, se duc), chua (duoi 3 lo), roi (da 4 lo), khoa (khoa mat khau)
+function x000110_Lo4Dem( sceneId, selfId )
+	local du, chua, roi, khoa = 0, 0, 0, 0
+	local bagbegin = GetBasicBagStartPos( sceneId, selfId )
+	local bagend = GetBasicBagEndPos( sceneId, selfId )
+	for i = bagbegin, bagend do
+		if LuaFnGetItemTableIndexByIndex( sceneId, selfId, i ) > 0 and x000110_Lo4LoaiDung( sceneId, selfId, i ) == 1 then
+			local n = GetBagGemCount( sceneId, selfId, i )
+			if LuaFnIsItemLocked( sceneId, selfId, i ) ~= 0 then
+				khoa = khoa + 1
+			elseif n == 3 then
+				du = du + 1
+			elseif n >= 4 then
+				roi = roi + 1
+			else
+				chua = chua + 1
+			end
+		end
+	end
+	return du, chua, roi, khoa
+end
+
+function x000110_Lo4Xem( sceneId, selfId, targetId )
+	local du, chua, roi, khoa = x000110_Lo4Dem( sceneId, selfId )
+	local knb = YuanBao( sceneId, selfId, -1, 3, 0 )
+	BeginEvent( sceneId )
+		AddText( sceneId, format( "#Y\208\248c l\178 4 nhanh#W: m\243n trong t\250i \240\227 \240\252 3 l\178 \240\223\254c \240\248c l\178 4, m\178i m\243n #G%d#W KNB.", x000110_g_Lo4Gia ) )
+		AddText( sceneId, format( "\208\252 3 l\178 (s\168 \240\248c): #G%d#W m\243n = #G%d#W KNB", du, du * x000110_g_Lo4Gia ) )
+		AddText( sceneId, format( "Kh\244ng t\175n: ch\223a \240\252 3 l\178 %d m\243n (d\249ng \208\248c Nhanh 3 l\178 tr\223\190c), \240\227 4 l\178 %d m\243n, \240ang kh\243a %d m\243n", chua, roi, khoa ) )
+		AddText( sceneId, format( "KNB hi\174n c\243: #G%d", knb ) )
+		if du > 0 then
+			AddNumText( sceneId, x000110_g_scriptId, format( "#cFF0000X\225c nh\167n \240\248c l\178 4 cho %d m\243n (%d KNB)", du, du * x000110_g_Lo4Gia ), 6, 2023 )
+		end
+	EndEvent( sceneId )
+	DispatchEventList( sceneId, selfId, targetId )
+end
+
+-- tru KNB truoc tung mon; duc xong kiem lai so lo, khong len 4 thi hoan KNB
+function x000110_Lo4Duc( sceneId, selfId, targetId )
+	local xong, thieu = 0, 0
+	local bagbegin = GetBasicBagStartPos( sceneId, selfId )
+	local bagend = GetBasicBagEndPos( sceneId, selfId )
+	for i = bagbegin, bagend do
+		if LuaFnGetItemTableIndexByIndex( sceneId, selfId, i ) > 0 and x000110_Lo4LoaiDung( sceneId, selfId, i ) == 1
+		   and LuaFnIsItemLocked( sceneId, selfId, i ) == 0 and GetBagGemCount( sceneId, selfId, i ) == 3 then
+			if YuanBao( sceneId, selfId, -1, 3, 0 ) < x000110_g_Lo4Gia then
+				thieu = thieu + 1
+			elseif YuanBao( sceneId, selfId, -1, 2, x000110_g_Lo4Gia ) == 0 then
+				AddBagItemSlotFour( sceneId, selfId, i )
+				if GetBagGemCount( sceneId, selfId, i ) >= 4 then
+					xong = xong + 1
+				else
+					YuanBao( sceneId, selfId, -1, 1, x000110_g_Lo4Gia )
+				end
+			end
+		end
+	end
+	local msg = format( "\208\248c l\178 4 th\224nh c\244ng %d m\243n, t\175n %d KNB.", xong, xong * x000110_g_Lo4Gia )
+	if thieu > 0 then
+		msg = msg .. format( " Kh\244ng \240\252 KNB cho %d m\243n.", thieu )
+	end
+	x000110_NotifyTip( sceneId, selfId, msg )
+	if xong > 0 then
+		LuaFnSendSpecificImpactToUnit( sceneId, selfId, selfId, selfId, 18, 0 )
+	end
+	x000110_Lo4Xem( sceneId, selfId, targetId )
 end
