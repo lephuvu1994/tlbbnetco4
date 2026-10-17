@@ -311,7 +311,12 @@ for fn, kind in [("vat-pham-thuong.tsv", "Vat pham"), ("ngoc-bao-thach.tsv", "Ng
                 continue
             c = line.rstrip("\n").split("\t")
             if len(c) >= 2 and c[0].isdigit():
-                ITEMS.append((c[0], c[1], kind))
+                # 17/10: bo ma mau (#G, #W, #cFF0000...) khoi ten. Chan Nguyen (CN-, 38TAAxLL: 5 bac x 9 cap cung 1 ten) ghi kem chi so / bac / cap
+                ten = re.sub(r"#c[0-9A-Fa-f]{6}|#[A-Za-z]", "", c[1])
+                m = re.search(r"\+#G(\d+)", c[2]) if len(c) >= 3 and ten.startswith("CN-") and len(c[0]) == 8 else None
+                if m:
+                    ten = "%s +%s (bậc %d, cấp %d)" % (ten, m.group(1), int(c[0][2]), int(c[0][5:]))
+                ITEMS.append((c[0], ten, kind))
 # Trang bi chi co ten tieng Trung: ghep ten Han-Viet tu ten-viet.tsv (tools/viet-hoa-trang-bi.js)
 VN = {}
 _p = os.path.join(REPO, "docs", "vat-pham", "ten-viet.tsv")
