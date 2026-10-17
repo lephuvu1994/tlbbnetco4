@@ -137,3 +137,17 @@ Thư mục ngoài repo, 6 file (2021). Đã đọc hết:
 - **Bao tay:** chưa chọn.
 
 Mô tả client của mũ Giáng Sinh ghi "thời hạn 7 thiên". Chữ này cứng, server bỏ hạn được nhưng chữ vẫn còn.
+
+---
+
+## 7. Ô "Vũ Khí Huyễn Sức" (Dịch Dung Các): KHÔNG làm được (17/10)
+
+- **Client** (`Interface` gói `goi1.axp`, file `Shop_Dresser/Shop_Dresser.lua`): ô thời trang = ô trang bị **16** (`EnumAction(16, "equip")`), ô Vũ Khí Huyễn Sức = ô **22** (`EnumAction(22, "equip")`).
+- `SelfEquip.lua`: ô 19 = Long Văn (`SelfEquip_25`), ô 20 = `g_RL`. Theo `EquipBase` (cả client lẫn server), ô 21 = Hào Hiệp Ấn (10159xxx).
+- **Server** (`Server.elf`, `Obj_Human::InitAllContainer`): kho trang bị chỉ khởi tạo **19 ô (0–18)** (vòng lặp `cmp $0x12`). `ItemEffectFlush` cũng chỉ cộng chỉ số ô 0–18. Server binary là bản cũ hơn client nên **không có ô 19–22**.
+- Thử trên server local 17/10, bản thử là vũ khí huyễn sức 10102222 / 10102215:
+  - Đặt EquipPoint 19 / 20 / 22: **không mặc được**, món tạo ra rơi về **1★** (bảng tung sao không có nhóm cho các ô này).
+  - Đặt EquipPoint 0: chiếm ô vũ khí chính (đẩy thần khí ra).
+- Muốn có ô 22 phải vá server binary để mở rộng kho trang bị, kéo theo cấu trúc DB / ShareMemory. **Không làm.**
+- Cách đọc script giao diện client: `scratchpad-claude/client-ui/trich2.js img/goi1.axp <ra> "<regex>"` (dùng `mo()` của `tools/pet3d/trich.js`). Bảng client: `trich.js img/goi2.axp`.
+- Liên quan: món huyễn sức đã có 15 dòng như thú cưỡi 9★ (`bbcdf88`). Quà `itemsao <mã> <sao>` (`AddItemWithQuality`, `35c7712`) phát món đủ sao. Cả hai chờ deploy.
