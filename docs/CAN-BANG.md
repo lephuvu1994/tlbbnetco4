@@ -289,6 +289,9 @@ StandardImpact 793 "步步生花陷阱伤害" (logic 001 = sát thương trực 
   - **Phiếu ra 16 tờ = 3,8–4,3%**, gần gấp đôi mức đặt. Code tung đúng (1/10.000, quái không có hộp phiếu khác). Mẫu nhỏ, xác suất chỉ do may mắn ~1/200.
   - **Tốc độ farm ~30 con/phút ≈ 1.800 con/giờ.**
 - **17/10 ~03:20: hạ 2% → 1%** (chủ server; sao lưu `roithem-truoc-bando1b-*`). Kỳ vọng ~18 tờ/giờ ≈ 18.000 KNB/giờ/người. **Đo lại sau ~2.000 con** xem còn lệch gấp đôi không.
+- **17/10: tách Tháp Khắc Lạp Mã Cán ra khóa riêng `thap` = 0,5%.** Chủ server train ở Tháp thấy ra nhiều: quái đông, hồi sinh 5 giây. Tuyết Lang Hồ / Hạn Huyết Lĩnh / Thánh Hỏa Cung giữ `bando` 1%.
+  - Sửa ở `roimap.lua` `x950001_g_MapCfg [427] = "thap"` và `panel.py` `ROI_KHOA["thap"]`, commit `f02c7d9`, tag `truoc-tach-thap-17-10`. Lua + panel, **không restart game**.
+  - Kỳ vọng ở Tháp: ~9 tờ/giờ cho người farm ~1.800 con/giờ.
 - **17/10: phiếu 39910001–39910006 xếp chồng được.** Trước đó `CommonItem` cột 12 (ItemRule) = 16, có "重叠" = 0, nên mỗi tờ chiếm 1 ô dù cột chồng ghi 200. Nay đổi sang rule 65: giống hệt 16 (bỏ / giao dịch / dùng / cất ngân hàng, không bán NPC), chỉ khác là cho chồng. **Cần restart game.**
   - Dùng phiếu: log `item_*.log` mã 414 cho thấy mỗi lần dùng trừ đúng 1 tờ (`YuanBaoPiao.lua` `LuaFnDelAvailableItem 1`), không có tiêu hao kép.
   - Tag `truoc-phieu-chong-17-10`. **Chưa thử trong game:** nhặt phiếu có gộp vào chồng không, client có cho kéo gộp tay không.
