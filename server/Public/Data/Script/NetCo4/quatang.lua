@@ -164,12 +164,16 @@ end
 -- >= 1010003010 (scene.lua return som) nen khong trong vao do duoc.
 -- [NetCo4 17/10] chu server: danh hieu dua top VINH VIEN cho moi nhan vat - hang 1 cua ca 6 bang (moi o 1 danh hieu).
 -- LuaFnAwardTitle(scene, self, o, ma, so gio): so gio 0 = vinh vien (dich nguoc Server.elf). Thieu / bi de (nut cu 24 gio) thi cap lai.
-x950000_g_DanhHieuTop = { {6, 118}, {1, 101}, {2, 113}, {3, 104}, {4, 107}, {5, 110} }
+-- {o, ma, ep}: ep 1 = o goc cua bang, luon cap (hang 1); ep 0 = o muon (8-19) cho hang 2 / 3, chi cap khi o trong (17/10 du 18 danh hieu)
+x950000_g_DanhHieuTop = { {6, 118, 1}, {1, 101, 1}, {2, 113, 1}, {3, 104, 1}, {4, 107, 1}, {5, 110, 1},
+	{8, 119, 0}, {9, 120, 0}, {10, 102, 0}, {11, 103, 0}, {12, 114, 0}, {13, 115, 0},
+	{14, 105, 0}, {15, 106, 0}, {16, 108, 0}, {17, 109, 0}, {18, 111, 0}, {19, 112, 0} }
 function x950000_DanhHieuTop( sceneId, selfId )
 	local doi = 0
 	for i = 1, getn( x950000_g_DanhHieuTop ) do
-		local o, ma = x950000_g_DanhHieuTop[i][1], x950000_g_DanhHieuTop[i][2]
-		if GetTitle( sceneId, selfId, o ) ~= ma then
+		local o, ma, ep = x950000_g_DanhHieuTop[i][1], x950000_g_DanhHieuTop[i][2], x950000_g_DanhHieuTop[i][3]
+		local co = GetTitle( sceneId, selfId, o )
+		if co ~= ma and ( ep == 1 or co == nil or co <= 0 ) then
 			LuaFnAwardTitle( sceneId, selfId, o, ma, 0 )
 			doi = 1
 		end
