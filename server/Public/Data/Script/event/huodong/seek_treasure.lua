@@ -18,10 +18,10 @@ x808039_g_MonsterChangeTime = 90 * 1000; -- ¹ÖÎï±äÉíÊ±¼ä 90 giây (ºÁ giây)
 x808039_g_CopySceneType = FUBEN_SEEK_TREASURE	--¸±±¾ÀàĞÍ,¶¨ÒåTÕi ScriptGlobal.luaÀïÃæ
 
 x808039_g_LimitMembers = 3							--¿ÉÒÔ½ø¸±±¾toÕ ğµ ×îĞ¡¶ÓÎéÈËÊı
-x808039_g_TickTime = 5									--»Øµ÷½Å±¾toÕ ğµ Ê±ÖÓÊ±¼ä(µ¥Î»:  giây/´Î)
-x808039_g_LimitTotalHoldTime = 720 			--¸±±¾¿ÉÒÔ´æ»îtoÕ ğµ Ê±¼ä(µ¥Î»: ´ÎÊı),Èç¹û´ËÊ±¼äµ½ÁË,ÔòÈÎÎñ½«»áth¤t bÕi 72*5 =60 phút
-x808039_g_StartTickCount = 2  					--Cuµc chiªn b¡t ğ¥uÌáĞÑ(µ¥Î»: ´ÎÊı)
-x808039_g_CloseTick = 6									--¸±±¾¹Ø±ÕÇ°µ¹¼ÆÊ±(µ¥Î»: ´ÎÊı)
+x808039_g_TickTime = 1   -- [NetCo4 17/10] 5 -> 1 giay (ra 1 dot / giay); hang so tick ben duoi nhan 5									--»Øµ÷½Å±¾toÕ ğµ Ê±ÖÓÊ±¼ä(µ¥Î»:  giây/´Î)
+x808039_g_LimitTotalHoldTime = 3600 			--¸±±¾¿ÉÒÔ´æ»îtoÕ ğµ Ê±¼ä(µ¥Î»: ´ÎÊı),Èç¹û´ËÊ±¼äµ½ÁË,ÔòÈÎÎñ½«»áth¤t bÕi 72*5 =60 phút
+x808039_g_StartTickCount = 10  					--Cuµc chiªn b¡t ğ¥uÌáĞÑ(µ¥Î»: ´ÎÊı)
+x808039_g_CloseTick = 30									--¸±±¾¹Ø±ÕÇ°µ¹¼ÆÊ±(µ¥Î»: ´ÎÊı)
 x808039_g_NoUserTime = 36								--¸±±¾ÖĞÃ»ÓĞÈËºó¿ÉÒÔ¼ÌĞø±£´ætoÕ ğµ Ê±¼ä(µ¥Î»:  giây) 3 phút
 x808039_g_Fuben_X = 65									--½øÈë¸±±¾toÕ ğµ Î»ÖÃX need modify
 x808039_g_Fuben_Z = 94									--½øÈë¸±±¾toÕ ğµ Î»ÖÃZ
@@ -36,11 +36,11 @@ x808039_g_FuBen_Data =
 	
 x808039_g_MonsterFlushSpeed =
 {
-	{ from = 1, to = 10, speed = 3 },   -- [NetCo4 06/10] moi dot 15 giay (goc 8/7/6/5/4 tick)
-	{ from = 11, to = 20, speed = 3 },
-	{ from = 21, to = 30, speed = 3 },
-	{ from = 31, to = 40, speed = 3 },
-	{ from = 41, to = 50, speed = 3 },
+	{ from = 1, to = 10, speed = 1 },   -- [NetCo4 17/10] moi dot 1 giay (06/10: 15 giay; goc 8/7/6/5/4 tick x 5 giay)
+	{ from = 11, to = 20, speed = 1 },
+	{ from = 21, to = 30, speed = 1 },
+	{ from = 31, to = 40, speed = 1 },
+	{ from = 41, to = 50, speed = 1 },
 }
 
 x808039_g_MonsterFlushPos =
@@ -328,7 +328,7 @@ function x808039_OnCopySceneTimer( sceneId, nowTime )
 				end
 			end
 			
-		elseif leaveTickCount < x808039_g_CloseTick then
+		elseif leaveTickCount < x808039_g_CloseTick and mod( x808039_g_CloseTick - leaveTickCount, 5 ) == 0 then   -- [NetCo4 17/10] bao moi 5 giay
 			--Í¨Öªµ±Ç°¸±±¾³¡¾°ÀïtoÕ ğµ ËùÓĞÈË,³¡¾°¹Ø±Õµ¹¼ÆÊ±¼ä
 			local membercount = LuaFnGetCopyScene_HumanCount(sceneId)
 			local mems = {}
@@ -479,7 +479,7 @@ function x808039_OnCopySceneTimer( sceneId, nowTime )
 				LuaFnSetCopySceneData_Param(sceneId, 9, tickCount); --¼ÇË¢¹ÖÊ±¼ä	
 				-- Ë¢30ÅúºóĞªĞª
 				if monsterBatch == 31 then
-					LuaFnSetCopySceneData_Param( sceneId, 9, tickCount+6-3 );   -- [NetCo4 06/10] nghi 30 giay (goc 18 tick = 90 s) --¼ÇË¢¹ÖÊ±¼ä	Ğª90 giây
+					LuaFnSetCopySceneData_Param( sceneId, 9, tickCount+30-1 );   -- [NetCo4 17/10] tick 1 giay, van nghi 30 giay. [06/10] nghi 30 giay (goc 18 tick = 90 s) --¼ÇË¢¹ÖÊ±¼ä	Ğª90 giây
 					LuaFnSetCopySceneData_Param( sceneId, 14, 1 ); --ÖÃÖĞ¶Ï±êÖ¾
 					--Õâ¶´ÖĞtoÕ ğµ ±¦ÏäÒÑ¾­±»ÄãÔÒËéÁË´ó°ë,Äã¿ÉÒÔÏÈĞ¡Ğªmµt »á¶ù,ÎÈÎÈÕó½Å.
 					local membercount = LuaFnGetCopyScene_HumanCount(sceneId);
@@ -495,8 +495,8 @@ function x808039_OnCopySceneTimer( sceneId, nowTime )
 		-- ÖĞ¼ä¼äĞª
 		oldFlushMonsterTime = LuaFnGetCopySceneData_Param(sceneId, 9);	
 		if LuaFnGetCopySceneData_Param( sceneId, 14 ) == 1 then
-			local diffCount = oldFlushMonsterTime+3 - tickCount;   -- [NetCo4 06/10] khop speed 3
-			if diffCount <= 6 and diffCount >= 1 then
+			local diffCount = oldFlushMonsterTime+1 - tickCount;   -- [NetCo4 17/10] khop speed 1
+			if diffCount <= 30 and diffCount >= 1 and mod( diffCount, 5 ) == 0 then   -- [NetCo4 17/10] bao moi 5 giay
 				local membercount = LuaFnGetCopyScene_HumanCount(sceneId);
 				for i=0, membercount-1 do
 					local objId = LuaFnGetCopyScene_HumanObjId(sceneId, i);
@@ -511,7 +511,7 @@ function x808039_OnCopySceneTimer( sceneId, nowTime )
 		
 		local num = LuaFnGetCopySceneData_Param(sceneId, 15);
 		if num > 0 then
-			if num == 4 then -- ³öÁúÍõ
+			if num == 16 then   -- [NetCo4 17/10] tick 1 giay: van 15 giay sau khi giet du moi ra boss (cu num == 4, tick 5 giay) -- ³öÁúÍõ
 				local grade = LuaFnGetCopySceneData_Param(sceneId, 10); 		-- ¹ÖÀàĞÍ 
 				local mstLvl = LuaFnGetCopySceneData_Param(sceneId, 13); -- ¹ÖµÈc¤p	
 				local objId = LuaFnCreateMonster( sceneId, x808039_g_BossMonsterId[grade], x808039_g_BossPos.x, x808039_g_BossPos.z, 0, 271, 808039 )

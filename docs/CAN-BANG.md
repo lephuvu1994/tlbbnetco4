@@ -269,6 +269,16 @@ StandardImpact 793 "步步生花陷阱伤害" (logic 001 = sát thương trực 
 - **Trước:** không quái nào rơi; chỉ Tiệm Nguyên Bảo kệ 227 (1 viên 500 / 10 viên 5.000) + quà Hoạt Lực 890536 (mốc 2, 1 trong 10 món). Script 760577 / 760590 / 760600 / OpenUi 892922 có Li Hỏa nhưng KHÔNG đăng ký trong Script.dat (chết).
 - **Sau (roithem.txt trên VPS, mỗi người roll riêng):** Kỳ Cuộc **30% mỗi quân cờ** (`kycuoc_co 30 20700063`, ~200 quân / lượt → **~60 viên / người / lượt**), Túc Cầu boss Tôn Mỹ Mỹ **30%** (`tuccau`, khóa mới - `efuben_cuju.lua`), quái Hậu Hoa Viên 1/2/3 **5% mỗi con** (`hhv`, khóa mới - `roimap.lua x950001_g_MapCfg`). Tag `truoc-lihoa-roi-13-10`; sao lưu `roithem-truoc-lihoa-*`. **Chưa đo.**
 
+### Nhịp ra quái 1 giây: Kỳ Cuộc / Túc Cầu / Lâu Lan Tầm Bảo (17/10, chủ server)
+
+- Tool `tools/nhip-1giay-17-10.js`, tag `truoc-nhip-1giay-17-10`. Lua, cần cap-nhat, không restart (lượt mở sau mới chạy đúng nhịp).
+- **Chờ đầu giữ nguyên** (Kỳ Cuộc 10 giây, Túc Cầu đếm ngược ~10 giây, Lâu Lan Tầm Bảo 10 giây), chỉ đổi nhịp:
+  - Kỳ Cuộc thường 401001: 1 quân cờ / **3 → 1 giây** (200 quân cờ ~10 → ~3,5 phút); bản nhanh 401002: 3/3/3/2/2 → 1.
+  - Túc Cầu 402040: quả nhỏ **3 → 1 giây**, 3 lần ra quả lớn chờ 3 giây × 3 → 1 giây × 3 (149 quả ~8 → ~2,7 phút).
+  - Lâu Lan Tầm Bảo 808039: tick **5 → 1 giây**, 1 đợt 4 con / **15 → 1 giây** (50 đợt ~13 → ~1,5 phút gồm nghỉ 30 giây sau đợt 30). Nhân 5 mọi hằng số tính theo tick (giới hạn 60 phút, chờ đầu 10 s, rời phó bản 30 s, boss ra 15 s sau khi giết đủ); đếm ngược chỉ báo mỗi 5 giây.
+- Đo thật trước khi đổi: Kỳ Cuộc ~10,5 phút (15/10), Túc Cầu ~9 phút (17/10 22:04–22:13), Lâu Lan Tầm Bảo ~13 phút (15/10).
+- Rủi ro: quái ra nhanh hơn tốc giết → dồn đông. Kỳ Cuộc quân cờ / Túc Cầu quả nhỏ để quá 60 giây biến dạng; Lâu Lan Tầm Bảo rương 90 giây thành Đồng Tử, ra theo giờ không chờ đánh hết. Thưởng không đổi (rơi theo con, số con giữ nguyên). **Chưa đo, đang thử local.**
+
 ### Tử Vi Linh Phách 30600084: Kỳ Cuộc + Túc Cầu 100% (16/10, chủ server)
 
 - `roithem.txt` qua API panel, **hiệu lực ngay**; bản cũ lưu ở `/opt/tlbb-backup/roithem-truoc-tuvi100-*`.

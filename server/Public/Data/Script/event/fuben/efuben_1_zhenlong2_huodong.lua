@@ -52,12 +52,12 @@ x401002_g_LastBoss_XinShou6 = {12090, 12091, 12092, 12093, 12094, 12095, 12096, 
 --x401002_g_Nianshous= {12200,12201,12202,12203,12204,12205,12206,12207,12208,12209,12210,12211};  -- add by cuiyinjie 2008-11-6 年兽编号
 
 --创建怪物的节奏
-x401002_g_createMonsterIntervalInfoList = {
-										{topPressStep=40, intervalTickCount=3},
-										{topPressStep=80, intervalTickCount=3},
-										{topPressStep=120, intervalTickCount=3},
-										{topPressStep=160, intervalTickCount=2},
-										{topPressStep=200, intervalTickCount=2}
+x401002_g_createMonsterIntervalInfoList = {   -- [NetCo4 17/10] moi quan co 1 giay (goc 3/3/3/2/2)
+										{topPressStep=40, intervalTickCount=1},
+										{topPressStep=80, intervalTickCount=1},
+										{topPressStep=120, intervalTickCount=1},
+										{topPressStep=160, intervalTickCount=1},
+										{topPressStep=200, intervalTickCount=1}
 										};
 
 --棋谱数据

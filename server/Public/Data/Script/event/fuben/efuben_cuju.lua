@@ -662,7 +662,7 @@ function x402040_OnCopySceneTimer( sceneId, nowTime )
 			x402040_TipAllHuman( sceneId, "Tôn MÛ MÛ thïnh c¥u thay ğ±i ngß¶i, 9 giây sau tr§n ğ¤u tiªp tøc tiªn hành." )
 			
 		elseif nStep_1 == 1  then
-			if nCurTime-nStep_1_T >= 3 then
+			if nCurTime-nStep_1_T >= 1 then   -- [NetCo4 17/10] 3 -> 1 giay
 				x402040_TipAllHuman( sceneId, "Tôn MÛ MÛ thïnh c¥u thay ğ±i ngß¶i, 6 giây sau tr§n ğ¤u tiªp tøc tiªn hành." )
 				
 				LuaFnSetCopySceneData_Param(sceneId, 25, nStep_1+1)
@@ -670,7 +670,7 @@ function x402040_OnCopySceneTimer( sceneId, nowTime )
 			end
 			
 		elseif nStep_1 == 2  then
-			if nCurTime-nStep_1_T >= 3 then
+			if nCurTime-nStep_1_T >= 1 then   -- [NetCo4 17/10] 3 -> 1 giay
 				x402040_TipAllHuman( sceneId, "Tôn MÛ MÛ thïnh c¥u thay ğ±i ngß¶i, 3 giây sau tr§n ğ¤u tiªp tøc tiªn hành." )
 				
 				LuaFnSetCopySceneData_Param(sceneId, 25, nStep_1+1)
@@ -678,7 +678,7 @@ function x402040_OnCopySceneTimer( sceneId, nowTime )
 			end
 			
 		elseif nStep_1 == 3  then
-			if nCurTime-nStep_1_T >= 3 then
+			if nCurTime-nStep_1_T >= 1 then   -- [NetCo4 17/10] 3 -> 1 giay
 				x402040_TipAllHuman( sceneId, "Tr§n ğ¤u mµt l¥n næa b¡t ğ¥u." )
 				
 				LuaFnSetCopySceneData_Param(sceneId, 25, nStep_1+1)
@@ -721,10 +721,10 @@ function x402040_OnCopySceneTimer( sceneId, nowTime )
 	end
 
 	-- ÏÖ°´ÕÕ¼òµ¥toÕ ğµ Ã¿10 giâyË¢mµt ´Î¹Ö
-	if 	(nStep>=5   and nStep<24  and nCurTime-nPreTime >= 3) or
-			(nStep>=25  and nStep<54  and nCurTime-nPreTime >= 3) or
-			(nStep>=55  and nStep<124 and nCurTime-nPreTime >= 3) or
-			(nStep>=125 and nStep<154	and nCurTime-nPreTime >= 3)   then
+	if 	(nStep>=5   and nStep<24  and nCurTime-nPreTime >= 1) or   -- [NetCo4 17/10] moi qua 1 giay (05/10: 3; goc 15/12/10/5)
+			(nStep>=25  and nStep<54  and nCurTime-nPreTime >= 1) or
+			(nStep>=55  and nStep<124 and nCurTime-nPreTime >= 1) or
+			(nStep>=125 and nStep<154	and nCurTime-nPreTime >= 1)   then
 		
 		-- ¹ÖÎïÉú³É ği¬m
 		if nStep == 5  then
