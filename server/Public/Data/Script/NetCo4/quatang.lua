@@ -252,14 +252,14 @@ function x950000_NhanQua( sceneId, selfId )
 				tinsert( left, "item "..id.." "..( n - k ) )
 			end
 		elseif kind == "itemsao" then
-			-- [NetCo4 17/10] "itemsao <ma> <so sao 1-9>": 1 trang bi voi pham chat (so sao) chi dinh. LuaFnAddItemWithQuality(scene, ma, so luong, pham chat)
+			-- [NetCo4 17/10] "itemsao <ma> <so sao 1-9>": 1 trang bi voi pham chat (so sao) chi dinh. AddItemWithQuality(scene, ma, so luong, pham chat) - ten Lua that, C++ la LuaFnAddItemWithQuality
 			-- trong BeginAddItem / EndAddItem (dich nguoc Server.elf). Tui day thi giu dong lai.
 			local q = tonumber( b )
 			if q == nil or q < 1 or q > 9 then
 				q = 9
 			end
 			BeginAddItem( sceneId )
-			LuaFnAddItemWithQuality( sceneId, tonumber( a ), 1, q )
+			AddItemWithQuality( sceneId, tonumber( a ), 1, q )
 			if EndAddItem( sceneId, selfId ) > 0 then
 				AddItemListToHuman( sceneId, selfId )
 				got = got + 1
