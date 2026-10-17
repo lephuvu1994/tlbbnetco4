@@ -558,10 +558,12 @@ def act(form):
             msgs = [act(dict(form, guid=t)) for t in targets]
             bad = [m for m in msgs if not m.startswith("Da xep")]
             return bad[0] if bad else "Da xep hang qua cho %d nhan vat" % len(targets)
-        if not RE_INT.match(g) or kind not in ("item", "xoa", "knb", "vang", "diemtang", "level", "exp", "nangngoc", "vip", "popup", "pet", "tamphap") or not RE_INT.match(val) or not RE_INT.match(cnt):
+        if not RE_INT.match(g) or kind not in ("item", "xoa", "knb", "vang", "diemtang", "level", "exp", "nangngoc", "vip", "popup", "pet", "tamphap", "itemsao") or not RE_INT.match(val) or not RE_INT.match(cnt):
             return "Du lieu qua khong hop le"
         if kind == "pet" and val not in PET_IDS:
             return "Khong co pet ID %s trong PetAttrTable (xem docs/pet-huyen-hoa.md)" % val
+        if kind == "itemsao" and (val not in ITEM_NAME or not 1 <= int(cnt) <= 9):   # 17/10: quatang.lua LuaFnAddItemWithQuality - o so luong = so sao
+            return "itemsao: ID trang bi co trong danh muc, so sao 1-9 (o so luong)"
         if kind in ("item", "xoa", "popup") and val not in ITEM_NAME:
             return "Khong co vat pham ID %s trong danh muc" % val
         if kind in ("item", "xoa") and not 1 <= int(cnt) <= 999:
@@ -589,7 +591,7 @@ def act(form):
             audit("popup GUID %s: item %s %s" % (g, val, ITEM_NAME.get(val, "")))
             return "Da dat qua popup cho GUID %s: %s. Nguoi choi thay cua so qua khi vao game (moi nguoi 1 mon, dat lai se thay mon cu)." % (g, ITEM_NAME.get(val, val))
         os.makedirs(QUEUE, exist_ok=True)
-        if kind in ("item", "xoa"):
+        if kind in ("item", "xoa", "itemsao"):
             lines = ["%s %s %s" % (kind, val, cnt)]
         elif kind == "knb":  # YuanBao chi nen cong toi da 99999 moi lan (docs/lenh-gm.txt): chia nhieu dong
             n = int(val)
