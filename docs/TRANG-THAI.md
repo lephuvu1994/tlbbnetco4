@@ -1830,3 +1830,18 @@ Script dùng: `MyLua/wuhunxt/odali_wuyazi.lua` (892101; hàm `WuhunSkillStudy` ~
   - Thiên 38002045: tổng 268 viên.
 - Hết ngọc thì dừng. **Không đổi giá.**
 - Tag `truoc-honvi-1lan-17-10`. Lua, cần cap-nhat, không restart.
+
+### 17/10 - Vũ khí huyễn sức 10102201–10102223 có dòng giống thú cưỡi 9★
+- `Public/Config/EquipBase.txt`: chép từ thú cưỡi Huyễn Tuyết Dương Đà 10553478 sang 23 mã:
+  - 58 cờ dòng (15 dòng: SL, 4 công thuộc tính, ngoại / nội công, chính xác, hội tâm, 5 thuộc tính, toàn thuộc tính);
+  - quy tắc phẩm chất 8 → **9**;
+  - đoạn giá trị 3009 → **4244** (dùng chung với thú cưỡi, chỉ đọc);
+  - số dòng 9–11 → **15–15**.
+- Giữ nguyên: gốc ngoại / nội công 1.150, hiệu ứng 9062 (20% Khinh Linh +1.637 chính xác), tư chất 126–250, ô trang bị 0.
+- Món huyễn sức đang có giữ bộ dòng cũ, nhưng điểm từng dòng tính theo bảng mới. Món tạo mới ra 15 dòng.
+- **Cần cap-nhat + restart game.** Tag `truoc-huyensuc-9sao-17-10`, script `scratchpad-claude/quangay/huyensuc-9sao.js`.
+- **Ô "Vũ Khí Huyễn Sức" (Dịch Dung Các):**
+  - Món huyễn sức có EquipPoint 0 nên chiếm ô vũ khí chính.
+  - Trong EquipBase không có món nào dùng ô 19 / 20. Ô 21 = Hào Hiệp Ấn.
+  - Engine `ItemEffectFlush` chỉ cộng chỉ số ô 0–18.
+  - Muốn gắn vào ô huyễn sức phải thử EquipPoint 19 / 20 trên server local. Gắn được mà không cộng chỉ số thì phải cộng bằng buff script (như Hào Hiệp Ấn).
