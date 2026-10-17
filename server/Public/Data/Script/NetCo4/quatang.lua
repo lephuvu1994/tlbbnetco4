@@ -162,6 +162,23 @@ end
 -- hoac 8500 (Kien Khon Boi) roi bo gioi han khoang cach khi mo tui do roi; client tu nhat. Chua co ca 2 thi gan 8500
 -- (24 gio online tu 13/10). Goi o dang nhap + doi ban do. AHa_ReMyBuff (ShuaXinClient) khong chay luc dang nhap voi GUID
 -- >= 1010003010 (scene.lua return som) nen khong trong vao do duoc.
+-- [NetCo4 17/10] chu server: danh hieu dua top VINH VIEN cho moi nhan vat - hang 1 cua ca 6 bang (moi o 1 danh hieu).
+-- LuaFnAwardTitle(scene, self, o, ma, so gio): so gio 0 = vinh vien (dich nguoc Server.elf). Thieu / bi de (nut cu 24 gio) thi cap lai.
+x950000_g_DanhHieuTop = { {6, 118}, {1, 101}, {2, 113}, {3, 104}, {4, 107}, {5, 110} }
+function x950000_DanhHieuTop( sceneId, selfId )
+	local doi = 0
+	for i = 1, getn( x950000_g_DanhHieuTop ) do
+		local o, ma = x950000_g_DanhHieuTop[i][1], x950000_g_DanhHieuTop[i][2]
+		if GetTitle( sceneId, selfId, o ) ~= ma then
+			LuaFnAwardTitle( sceneId, selfId, o, ma, 0 )
+			doi = 1
+		end
+	end
+	if doi == 1 then
+		LuaFnDispatchAllTitle( sceneId, selfId )
+	end
+end
+
 function x950000_BinhNhat( sceneId, selfId )
 	if LuaFnHaveImpactOfSpecificDataIndex( sceneId, selfId, 57 ) == 1 then
 		return
@@ -205,6 +222,7 @@ end
 function x950000_NhanQua( sceneId, selfId )
 	x950000_AmKhiDoc( sceneId, selfId )   -- [NetCo4 14/10] doc duoc am khi
 	CallScriptFunction( 892002, "AHa_ReMyBuff", sceneId, selfId )   -- [NetCo4 14/10] gan lai MOI buff chi so (tu luyen, dieu van, linh phach...) moi lan vao ban do
+	x950000_DanhHieuTop( sceneId, selfId )   -- [NetCo4 17/10] danh hieu dua top vinh vien (dang deo: +30 toan thuoc tinh, ShuaXinClient)
 	x950000_BinhNhat( sceneId, selfId )   -- [NetCo4 13/10] binh tu nhat do
 	x950000_HoiMauPet( sceneId, selfId )   -- [NetCo4 10/10] tran thu day mau khi doi ban do
 	x950000_CapMin( sceneId, selfId )

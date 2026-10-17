@@ -1830,3 +1830,12 @@ Script dùng: `MyLua/wuhunxt/odali_wuyazi.lua` (892101; hàm `WuhunSkillStudy` ~
   - Thiên 38002045: tổng 268 viên.
 - Hết ngọc thì dừng. **Không đổi giá.**
 - Tag `truoc-honvi-1lan-17-10`. Lua, cần cap-nhat, không restart.
+
+### 17/10 - Trả vũ khí huyễn sức về gốc + danh hiệu đua top vĩnh viễn cho mọi người
+- Huyễn sức: `git revert bbcdf88` (23 mã về ô 0, quy tắc 8, đoạn 3009, 9–11 dòng). Ô Vũ Khí Huyễn Sức = ô 22, server chỉ có 19 ô (`docs/CLIENT-GIAI-MA.md` mục 7). Quà `itemsao` (AddItemWithQuality) giữ lại, dùng chung được.
+- **Danh hiệu top** (tag `truoc-danhhieu-top-17-10`):
+  - `quatang.lua` `x950000_DanhHieuTop` (NhanQua): mỗi lần đăng nhập / đổi bản đồ, ô danh hiệu nào chưa đúng mã hạng 1 thì `LuaFnAwardTitle(o, ma, 0)`. 6 ô: (6,118) Top Level, (1,101) Tài Phú, (2,113), (3,104), (4,107), (5,110).
+  - Đọc từ Server.elf: tham số 5 = số giờ, 0 = không hạn. Mỗi ô giữ 1 danh hiệu nên hạng 2 / 3 cùng bảng không giữ song song được.
+  - `ShuaXinClient.lua` AHa_ReMyBuff: `GetCurTitle` thuộc 18 mã top (101–115, 118–120) → +3 bậc buff Cường / Nội / Thể / Trí / Thân = **+30 mỗi chỉ số**, chỉ tính danh hiệu đang đeo. Đổi danh hiệu thì có hiệu lực ở lần đổi bản đồ sau.
+  - `shengjjll.lua` index 40 (nút Nhận thưởng Bảng Top): khóa. Nút cũ cấp danh hiệu 24 giờ (sẽ đè danh hiệu vĩnh viễn) + buff +10 cộng dồn 7521–7538.
+  - Lua, cần cap-nhat, không restart. **Đang thử trên local.**

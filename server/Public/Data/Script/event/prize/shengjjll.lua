@@ -346,6 +346,10 @@ end
 		return
 	end
 
+if index == 40 then	 -- [NetCo4 17/10] khoa nut Nhan thuong Bang Top: danh hieu top da tang VINH VIEN cho moi nguoi (quatang.lua), deo = +30 toan thuoc tinh
+   x890096_Tips( sceneId, selfId, "Danh hi\174u \240ua top \240\227 t\163ng v\238nh vi\173n cho m\247i ng\223\182i. \208eo danh hi\174u: +30 to\224n thu\181c t\237nh." )
+   return
+end
 if index == 40 then	 --ÅÅÃû½±Àø
 if idbox <1 or idbox >6 then
    return

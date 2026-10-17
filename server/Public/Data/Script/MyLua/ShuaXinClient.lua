@@ -814,6 +814,15 @@ local ID = LuaFnGetItemTableIndexByIndex( sceneId, selfId, 109 )
 	lingqibuff =lingqibuff +lingqi+lt+LPC+wq_sld+GetZHENy[2]+InfantBUFF[2] --得到修炼灵气/雕纹
 	tilibuff =tilibuff + tili+shengd+xiayin_ts+ti+LPD+wq_sld+GetZHENy[3]+InfantBUFF[3] --得到修炼体力/审订体力/雕纹/侠印
 	dinglibuff = dinglibuff + dingli+LPE+wq_sld+GetZHENy[4]+InfantBUFF[4] --得到修炼定力
+	-- [NetCo4 17/10] dang deo danh hieu dua top (18 ma 101-115, 118-120) -> +3 bac = +30 Cuong / Noi / The / Tri / Than. Chi tinh danh hieu DANG DEO (khong cong don so huu)
+	local dhTop = GetCurTitle( sceneId, selfId )
+	if dhTop ~= nil and ( ( dhTop >= 101 and dhTop <= 115 ) or ( dhTop >= 118 and dhTop <= 120 ) ) then
+		liliangbuff = liliangbuff + 3
+		lingqibuff = lingqibuff + 3
+		tilibuff = tilibuff + 3
+		dinglibuff = dinglibuff + 3
+		shenfabuff = shenfabuff + 3
+	end
 	shenfabuff =shenfabuff + shenfa+xiayin_ts+sf+LPF+wq_sld+GetZHENy[5]+InfantBUFF[5] --得到修炼身法/雕纹/侠印
    -------------------------------------------------------	
 	shuxingtable1 =shuxingtable1+s_a+(sxs_a*2)+bg+(b*4)+LPG+xy_b+GetZHENy[16]+InfantBUFF[16]+WuYiSX_BING  --得到冰属性/宝剑/审定/雕纹
