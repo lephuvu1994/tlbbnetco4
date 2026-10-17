@@ -168,8 +168,8 @@ for (const id in scriptMon) for (const lab of scriptMon[id]) { if (!MA[id] || !M
 
 // 16/10: phiếu 1.000 KNB 1% (17/10: 5 -> 1 -> 3 -> 2 -> 1%) mọi quái 4 bản đồ (roimap x950001_g_MapCfg -> RoiCfg "bando", roithem: bando 1 39910001 - 17/10 5 -> 1 -> 3 -> 2 -> 1).
 // Thánh Hỏa Cung (537) gắn script 950001 từ 16/10 (shenghuogong_monster.ini), hiệu lực sau restart game.
-// 17/10: Tháp Khắc Lạp Mã Cán tách khóa riêng "thap" (roithem: thap 0.5 39910001), 3 bản đồ còn lại giữ "bando" 1%.
-{ const BANDO = { 'xuelanghu_monster.ini': 1, 'takelamagan_monster.ini': 0.5, 'hanxieling_monster.ini': 1, 'shenghuogong_monster.ini': 1 };
+// 17/10: Tháp Khắc Lạp Mã Cán tách khóa riêng "thap" (roithem: thap 0.5 39910001), 3 bản đồ còn lại "bando" 4% (17/10 tối: 1 -> 4%).
+{ const BANDO = { 'xuelanghu_monster.ini': 4, 'takelamagan_monster.ini': 0.5, 'hanxieling_monster.ini': 4, 'shenghuogong_monster.ini': 4 };
   for (const id in spawn) { const them = []; for (const s of spawn[id]) if (s[1] > 0 && maps[s[0]] && BANDO[String(maps[s[0]][2]).toLowerCase()]) them.push([s[0], 0, 0, 0, [39910001, BANDO[String(maps[s[0]][2]).toLowerCase()]]]);
     for (const x of them) if (!spawn[id].some((y) => y[0] === x[0] && y[4] && y[4][0] === 39910001)) spawn[id].push(x); } }
 

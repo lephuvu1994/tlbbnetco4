@@ -290,6 +290,7 @@ StandardImpact 793 "步步生花陷阱伤害" (logic 001 = sát thương trực 
   - **Tốc độ farm ~30 con/phút ≈ 1.800 con/giờ.**
 - **17/10 ~03:20: hạ 2% → 1%** (chủ server; sao lưu `roithem-truoc-bando1b-*`). Kỳ vọng ~18 tờ/giờ ≈ 18.000 KNB/giờ/người. **Đo lại sau ~2.000 con** xem còn lệch gấp đôi không.
 - **17/10: tách Tháp Khắc Lạp Mã Cán ra khóa riêng `thap` = 0,5%.** Chủ server train ở Tháp thấy ra nhiều: quái đông, hồi sinh 5 giây. Tuyết Lang Hồ / Hạn Huyết Lĩnh / Thánh Hỏa Cung giữ `bando` 1%.
+- **17/10 ~17:15: 3 bản đồ còn lại (Tuyết Lang Hồ 179, Hạn Huyết Lĩnh 432, Thánh Hỏa Cung 537) nâng `bando` 1% → 4%** (chủ server thấy thấp; sửa thẳng `roithem.txt` trên VPS, hiệu lực ngay, sao lưu `roithem-truoc-bando4-*`). Tháp giữ `thap` 0,5%. Ước tính thô ~40 tờ/giờ ≈ 40.000 KNB/giờ cho 1 người farm 1.000 quái (nếu lệch gấp đôi như lần đo 2% thì ~80.000). netco4.click dựng lại. **Chưa đo.**
   - Sửa ở `roimap.lua` `x950001_g_MapCfg [427] = "thap"` và `panel.py` `ROI_KHOA["thap"]`, commit `f02c7d9`, tag `truoc-tach-thap-17-10`. Lua + panel, **không restart game**.
   - Kỳ vọng ở Tháp: ~9 tờ/giờ cho người farm ~1.800 con/giờ.
 - **17/10: phiếu 39910001–39910006 xếp chồng được.** Trước đó `CommonItem` cột 12 (ItemRule) = 16, có "重叠" = 0, nên mỗi tờ chiếm 1 ô dù cột chồng ghi 200. Nay đổi sang rule 65: giống hệt 16 (bỏ / giao dịch / dùng / cất ngân hàng, không bán NPC), chỉ khác là cho chồng. **Cần restart game.**
