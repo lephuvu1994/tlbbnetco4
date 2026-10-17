@@ -1841,3 +1841,11 @@ Script dùng: `MyLua/wuhunxt/odali_wuyazi.lua` (892101; hàm `WuhunSkillStudy` ~
   - **Đủ 18 danh hiệu** (`c6a6073`, tag `truoc-danhhieu18-17-10`): hạng 2 / 3 mượn ô 8–19 (Rose, Hero 1–4, Jiaofei, GodOfFire, GuildWar ×3, Luoyang, PiaoMiao), CHỈ cấp khi ô trống (`GetTitle <= 0`) → ai giành danh hiệu thật ở hệ đó thì nó đè danh hiệu top ở ô đó. Ô 14–17 setter nhận (uchar, uint): chưa chắc client hiện đúng tên.
   - Chủ server chốt: chỉ +30 khi ĐANG ĐEO, không cộng dồn sở hữu.
   - Lua, cần cap-nhat (kèm `panel.py` itemsao → `systemctl restart tlbb-panel`), không restart game. Đã đưa lệnh cho chủ server 17/10.
+
+### 17/10 - Đóng băng tự động khi bán nhiều đồ (hoang01 / KimJongUn)
+- Triệu chứng: vào game được vài giây thì client hiện "do sử dụng những chương trình bị cấm, hoặc phát tán các thông tin bị cấm, nhân vật bị ngừng hoạt động!" rồi thoát.
+- Nguyên nhân (dịch ngược Server.elf): `Obj_Human::DetectorLogic` đếm số lần TĂNG tiền (`SetMoney` / `AddMoneyJZ` / tiền ngân hàng) và KNB (`SetYuanBao`). Vượt `FreezePer10M` lần / 10 phút hoặc `FreezePerHour` lần / giờ → `CannotSay(433000000)` = ghi cờ JINYAN vĩnh viễn vào `t_char.settings` (byte 0x141–0x144). Mỗi lần vào `CGEnterScene` thấy cờ > 369999999 thì gửi lệnh cấm về client. Log: `Server/Log/Waigua_*.log` dòng `10M-Money-Auto-Frezze` (H-Money = theo giờ, Yuanbao = KNB).
+- Ngưỡng engine đang chạy (đọc RAM `0x8696f34`): cảnh báo 60 / 240, đóng băng **200 / 720**. hoang01 bán sạp 234 lần / 10 phút lúc 17:37:35.
+- Sửa (`79dec78`, tag `truoc-nguong-dongbang-17-10`, chủ server đồng ý): `ConfigInfo.ini` [Human] `WarnningPer10M=1000`, `WarnningPerHour=5000`, `FreezePer10M=2000`, `FreezePerHour=10000`. Cần cap-nhat + **restart**.
+  - Bản sửa lấy file VPS làm gốc: VPS có `HumanMaxDefaultLevel=110`, `ExpParam=5.0` (admin sửa thẳng), repo trước đó ghi 119 / 12.0.
+- Gỡ băng: `deploy/go-dong-bang.sh --ds` (liệt kê) / `systemctl stop tlbb && ./go-dong-bang.sh <tên|GUID> && systemctl start tlbb` (game phải tắt, sao lưu settings vào `/opt/tlbb-backup/go-dong-bang-*`). Không có hàm Lua gỡ được.
