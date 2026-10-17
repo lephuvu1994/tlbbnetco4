@@ -274,6 +274,15 @@ StandardImpact 793 "步步生花陷阱伤害" (logic 001 = sát thương trực 
 - **Trước:** không quái nào rơi; chỉ Tiệm Nguyên Bảo kệ 227 (1 viên 500 / 10 viên 5.000) + quà Hoạt Lực 890536 (mốc 2, 1 trong 10 món). Script 760577 / 760590 / 760600 / OpenUi 892922 có Li Hỏa nhưng KHÔNG đăng ký trong Script.dat (chết).
 - **Sau (roithem.txt trên VPS, mỗi người roll riêng):** Kỳ Cuộc **30% mỗi quân cờ** (`kycuoc_co 30 20700063`, ~200 quân / lượt → **~60 viên / người / lượt**), Túc Cầu boss Tôn Mỹ Mỹ **30%** (`tuccau`, khóa mới - `efuben_cuju.lua`), quái Hậu Hoa Viên 1/2/3 **5% mỗi con** (`hhv`, khóa mới - `roimap.lua x950001_g_MapCfg`). Tag `truoc-lihoa-roi-13-10`; sao lưu `roithem-truoc-lihoa-*`. **Chưa đo.**
 
+### Nerf Bàng Xí - boss cuối Tứ Tuyệt Trang 14145 (18/10, chủ server: "chiêu nổ sát thương rất lớn")
+
+- Tool `tools/nerf-bangxi-18-10.js`, tag `truoc-nerf-bangxi-18-10`. Bảng cần cap-nhat + **restart**, Lua sau cap-nhat.
+- Bàng Xí: cấp 120, **9,3 triệu máu** (MaxHP cột 60), AI script 893069 `event/sijuezhuang/ai_liqiushui.lua`.
+- **StandardImpact 2868** "Tinh La Kỳ Bố (trực tiếp)", chỉ Bàng Xí dùng (SkillData 26107 Hắc Bạch Song Vẫn 1638 = chiêu A mỗi 60 s; 26108 Tinh La Kỳ Bố 1639 = chiêu C mỗi **5 s** + chiêu D mỗi 20 s, đánh cả tổ): **50.556 + 12,998 → 20.000 + 5,2** (~ −60%). Dòng 2856 / 2867 cùng số nhưng không chiêu nào dùng.
+- **Cuồng bạo** (buff 10235 "tăng sát thương 9.999%" = ×100, kèm 10234): **10 → 20 phút**, chỉ riêng Bàng Xí (`x893069_EnterKuangBaoTime`). 10235 dùng chung với boss PMF / Băng Thần → không sửa bảng. Tổ đánh 9,3 triệu máu dễ quá 10 phút → cả tổ chết một phát: nhiều khả năng đây là "chiêu nổ".
+- `StandardImpact.txt` trên VPS khác repo (trang Custom Trùng Lâu sửa 17/10 22:30: 5952–5955, 5965) → bản commit lấy file VPS làm gốc + dòng 2868.
+- **Chưa đo.** Chiêu F (bẫy Thập Bộ Nhất Sát 162–167 = buff boss, không gây sát thương) và chiêu G (Khí Xa Bảo Soái, gọi tiểu quái) giữ nguyên. `x893069_SkillA_Buff` bị chú thích (nil) - gốc.
+
 ### Nhịp ra quái 1 giây: Kỳ Cuộc / Túc Cầu / Lâu Lan Tầm Bảo (17/10, chủ server)
 
 - Tool `tools/nhip-1giay-17-10.js`, tag `truoc-nhip-1giay-17-10`. Lua, cần cap-nhat, không restart (lượt mở sau mới chạy đúng nhịp).
