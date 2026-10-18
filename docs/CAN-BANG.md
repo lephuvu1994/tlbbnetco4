@@ -405,9 +405,3 @@ StandardImpact 793 "步步生花陷阱伤害" (logic 001 = sát thương trực 
 - Mới: Thương Lang Bạch Lộc Hoàn 30103041 → script 300068, mỗi viên +5 điểm tự do, không trần. Nguồn: **chỉ admin phát qua panel**.
 - Rủi ro: không trần → sức mạnh phụ thuộc hoàn toàn số viên admin phát. Nếu sau này đưa vào shop / rơi phải đặt trần (gợi ý 20 viên = 100 điểm / nhân vật, đếm bằng MissionData).
 - Chưa đo: chưa thử trong game.
-
-## 18/10 - Phiếu bản đồ 2 → 0,5%; Tháp hồi sinh 5 → 8 giây
-- Trước: `bando` 2% (Tuyết Lang Hồ / Hãn Huyết Lĩnh / Thánh Hỏa Cung), `thap` 0,5% nhưng đo thật 1,4–1,8% (Audit thiếu MONSTER_KILLED → số thật thấp hơn, vẫn > mức đặt). Tháp hồi sinh 5 giây.
-- Sau: `bando` 0.5, `thap` 0.5; Tháp hồi sinh 8 giây (−37,5% nhịp quái nếu người chơi giết nhanh hơn nhịp ra).
-- Lý do: 1 người 5 acc AFK ra ~1 triệu KNB / 1,5 ngày. Chưa có trần phiếu / nhân vật / ngày — đề xuất thêm ở `roimap.lua` nếu vẫn lạm phát.
-- Chưa đo: đo lại sau ≥ 2 ngày bằng `tools/vps/phieu-acc.py`.
