@@ -411,3 +411,8 @@ StandardImpact 793 "步步生花陷阱伤害" (logic 001 = sát thương trực 
 - Sau: `bando` 0.5, `thap` 0.5 (giữ); Tuyết Lang Hồ 8 giây (533 con; 5 con lớn giữ 5 phút). Tháp giữ 5 giây.
 - Lý do: 1 người 5 acc AFK ra ~1 triệu KNB / 1,5 ngày. Chưa có trần phiếu / nhân vật / ngày.
 - Chưa đo: phiếu / giờ ở Tuyết Lang Hồ sau khi quái ra nhanh ~9 lần — đo lại sau ≥ 2 ngày (`tools/vps/phieu-acc.py`).
+
+## 18/10 18:4x - Phiếu bản đồ + Tháp 0,5 → 0,2% (không restart)
+- Đo từ 15:00 (`tools/vps/phieu-acc.py` + đếm theo giờ): hoang01–05 dời sang **Tuyết Lang Hồ** (quái 8 giây), 141 phiếu / ~5.760 con. **Mỗi thành viên tổ tự roll trên mọi con cả tổ giết** → tỉ lệ thật của tổ 5 người = 0,5% × 5 = 2,5%/con (5.760 × 5 × 0,5% ≈ 144, khớp). 18:09–18:35: 59 phiếu ≈ 136 phiếu/giờ cả nhóm ≈ 27/giờ/acc — gần bằng sáng ở Tháp: giảm tỉ lệ ×4 bị nhịp 8 giây (quái ra ~×9) ăn lại.
+- Sửa: `roithem` `bando` 0.5 → **0.2**, `thap` 0.5 → **0.2** (trên VPS, hiệu lực ngay; sao lưu `/opt/tlbb-backup/roithem-truoc-0.2-*`). `bando` chung 3 bản đồ (Tuyết Lang Hồ / Hãn Huyết Lĩnh / Thánh Hỏa Cung). netco4.click dựng lại.
+- Chưa giải quyết gốc: chưa có trần phiếu / nhân vật / ngày (đề xuất trong `roimap.lua`, Lua không restart). Đo lại sau 1–2 ngày.
