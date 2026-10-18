@@ -10,89 +10,89 @@ x300100_g_scriptId = 300100
 x300100_g_itemList = {}
 
 ---------bang yeu
-x300100_g_itemList[30309150] = { rulerId = 2, minPetLevel = 1, maxPetLevel = 95, petIds = {} }
-x300100_g_itemList[30309150].petIds[55] = 25009;--55
-x300100_g_itemList[30309150].petIds[65] = 25019;--65
-x300100_g_itemList[30309150].petIds[75] = 25029;--75
-x300100_g_itemList[30309150].petIds[85] = 25039;--85
-x300100_g_itemList[30309150].petIds[95] = 25049;--95
+--x300100_g_itemList[30309150] = { rulerId = 2, minPetLevel = 1, maxPetLevel = 95, petIds = {} }
+--x300100_g_itemList[30309150].petIds[55] = 25009;--55
+--x300100_g_itemList[30309150].petIds[65] = 25019;--65
+--x300100_g_itemList[30309150].petIds[75] = 25029;--75
+--x300100_g_itemList[30309150].petIds[85] = 25039;--85
+--x300100_g_itemList[30309150].petIds[95] = 25049;--95
 -----cong ton thanh
-x300100_g_itemList[30309151] = { rulerId = 2, minPetLevel = 1, maxPetLevel = 95, petIds = {} }
-x300100_g_itemList[30309151].petIds[55] = 25309;--55
-x300100_g_itemList[30309151].petIds[65] = 25319;--65
-x300100_g_itemList[30309151].petIds[75] = 25329;--75
-x300100_g_itemList[30309151].petIds[85] = 25339;--85
-x300100_g_itemList[30309151].petIds[95] = 25349;--95
+--x300100_g_itemList[30309151] = { rulerId = 2, minPetLevel = 1, maxPetLevel = 95, petIds = {} }
+--x300100_g_itemList[30309151].petIds[55] = 25309;--55
+--x300100_g_itemList[30309151].petIds[65] = 25319;--65
+--x300100_g_itemList[30309151].petIds[75] = 25329;--75
+--x300100_g_itemList[30309151].petIds[85] = 25339;--85
+--x300100_g_itemList[30309151].petIds[95] = 25349;--95
 -----ton my my
-x300100_g_itemList[30309152] = { rulerId = 2, minPetLevel = 1, maxPetLevel = 95, petIds = {} }
-x300100_g_itemList[30309152].petIds[55] = 25059;--55
-x300100_g_itemList[30309152].petIds[65] = 25069;--65
-x300100_g_itemList[30309152].petIds[75] = 25079;--75
-x300100_g_itemList[30309152].petIds[85] = 25089;--85
-x300100_g_itemList[30309152].petIds[95] = 25099;--95
+--x300100_g_itemList[30309152] = { rulerId = 2, minPetLevel = 1, maxPetLevel = 95, petIds = {} }
+--x300100_g_itemList[30309152].petIds[55] = 25059;--55
+--x300100_g_itemList[30309152].petIds[65] = 25069;--65
+--x300100_g_itemList[30309152].petIds[75] = 25079;--75
+--x300100_g_itemList[30309152].petIds[85] = 25089;--85
+--x300100_g_itemList[30309152].petIds[95] = 25099;--95
 -----lam sung
-x300100_g_itemList[30309153] = { rulerId = 2, minPetLevel = 1, maxPetLevel = 95, petIds = {} }
-x300100_g_itemList[30309153].petIds[55] = 25559;--55
-x300100_g_itemList[30309153].petIds[65] = 25569;--65
-x300100_g_itemList[30309153].petIds[75] = 25579;--75
-x300100_g_itemList[30309153].petIds[85] = 25589;--85
-x300100_g_itemList[30309153].petIds[95] = 25599;--95
+--x300100_g_itemList[30309153] = { rulerId = 2, minPetLevel = 1, maxPetLevel = 95, petIds = {} }
+--x300100_g_itemList[30309153].petIds[55] = 25559;--55
+--x300100_g_itemList[30309153].petIds[65] = 25569;--65
+--x300100_g_itemList[30309153].petIds[75] = 25579;--75
+--x300100_g_itemList[30309153].petIds[85] = 25589;--85
+--x300100_g_itemList[30309153].petIds[95] = 25599;--95
 -----phi thuy dau linh
-x300100_g_itemList[30309154] = { rulerId = 2, minPetLevel = 1, maxPetLevel = 95, petIds = {} }
-x300100_g_itemList[30309154].petIds[55] = 25259;--55
-x300100_g_itemList[30309154].petIds[65] = 25269;--65
-x300100_g_itemList[30309154].petIds[75] = 25279;--75
-x300100_g_itemList[30309154].petIds[85] = 25289;--85
-x300100_g_itemList[30309154].petIds[95] = 25299;--95
+--x300100_g_itemList[30309154] = { rulerId = 2, minPetLevel = 1, maxPetLevel = 95, petIds = {} }
+--x300100_g_itemList[30309154].petIds[55] = 25259;--55
+--x300100_g_itemList[30309154].petIds[65] = 25269;--65
+--x300100_g_itemList[30309154].petIds[75] = 25279;--75
+--x300100_g_itemList[30309154].petIds[85] = 25289;--85
+--x300100_g_itemList[30309154].petIds[95] = 25299;--95
 -----lo quan dat
-x300100_g_itemList[30309155] = { rulerId = 2, minPetLevel = 1, maxPetLevel = 95, petIds = {} }
-x300100_g_itemList[30309155].petIds[55] = 25409;--55
-x300100_g_itemList[30309155].petIds[65] = 25419;--65
-x300100_g_itemList[30309155].petIds[75] = 25429;--75
-x300100_g_itemList[30309155].petIds[85] = 25439;--85
-x300100_g_itemList[30309155].petIds[95] = 25449;--95
+--x300100_g_itemList[30309155] = { rulerId = 2, minPetLevel = 1, maxPetLevel = 95, petIds = {} }
+--x300100_g_itemList[30309155].petIds[55] = 25409;--55
+--x300100_g_itemList[30309155].petIds[65] = 25419;--65
+--x300100_g_itemList[30309155].petIds[75] = 25429;--75
+--x300100_g_itemList[30309155].petIds[85] = 25439;--85
+--x300100_g_itemList[30309155].petIds[95] = 25449;--95
 -----tan vuong
-x300100_g_itemList[30309156] = { rulerId = 2, minPetLevel = 1, maxPetLevel = 95, petIds = {} }
-x300100_g_itemList[30309156].petIds[55] = 25209;--55
-x300100_g_itemList[30309156].petIds[65] = 25219;--65
-x300100_g_itemList[30309156].petIds[75] = 25229;--75
-x300100_g_itemList[30309156].petIds[85] = 25239;--85
-x300100_g_itemList[30309156].petIds[95] = 25249;--95
+--x300100_g_itemList[30309156] = { rulerId = 2, minPetLevel = 1, maxPetLevel = 95, petIds = {} }
+--x300100_g_itemList[30309156].petIds[55] = 25209;--55
+--x300100_g_itemList[30309156].petIds[65] = 25219;--65
+--x300100_g_itemList[30309156].petIds[75] = 25229;--75
+--x300100_g_itemList[30309156].petIds[85] = 25239;--85
+--x300100_g_itemList[30309156].petIds[95] = 25249;--95
 -----quan thinh
-x300100_g_itemList[30309157] = { rulerId = 2, minPetLevel = 1, maxPetLevel = 95, petIds = {} }
-x300100_g_itemList[30309157].petIds[55] = 25509;--55
-x300100_g_itemList[30309157].petIds[65] = 25519;--65
-x300100_g_itemList[30309157].petIds[75] = 25529;--75
-x300100_g_itemList[30309157].petIds[85] = 25539;--85
-x300100_g_itemList[30309157].petIds[95] = 25549;--95
+--x300100_g_itemList[30309157] = { rulerId = 2, minPetLevel = 1, maxPetLevel = 95, petIds = {} }
+--x300100_g_itemList[30309157].petIds[55] = 25509;--55
+--x300100_g_itemList[30309157].petIds[65] = 25519;--65
+--x300100_g_itemList[30309157].petIds[75] = 25529;--75
+--x300100_g_itemList[30309157].petIds[85] = 25539;--85
+--x300100_g_itemList[30309157].petIds[95] = 25549;--95
 -----lo chi sinh
-x300100_g_itemList[30309158] = { rulerId = 2, minPetLevel = 1, maxPetLevel = 95, petIds = {} }
-x300100_g_itemList[30309158].petIds[55] = 25359;--55
-x300100_g_itemList[30309158].petIds[65] = 25369;--65
-x300100_g_itemList[30309158].petIds[75] = 25379;--75
-x300100_g_itemList[30309158].petIds[85] = 25389;--85
-x300100_g_itemList[30309158].petIds[95] = 25399;--95
+--x300100_g_itemList[30309158] = { rulerId = 2, minPetLevel = 1, maxPetLevel = 95, petIds = {} }
+--x300100_g_itemList[30309158].petIds[55] = 25359;--55
+--x300100_g_itemList[30309158].petIds[65] = 25369;--65
+--x300100_g_itemList[30309158].petIds[75] = 25379;--75
+--x300100_g_itemList[30309158].petIds[85] = 25389;--85
+--x300100_g_itemList[30309158].petIds[95] = 25399;--95
 -----tong khuong
-x300100_g_itemList[30309159] = { rulerId = 2, minPetLevel = 1, maxPetLevel = 95, petIds = {} }
-x300100_g_itemList[30309159].petIds[55] = 25459;--55
-x300100_g_itemList[30309159].petIds[65] = 25469;--65
-x300100_g_itemList[30309159].petIds[75] = 25479;--75
-x300100_g_itemList[30309159].petIds[85] = 25489;--85
-x300100_g_itemList[30309159].petIds[95] = 25499;--95
+--x300100_g_itemList[30309159] = { rulerId = 2, minPetLevel = 1, maxPetLevel = 95, petIds = {} }
+--x300100_g_itemList[30309159].petIds[55] = 25459;--55
+--x300100_g_itemList[30309159].petIds[65] = 25469;--65
+--x300100_g_itemList[30309159].petIds[75] = 25479;--75
+--x300100_g_itemList[30309159].petIds[85] = 25489;--85
+--x300100_g_itemList[30309159].petIds[95] = 25499;--95
 -----vien co ki hon
-x300100_g_itemList[30309160] = { rulerId = 2, minPetLevel = 1, maxPetLevel = 95, petIds = {} }
-x300100_g_itemList[30309160].petIds[55] = 25109;--55
-x300100_g_itemList[30309160].petIds[65] = 25119;--65
-x300100_g_itemList[30309160].petIds[75] = 25129;--75
-x300100_g_itemList[30309160].petIds[85] = 25139;--85
-x300100_g_itemList[30309160].petIds[95] = 25149;--95
+--x300100_g_itemList[30309160] = { rulerId = 2, minPetLevel = 1, maxPetLevel = 95, petIds = {} }
+--x300100_g_itemList[30309160].petIds[55] = 25109;--55
+--x300100_g_itemList[30309160].petIds[65] = 25119;--65
+--x300100_g_itemList[30309160].petIds[75] = 25129;--75
+--x300100_g_itemList[30309160].petIds[85] = 25139;--85
+--x300100_g_itemList[30309160].petIds[95] = 25149;--95
 -----cap dai ba
-x300100_g_itemList[30309161] = { rulerId = 2, minPetLevel = 1, maxPetLevel = 95, petIds = {} }
-x300100_g_itemList[30309161].petIds[55] = 25159;--55
-x300100_g_itemList[30309161].petIds[65] = 25169;--65
-x300100_g_itemList[30309161].petIds[75] = 25179;--75
-x300100_g_itemList[30309161].petIds[85] = 25189;--85
-x300100_g_itemList[30309161].petIds[95] = 25199;--95
+--x300100_g_itemList[30309161] = { rulerId = 2, minPetLevel = 1, maxPetLevel = 95, petIds = {} }
+--x300100_g_itemList[30309161].petIds[55] = 25159;--55
+--x300100_g_itemList[30309161].petIds[65] = 25169;--65
+--x300100_g_itemList[30309161].petIds[75] = 25179;--75
+--x300100_g_itemList[30309161].petIds[85] = 25189;--85
+--x300100_g_itemList[30309161].petIds[95] = 25199;--95
 
 x300100_g_itemList[30309163] = { rulerId = 2, minPetLevel = 1, maxPetLevel = 85, petIds = {} }
 x300100_g_itemList[30309163].petIds[5] = 7649;
