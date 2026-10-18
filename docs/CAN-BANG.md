@@ -405,3 +405,9 @@ StandardImpact 793 "步步生花陷阱伤害" (logic 001 = sát thương trực 
 - Mới: Thương Lang Bạch Lộc Hoàn 30103041 → script 300068, mỗi viên +5 điểm tự do, không trần. Nguồn: **chỉ admin phát qua panel**.
 - Rủi ro: không trần → sức mạnh phụ thuộc hoàn toàn số viên admin phát. Nếu sau này đưa vào shop / rơi phải đặt trần (gợi ý 20 viên = 100 điểm / nhân vật, đếm bằng MissionData).
 - Chưa đo: chưa thử trong game.
+
+## 18/10 - Phiếu bản đồ 2 → 0,5%; Tuyết Lang Hồ hồi sinh 75 → 8 giây
+- Trước: `bando` 2% (Tuyết Lang Hồ / Hãn Huyết Lĩnh / Thánh Hỏa Cung), `thap` 0,5% (đo thật 1,4–1,8%, Audit thiếu MONSTER_KILLED). Tuyết Lang Hồ quái thường hồi sinh 75 giây.
+- Sau: `bando` 0.5, `thap` 0.5 (giữ); Tuyết Lang Hồ 8 giây (533 con; 5 con lớn giữ 5 phút). Tháp giữ 5 giây.
+- Lý do: 1 người 5 acc AFK ra ~1 triệu KNB / 1,5 ngày. Chưa có trần phiếu / nhân vật / ngày.
+- Chưa đo: phiếu / giờ ở Tuyết Lang Hồ sau khi quái ra nhanh ~9 lần — đo lại sau ≥ 2 ngày (`tools/vps/phieu-acc.py`).
