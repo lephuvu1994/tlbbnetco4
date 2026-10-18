@@ -1,70 +1,49 @@
--- 300068 
--- Èó»êµ¤
--- Ê¹ÓÃÖ®ºóÓÀ¾ÃÔö¼Ó5µãÇ±ÄÜ¡£
+-- 300068 Vien +5 diem tiem nang tu do (NetCo4 18/10). Vat pham 30103041 Thuong Lang Bach Loc Hoan, chi admin phat.
+-- Luong skill-like (giong Tien Dan 333007): OnDeplete tru dung 1 vien trong o chong.
 
--- ½Å±¾ºÅ
 x300068_g_scriptId = 300068
-
--- Èó»êµ¤
 x300068_g_ItemId = 30103041
---**********************************
--- ÊÂ¼þ½»»¥Èë¿Ú
---**********************************
-function x300068_OnDefaultEvent( sceneId, selfId, nItemIndex)
-	-- ÊÇ·ñÊ¹ÓÃ¹ýÈó»êµ¤£¬Ä¿Ç°Ö»ÓÐÈó»êµ¤»á¶ÔMD_EX_HUMAN_QIANNENG_SUBJOIN½øÐÐ²Ù×÷
-	local Runhundan_Point = GetMissionData( sceneId, selfId, MD_EX_HUMAN_QIANNENG_SUBJOIN )
-	if( 1 == 0 ) then
-		BeginEvent( sceneId )
-			AddText( sceneId, "Chï có th¬ sØ døng 1 l¥n trong ngày" )
-		EndEvent( sceneId )
-		DispatchMissionTips( sceneId, selfId )
-	else
-		if( x300068_DelRunhundan(sceneId, selfId, nItemIndex ) > 0 ) then
-			
-			--¼ÓÉÏ5¸ö¶îÍâÊôÐÔµã
-			local RemainPoint = GetPlayerRemainPoints(sceneId, selfId)
-			RemainPoint = RemainPoint + 5
-			SetPlayerRemainPoints(sceneId, selfId, RemainPoint)
-			
-			--¼ÇÂ¼Èó»êµ¤¶îÍâ¼Ó³Éµã£¬Èó»êµ¤¼Ó³ÉµãÖ»ÓÐ5
-			-- (18/10) bo: engine dung bien nay cong tiem nang moi lan len cap
-			AuditRunHunDan( sceneId, selfId, x300068_g_ItemId )
-			
-			BeginEvent( sceneId )
-				AddText( sceneId, "Các hÕ ðã nh§n ðßþc 5 ði¬m tìm nång." )
-			EndEvent( sceneId )
-			DispatchEventList( sceneId,selfId,-1 )
-		end
-	end
-	
---
---		INT nQianNeng = pHuman->GetMissionData(MD_EX_HUMAN_QIANNENG_SUBJOIN) + 5;
---		pHuman->SetMissionData(MD_EX_HUMAN_QIANNENG_SUBJOIN, nQianNeng);
---
+x300068_g_Diem = 5
+
+function x300068_OnDefaultEvent( sceneId, selfId, bagIndex )
 end
 
 function x300068_IsSkillLikeScript( sceneId, selfId )
- 	return 0
+	return 1
 end
 
-function x300068_ShowNotice( sceneId, selfId, strNotice)
-	BeginEvent( sceneId )
-		AddText( sceneId, strNotice )
-	EndEvent( sceneId )
-	DispatchMissionTips( sceneId, selfId )    
+function x300068_CancelImpacts( sceneId, selfId )
+	return 0
 end
 
-
-function x300068_DelRunhundan( sceneId, selfId, nItemIndex)
-	local nItemId = GetItemTableIndexByIndex(sceneId, selfId, nItemIndex)
-	if nItemId == x300068_g_ItemId then
-		local EraseRet = EraseItem( sceneId, selfId, nItemIndex )
-		if EraseRet < 0 then      --Èç¹ûÉ¾³ýÊ§°Ü,½«²»»áÔö¼ÓÍæ¼ÒÊôÐÔ
-			return 0
-		else
-			return 1			--É¾³ý³É¹¦
-		end
-	else
+function x300068_OnConditionCheck( sceneId, selfId )
+	if LuaFnVerifyUsedItem( sceneId, selfId ) ~= 1 then
 		return 0
 	end
+	if LuaFnGetItemIndexOfUsedItem( sceneId, selfId ) ~= x300068_g_ItemId then
+		return 0
+	end
+	return 1
+end
+
+function x300068_OnDeplete( sceneId, selfId )
+	if LuaFnDepletingUsedItem( sceneId, selfId ) > 0 then
+		return 1
+	end
+	return 0
+end
+
+function x300068_OnActivateOnce( sceneId, selfId )
+	local RemainPoint = GetPlayerRemainPoints( sceneId, selfId )
+	SetPlayerRemainPoints( sceneId, selfId, RemainPoint + x300068_g_Diem )
+	AuditRunHunDan( sceneId, selfId, x300068_g_ItemId )
+	BeginEvent( sceneId )
+		AddText( sceneId, "Các hÕ ðã nh§n ðßþc 5 ði¬m tìm nång." )
+	EndEvent( sceneId )
+	DispatchMissionTips( sceneId, selfId )
+	return 1
+end
+
+function x300068_OnActivateEachTick( sceneId, selfId )
+	return 1
 end

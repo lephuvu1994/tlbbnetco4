@@ -1865,3 +1865,10 @@ Script dùng: `MyLua/wuhunxt/odali_wuyazi.lua` (892101; hàm `WuhunSkillStudy` ~
 - Hồi sinh trước: Tháp 5 giây (90 con), Tuyết Lang Hồ 75 giây (533 + 5 con lớn 5 phút), Hãn Huyết Lĩnh 45 giây, Thánh Hỏa Cung 15 giây.
 - Chủ server chốt: **Tháp giữ nguyên** (5 giây, phiếu 0,5%; bản 8 giây `b506ba5` đã revert). `roithem` `bando` 2 → **0.5** (sửa trên VPS, hiệu lực ngay). **Tuyết Lang Hồ** 533 dòng `respawn_time` 75000 → **8000** (5 con lớn giữ) — `tools/tuyetlangho-8giay-18-10.js`, tag `truoc-tuyetlangho-8giay-18-10`, md5 VPS = HEAD trước khi sửa. **.ini → cần cap-nhat + RESTART.** netco4.click dựng lại (`build.js` BANDO 0.5).
 - Cảnh báo: Tuyết Lang Hồ là bản đồ phiếu, quái ra nhanh ~9 lần → có thể thành điểm AFK mới. Đo lại sau ≥ 2 ngày bằng `phieu-acc.py`.
+
+### 18/10 - Viên +5 điểm 30103041: chủ server thử OK; cho xếp chồng 250 + sửa script trừ đúng 1 viên
+- Chủ server xác nhận viên dùng được (sau restart). Rút 3 × 5 viên qua Rương/Thương Phố 14:46 (bialk).
+- Xếp chồng: `CommonItem.txt` 30103041 cột 12 ItemRule 26 → **10** (`ItemRule.txt` 10 = 26 trừ 重叠=1 và 是否唯一=0: vẫn khóa khi nhặt, không giao dịch, cất ngân hàng được), cột 13 chồng 1 → **250**. `tools/vien-diem-chong-18-10.js`. **Bảng .txt → cần cap-nhat + RESTART.**
+- **Lỗi đã chặn trước khi lên:** script 300068 cũ dùng `OnDefaultEvent` + `EraseItem(ô túi)` = xóa cả ô → khi chồng 250, dùng 1 viên mất cả chồng. Viết lại theo luồng skill-like như Tiên Đan 333007 (`OnConditionCheck` kiểm đúng mã → `OnDeplete` `LuaFnDepletingUsedItem` trừ 1 → `OnActivateOnce` +5). `tools/vien-diem-skilllike-18-10.js`, luaparse OK. Tag chung `truoc-vien-diem-chong-18-10`.
+- Nguồn rơi 30103041: rà repo + VPS (Lua, DropBox, MonsterDropBoxs, Shop, roithem, NetCo4Cfg, bot database.json): **không có** — chỉ panel admin. Vẫn qua được Rương Ích Kỷ / Thương Phố (chuyển, không sinh).
+- Chưa thử: dùng 1 viên trong chồng → chồng giảm đúng 1; viên cũ (rule 26) có gộp chồng sau restart không.
