@@ -51,7 +51,7 @@ File này là **điểm bắt đầu** cho mọi phiên Claude mới, kể cả 
 
 ### 2b. Server LOCAL để thử
 
-- WSL `Ubuntu-22.04`, lệnh: `MSYS_NO_PATHCONV=1 wsl -d Ubuntu-22.04 -u root -- bash /mnt/d/tlbb-local/local.sh start|stop|restart|status`. Client: `G:\NetCo4-Local\NetCo4.cmd`.
+- WSL `Ubuntu-22.04`, lệnh: `MSYS_NO_PATHCONV=1 wsl -d Ubuntu-22.04 -u root -- bash /mnt/d/tlbb-local/local.sh start|stop|restart|status`. Client: `D:\NetCo4-Local\NetCo4.cmd` (18/10). **`D:\tlbb-local\CAP-NHAT-TEST.cmd`** = gộp main vào local + lấy NetCo4Cfg từ VPS + dongbo + `local.sh apcfg` (ConfigInfo repo + khóa cấp/EXP, Mẫu đồ chế, Trùng Lâu, Ám khí như cap-nhat.sh) + restart + `local.sh loi`. Đã so md5: local = prod + thay đổi chờ lên (chỉ thêm buff 9900–9907 rồng bay).
 - Chạy script trong WSL: viết file `.sh` (Write tool) rồi `wsl … -- bash -c "tr -d '\r' < '<file>' | bash"`. Biến `$VAR` viết inline qua Git Bash bị nuốt.
 - Chép file từ repo sang local: mẫu `D:\Thiên Long Bát Bộ NetCo4\scratchpad-claude\quangay\local-*.sh` (luôn sao lưu bản cũ vào `/root/…`).
 - **Local hiện đang chạy** (18/10): bản `main` của `quatang.lua` (18 danh hiệu), `ShuaXinClient.lua`, `shengjjll.lua`, 4 script nhịp 1 giây, `oluoyang_penghuaiyu.lua` (đục lỗ 4 nhanh), billing_go v1.3.5. Chủ server bảo "tắt local" thì `local.sh stop`.
