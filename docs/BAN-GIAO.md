@@ -24,6 +24,7 @@ File này là **điểm bắt đầu** cho mọi phiên Claude mới, kể cả 
 - **Việc thử nghiệm làm trên server LOCAL trước** (mục 2b), việc thường làm thẳng `main`.
 - Web người chơi / admin **không dùng `confirm()` / `alert()` / `prompt()`**: dùng `gConfirm` (`webplay.js`) hoặc "bấm 2 lần để xác nhận".
 - **File làm việc để ở ổ D**: `D:\Thiên Long Bát Bộ NetCo4\scratchpad-claude\<việc>` (ổ C nhỏ). Ngoại lệ: `~/.ssh/tlbb_vps`.
+- **18/10: gom dự án về `D:\Dự án\Thiên Long Bát Bộ\`** (`DOC-TRUOC.txt` ở đó): `code\` (repo), `lam-viec-claude\` (= scratchpad-claude), `server-test\` (lối tắt `D:\tlbb-local`), `sao-luu-claude\` (ghi nhớ + lịch sử phiên Claude). Chuyển bằng `CHUYEN-SANG-D.ps1` (chạy khi tắt VS Code); đường dẫn cũ `C:\Users\Bia\tlbbnetco4` và `D:\Thiên Long Bát Bộ NetCo4\scratchpad-claude` thành junction nên vẫn dùng được.
 - **Không in bí mật**: `PANEL_SUPER_PASSWORD` (`/opt/minigame/BotDoMin/.env`), `PANEL_PASS` + MySQL (`/opt/tlbb-deploy/secrets.env`). Script tự đọc file, không in. **Không commit bí mật** (repo public).
 - Gunny (`D:\gunny-netco4`) là dự án song song do Claude khác lo, luật khác TLBB.
 
