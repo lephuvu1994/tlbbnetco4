@@ -400,3 +400,8 @@ StandardImpact 793 "步步生花陷阱伤害" (logic 001 = sát thương trực 
 - 4.247 boss (các dòng da6cce6 đã giảm): HP cột 19 / MaxHP cột 59 = floor(gốc 651afc2 × 1,2). Trước đó 90% gốc (2d9eca5), Sát Tinh 36%.
 - Sát Tinh 11 DataID 13447-13537: máu như trên (120% gốc) + **công về đúng gốc** (bỏ nerf ×0,7 của 55fbe1f / b47b8be: cột 15, 17, 30, 33, 36, 39, 55, 57).
 - Không đổi dòng nào khác (kiểm: chỉ cột 19/59 + 8 cột công Sát Tinh). `tools/mau-boss-goc-120-11-10.js`, tag `truoc-mau-boss-120-11-10`. `tools/mau-boss.js` (hệ số ≤ 1) không dùng được nữa cho mức này.
+
+## 18/10 - Viên +5 điểm tiềm năng 30103041 (cần cap-nhat + RESTART)
+- Mới: Thương Lang Bạch Lộc Hoàn 30103041 → script 300068, mỗi viên +5 điểm tự do, không trần. Nguồn: **chỉ admin phát qua panel**.
+- Rủi ro: không trần → sức mạnh phụ thuộc hoàn toàn số viên admin phát. Nếu sau này đưa vào shop / rơi phải đặt trần (gợi ý 20 viên = 100 điểm / nhân vật, đếm bằng MissionData).
+- Chưa đo: chưa thử trong game.

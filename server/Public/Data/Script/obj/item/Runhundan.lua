@@ -6,14 +6,14 @@
 x300068_g_scriptId = 300068
 
 -- Èó»êµ¤
-x300068_g_ItemId = 30900078
+x300068_g_ItemId = 30103041
 --**********************************
 -- ÊÂ¼þ½»»¥Èë¿Ú
 --**********************************
 function x300068_OnDefaultEvent( sceneId, selfId, nItemIndex)
 	-- ÊÇ·ñÊ¹ÓÃ¹ýÈó»êµ¤£¬Ä¿Ç°Ö»ÓÐÈó»êµ¤»á¶ÔMD_EX_HUMAN_QIANNENG_SUBJOIN½øÐÐ²Ù×÷
 	local Runhundan_Point = GetMissionData( sceneId, selfId, MD_EX_HUMAN_QIANNENG_SUBJOIN )
-	if( Runhundan_Point > 10 ) then
+	if( 1 == 0 ) then
 		BeginEvent( sceneId )
 			AddText( sceneId, "Chï có th¬ sØ døng 1 l¥n trong ngày" )
 		EndEvent( sceneId )
@@ -23,15 +23,15 @@ function x300068_OnDefaultEvent( sceneId, selfId, nItemIndex)
 			
 			--¼ÓÉÏ5¸ö¶îÍâÊôÐÔµã
 			local RemainPoint = GetPlayerRemainPoints(sceneId, selfId)
-			RemainPoint = RemainPoint + 35
+			RemainPoint = RemainPoint + 5
 			SetPlayerRemainPoints(sceneId, selfId, RemainPoint)
 			
 			--¼ÇÂ¼Èó»êµ¤¶îÍâ¼Ó³Éµã£¬Èó»êµ¤¼Ó³ÉµãÖ»ÓÐ5
-			SetMissionData( sceneId, selfId, MD_EX_HUMAN_QIANNENG_SUBJOIN, 5 )
+			-- (18/10) bo: engine dung bien nay cong tiem nang moi lan len cap
 			AuditRunHunDan( sceneId, selfId, x300068_g_ItemId )
 			
 			BeginEvent( sceneId )
-				AddText( sceneId, "Các hÕ ðã nh§n ðßþc 35 ði¬m tìm nång." )
+				AddText( sceneId, "Các hÕ ðã nh§n ðßþc 5 ði¬m tìm nång." )
 			EndEvent( sceneId )
 			DispatchEventList( sceneId,selfId,-1 )
 		end

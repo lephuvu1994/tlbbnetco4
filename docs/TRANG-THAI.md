@@ -1849,3 +1849,13 @@ Script dùng: `MyLua/wuhunxt/odali_wuyazi.lua` (892101; hàm `WuhunSkillStudy` ~
 - Sửa (`79dec78`, tag `truoc-nguong-dongbang-17-10`, chủ server đồng ý): `ConfigInfo.ini` [Human] `WarnningPer10M=1000`, `WarnningPerHour=5000`, `FreezePer10M=2000`, `FreezePerHour=10000`. Cần cap-nhat + **restart**.
   - Bản sửa lấy file VPS làm gốc: VPS có `HumanMaxDefaultLevel=110`, `ExpParam=5.0` (admin sửa thẳng), repo trước đó ghi 119 / 12.0.
 - Gỡ băng: `deploy/go-dong-bang.sh --ds` (liệt kê) / `systemctl stop tlbb && ./go-dong-bang.sh <tên|GUID> && systemctl start tlbb` (game phải tắt, sao lưu settings vào `/opt/tlbb-backup/go-dong-bang-*`). Không có hàm Lua gỡ được.
+
+### 18/10 - Vô hiệu 12 Sơ cấp Hoàn Đồng Đan (mất pet)
+- 30309150–30309161 (`obj/item/huantongdan_4.lua`, 300100): 60 ID pet đích không có trong `PetAttrTable.txt`, script trừ tiền → xóa pet → mới tạo → mất pet. Comment 72 dòng khai báo → `CanOperate` chặn ngay ở `OnConditionCheck` ("chưa mở đạo cụ"), không trừ đan / tiền / pet. `250bd65`, `tools/hoandongdan-18-10.js`, tag `truoc-hoandongdan-18-10`. Lua, cần cap-nhat, không restart.
+
+### 18/10 - Viên +5 điểm tiềm năng (chỉ admin phát)
+- Chủ server chốt: +5 điểm tự do (ô "Điểm") / viên, **không trần**, **chỉ phát qua panel quà**, lên thẳng prod.
+- Mượn **Thương Lang Bạch Lộc Hoàn 30103041** (class 3, chuột phải dùng được, không bán / không rơi ở đâu — quét mọi Lua + bảng Config): `CommonItem.txt` cột 14 script 333016 → **300068**.
+- Script 300068 `obj/item/Runhundan.lua` (Nhuận Hồn Đan gốc — mã 30900078 KHÔNG có trong CommonItem, `danhhieu.lua` / `doidanhhieu.lua` vẫn phát mã ma này): `g_ItemId` → 30103041, +35 → **+5**, bỏ chặn "1 lần/ngày" (vốn hỏng: ghi 5 rồi kiểm > 10), bỏ `SetMissionData(MD_EX_HUMAN_QIANNENG_SUBJOIN, 5)` (engine đọc biến này để cộng thêm tiềm năng mỗi lần lên cấp).
+- Tooltip client vẫn là mô tả gốc ("Thương lang cùng bạch lộc hoa văn…") — báo người chơi qua Discord. `tools/vien-diem-18-10.js`, tag `truoc-vien-diem-18-10`. **Bảng .txt → cần cap-nhat + RESTART** (chủ server: chưa restart 18/10).
+- **Chưa thử trong game**: chuột phải có gọi script không, điểm có lưu sau đăng xuất không.
