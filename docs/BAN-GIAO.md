@@ -1,207 +1,196 @@
-# Bàn giao cho phiên Claude tiếp theo (viết lại 12/10/2026)
+# Bàn giao cho phiên Claude tiếp theo (viết lại 18/10/2026)
 
-File này là **điểm bắt đầu** cho mọi phiên Claude mới, kể cả Claude ở máy hoặc tài khoản khác không có "ghi nhớ" của phiên trước. Mọi kinh nghiệm quan trọng của phiên trước đã chép vào đây hoặc vào các file `docs/` được nêu tên.
+File này là **điểm bắt đầu** cho mọi phiên Claude mới, kể cả Claude ở máy hoặc tài khoản khác không có "ghi nhớ" của phiên trước. Mọi kinh nghiệm quan trọng đã chép vào đây hoặc vào các file `docs/` được nêu tên. Bản trước (12/10) nằm trong git history.
 
 **Đọc theo thứ tự:**
-1. `CLAUDE.md`: quy tắc bắt buộc của repo game (bảng mã, DB, bí mật, script trên VPS).
-2. File này.
-3. `docs/TRANG-THAI.md`: nhật ký chi tiết từng việc. Đọc **từ cuối lên**, mỗi mục ghi tag rollback.
-4. Khi đụng tới chủ đề nào thì đọc file tương ứng ở **mục 9**.
-5. Bot web: repo `bialk`, `BotDoMin/README.md`.
+1. `CLAUDE.md`: quy tắc bắt buộc (bảng mã VISCII/GBK, DB, bí mật, script trên VPS, billing).
+2. File này: mục 3 (trạng thái) và mục 5 (việc treo) trước tiên.
+3. `docs/TRANG-THAI.md`: nhật ký chi tiết. Đọc **từ cuối lên**, mỗi mục ghi tag rollback.
+4. `docs/CAN-BANG.md` trước khi đổi sức mạnh / tỉ lệ rơi. Mọi lần đổi phải ghi vào đó.
+5. Đụng chủ đề nào thì đọc file tương ứng ở **mục 9**.
+6. Bot web: repo `bialk`, `BotDoMin/README.md`.
 
 ---
 
-> **14/10/2026: SẮP TẠM ĐÓNG SERVER.** Khoảng **21–24/10** chủ server tạm đóng TLBB, sao lưu toàn bộ để mở lại sau khi đông người. Muốn người chơi lên endgame trong ~10 ngày → tỉ lệ rơi / EXP cao là **cố ý**. Nói rõ khối lượng 1 lần rồi làm, không cản vì cân bằng lâu dài. Ưu tiên việc nhanh, ít rủi ro. Việc đóng / sao lưu chỉ làm khi chủ server bảo.
+> **14/10/2026: SẮP TẠM ĐÓNG SERVER.** Khoảng **21–24/10** chủ server tạm đóng TLBB, sao lưu toàn bộ để mở lại sau khi đông người. Muốn người chơi lên endgame nhanh → tỉ lệ rơi / EXP cao là **cố ý**. Nói rõ khối lượng và rủi ro 1 lần rồi làm theo, không cản vì cân bằng lâu dài. Việc đóng / sao lưu chỉ làm khi chủ server bảo.
 
 ## 1. Chủ server và cách làm việc
 
-- Chủ server (tài khoản game **bialk**, GUID **1010100017**) nói tiếng Việt. **Luôn trả lời bằng tiếng Việt**, gọn, rõ.
-- Khi chủ server chỉ **hỏi / nhờ check** thì trả lời rồi dừng, không tự sửa. Khi họ nói "làm đi / deploy" mới làm.
-- Server riêng cho khoảng 10 người bạn chơi, không kinh doanh. Không tối ưu theo kiểu nạp tiền.
-- Trước mỗi thay đổi game: **tạo tag rollback** (`truoc-<viec>-<ngay>`), viết **tool tái chạy được** trong `tools/` (có chú thích đầu file), ghi vào `docs/TRANG-THAI.md` (và `docs/CAN-BANG.md` nếu đổi sức mạnh). Commit message theo kiểu cũ (tiếng Việt không dấu, ghi "can cap-nhat" / "can restart" / tag).
-- Web người chơi và admin **không dùng `confirm()` / `alert()` / `prompt()` của trình duyệt**. Dùng hộp riêng `gConfirm` (trang người chơi, `BotDoMin/webplay.js`) hoặc kiểu "bấm 2 lần để xác nhận" (trang admin).
-- **Mọi file làm việc để ở ổ D, không để ở ổ C** (chủ server yêu cầu 12/10, ổ C nhỏ và từng đầy làm máy lag). Đặt file tạm, file giải nén, file trích từ client, kết quả test vào `D:\Thiên Long Bát Bộ NetCo4\scratchpad-claude\<việc>`. Không dùng `$TEMP` hay `/tmp` (nằm trên C). Tải nặng (máy ảo, bộ client, npm) cũng để D. Xong việc thì xóa phần sót lại trên C. Ngoại lệ: `~/.ssh/tlbb_vps` ở lại C. Dữ liệu Claude Code (`~/.claude`) chuyển bằng `D:\Thiên Long Bát Bộ NetCo4\chuyen-claude-sang-D.ps1` (chạy khi đã tắt VS Code).
-- **Không in bí mật** ra màn hình: `PANEL_SUPER_PASSWORD` (`/opt/minigame/BotDoMin/.env`), mật khẩu MySQL, `deploy/secrets.env`. Script cần mật khẩu thì tự đọc file, không in. **Không commit bí mật.**
+- Chủ server (tài khoản game **bialk**, GUID **1010100017**, nhân vật Thiên Long cấp 102; nhân vật phụ `bia1` Tiêu Dao 119 ở tài khoản `admin`) nói tiếng Việt. **Luôn trả lời bằng tiếng Việt**, gọn, rõ. Hay viết tắt / sai chính tả ("neft" = nerf, "chat" = gọi Claude).
+- Tổ chức yêu cầu Claude **thẳng thắn, không xu nịnh**: làm đúng yêu cầu nhưng chỉ ra rủi ro kinh tế / cân bằng bằng số liệu (ví dụ: chủ server đổi tỉ lệ phiếu 6 lần trong 1 ngày theo cảm giác → khuyên đo log rồi mới đổi).
+- Khi chủ server chỉ **hỏi / nhờ check** thì trả lời rồi dừng. Khi họ nói "làm đi / deploy / ok" mới làm.
+- Server riêng cho khoảng 10 người bạn, không kinh doanh.
+- Trước mỗi thay đổi game: **tag rollback** (`truoc-<viec>-<ngay>`), **tool tái chạy được** trong `tools/` (chú thích đầu file), ghi `docs/TRANG-THAI.md` (+ `docs/CAN-BANG.md` nếu đổi sức mạnh). Commit message tiếng Việt không dấu, ghi "can cap-nhat" / "can restart" / tag. Cuối commit: dòng Co-Authored-By theo hướng dẫn của hệ thống.
+- **Việc thử nghiệm làm trên server LOCAL trước** (mục 2b), việc thường làm thẳng `main`.
+- Web người chơi / admin **không dùng `confirm()` / `alert()` / `prompt()`**: dùng `gConfirm` (`webplay.js`) hoặc "bấm 2 lần để xác nhận".
+- **File làm việc để ở ổ D**: `D:\Thiên Long Bát Bộ NetCo4\scratchpad-claude\<việc>` (ổ C nhỏ). Ngoại lệ: `~/.ssh/tlbb_vps`.
+- **Không in bí mật**: `PANEL_SUPER_PASSWORD` (`/opt/minigame/BotDoMin/.env`), `PANEL_PASS` + MySQL (`/opt/tlbb-deploy/secrets.env`). Script tự đọc file, không in. **Không commit bí mật** (repo public).
+- Gunny (`D:\gunny-netco4`) là dự án song song do Claude khác lo, luật khác TLBB.
 
 ## 2. Quyền của Claude và cách deploy
 
 | Việc | Claude được làm? | Cách |
 |---|---|---|
-| Sửa repo game, commit, push | ✅ | Push lên GitHub = có thể lên VPS bất cứ lúc nào (có người deploy qua OneDash) |
-| Chạy `cap-nhat.sh` trên VPS | ❌ **KHÔNG** | Bộ phân loại an toàn đã chặn nhiều lần, đừng lách. Đưa chủ server lệnh: `cd /opt/tlbb-deploy && ./cap-nhat.sh` |
-| Restart game `systemctl restart tlbb` | Chỉ khi chủ server bảo | Đếm người online trước: `ss -tn state established '( sport = :3731 )'` (3731 = đang TRONG GAME; 7384 = đang đăng nhập; báo tổng, nói 3731 trước) |
-| Restart panel GM | Khi cần | `systemctl restart tlbb-panel` (sau cap-nhat nếu đổi `panel/*.py`) |
-| Deploy bot | ✅ khi chủ server OK | 1) `git show HEAD:BotDoMin/<file>` lấy bản LF; 2) so md5 file trên VPS với commit trước (có thể người khác sửa); 3) `systemctl list-jobs \| grep -c tlbb` = 0; 4) sao lưu vào `/opt/tlbb-backup/bot-truoc-<hash>-<giờ>`; 5) scp vào `/tmp`, `node --check`, chép, `systemctl restart minigame`; 6) xem `journalctl -u minigame`, curl cổng 3002 / 1234 / 1508 |
-| Đổi cấu hình bot (túi boss, Ghép Ngọc, vòng quay...) | ✅ | Script chạy trên VPS, đăng nhập `POST /api/login` cổng SUPER 1508 bằng mật khẩu đọc từ `.env`, gọi API. **Không sửa `database.json` tay.** Mẫu: các script `gn-*.js`, `tuiboss-*.js` trong mục 2 của TRANG-THAI |
-| Ghi file trực tiếp vào VPS bằng shell (vá binary, sửa file game tay) | ❌ thường bị chặn | Viết tool trong repo, đưa chủ server lệnh tự chạy (mẫu: `tools/tat-giup-thetaiphu.py`) |
-| Đọc DB | ✅ chỉ đọc | `python3 -c "import panel; panel.sql(...)"` trong `/opt/tlbb-repo/panel` (không in mật khẩu). DB trễ khoảng 15 phút so với game (ShareMemory lưu theo chu kỳ) |
+| Sửa repo game, commit, push | ✅ | Push ≠ deploy |
+| Chạy `cap-nhat.sh` trên VPS | ❌ **KHÔNG** (bộ phân loại chặn) | Đưa lệnh cho chủ server: `cd /opt/tlbb-deploy && ./cap-nhat.sh -y` (không restart) hoặc `-y -r` (restart luôn). Lệnh "chờ mọi người off rồi cập nhật + restart": xem TRANG-THAI / lịch sử 18/10, mẫu `nohup setsid bash -c '...' cho-off` |
+| Restart game `systemctl restart tlbb` | Chỉ khi chủ server bảo | Đếm online **cả 2 cổng**: `ss -Htn state established '( sport = :3731 )'` (trong game) và `:7384` (đang đăng nhập) |
+| Restart panel GM `systemctl restart tlbb-panel` | ✅ khi cần | Sau khi chủ server cap-nhat có đổi `panel/*.py` (không đá ai) |
+| Gọi panel GM (quà, khóa TK, roi_them…) | ✅ | Trên VPS: `curl -sk -X POST -H "X-NetCo4-Key: $PANEL_PASS" -H "Content-Type: application/json" -d '{"a":"qua","guid":"…","loai":"item","gt":"<id>","sl":"1"}' https://127.0.0.1:8443/api/act` (`. /opt/tlbb-deploy/secrets.env` trước). Loại quà: item, xoa, knb, vang, diemtang, level, exp, nangngoc, vip, popup, pet, **tamphap** (cấp tâm pháp 1–159), **itemsao** (sl = số sao 1–9) |
+| Đổi cấu hình bot (túi boss, Ghép Ngọc, vòng quay…) | ✅ | Script Node chạy trên VPS: `POST /api/login` cổng SUPER `127.0.0.1:1508` (mật khẩu đọc từ `.env`) → `Authorization: Bearer <token>`. **Không sửa `database.json`.** Sao lưu cấu hình vào `/opt/tlbb-backup` trước. Báo chủ server **F5** trang admin đang mở (không thì trang cũ ghi đè) |
+| Deploy bot | ✅ khi chủ server OK | `git show HEAD:<file>` (LF) → so md5 VPS → `systemctl list-jobs \| grep -c tlbb` = 0 → sao lưu → `/tmp` + `node --check` → chép → `systemctl restart minigame` |
+| Sửa `roithem.txt` (rơi thêm qua script) | ✅ | Sửa thẳng `/opt/tlbb-root/home/tlbb/Server/txt/NetCo4Cfg/roithem.txt` sau khi sao lưu `roithem-truoc-<việc>-<giờ>.txt`; **hiệu lực ngay**. Sau đó dựng lại netco4.click (mục 6) |
+| Tắt "lớp bảo vệ" của engine (chống hack, ngưỡng đóng băng…) | ⚠ bị chặn nếu chưa có cho phép rõ | 17/10 bị chặn "Security Weaken"; chủ server phải nói rõ "ok nâng …" thì mới làm, và chọn mức vừa phải chứ không tắt hẳn |
+| Đọc DB / log / RAM | ✅ chỉ đọc | `. deploy/common.sh; mysql_root "tlbbdb -e '…'"`. DB trễ ~15 phút so với game. Đọc giá trị engine đang chạy: `python3` mở `/proc/<pid Server>/mem` đọc địa chỉ (mẫu 17/10: ngưỡng đóng băng `0x8696f34`) |
 
-- SSH: `ssh -i ~/.ssh/tlbb_vps -p 24700 root@103.216.118.123`.
-- Hiệu lực sau khi sửa:
-  - **Lua (NPC / script)** chỉ cần `cap-nhat.sh`, không restart: server nạp lại file script mỗi lần gọi.
-  - **Bảng `.txt` / `.ini`** (`Public/Config`, `Server/Config`, `Public/Scene`) cần `cap-nhat.sh` + **restart game**.
-  - **Panel GM** (`panel/*.py`) cần `cap-nhat.sh` + `systemctl restart tlbb-panel`.
-- Đổi **tỉ lệ rơi** (MonsterDropBoxs / DropBoxContent / `NetCo4/roimap.lua` / roithem): **bắt buộc dựng lại https://netco4.click** bằng `node tools/bang-roi/lam.js`. Sao lưu `/var/www/netco4/index.html` vào `/opt/tlbb-backup/` rồi scp `tools/bang-roi/web/index.html` lên.
-- **`minigame.service` chạy sau `tlbb.service`.** Restart bot đúng lúc game đang restart thì mọi web chết cho tới khi game lên lại.
-- Trước khi tắt VPS: `./tlbb.sh stop`. ShareMemory còn giữ dữ liệu nhân vật chưa lưu.
+- SSH: `ssh -p 24700 root@103.216.118.123` (khóa `~/.ssh/tlbb_vps`).
+- Hiệu lực: **Lua** = cap-nhat (không restart, script nạp lại mỗi lần gọi). **Bảng `.txt`/`.ini`** = cap-nhat + **restart**. **Panel** = cap-nhat + restart tlbb-panel.
+- **File trên VPS có thể KHÁC repo** vì trang admin ghi thẳng: `StandardImpact.txt` / `EquipBase` / `ItemSegValue` (Custom Trùng Lâu), `ConfigInfo.ini` (cấp tối đa, EXP), `MonsterDropBoxs` / `DropBoxContent` (tab Drop Boss), `DarkConfigTable.ini` (ám khí). `cap-nhat.sh` tự áp lại cấp tối đa / EXP / Trùng Lâu / màu đồ chế / ám khí từ json ngoài repo sau khi chép, **nhưng trước khi commit 1 file bảng vẫn phải so md5 VPS với `git show HEAD:`**; khác thì lấy bản VPS làm gốc rồi mới sửa (cách làm 17–18/10 với `ConfigInfo.ini`, `StandardImpact.txt`). Drop Boss tab: chạy `./lay-tu-server.sh` trước.
+- Đổi **tỉ lệ rơi** (bảng / `roimap.lua` / `roithem.txt`): **bắt buộc dựng lại https://netco4.click**: sửa tỉ lệ ghi tay trong `tools/bang-roi/build.js` nếu là rơi qua script → `node tools/bang-roi/lam.js` → sao lưu `/var/www/netco4/index.html` + `data.json` → scp **cả** `web/index.html` **và** `web/data.json`.
+- `minigame.service` chạy sau `tlbb.service`: restart bot lúc game đang restart thì web chết tới khi game lên.
 
-## 3. Trạng thái lúc bàn giao (12/10/2026 ~14:30)
+### 2b. Server LOCAL để thử
+
+- WSL `Ubuntu-22.04`, lệnh: `MSYS_NO_PATHCONV=1 wsl -d Ubuntu-22.04 -u root -- bash /mnt/d/tlbb-local/local.sh start|stop|restart|status`. Client: `G:\NetCo4-Local\NetCo4.cmd`.
+- Chạy script trong WSL: viết file `.sh` (Write tool) rồi `wsl … -- bash -c "tr -d '\r' < '<file>' | bash"`. Biến `$VAR` viết inline qua Git Bash bị nuốt.
+- Chép file từ repo sang local: mẫu `D:\Thiên Long Bát Bộ NetCo4\scratchpad-claude\quangay\local-*.sh` (luôn sao lưu bản cũ vào `/root/…`).
+- **Local hiện đang chạy** (18/10): bản `main` của `quatang.lua` (18 danh hiệu), `ShuaXinClient.lua`, `shengjjll.lua`, 4 script nhịp 1 giây, `oluoyang_penghuaiyu.lua` (đục lỗ 4 nhanh), billing_go v1.3.5. Chủ server bảo "tắt local" thì `local.sh stop`.
+
+## 3. Trạng thái lúc bàn giao (18/10/2026)
 
 | Thành phần | Trạng thái |
 |---|---|
-| Game | Restart lúc **12/10 09:40**. VPS repo = **`2821243`**. Commit sau đó `f07a7d2` chỉ thêm tool + docs, không có file game. |
-| Bot | VPS = HEAD **`4f3037f`** (tab 📅 Lịch Boss & Hoạt động), `panel.js` md5 `dbabfff0`. Kèm `lichboss.json` và `lichhoatdong.json` trong `/opt/minigame/BotDoMin`. |
-| `Server/Server` (binary) | Bản giải nén UPX đã vá tự đi theo (03/10, xem CLAUDE.md), **cộng thêm** vá tắt dòng [Giúp] Thẻ Tài Phú (12/10, `tools/tat-giup-thetaiphu.py`, chủ server tự chạy). Trả về `Server.upx-goc` sẽ **mất cả 2 bản vá**. Thay binary khác thì chạy lại tool. |
-| **Chờ restart game** | Cấu hình Custom Trùng Lâu vừa khôi phục 12/10 (xem mục 4). File đã ghi lúc 12/10 sau 09:40 nên **chưa có hiệu lực** tới lần restart tới. |
+| Game | Chạy từ **17/10 19:10**. VPS repo = **`fe5864f`** (= HEAD lúc viết, đã cap-nhat -y). **Chờ restart** để `StandardImpact.txt` (nerf Bàng Xí) có hiệu lực; chủ server nói sẽ tự restart tay |
+| Billing | **billing_go v1.3.5** (từ 16/10, xem CLAUDE.md). Đừng đưa lại bản 2019 (gây treo "Đang kiểm tra mật mã"). Panel đọc online từ `billing.log` |
+| `Server/Server` | Bản vá (tự đi theo + tắt [Giúp] Thẻ Tài Phú), md5 hiện `996f8758`. Trả về `.upx-goc` là mất cả 2 vá |
+| Bot | VPS `panel.js` md5 `479ffe55`. Danh mục vật phẩm bot cache lúc khởi động → tên Chân Nguyên trong shop/vòng quay vẫn còn `#G` tới lần restart bot sau (chủ server chưa cho restart) |
+| Online | ~6 người lúc viết |
 
-### Việc chủ server còn phải làm
-
-1. **Restart game** để áp lại Custom Trùng Lâu (Giới / Ngọc / 2 bản Chân + hiệu ứng 2% / 5s). Đếm 3731 trước.
-2. **Bảo mật (quan trọng):** ngày 12/10 máy Windows chứa khóa VPS đã chạy launcher bị Defender báo **Trojan** (thử bộ 14 phái, mục 7). Nên:
-   - đổi khóa SSH `~/.ssh/tlbb_vps` và xóa khóa cũ trong `/root/.ssh/authorized_keys`;
-   - đổi `PANEL_SUPER_PASSWORD`;
-   - đổi token / mật khẩu GitHub.
-
-   Chưa làm tính tới lúc viết file này.
-3. Mở lại Real-time protection của Windows Defender (đã tắt 12/10).
-4. **15/10 - Công Lực Đan chỉnh trên web** (game `74d9fb6`, bot `c73caeb`, **đã push, chưa deploy**): chủ server chạy `./cap-nhat.sh` + `systemctl restart tlbb-panel`; rồi deploy bot `panel.js` (Claude làm được khi chủ server bảo); rồi **cắn thử 1 viên** - Lua chưa chạy thật lần nào (không có luac). Chi tiết TRANG-THAI "15/10 - Công Lực Đan".
-
-## 4. Việc đã làm 08/10 → 12/10 (tóm tắt; chi tiết + tag ở TRANG-THAI)
+## 4. Việc đã làm 13/10 → 18/10 (tóm tắt; chi tiết + tag ở TRANG-THAI / CAN-BANG)
 
 | Ngày | Việc | Ghi chú |
 |---|---|---|
-| 08/10 | Custom Trùng Lâu (trang admin bot, `panel/trunglau.py`, đoạn riêng ItemSegValue 4501+); nút 📋 chép dòng Thường → Chân | `docs/TRUNG-LAU-CUSTOM.md` |
-| 08/10 | Đục lỗ 4 Free (Long Văn, Võ Hồn, Lệnh Bài, Tọa Kỵ); Bộ Bộ Sinh Hoa ×4; NPC chế đồ Mục Thanh Danh (VL8) | `docs/CAN-BANG.md` |
-| 08/10 | Giải mã client: dump RAM, bảng `Config.axp` ẩn trong OgreMain, pet 3D "Xem biến dị" ở Ghép Ngọc | `docs/CLIENT-GIAI-MA.md`, `tools/pet3d/README.md` |
-| 09/10 | Custom Võ Hồn (tỉ lệ chiêu từng ô) + Long Văn số dòng ra | `panel/vohon.py`, `docs/TRUNG-LAU-CUSTOM.md` |
-| 09/10 | Trùng Lâu Khôi 7580 (+10% sát thương, buff icon 755); 20 thời trang 9 sao chỉ GM | |
-| 10/10 | Tinh Thông admin chọn 3 dòng (`panel/tinhthong.py`); custom % tẩy tư chất; pet đầy máu khi đổi map; nâng nhanh kỹ năng trân thú; fix giám định xóa thăng linh / điêu văn (`judge_aptitude.lua` chỉ ghi tên khi creator rỗng) | |
-| 11/10 | Event Đổi Đồ VIP (NPC Lưu Thi Thi 111998); **đồ VIP đổi sang 26 mã client cho Tinh Thông** + tắt mọi nguồn ra mã đó + tắt thăng cấp trang bị (`x809263_EquipLevelUp`) | `tools/dovip-11-10.js`, `tools/dovip-doima-11-10.js` |
-| 11/10 | Chuyển giới trân thú (NPC 111998 + Vân Phi Phi) | |
-| 11/10 | Tháp Khắc Lạp Mã Can (scene 427): Võ Ý ×48, chỉ rơi Kim Tàm Ti 25%, hồi sinh 5s | |
-| 11/10 | Cộng Sinh 200 / 400; máu boss toàn game = **120% gốc**, Sát Tinh về gốc | `tools/mau-boss-goc-120-11-10.js` |
-| 11/10 | NPC Mục Thanh Danh: **Chuyển đồ** (cường hóa + lỗ + ngọc + creator) 10.000 KNB, món cũ bị xóa | `tools/chuyendo-11-10.js` |
-| 11/10 | NPC Hoàng Cẩn: **Thăng Linh nhanh** (chọn món 1 lần, bấm liên tục); cửa sổ client tự mở lại sau mỗi lần thăng linh | `tools/thanglinh-nhanh-11-10.js` |
-| 11/10 | Custom Trùng Lâu: nút chép giống hệt Chân Giới ↔ Chân Ngọc | |
-| 12/10 | Ghép Ngọc (nguyên liệu): 33 ngọc cấp 7 (5 × giá ngọc 6 − 10.000; Minh Thạch giảm kháng − 20.000), 12 điêu văn cấp 5 (50.000 / 38.000 / 54.000) | API SUPER, không có file repo |
-| 12/10 | Tắt dòng [Giúp] Thẻ Tài Phú (vá chuỗi trong binary) | `tools/tat-giup-thetaiphu.py` |
-| 12/10 | Thông báo boss Tần Hoàng dịch sang tiếng Việt; tắt tin boss xuất hiện ở 5 script `MyNew/zhaohuan` (giữ tin Thông Thiên Tháp) | |
-| 12/10 | **Tab 📅 Lịch Boss & Hoạt động** (bot, cả cổng mod) | `tools/lich-boss.js`, `tools/lich-hoat-dong.js` → `bialk/BotDoMin/lichboss.json`, `lichhoatdong.json`. Sửa giờ boss / ActivityNotice thì chạy lại 2 tool + deploy bot |
-| 12/10 | **Khôi phục Custom Trùng Lâu**: 11/10 21:48 có thao tác "trả tất cả về gốc" từ IP chủ server (xóa 4 mã + hiệu ứng). Đã dựng lại từ bản sao lưu `/opt/tlbb-backup/trunglau-20261011-214852` và ghi qua API | Chờ restart (mục 3) |
+| 13–14/10 | Võ Ý chỉnh trên web; bình tự nhặt; mũ top 2/3; Li Hỏa Kỳ Cuộc / Túc Cầu / HHV; độc dược ám khí; Lâu Lan Tầm Bảo Tử Phủ Tinh Tủy 40%; tẩy phẩm chất ám khí; tu luyện 15 cuốn; sửa Tuyết Ủng Lam Quan·Xuyên Thích | TRANG-THAI 13–14/10 |
+| 15/10 | Công Lực Đan chỉnh trên web; soát Võ Ý; Kim Sí Linh Vũ khắc điêu văn + song cực (`aHaDiaoWenSys_1.lua` `x809272_LaKimSi`); Dược Trần / Nguyên Tinh ăn cả chồng | |
+| 16/10 | **Thay billing** (hết treo đăng nhập); quà ngày 5.000 vàng + 80.000 vàng khóa (kẹp trần 144M đồng); tỉ lệ KNB → vàng do admin đặt trên web (đang 1:2); quà panel `tamphap`; Khế Hợp lên thẳng cấp 9; Dục Linh lên thẳng 20; **khóa / mở tài khoản trên admin** (khóa luôn web); Tử Vi Linh Phách Kỳ Cuộc + Túc Cầu **100%** | |
+| 16–17/10 | **Phiếu 1.000 KNB rơi ở bản đồ**: `roithem.txt` `bando 2 39910001` (Tuyết Lang Hồ 179, Hạn Huyết Lĩnh 432, Thánh Hỏa Cung 537) + `thap 0.5 39910001` (Tháp Khắc Lạp Mã Can 427). Phiếu 39910001–006 xếp chồng được (ItemRule 65) | CAN-BANG "Phiếu 1.000 KNB". **Chốt 2% / 0,5%, đo lại sau ≥2.000 con/bản đồ** |
+| 17/10 | Tru Tiên hồn vị lên thẳng cấp 10; quà panel `itemsao`; thử vũ khí huyễn sức → **không làm được, đã trả về gốc** (mục 7) | |
+| 17/10 | **Danh hiệu đua top vĩnh viễn cho mọi nhân vật, đủ 18 cái** (`quatang.lua` `x950000_DanhHieuTop`, chạy khi đăng nhập / đổi map). Đeo danh hiệu top = **+30 Cường/Nội/Thể/Trí/Thân, chỉ tính cái đang đeo** (`ShuaXinClient.lua`). Nút "Nhận thưởng Bảng Top" (shengjjll index 40) bị khóa | Hạng 2/3 mượn ô 8–19 (mục 6). Ô 14–17 **chưa kiểm hiện đúng tên** |
+| 17/10 | **Đóng băng tự động** (hoang01 bán sạp 234 lần / 10 phút → bị khóa vĩnh viễn): nâng ngưỡng `ConfigInfo.ini` [Human] cảnh báo 1.000 / 5.000, đóng băng **2.000 / 10.000**; gỡ băng hoang01; tool `deploy/go-dong-bang.sh` | Mục 6, mục 8 |
+| 17/10 | Panel tra ID: bỏ mã màu `#G…`, Chân Nguyên ghi chỉ số + bậc + cấp | |
+| 17/10 | **Nhịp ra quái 1 giây** Kỳ Cuộc / Túc Cầu / Lâu Lan Tầm Bảo (chờ đầu giữ) | `tools/nhip-1giay-17-10.js`. **Đã lên VPS, chưa ai đánh thử** |
+| 17/10 | **NPC Quách Kiến An: "Đục lỗ 4 nhanh"** (menu 2022 xem trước → 2023 xác nhận; món đúng 3 lỗ → lỗ 4, 2.000 KNB/món, hoàn nếu không lên) | `tools/duclo4-nhanh-17-10.js`. **Đã lên VPS, chưa thử** `AddBagItemSlotFour` với đồ thường |
+| 17/10 | **Yếu Quyết tâm pháp cuối** (24 cuốn: 30308112–30308133 + Quỷ Cốc 30308139/140) thêm vào **mọi ô Yếu Quyết của 9 túi boss web** | API SUPER; sao lưu `/opt/tlbb-backup/tuiboss-cfg-truoc-yqcuoi-*.json` |
+| 17/10 | Gửi tay: tâm pháp 109 cho `bia1`; 2 sách Yếu Quyết Quỷ Cốc cho `Jr` (admin3) và `ElizabethII` (hoang05) | Panel quà |
+| 18/10 | **Nerf Bàng Xí** (Tứ Tuyệt Trang 14145): impact 2868 Tinh La Kỳ Bố 50.556 → **20.000** (đánh cả tổ mỗi 5 giây); cuồng bạo (×100 sát thương) **10 → 20 phút** | `tools/nerf-bangxi-18-10.js`. **Chờ restart** |
 
 ## 5. Việc treo / chờ chủ server quyết
 
 | Việc | Ghi chú |
 |---|---|
-| **Custom dòng thuộc tính Võ Hồn**: chọn A / B / C | **A.** Admin tạo Võ Hồn dòng chọn sẵn (tooltip đúng). **B.** NPC cho người chơi chọn / đổi dòng (tooltip đúng). **C.** Đổi số mỗi cấp trong `StandardImpact` 10675–10770 (tooltip **lệch**). Cơ chế ở mục 6 |
-| Lỗi nhỏ thăng linh | Ô áo (102) không được tính điểm thăng linh; tổng ≥ 400 thì về 0 (nên kẹp 399). Chưa sửa (`MyLua/ShuaXinClient.lua`, `obj/dali/xian1z.lua` `MsgBox33`) |
-| Tắt nốt tin boss Hạn Huyết Lĩnh / Mai Nha Đảo / Vân Phù | Ở `new/bosshhl.lua`, `bossmnd.lua`, `bossvanphu.lua`. Chủ server mới bảo tắt 5 script zhaohuan |
-| Cảnh báo Ghép Ngọc | Đang cho bỏ KNB web vào và có phiếu KNB làm món đích, nên đổi được KNB web sang phiếu game (lách giới hạn rút). Chủ server chưa quyết |
-| Giá Kim Tàm Ti | Chưa có giá KNB ở đâu. Giá điêu văn cấp 5 đang tính với giả định 100 KNB / viên |
-| Kim Đan 38000943 / 944 | Chưa được cộng trong `zhenyuanitem.lua` (chỉ 945–952) |
-| Chuyển giới pet | Đang miễn phí, có thể bị dùng để quay lại tư chất |
-| Mô tả Chân Nguyên trong client sai số | Ví dụ Hỏa phẩm 5 cấp 9 thật +675, mô tả ghi +450. Số thật = đơn vị × phẩm × cấp (`ShuaXinClient.lua` `x892002_g_adddsuxingvalue`). Mô tả nằm ở client, không sửa được |
-| Vòng quay may mắn | Đang BẬT, bộ quà do chủ server tự thêm lại (11/10 xóa hết) |
-| **Số Công Lực Đan** (mỗi viên / trần) | Đã đổi rồi trả lại 2 lần (07/10 +180.000, 14/10 +100.000). Từ 15/10 chủ server tự chỉnh trên web, Claude **không** sửa Lua nữa. Full 15 sách = **172.350** công lực > trần gốc 99.999: muốn nạp 1 lần là xong thì phải nâng **trần**, tăng mỗi viên không đủ |
-| Nút "Trả tất cả về gốc" của Custom Trùng Lâu | Nên thêm xác nhận 2 lần (sự cố 11/10 21:48) |
+| **Restart game** | Áp nerf Bàng Xí (bảng). Đếm 3731 + 7384 trước |
+| Thử trong game các việc đã lên VPS mà chưa ai thử | Nhịp 1 giây (nhất là Lâu Lan Tầm Bảo: 200 con ra trong ~1 phút, có thể dồn quái), đục lỗ 4 nhanh với phù / nhẫn / vũ khí, danh hiệu top ô 14–17 hiện tên, Bàng Xí sau nerf |
+| **Đo lại phiếu bản đồ** | Lần đo duy nhất (2%, Tháp, 17/10) ra gấp đôi mức đặt. Tool: `D:\Thiên Long Bát Bộ NetCo4\scratchpad-claude\quangay\do-phieu2.py` (chép lên `/tmp` VPS chạy, chỉ đọc Audit log) |
+| **Tử Vi Linh Phách 100%** (Kỳ Cuộc ~200 + Túc Cầu 150 / người / ngày) | Vương Quyền 1→9 (728 viên) xong trong ~2 ngày. Claude khuyên hạ về ~30% (`roithem.txt`, hiệu lực ngay). Chủ server chưa quyết |
+| Giá đục lỗ 4 nhanh 2.000 KNB | Rẻ hơn 10 lần Kim Chi Tiễn / Hàn Ngọc (20.000 KNB) ở shop → 2 món đó gần như vô dụng. Đổi giá: `x000110_g_Lo4Gia` |
+| Viên thuốc custom +5 điểm Cường/Nội/Thể/Trí/Thân | Claude đã hỏi 3 câu (mượn món nào — gợi ý Chân Vũ Kim Đan 20306023 —, +bao nhiêu / viên, trần, nguồn), **chưa có trả lời** |
+| Nguồn sách Yếu Quyết tâm pháp cuối cho người chơi | Đã vào túi boss web (17/10). Bảng game: hộp 50042 (đủ 24 cuốn) **không gắn cho quái nào**; shop 228 không có trong Tiệm KNB |
+| Sách Kinh Mạch (30308320–30308373) | **Đừng mở nguồn**: chiêu gần như chắc không có tác dụng (mục 6). Nếu chủ server muốn có tác dụng thật thì phải làm bằng script buff |
+| Restart bot | Để danh mục vật phẩm của bot sạch mã màu (shop, vòng quay, túi boss). Làm lúc vắng, không trùng lúc restart game |
+| Bảo mật (từ 12/10, chưa xác nhận đã làm) | Máy Windows từng chạy launcher bị Defender báo Trojan → nên đổi khóa SSH `~/.ssh/tlbb_vps`, `PANEL_SUPER_PASSWORD`, token GitHub; bật lại Real-time protection |
+| Các mục treo cũ từ 12/10 | Custom dòng Võ Hồn (A/B/C), lỗi nhỏ thăng linh (ô áo 102, tổng ≥ 400 về 0), tin boss HHL / Mai Nha / Vân Phù, cảnh báo Ghép Ngọc (KNB web → phiếu), Kim Đan 38000943/944, chuyển giới pet miễn phí, nút "Trả tất cả về gốc" Custom Trùng Lâu cần xác nhận 2 lần. **Chưa kiểm lại** từ 12/10 |
 
 ## 6. Kiến thức đã kiểm chứng (đừng mất công tìm lại)
 
 ### Client (KHÔNG sửa được)
-- Bảng dữ liệu và giao diện client (`Config.axp`, `Interface.axp`) **nhúng trong `OgreMain.dll` có Themida**. Thử 08/10: đặt `Bin/Config.axp` ra ngoài đĩa, client vẫn dùng bản nhúng. → **Tooltip, chữ buff, mô tả vật phẩm, dòng xanh thăng linh đều do client vẽ, server không đổi được.** Không vượt bảo vệ client (nguyên tắc dự án).
-- Server điều khiển được:
-  - **icon + chữ của buff khi mặc đồ**: `StandardImpact` cột 5 = 1 mã `ImpactSEData` mà client đã có. Phải xem ảnh icon trước khi chọn, vì 755 khớp chữ nhưng icon là quả bóng.
-  - **chuỗi creator mã hóa** trên món (client tự dịch).
-- Thời trang khảm ngọc: server đục được lỗ nhưng giao diện client từ chối khảm, ngõ cụt.
-- Bản giải mã client (dump RAM, `goiA.axp` giao diện, `goiB.axp` bảng chữ, `ImpactSEData`...) và công cụ `trich.js` / `giaima.js` nằm ở máy chủ server: `D:\Thiên Long Bát Bộ NetCo4\scratchpad-claude\pet3d\`. Bản công cụ trong repo: `tools/pet3d/`.
+- `Config.axp` / `Interface.axp` nhúng trong `OgreMain.dll` (Themida); client bỏ qua file ngoài đĩa → **tooltip, chữ buff, mô tả vật phẩm, tên chiêu do client vẽ**. Không vượt bảo vệ client.
+- Server điều khiển được: icon + chữ buff khi mặc đồ (`StandardImpact` cột 5 = mã `ImpactSEData` client có), chuỗi creator trên món.
+- Client mới hơn server: ô trang bị client tới 22 (19 Long Văn, 20 g_RL, 21 Hào Hiệp Ấn, **22 Vũ Khí Huyễn Sức**) nhưng **server chỉ có 19 ô (0–18)** (`Obj_Human::InitAllContainer`) → huyễn sức không đeo được. Sao/phẩm chất gán theo nhóm điểm trang bị; điểm 19/20/22 rơi về 1★.
+- Bản trích client: `tools/pet3d/img/goi1.axp` (Interface), `goi2.axp` (Config); trích bằng `D:\…\scratchpad-claude\client-ui\trich2.js`. `docs/CLIENT-GIAI-MA.md`.
 
-### Lua / engine
-- **Hộp thoại mở từ VẬT PHẨM** (`DispatchEventList(sceneId, selfId, -1)`) hiện được nhưng **không bấm được lựa chọn** (engine chặn NPCID -1). Lựa chọn phải đi qua NPC thật.
-- **Biến toàn cục Lua mất giữa 2 lần bấm NPC**, vì server nạp lại file script mỗi lần gọi. Trạng thái phải mã hóa vào **số của lựa chọn** (ví dụ ô túi × 1000 + mã % 1000, để kiểm món còn đúng). Mẫu: `x111997_CDMenu`, `x044800_TLNhanh`, `x111998_CGMenu`.
-- **Cấu hình admin chỉnh trên web, không restart**: panel ghi 1 dòng vào `Server/txt/NetCo4Cfg/<ten>.txt`, Lua đọc bằng `openfile` / `read(h, "*l")` / `strfind` **mỗi lần gọi** (script nạp lại mỗi lần nên không cache được). Không có file = số gốc. Mẫu: `voy.txt` (`guaiwu_die.lua`), `tpmax.txt`, `congluc.txt` (`Gonglidan.lua` `x390102_CauHinh`). Đồ dùng: chặn ở `OnConditionCheck` (chạy trước `OnDeplete`) thì không mất vật phẩm.
-- Lựa chọn thêm từ script khác vào NPC: `OnEventRequest` của script chính nhận `eventId` = id script kia. Chuyển tiếp bằng `CallScriptFunction(id, "Fn", sceneId, selfId, targetId, GetNumText())`.
-- **Giới tính pet = bit cuối của GUID thấp** (`t_pet.lpetguid`: lẻ = Đực, chẵn = Cái). Không có hàm set GUID / tư chất / cấp / kỹ năng pet. Tên pet phía server là GBK tiếng Trung, đừng hiện trong hộp thoại.
-- **Không có hàm Lua đọc giá trị từng dòng thuộc tính** của món đồ (trừ ám khí). Giá trị dòng tính lại từ `EquipBase` + `ItemSegValue` mỗi lần vào game (`tlbb-equip-attr`: cột 32–89 trọng số dòng, 90 quy tắc phẩm chất, 91 đoạn giá trị, 92 / 93 số dòng, 100 T; giá trị = ceil(V × Rate × 0.01f)). Đổi bảng là đổi luôn mọi món cùng mã đã có.
-- **Chuỗi creator** (`LuaFnGetItemCreator` / `SetItemCreator`) chứa:
-  - thăng linh `w#p<n>` / `t#p<n>`;
-  - điêu văn `&DW…`;
-  - Tinh Thông `&JT` + 3 × (mã + cấp);
-  - thần khí `#S`, `&QHD`;
-  - Võ Hồn `&WH…`.
+### Engine (dịch ngược `Server.elf`)
+- Bản ELF + disassembly ở máy chủ server: `D:\Thiên Long Bát Bộ NetCo4\scratchpad-claude\server-elf\Server.elf`, `…\sinhsan\dis.txt`. Tool: `…\quangay\tim-dangky.py` (tên đăng ký Lua của 1 hàm C++), `…\quangay\str-at.py` (đọc chuỗi theo địa chỉ), `…\quangay\jumptbl.py`. Chạy bằng python3 trong WSL (Windows không có python).
+- **Tên hàm Lua ≠ tên C++**: `AddItemWithQuality(scene, itemId, sl, phẩm chất)` (gọi `LuaFnAddItemWithQuality` = nil, lỗi cả hàm). Luôn tra bằng `tim-dangky.py`.
+- **Danh hiệu**: 20 ô (0–19), **mỗi ô 1 danh hiệu**. `LuaFnAwardTitle(scene, self, ô, mã, số giờ)` — **số giờ 0 = vĩnh viễn**; `GetTitle(scene, self, ô)`, `GetCurTitle`, `LuaFnDispatchAllTitle`. Ô: 0 Level (Đệ nhất môn phái), 1–6 sáu bảng top (1 Tài Phú 101–103, 2 → 113–115, 3 → 104–106, 4 → 107–109, 5 → 110–112, 6 Top Level 118–120), 7 chenghao.lua, 8 Rose, 9–12 Hero, 13 Tiễu Phỉ, 14 GodOfFire, 15–17 GuildWar (không ai dùng), 18 Thành chủ Lạc Dương, 19 PiaoMiao (chết). Hạng 2/3 top đang mượn ô 8–19, **chỉ cấp khi ô trống** → hệ khác cấp danh hiệu thật thì đè.
+- **Đóng băng tự động** (`Obj_Human::DetectorLogic`): đếm số lần **tăng** tiền (`SetMoney`, `AddMoneyJZ`, tiền ngân hàng) và KNB (`SetYuanBao`) trong 10 phút / 1 giờ; vượt `FreezePer10M` / `FreezePerHour` (`ConfigInfo.ini` [Human]) → `CannotSay(433000000)` ghi cờ JINYAN vĩnh viễn vào `t_char.settings` (byte 0x141–0x144). Client hiện "do sử dụng những chương trình bị cấm…" rồi thoát. Log `Server/Log/Waigua_*.log` dòng `Auto-Frezze`. Không có hàm Lua gỡ → `deploy/go-dong-bang.sh` (game phải tắt).
+- Vàng khóa trần 144.000.000 đồng = 14.400 vàng.
+- `YuanBao(scene, self, -1, 3, 0)` đọc KNB; `(…, 2, n)` trừ n (trả 0 = thành công); `(…, 1, n)` cộng n.
+- Đục lỗ: `AddBagItemSlot` (lỗ 1–3), `AddBagItemSlotFour` (lỗ 4), `GetBagGemCount`. Trước 17/10 lỗ 4 chỉ dùng cho loại 8/9/10/18.
+- Billing_go không ghi `web.account.is_online` → panel đọc `billing.log`. Khóa tài khoản = `web.account.id_card='1'` (+ `is_lock`).
 
-  Chép nguyên chuỗi = chép mọi thứ trên (cách Chuyển đồ và Tuyết Phi Phi làm).
-- Engine **không có hàm gỡ ngọc**. Muốn "chuyển ngọc" thì tạo ngọc mới cùng mã, khảm vào món mới, rồi xóa món cũ (`x895111_SHANG_BAOS`).
-- Cường hóa: cấp lưu ở `GetBagItemParam(o, 3, 1)`, nâng bằng `LuaFnEquipEnhance` lặp lại.
-- Thăng linh:
-  - Server cộng **phẳng** theo tổng điểm (`XIEZI_SL` → `wq_sld` trong `ShuaXinClient.lua`): Lực / Linh / Thể / Định / Thân +10 mỗi điểm, HP +1000 mỗi điểm.
-  - Phí thật: VQ = 20 × cấp + 1 Tử Vi Linh Phách. Client ghi sai 10 × cấp + 1.
-  - Mỗi chỉ số là 1 dải mã hiệu ứng có trần (ví dụ Lực 13000–13699, Hỏa 18050–19099, HP 30200–30999). Cộng vượt trần thì mất.
-- Võ Hồn:
-  - 12 loại dòng × cấp 1–8, tối đa 8 dòng: Băng / Hỏa / Huyền / Độc công +30 mỗi cấp; Kháng 4 hệ +10; Bỏ qua kháng 4 hệ +10.
-  - Học bằng sách 30700214–229 (`x892101_WuhunAttr_Book`).
-  - Lưu trong `&WH` (16 ký tự = 8 ô × mã + cấp).
-  - Số thật ở `StandardImpact` 10675–10770 (`wuhun_addbuff.lua` `x892112_wuhun_addImpact`).
-  - Không có cấp 9, không có loại dòng mới.
-- Hàng chờ quà `Server/txt/NetCo4Qua/<GUID>.txt`: nhận khi đăng nhập hoặc đổi map; lệnh `item <id> <sl>`, `itemten`, `doi`, `pet`, `xoa`… (`NetCo4/quatang.lua`).
-- Mã chữ hệ thống `#{KEY}`: chữ nằm ở client. Nếu không có trong script / bảng nào thì là **binary tự gửi** (ví dụ `#{CFKBZ_20080228_01}`).
+### Lua / script
+- **Hộp thoại mở từ VẬT PHẨM** (`DispatchEventList(…, -1)`) không bấm được lựa chọn. **Biến toàn cục mất giữa 2 lần bấm** → mã hóa trạng thái vào số lựa chọn.
+- Cấu hình admin không restart: panel ghi `Server/txt/NetCo4Cfg/<tên>.txt`, Lua đọc mỗi lần gọi (`roithem.txt`, `voy.txt`, `congluc.txt`, `tpmax.txt`…).
+- **Rơi qua script** `NetCo4/roimap.lua` (950001): `x950001_g_Roi[scene]` (món cố định / bản đồ), `x950001_g_MapCfg[scene]` = khóa `roithem.txt` (`hhv`, `bando`, `thap`), `RoiCfg(khoa)` cho Kỳ Cuộc / Túc Cầu / Sát Tinh. Mỗi thành viên đứng gần roll riêng, thang 1/10.000. Bản đồ mới phải gắn `script_id=950001` trong `<map>_monster.ini` (+ restart).
+- Hàng chờ quà `Server/txt/NetCo4Qua/<GUID>.txt` (`NetCo4/quatang.lua` `NhanQua`, chạy khi đăng nhập / đổi map; cũng gọi `DanhHieuTop`, `AmKhiDoc`, `BinhNhat`).
+- **Học sách**: `obj/book/skillbook.lua` (338000) = tâm pháp / Yếu Quyết / 5 chiêu tiến cấp mỗi phái (sách 30308200–30308314, chiêu 1688–1788, **chiêu thật**). `skillbook1.lua` (338001) = **Kinh Mạch** huyệt Thần Đình (chiêu 1850–1873) và Chí Dương (1880–1903), mỗi huyệt 1 chiêu, **không kiểm phái** (thiết kế: chiêu khắc chế phái khác), mô tả "phụ thuộc điểm Tiến Giai" — engine không có hệ này, không chỗ nào dùng mã chiêu → **gần như chắc chỉ là icon**. Đừng nhầm với "4 cuốn kinh mạch" của **Tu Luyện 15 cuốn** (14/10, có tác dụng).
+- Yếu Quyết tâm pháp cuối: mỗi phái 2 cuốn (`shipotianjing_N` + `kunxiansuo_N`; Quỷ Cốc 30308139 / 30308140 → chiêu 987 / 988), cần cấp 80 + tâm pháp cuối.
+- Phó bản nhịp ra quái: Kỳ Cuộc `x401001_g_createMonsterIntervalInfoList` (tick 1 giây); Túc Cầu `efuben_cuju.lua` so `nCurTime-nPreTime`; Lâu Lan Tầm Bảo `seek_treasure.lua` tick `x808039_g_TickTime` (đổi tick thì nhân lại mọi hằng số tính theo tick).
+- Boss AI script (ví dụ Bàng Xí `event/sijuezhuang/ai_liqiushui.lua` 893069): sát thương chiêu = `SkillTemplate_V1` (cột 59–74 = mã SkillData) → `SkillData_V1` cột 26 (impact) → `Server/Config/StandardImpact.txt` (logic 001 "伤害数值+" = cố định + hệ số). Kiểm impact có ai dùng chung trước khi sửa. Buff cuồng bạo 10234/10235 dùng chung nhiều boss.
 
-### Dữ liệu / DB
-- File game là **VISCII / GBK, không phải UTF-8**. Chỉ sửa bằng Node đọc / ghi `latin1`, giữ CR / LF từng dòng, đếm byte > 0x7F so với HEAD. Edit tool chỉ an toàn với file toàn ASCII hoặc UTF-8 (`panel.py`, bot JS). Chữ Việt trong Lua viết bằng escape `\ddd` qua `tools/viscii-map.json`.
-- Kiểm cú pháp Lua: không có `luac`. Dùng npm `luaparse` (máy chủ server: `D:\Thiên Long Bát Bộ NetCo4\scratchpad-claude\node_modules\luaparse`, chạy node từ trong thư mục đó).
-- Git Bash heredoc làm hỏng dấu `\` và `\u`. Script có `\` thì viết bằng Write tool.
-- Bot repo `core.autocrlf=true`: bản làm việc là CRLF, deploy lấy bản LF bằng `git show`.
-- Tên nhân vật trong MySQL mã hóa 2 lần (VISCII → UTF-8): bóc lớp UTF-8 rồi giải VISCII.
-- Rơi đồ thật: đọc `Server/Log/Audit_*.log` dòng `ITEM_CREATED … Dropped by` (chạy với `LC_ALL=C`).
+### Dữ liệu / DB / web
+- File game **VISCII / GBK**: sửa bằng Node `latin1`, giữ CR/LF từng dòng (nhiều file CRLF), đếm byte > 0x7F so với HEAD, grep `\xef\xbf\xbd`. Chữ Việt mới: escape `\ddd` qua `tools/viscii-map.json` (máy nhà không có python → hàm `vn()` trong `tools/duclo4-nhanh-17-10.js`).
+- Kiểm cú pháp Lua: `luaparse` ở `D:\Thiên Long Bát Bộ NetCo4\scratchpad-claude\luakiem\lp.js` (so với `git show HEAD:`; 2 file Kỳ Cuộc báo lỗi dòng 259 từ bản gốc là bình thường).
+- Git Bash heredoc / `node -e` làm hỏng `\` → script có `\` phải viết bằng Write tool.
+- Bảng `.txt` DBC phải sắp ID tăng dần. `MonsterAttrExTable` cột 60 = MaxHP.
+- Túi boss web: mỗi dòng tối đa **50 ID**, tối đa 20 dòng. API `/api/tuiboss/cfg` (đọc, `ds[]`: `hd, on, knb, ngay, luot, mon[{ids,min,max}]`) và `/api/tuiboss/save` (gửi lại đúng các trường đó). Mẫu: `…\scratchpad-claude\quangay\tb-them-yq.js`.
+- Đo rơi / số lần giết: `Server/Log/Audit_*.log` (`LC_ALL=C grep -a`), `ITEM_CREATED … Dropped by "<tên>",<DataID>` và `MONSTER_KILLED,<GUID>,<DataID>`. Mẫu tool: `…\quangay\soat-3pb.py`, `do-phieu2.py`.
+- GUID hex trong log: `0X3C34E731` = 1010100017 (bialk). Nhân vật hay gặp: 1010100008 `bia1` (Tiêu Dao), 1010100020 `KimJongUn` (hoang01, Thiên Long), 1010100009 `Jr` / 1010100024 `ElizabethII` (Quỷ Cốc).
 
 ## 7. Đã thử, thất bại hoặc đã bỏ (đừng làm lại)
 
 | Thử | Kết quả |
 |---|---|
-| `Bin/Config.axp` ngoài đĩa để sửa tooltip (08/10) | Client bỏ qua |
-| Đục lỗ / khảm ngọc thời trang (09/10) | Client từ chối khảm, đã rollback |
-| Mở trứng trân thú chọn giới tính bằng hộp thoại vật phẩm (11/10) | Engine chặn click, đã rollback |
-| Đồ VIP mã chỉ-GM cũ + Tinh Thông | Giao diện client tự chặn theo danh sách cứng `g_JTSupport_Item` (239 mã), nên đã đổi sang mã trong danh sách |
-| Thăng linh +60% mọi dòng như server khác (11/10) | Cần client khác + không đọc được dòng từ Lua. Chủ server bỏ |
-| **Bộ "Thiên Long 14 phái 2024" (TeraBox, 12/10)** | Server (máy ảo CentOS 7) sạch ở bản đang chạy (`/var/adm/tlbb`), có cửa sau `gm.xtl3.com` ở script 960922 không được khai báo. **Client có 6 file + launcher + công cụ GM bị Defender báo virus / trojan** (Mikcer, Mofksys, Malgent, BlackMoon). `game.exe` chỉ chạy qua launcher tiêm mã (VMProtect), 2 plugin bọc Enigma. Dữ liệu `Config.axp` / `Interface.axp` là chữ trơn (về lý thuyết sửa được) nhưng không thử được. **Chủ server đã bỏ, xóa hết.** Claude không giúp chạy launcher hay phá bảo vệ của bộ này |
-| Đội bot "người giả" ở Hậu Hoa Viên (07/10) | Gỡ khỏi prod; ghi chép ở `docs/BOT-NGUOI-GIA.md` |
+| `Bin/Config.axp` ngoài đĩa để sửa tooltip | Client bỏ qua |
+| Đục lỗ / khảm ngọc thời trang | Client từ chối khảm |
+| Mở trứng trân thú chọn giới tính bằng hộp thoại vật phẩm | Engine chặn click |
+| Đồ VIP mã chỉ-GM + Tinh Thông | Client chặn theo danh sách cứng → đổi sang mã client |
+| Thăng linh +60% mọi dòng | Cần client khác |
+| **Vũ khí huyễn sức có dòng như thú cưỡi 9 sao (17/10)** | Server chỉ có 19 ô trang bị (0–18), ô huyễn sức client = 22 → không đeo được; điểm trang bị 19/20/22 ra 1★. Đã trả `EquipBase` về gốc (revert `01efc3a`) |
+| Bộ "Thiên Long 14 phái 2024" (12/10) | Client có trojan, chủ server đã bỏ |
+| Đội bot "người giả" (07/10) | Gỡ khỏi prod, `docs/BOT-NGUOI-GIA.md` |
 
 ## 8. Công tắc khẩn cấp và rollback
 
 | Việc | Cách |
 |---|---|
-| Tắt Thương Phố | `touch /opt/tlbb-root/home/tlbb/Server/txt/NetCo4Web/thuongpho-tat` (xóa file là mở lại) |
-| Tắt 1 chức năng web | Panel SUPER → Mở / Đóng chức năng |
-| Quay lại 1 thay đổi game | `git revert` commit hoặc `git checkout <tag> -- <file>` → push → chủ server `cap-nhat.sh` (+ restart nếu là bảng) |
-| Quay lại bot | Thư mục `/opt/tlbb-backup/bot-truoc-<hash>-<giờ>` → chép lại → `systemctl restart minigame` |
-| Custom Trùng Lâu bị trả về gốc nhầm | Mỗi lần lưu có bản sao lưu game files `/opt/tlbb-backup/trunglau-<giờ>`. Dựng lại cấu hình bằng `trunglau.du_lieu()` với `TLBB_GAME` trỏ vào bản sao lưu (cách làm 12/10, TRANG-THAI) |
-| Công Lực Đan về gốc ngay | Web: nút ↩ Gốc rồi Lưu (xóa file), hoặc `rm /opt/tlbb-root/home/tlbb/Server/txt/NetCo4Cfg/congluc.txt`. Bỏ hẳn tính năng: tag `truoc-congluc-web-15-10` |
-| Binary `Server/Server` | Sao lưu `/opt/tlbb-backup/Server-truoc-tat-CFKBZ-<giờ>`; bản UPX gốc `Server/Server.upx-goc` |
+| Quay lại 1 thay đổi game | `git checkout <tag> -- <file>` hoặc `git revert` → push → chủ server `cap-nhat.sh` (+ restart nếu bảng) |
+| Nhân vật bị đóng băng ("chương trình bị cấm") | `./go-dong-bang.sh --ds` (liệt kê, chạy được khi game bật) → `systemctl stop tlbb && ./go-dong-bang.sh <tên\|GUID> && systemctl start tlbb` |
+| Rơi thêm qua script sai | Sửa / xóa dòng trong `roithem.txt` (hiệu lực ngay); bản cũ `/opt/tlbb-backup/roithem-truoc-*` |
+| Túi boss web sai | Bản sao lưu `/opt/tlbb-backup/tuiboss-cfg-truoc-*.json` → gửi lại qua `/api/tuiboss/save` (mỗi hoạt động 1 lần) |
+| Tắt Thương Phố | `touch …/Server/txt/NetCo4Web/thuongpho-tat` |
+| Billing lỗi | `deploy/thay-billing.sh <thư mục> \| --tra` (CLAUDE.md) |
+| Quay lại bot | `/opt/tlbb-backup/bot-truoc-<hash>-<giờ>` → chép → `systemctl restart minigame` |
+| Custom Trùng Lâu bị trả về gốc nhầm | Dựng lại từ `/opt/tlbb-backup/trunglau-<giờ>` (cách làm 12/10) |
+| Binary `Server/Server` | Bản UPX gốc `Server/Server.upx-goc` (mất 2 bản vá) |
+
+Tag rollback 16–18/10 hay cần: `truoc-danhhieu-top-17-10`, `truoc-danhhieu18-17-10`, `truoc-nguong-dongbang-17-10`, `truoc-nhip-1giay-17-10`, `truoc-duclo4-nhanh-17-10`, `truoc-nerf-bangxi-18-10`, `truoc-itemsao-17-10`, `truoc-huyensuc-9sao-17-10`.
 
 ## 9. Bản đồ tài liệu
 
 | Chủ đề | File |
 |---|---|
-| Quy tắc repo, hệ thống, script VPS | `CLAUDE.md` |
+| Quy tắc repo, hệ thống, script VPS, billing | `CLAUDE.md` |
 | Nhật ký mọi thay đổi + tag | `docs/TRANG-THAI.md` |
-| Cân bằng (chiêu, boss, chế đồ, máu, nhịp) | `docs/CAN-BANG.md` |
-| Custom Trùng Lâu / Long Văn / Võ Hồn (trang admin) | `docs/TRUNG-LAU-CUSTOM.md` |
-| Client: giải mã, giới hạn, pet 3D | `docs/CLIENT-GIAI-MA.md`, `tools/pet3d/README.md` |
+| Cân bằng (chiêu, boss, rơi, phiếu, nhịp) | `docs/CAN-BANG.md` |
+| Custom Trùng Lâu / Long Văn / Võ Hồn | `docs/TRUNG-LAU-CUSTOM.md` |
+| Client: giải mã, giới hạn | `docs/CLIENT-GIAI-MA.md`, `tools/pet3d/README.md` |
 | Boss, phó bản, túi boss web | `docs/BOSS-PHO-BAN.md`, `docs/TUI-BOSS.md` |
 | Ghép Ngọc, vòng quay, Thương Phố, shop | `docs/GHEP-NGOC.md`, `docs/VONG-QUAY.md`, `docs/THUONG-PHO.md`, `docs/SHOP-TRONG-GAME.md` |
-| Ngày mở server, quyết định gốc | `docs/MO-SERVER.md` |
-| Pet (danh sách, skin, pet đẹp) | `docs/pet-*.md`, `docs/pet-danh-sach.tsv` |
-| Vật phẩm: tên Việt, chỉ-GM, hiệu ứng thần khí | `docs/vat-pham/` |
-| Lệnh GM | `docs/lenh-gm.txt` |
+| Làm nội dung mới (event, NPC, drop) | `docs/PHAT-TRIEN.md` |
+| Đã vá so với bản public | `docs/KIEM-TOAN.md` |
+| Vật phẩm, pet, lệnh GM | `docs/vat-pham/`, `docs/pet-*.md`, `docs/lenh-gm.txt` |
 
-## 10. Công cụ hay dùng (`tools/`)
+## 10. Công cụ hay dùng
 
 | Công cụ | Việc |
 |---|---|
-| `tim-nguon.js <item>` | Mọi hộp / quái rơi 1 món |
-| `chi-gm.js --nguon <id>…` | Nguồn ra của từng mã (shop / rơi / chế / rương / Lua). Không có nguồn = "chỉ GM" |
-| `bang-roi/lam.js` | Dựng lại netco4.click |
-| `lich-boss.js`, `lich-hoat-dong.js` | Dữ liệu tab Lịch Boss & Hoạt động của bot |
-| `mau-boss-goc-120-11-10.js` | Máu boss = gốc × hệ số (sửa hệ số trong file nếu cần mức khác) |
-| `dovip-*.js`, `chuyendo-11-10.js`, `thanglinh-nhanh-11-10.js`, `chuyengioi-pet-11-10.js` | Mẫu cách sinh code Lua NPC (escape `\ddd`, chép neo, kiểm byte) |
-| `tat-giup-thetaiphu.py` | Vá chuỗi trong binary Server (chủ server tự chạy trên VPS) |
-| `viscii-map.json` | Bảng VISCII ↔ Unicode |
+| `tools/tim-nguon.js <item>`, `tools/chi-gm.js --nguon <id>` | Ai rơi / bán / chế 1 món |
+| `tools/bang-roi/lam.js` | Dựng lại netco4.click |
+| `tools/soat-boss/soat.js <ID script>` | Soát lỗi boss / phó bản đã biết |
+| `tools/phieu-boss/ky-vong.js` | Mô phỏng rơi boss theo luật thật |
+| `deploy/go-dong-bang.sh` | Liệt kê / gỡ đóng băng |
+| `tools/nhip-1giay-17-10.js`, `tools/duclo4-nhanh-17-10.js`, `tools/nerf-bangxi-18-10.js` | Mẫu mới nhất: sửa byte-level có kiểm, chèn menu NPC, escape `\ddd` |
+| `tools/vps/` | Script chạy trên VPS: đọc / sửa túi boss qua API SUPER (`tb-cfg.js`, `tb-them-yq.js`), đo log (`soat-3pb.py`, `do-phieu2.py`). Xem README trong thư mục |
+| `tools/elf/` | Dịch ngược `Server.elf` (`tim-dangky.py`, `str-at.py`, `jumptbl.py`, `frezze.py`, `jinyan.py`). ELF + disassembly ở máy chủ server, xem README |
+| `…\scratchpad-claude\quangay\` (máy chủ server) | Bản gốc các tool trên + script local (`local-*.sh`), script danh hiệu (`danhhieu-*.js`) |
+| `tools/viscii-map.json` | Bảng VISCII ↔ Unicode |
