@@ -8,7 +8,7 @@
 //     boss ra sau 15 giay khi giet du (num == 4 -> 16). NoUserTime tinh bang giay, khong doi.
 // Chay: node tools/nhip-1giay-17-10.js   (sua tai cho, kiem so byte > 0x7f khong doi). Rollback: tag truoc-nhip-1giay-17-10
 const fs = require('fs');
-const S = 'C:/Users/Bia/tlbbnetco4/server/Public/Data/Script/';
+const S = __dirname + '/../server/Public/Data/Script/';
 function va(f, cap) {
   const p = S + f; let t = fs.readFileSync(p, 'latin1');
   const hi = (s) => [...s].filter((c) => c.charCodeAt(0) > 127).length;

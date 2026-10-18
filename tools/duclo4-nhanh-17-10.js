@@ -4,9 +4,10 @@
 // Loai trang bi: 0-7, 11-15, 17 (Am Khi). Bo 8 Toa Ky / 9 Lenh Bai / 10 Vo Hon / 18 Long Van (da co nut Free 2021), 16 Thoi Trang.
 // Menu 2022 = xem truoc (dem mon + so KNB), 2023 = xac nhan duc. Rollback: tag truoc-duclo4-nhanh-17-10
 const fs = require('fs');
-const MAP = JSON.parse(fs.readFileSync('C:/Users/Bia/tlbbnetco4/tools/viscii-map.json', 'utf8'));
+const REPO = __dirname + '/../';
+const MAP = JSON.parse(fs.readFileSync(REPO + 'tools/viscii-map.json', 'utf8'));
 const vn = (s) => [...s.normalize('NFC')].map((c) => (c.charCodeAt(0) < 128 ? c : '\\' + MAP[c])).join('');
-const p = 'C:/Users/Bia/tlbbnetco4/server/Public/Data/Script/obj/luoyang/oluoyang_penghuaiyu.lua';
+const p = REPO + 'server/Public/Data/Script/obj/luoyang/oluoyang_penghuaiyu.lua';
 let t = fs.readFileSync(p, 'latin1');
 const hi = (s) => [...s].filter((c) => c.charCodeAt(0) > 127).length;
 const hi0 = hi(t);

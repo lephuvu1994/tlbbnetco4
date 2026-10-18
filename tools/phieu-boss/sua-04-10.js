@@ -5,7 +5,7 @@
 //  - boss >= 100 va boss the gioi: khong dung
 // Hop phieu dat o DID1 (tui boss toi da 10 mon). Chay: node suaphieu.js [--ghi]
 const fs = require('fs');
-const R = 'C:/Users/Bia/tlbbnetco4/server/Server/Config/';
+const R = __dirname + '/../../server/Server/Config/';
 const F_MDB = R + 'MonsterDropBoxs.txt', F_DBC = R + 'DropBoxContent.txt';
 const PH = new Set(['39910001', '39910002', '39910003', '39910004', '39910005', '39910006']);
 const VAT = '20310113';   // Han Bang Tinh Tiet (mon nguyen lieu con lai cua hop 90002)

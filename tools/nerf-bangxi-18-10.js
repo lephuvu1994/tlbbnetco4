@@ -6,7 +6,7 @@
 //     Buff 10235 dung chung voi boss PMF / Bang Than -> khong sua bang.
 // Bang .txt can cap-nhat + RESTART; Lua sau cap-nhat. Rollback: tag truoc-nerf-bangxi-18-10
 const fs = require('fs');
-const R = 'C:/Users/Bia/tlbbnetco4/server/';
+const R = __dirname + '/../server/';
 function va(f, fn) {
   const p = R + f; const t = fs.readFileSync(p, 'latin1');
   const hi = (s) => [...s].filter((c) => c.charCodeAt(0) > 127).length;

@@ -1,8 +1,8 @@
 // Kiem doc lap: so HEAD voi ban dang sua. Moi dong quai doi -> so phieu/lan ha (chung doi) truoc/sau,
 // tai nguoi cap 89 va tai nguoi cung cap boss; hop khong phai phieu phai giu nguyen (tru 90002 -> 90048/90049).
 const fs = require('fs'), cp = require('child_process');
-const REPO = 'C:/Users/Bia/tlbbnetco4/';
-const git = p => cp.execSync(`git -C ${REPO} show HEAD:${p}`, { encoding: 'latin1', maxBuffer: 64e6 });
+const REPO = __dirname + '/../../';
+const git = p => cp.execSync(`git -C "${REPO}" show HEAD:${p}`, { encoding: 'latin1', maxBuffer: 64e6 });
 const cur = p => fs.readFileSync(REPO + p, 'latin1');
 const PH = new Set(['39910001', '39910002', '39910003', '39910004', '39910005', '39910006']);
 const DP = 2.0;
