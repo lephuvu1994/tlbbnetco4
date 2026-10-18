@@ -1859,3 +1859,8 @@ Script dùng: `MyLua/wuhunxt/odali_wuyazi.lua` (892101; hàm `WuhunSkillStudy` ~
 - Script 300068 `obj/item/Runhundan.lua` (Nhuận Hồn Đan gốc — mã 30900078 KHÔNG có trong CommonItem, `danhhieu.lua` / `doidanhhieu.lua` vẫn phát mã ma này): `g_ItemId` → 30103041, +35 → **+5**, bỏ chặn "1 lần/ngày" (vốn hỏng: ghi 5 rồi kiểm > 10), bỏ `SetMissionData(MD_EX_HUMAN_QIANNENG_SUBJOIN, 5)` (engine đọc biến này để cộng thêm tiềm năng mỗi lần lên cấp).
 - Tooltip client vẫn là mô tả gốc ("Thương lang cùng bạch lộc hoa văn…") — báo người chơi qua Discord. `tools/vien-diem-18-10.js`, tag `truoc-vien-diem-18-10`. **Bảng .txt → cần cap-nhat + RESTART** (chủ server: chưa restart 18/10).
 - **Chưa thử trong game**: chuột phải có gọi script không, điểm có lưu sau đăng xuất không.
+
+### 18/10 - Tháp Khắc Lạp Mã Can quái 5 → 8 giây; phiếu bản đồ 2 → 0,5%
+- Đo (`tools/vps/phieu-acc.py`, Audit 17–18/10): hoang01–05 (GUID 1010100020–024) ~1.004 phiếu 1.000 KNB trong ~1,5 ngày; ~70% từ Sa Mạc Dã Nhân 11440 / Linh Cẩu 11442 ở **Tháp 427** (AFK 2h–6h, ~1.500 quái/giờ/acc, hoang01 ~12.100 quái). Không phải lỗi: 2%/quái × hồi sinh 5 giây × mỗi acc tự roll. Lộ Quân Dật 13465 (Sát Tinh) 10 phiếu/acc/lượt.
+- Hồi sinh trước khi đổi: Tháp 5 giây (90 con), Tuyết Lang Hồ 75 giây, Hãn Huyết Lĩnh 45 giây, Thánh Hỏa Cung 15 giây.
+- Sửa: `takelamagan_monster.ini` 90 dòng `respawn_time` 5000 → **8000** (`tools/thap-8giay-18-10.js`, tag `truoc-thap-8giay-18-10`, md5 VPS = HEAD trước khi sửa). **.ini → cần cap-nhat + RESTART.** `roithem` `bando` 2 → **0.5** (sửa trên VPS, hiệu lực ngay); `thap` giữ 0.5. netco4.click dựng lại (`build.js` BANDO 0.5).
