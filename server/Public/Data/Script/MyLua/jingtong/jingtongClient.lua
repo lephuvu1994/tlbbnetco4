@@ -263,7 +263,7 @@ end
 	JTsre = gsub(myname,"(&JT"..strrep("%w",2)..")%d%d("..strrep("%w",8)..")","%1"..tostring(tonumber(JTA)+1).."%2" ) 
 	end 
     LuaFnSetItemCreator( sceneId, selfId, EQItem, JTsre )
-    LuaFnRefreshItemInfo( sceneId, selfId, EQItem )	
+    LuaFnRefreshItemInfo( sceneId, selfId, EQItem ) x890087_TTGiuMon( sceneId, selfId, EQItem )	
     x890087_Tips( sceneId, selfId, "Chúc M×ng các hÕ thång c¤p tinh thông thành công!")
     LuaFnSendSpecificImpactToUnit(sceneId, selfId, selfId, selfId, 150, 0)
 		
@@ -278,7 +278,7 @@ end
 	JTsre = gsub(myname,"(&JT"..strrep("%w",6)..")%d%d("..strrep("%w",4)..")","%1"..tostring(tonumber(JTB)+1).."%2" ) 
 	end 
     LuaFnSetItemCreator( sceneId, selfId, EQItem, JTsre )
-    LuaFnRefreshItemInfo( sceneId, selfId, EQItem )	
+    LuaFnRefreshItemInfo( sceneId, selfId, EQItem ) x890087_TTGiuMon( sceneId, selfId, EQItem )	
     x890087_Tips( sceneId, selfId, "Chúc M×ng các hÕ thång c¤p tinh thông thành công!")			
 	
 	elseif sun1 == 3 then
@@ -292,7 +292,7 @@ end
 	JTsre = gsub(myname,"(&JT"..strrep("%w",10)..")%d%d","%1"..tostring(tonumber(JTC)+1) ) 
 	end 
     LuaFnSetItemCreator( sceneId, selfId, EQItem, JTsre )
-    LuaFnRefreshItemInfo( sceneId, selfId, EQItem )	
+    LuaFnRefreshItemInfo( sceneId, selfId, EQItem ) x890087_TTGiuMon( sceneId, selfId, EQItem )	
     x890087_Tips( sceneId, selfId, "Chúc M×ng các hÕ thång c¤p tinh thông thành công!")
     LuaFnSendSpecificImpactToUnit(sceneId, selfId, selfId, selfId, 150, 0)	
 	end
@@ -462,4 +462,13 @@ function x890087_TTGhep( myname, tt, sun1, sun2, sun3 )
 		return r
 	end
 	return myname .. moi
+end
+
+-- [NetCo4 18/10] sau khi thang cap Tinh Thong: bao client nap lai trang bi vao bang (UI 201107281, EquipEducation_Update.lua)
+-- de khoi van do ra moi lan. Client tu Clear() khi bam Thang cap; lenh nay toi sau nen nap lai duoc (can thu tren client).
+function x890087_TTGiuMon( sceneId, selfId, EQItem )
+	BeginUICommand( sceneId )
+		UICommand_AddInt( sceneId, EQItem )
+	EndUICommand( sceneId )
+	DispatchUICommand( sceneId, selfId, 201107281 )
 end
