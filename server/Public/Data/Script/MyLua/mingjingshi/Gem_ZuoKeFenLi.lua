@@ -616,6 +616,11 @@ function x290205_OnDoubleGemzhuoke( sceneId, selfId, ItemIndex1, ItemIndex2, Ite
 			return
 		end
 	end
+	-- [NetCo4 18/10] kiem vien phu thu 4 (client bat 4 vien, server cu chi kiem 3)
+	if biaoshi == 1 and LuaFnGetItemTableIndexByIndex(sceneId, selfId, ItemIndex5) ~= itemid then
+		x290205_NotifyFailTips(sceneId, selfId, "参与琢刻的宝石种类必须相同，等级也必须相同。")
+		return
+	end
 
 	  if LuaFnGetItemTableIndexByIndex(sceneId, selfId,ItemIndex6)  ~= 38000446  then
 		x290205_NotifyFailTips(sceneId, selfId, "#{JKBS_081021_010}#{_ITEM38000446}")
