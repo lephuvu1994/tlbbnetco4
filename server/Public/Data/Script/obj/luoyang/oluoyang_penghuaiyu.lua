@@ -79,6 +79,7 @@ end
 	 	 AddNumText(  sceneId,  x000110_g_scriptId,  " Bäo ThÕch Hþp Thành",  6,  10000  )
 	 	 AddNumText(  sceneId,  x000110_g_scriptId,  " Khäm Bäo ThÕch  ",  6,  5  )
 	 	 AddNumText(  sceneId,  x000110_g_scriptId,  " Tháo GÞ Bäo ThÕch ",  6,  3  )
+		 AddNumText(  sceneId,  x000110_g_scriptId,  "#G Th\225o ng\247c nhanh (100 KNB / vi\234n, gi\230 nguy\234n c\164p)",  6,  2030  )   -- [NetCo4 18/10] tools/thaongoc-nhanh-18-10.js
 	 	 AddNumText(  sceneId,  x000110_g_scriptId,  " Ðiêu Trác Bäo ThÕch ",  6,  6  )
 	 	 AddNumText(  sceneId,  x000110_g_scriptId,  " Dung Luy®n Bäo ThÕch ",  6,  7  )
 	 	 AddNumText(  sceneId,  x000110_g_scriptId,  " #cFF0000Baö ThÕch Trác Kh¡c",  6,  100  )
@@ -205,6 +206,14 @@ end
 		   x000110_yiqianaddbiaoshi(  sceneId,  selfId,targetId)
 	 	   return
 	 end
+	if  GetNumText()  ==  2030  then   -- [NetCo4 18/10] Thao ngoc nhanh: xem truoc
+		x000110_ThaoXem(  sceneId,  selfId,  targetId  )
+		return
+	end
+	if  GetNumText()  ==  2031  then   -- [NetCo4 18/10] Thao ngoc nhanh: tru KNB, phat bua, mo bang thao ngoc
+		x000110_ThaoLam(  sceneId,  selfId,  targetId  )
+		return
+	end
 	if  GetNumText()  ==  2022  then   -- [NetCo4 17/10] Duc lo 4 nhanh: xem truoc
 		x000110_Lo4Xem(  sceneId,  selfId,  targetId  )
 		return
@@ -855,4 +864,100 @@ function x000110_Lo4Duc( sceneId, selfId, targetId )
 		LuaFnSendSpecificImpactToUnit( sceneId, selfId, selfId, selfId, 18, 0 )
 	end
 	x000110_Lo4Xem( sceneId, selfId, targetId )
+end
+
+--**********************************
+-- [NetCo4 18/10] Thao ngoc nhanh (100 KNB / vien): NPC tinh so ngoc, ban du bua Cao cap Trich Tru Phu cap 9 (30900044, thao moi cap
+-- GIU NGUYEN cap, ngoc bi khoa), roi mo bang thao ngoc (UI 27). Engine khong cho Lua go ngoc -> nguoi choi click thao tung vien.
+--**********************************
+x000110_g_ThaoBua = 30900044
+x000110_g_ThaoGia = 100
+
+-- so ngoc dang kham tren moi trang bi trong tui (bo mon khoa mat khau)
+function x000110_ThaoDem( sceneId, selfId )
+	local ngoc, mon = 0, 0
+	local bagbegin = GetBasicBagStartPos( sceneId, selfId )
+	local bagend = GetBasicBagEndPos( sceneId, selfId )
+	for i = bagbegin, bagend do
+		if LuaFnGetItemTableIndexByIndex( sceneId, selfId, i ) > 0 and LuaFnGetBagEquipType( sceneId, selfId, i ) ~= -1
+		   and LuaFnIsItemLocked( sceneId, selfId, i ) == 0 then
+			local n = GetGemEmbededCount( sceneId, selfId, i )
+			if n ~= nil and n > 0 then
+				ngoc = ngoc + n
+				mon = mon + 1
+			end
+		end
+	end
+	return ngoc, mon
+end
+
+function x000110_ThaoXem( sceneId, selfId, targetId )
+	local ngoc, mon = x000110_ThaoDem( sceneId, selfId )
+	local co = LuaFnGetAvailableItemCount( sceneId, selfId, x000110_g_ThaoBua )
+	local thieu = ngoc - co
+	if thieu < 0 then
+		thieu = 0
+	end
+	local o = LuaFnGetPropertyBagSpace( sceneId, selfId )
+	local lan = thieu
+	if lan > o then
+		lan = o
+	end
+	BeginEvent( sceneId )
+		AddText( sceneId, "#YTh\225o ng\247c nhanh#W: m\178i vi\234n 1 l\225 Cao c\164p B\228o Th\213ch Tr\237ch Tr\215 Ph\249 c\164p 9 (#G100 KNB#W) - th\225o m\247i c\164p, ng\247c #Ggi\230 nguy\234n c\164p#W v\224 b\184 kh\243a v\224o nh\226n v\167t." )
+		AddText( sceneId, format( "Ng\247c \240ang kh\228m tr\234n trang b\184 trong t\250i: #G%d#W vi\234n (%d m\243n). B\249a \240ang c\243: #G%d#W l\225.", ngoc, mon, co ) )
+		if lan > 0 then
+			if lan < thieu then
+				AddText( sceneId, format( "Thi\170u %d l\225 nh\223ng t\250i \240\213o c\248 ch\239 c\242n %d \244 tr\175ng: l\165n n\224y nh\167n %d l\225, th\225o xong b\164m l\213i.", thieu, o, lan ) )
+			end
+			AddText( sceneId, format( "KNB hi\174n c\243: #G%d", YuanBao( sceneId, selfId, -1, 3, 0 ) ) )
+			AddNumText( sceneId, x000110_g_scriptId, format( "#cFF0000X\225c nh\167n: tr\228 %d KNB nh\167n %d b\249a + m\183 b\228ng th\225o ng\247c", lan * x000110_g_ThaoGia, lan ), 6, 2031 )
+		elseif ngoc > 0 and thieu == 0 then
+			AddNumText( sceneId, x000110_g_scriptId, "\208\227 \240\252 b\249a - m\183 b\228ng th\225o ng\247c", 6, 3 )
+		elseif ngoc > 0 then
+			AddText( sceneId, "T\250i \240\213o c\248 h\170t \244 tr\175ng, d\247n b\190t r\176i b\164m l\213i." )
+		else
+			AddText( sceneId, "Kh\244ng c\243 trang b\184 n\224o trong t\250i \240ang kh\228m ng\247c (m\243n kh\243a m\167t kh\166u kh\244ng t\237nh)." )
+		end
+	EndEvent( sceneId )
+	DispatchEventList( sceneId, selfId, targetId )
+end
+
+-- moi la: tru KNB truoc, nhan + khoa bua; nhan hut thi hoan KNB la do. Xong mo bang thao ngoc.
+function x000110_ThaoLam( sceneId, selfId, targetId )
+	local ngoc, mon = x000110_ThaoDem( sceneId, selfId )
+	local thieu = ngoc - LuaFnGetAvailableItemCount( sceneId, selfId, x000110_g_ThaoBua )
+	local o = LuaFnGetPropertyBagSpace( sceneId, selfId )
+	if thieu > o then
+		thieu = o
+	end
+	local nhan, hetknb = 0, 0
+	local k = 0
+	while k < thieu do
+		k = k + 1
+		if YuanBao( sceneId, selfId, -1, 3, 0 ) < x000110_g_ThaoGia then
+			hetknb = 1
+			break
+		end
+		if YuanBao( sceneId, selfId, -1, 2, x000110_g_ThaoGia ) ~= 0 then
+			hetknb = 1
+			break
+		end
+		local pos = TryRecieveItem( sceneId, selfId, x000110_g_ThaoBua, 1 )
+		if pos == nil or pos < 0 then
+			YuanBao( sceneId, selfId, -1, 1, x000110_g_ThaoGia )
+			break
+		end
+		LuaFnItemBind( sceneId, selfId, pos )
+		nhan = nhan + 1
+	end
+	local msg = format( "\208\227 nh\167n %d b\249a th\225o ng\247c (%d KNB).", nhan, nhan * x000110_g_ThaoGia )
+	if hetknb == 1 then
+		msg = msg .. " Kh\244ng \240\252 KNB cho s\175 c\242n l\213i."
+	end
+	x000110_NotifyTip( sceneId, selfId, msg )
+	BeginUICommand( sceneId )
+		UICommand_AddInt( sceneId, targetId )
+	EndUICommand( sceneId )
+	DispatchUICommand( sceneId, selfId, 27 )
 end
