@@ -780,6 +780,12 @@ def act(form):
             restart_game()
             return msg + " Dang restart server (khoang 3 phut)."
         return msg
+    if a == "amkhitay":   # 19/10: cong tac thuoc tinh nhan diem khi tay am khi (Yen Thanh) - c1..c5 = Luc LinhKhi TheLuc DinhLuc ThanPhap; hieu luc ngay
+        ok, msg = amkhi.tay_luu([1 if v("c%d" % i) == "1" else 0 for i in range(1, 6)], v("ai"))
+        if not ok:
+            return msg
+        audit("tay am khi: %s" % msg)
+        return msg
     if a in ("amkhi_ap", "amkhi_tra"):   # 04/10: trong so tay 3 dong am khi - doi DarkSkillStudy.txt cua game (ngoai repo)
         if a == "amkhi_ap":
             ok, msg = amkhi.ap(v("wa"), v("wb"), v("wc"))   # wa/wb/wc = dong cap 40/70/90 (bot chi chuyen khoa [a-z_])
@@ -938,6 +944,11 @@ def page(msg="", q=""):
                '<form method="post" class="row" onsubmit="return confirm(\'Tra EXP ve mac dinh va RESTART server?\')">'
                '<input type="hidden" name="t" value="%s"><input type="hidden" name="a" value="expreset"><input type="hidden" name="restart" value="1">'
                '<button class="r">Tra ve mac dinh + Restart</button></form><br>' % (TOKEN, exp_get(), exp_macdinh(), TOKEN))
+    tay = amkhi.tay_doc()   # 19/10: cong tac tay diem am khi (Yen Thanh)
+    out.append('<form method="post" class="row"><input type="hidden" name="t" value="%s"><input type="hidden" name="a" value="amkhitay">'
+               '<b>Tay diem Am khi (Yen Thanh) - duoc nhan diem:</b>%s<button>Luu</button>'
+               '<span class="muted">Bat ca 5 = ngau nhien nhu goc. Bo tick = tay khong bao gio do diem vao thuoc tinh do. Hieu luc ngay, khong restart.</span></form><br>'
+               % (TOKEN, "".join('<label><input type="checkbox" name="c%d" value="1"%s> %s</label> ' % (i + 1, " checked" if tay[i] else "", amkhi.TAY_TEN[i]) for i in range(5))))
     out.append('<table><tr><th>GUID</th><th>Tai khoan</th><th>Nhan vat</th>'
                '<th>Cap</th><th>Online</th><th>GM</th><th>Qua dang cho</th><th>Phat qua</th></tr>')
     for g, acc, name, lv in chs:

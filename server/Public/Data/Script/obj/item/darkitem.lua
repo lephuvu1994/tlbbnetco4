@@ -201,6 +201,44 @@ end
 
 
 
+-- NetCo4 19/10: admin chon thuoc tinh duoc nhan diem khi tay (panel -> ./txt/NetCo4Cfg/amkhitay.txt, 1 dong "1 1 1 1 1"
+-- = Luc, Linh khi, The luc, Dinh luc, Than phap; 0 = khong nhan). Khong co file / ca 5 = 1 -> y nhu goc. Doc moi lan tay.
+x332207_NetCo4_TayFile = "./txt/NetCo4Cfg/amkhitay.txt"
+
+function x332207_NetCo4_TayCfg()
+	local bat = { 1, 1, 1, 1, 1 }
+	local h = openfile( x332207_NetCo4_TayFile, "r" )
+	if h == nil then
+		return bat
+	end
+	local line = read( h, "*l" )
+	closefile( h )
+	if line == nil then
+		return bat
+	end
+	local _, _, a, b, c, d, e = strfind( line, "^%s*([01])%s+([01])%s+([01])%s+([01])%s+([01])" )
+	if a == nil then
+		return bat
+	end
+	return { tonumber( a ), tonumber( b ), tonumber( c ), tonumber( d ), tonumber( e ) }
+end
+
+-- Engine rut 1 diem tu attrfrom cho 1 thuoc tinh khac ngau nhien. Roi vao thuoc tinh tat (hoac quay ve nguon) -> day tiep
+-- chinh diem do (nguon moi = noi vua nhan, luc nay >= 2 nen engine cho rut). Tra ve noi diem nam lai (0..4) hoac -1.
+function x332207_NetCo4_TayDiem( sceneId, selfId, bagpos, attrfrom, bat )
+	local nTo = AdjustDarkAttrForBagItem( sceneId, selfId, bagpos, attrfrom )
+	local i = 0
+	while nTo >= 0 and nTo <= 4 and ( nTo == attrfrom or bat[ nTo + 1 ] ~= 1 ) and i < 100 do
+		local nNext = AdjustDarkAttrForBagItem( sceneId, selfId, bagpos, nTo )
+		if nNext < 0 or nNext > 4 then
+			break
+		end
+		nTo = nNext
+		i = i + 1
+	end
+	return nTo
+end
+
 function x332207_DarkAttrAdjustForBagItem( sceneId, selfId, bagpos, attrfrom )
 	
 	local nCleanTimes = GetDarkCleanTimes(sceneId, selfId, bagpos);
@@ -213,6 +251,19 @@ function x332207_DarkAttrAdjustForBagItem( sceneId, selfId, bagpos, attrfrom )
 	local nAttrValue = GetDarkAttrForBagItem(sceneId, selfId, bagpos, attrfrom);
 	if (nAttrValue <= 1) then
 		DarkOperateResult(sceneId, selfId, 0, -1);
+		return
+	end
+	
+	-- NetCo4 19/10: cong tac admin
+	local bat = x332207_NetCo4_TayCfg()
+	local nCo = 0
+	for k = 0, 4 do
+		if k ~= attrfrom and bat[ k + 1 ] == 1 then
+			nCo = nCo + 1
+		end
+	end
+	if nCo == 0 then
+		x332207_ShowNotice( sceneId, selfId, "Hi\174n kh\244ng c\243 thu\181c t\237nh n\224o kh\225c \240\223\254c nh\167n \240i\172m khi t\166y thu\181c t\237nh n\224y." )
 		return
 	end
 	
@@ -239,7 +290,7 @@ function x332207_DarkAttrAdjustForBagItem( sceneId, selfId, bagpos, attrfrom )
 	end
 	
 	SetDarkCleanTimes(sceneId, selfId, bagpos, nCleanTimes+1);
-	local nAttrTo = AdjustDarkAttrForBagItem(sceneId, selfId, bagpos, attrfrom );
+	local nAttrTo = x332207_NetCo4_TayDiem( sceneId, selfId, bagpos, attrfrom, bat );   -- NetCo4 19/10 (goc: AdjustDarkAttrForBagItem)
 	if nAttrTo == -1 then
 		--失败了，通知客户端
 		DarkOperateResult(sceneId, selfId, 0, -1);

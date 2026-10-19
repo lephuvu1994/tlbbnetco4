@@ -20,6 +20,11 @@ import time
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 GAME = "/opt/tlbb-root/home/tlbb"
 CFG = GAME + "/Server/txt/NetCo4Cfg/amkhi.json"
+# 19/10: CONG TAC THUOC TINH NHAN DIEM KHI TAY AM KHI (NPC Yen Thanh -> obj/item/darkitem.lua x332207_DarkAttrAdjustForBagItem).
+# File 1 dong "c n t tr th" (1 = cho nhan diem, 0 = khong) theo thu tu Luc, Linh khi, The luc, Dinh luc, Than phap (= attrfrom 0..4 Lua nhan tu engine).
+# Khong co file hoac ca 5 = 1 -> engine goc (ngau nhien). Lua doc MOI LAN tay -> luu la co hieu luc ngay, KHONG restart.
+TAY = GAME + "/Server/txt/NetCo4Cfg/amkhitay.txt"
+TAY_TEN = ["Luc", "Linh khi", "The luc", "Dinh luc", "Than phap"]
 F_GAME = GAME + "/Server/Config/DarkSkillStudy.txt"
 F_REPO = os.path.join(REPO, "server", "Server", "Config", "DarkSkillStudy.txt")
 DONG = [(40, 1, 2), (70, 3, 4), (90, 5, 6)]   # (moc cap, cot ky nang, cot trong so)
@@ -52,6 +57,39 @@ def doc_cfg():
         return json.load(open(CFG, encoding="utf-8"))
     except (OSError, ValueError):
         return {}
+
+
+def tay_doc():
+    """[c, n, t, tr, th] - 1 = thuoc tinh duoc nhan diem khi tay. Mac dinh ca 5 = 1 (goc)."""
+    try:
+        p = open(TAY, encoding="ascii", errors="replace").readline().split()
+        if len(p) >= 5:
+            return [1 if x == "1" else 0 for x in p[:5]]
+    except OSError:
+        pass
+    return [1, 1, 1, 1, 1]
+
+
+def tay_luu(bat, ai=""):
+    """Ghi amkhitay.txt (ghi tam roi doi ten). Ca 5 = 1 -> xoa file = ve goc. Can it nhat 1 thuoc tinh bat."""
+    try:
+        bat = [1 if int(x) else 0 for x in bat]
+    except (TypeError, ValueError):
+        return False, "Du lieu cong tac khong hop le"
+    if len(bat) != 5:
+        return False, "Can du 5 cong tac"
+    if sum(bat) == 0:
+        return False, "Phai bat it nhat 1 thuoc tinh"
+    if sum(bat) == 5:
+        if os.path.exists(TAY):
+            os.remove(TAY)
+        return True, "Bat ca 5: tay am khi ngau nhien nhu goc"
+    ai = "".join(c for c in str(ai) if c.isalnum() or c in "._@-")[:40]
+    tmp = TAY + ".tmp"
+    with open(tmp, "w", encoding="ascii", newline="\n") as f:
+        f.write(" ".join(str(x) for x in bat) + "\n# ai=%s t=%d\n" % (ai, int(time.time())))
+    os.replace(tmp, TAY)
+    return True, "Tay am khi chi do diem vao: " + ", ".join(TAY_TEN[i] for i in range(5) if bat[i])
 
 
 def du_lieu():
