@@ -227,7 +227,7 @@ function x894065_OnDie( sceneId, selfId, killerId )
 	local leaderID = GetTeamLeader( sceneId, playerID )
 	if leaderID ~= -1 then
 		playerName = GetName( sceneId, leaderID )
-	       LuaFnSendSpecificImpactToUnit( sceneId, leaderID, leaderID, leaderID, 8812, 0 )
+	       -- [NetCo4 19/10] TAT HOI SINH (boss song sinh hoi sinh 30s -> 22:36 boss dung yen + nghen server): LuaFnSendSpecificImpactToUnit( sceneId, leaderID, leaderID, leaderID, 8812, 0 )
 	end
 	
 	if playerName ~= nil then
@@ -235,7 +235,7 @@ function x894065_OnDie( sceneId, selfId, killerId )
 		AddGlobalCountNews( sceneId, str )
 	end
 
-	CallScriptFunction( x894065_g_FuBenScriptId, "TipAllHuman", sceneId, "Tr¥n Nhân Dûng nói:  Tuy nói Tiêu Nhß Quân  ðã bÕi cho trß¾c tr§n, nhßng còn thïnh nhanh chóng ðánh chªt  Tiêu Nhß Úy nªu không  Tiêu Nhß Quân  30 giây sau s¨ s¯ng lÕi. ." )
+	-- [NetCo4 19/10] bo cau bao 30 giay song lai: CallScriptFunction( x894065_g_FuBenScriptId, "TipAllHuman", sceneId, "Tr¥n Nhân Dûng nói:  Tuy nói Tiêu Nhß Quân  ðã bÕi cho trß¾c tr§n, nhßng còn thïnh nhanh chóng ðánh chªt  Tiêu Nhß Úy nªu không  Tiêu Nhß Quân  30 giây sau s¨ s¯ng lÕi. ." )
 
 	CallScriptFunction( x894065_g_FuBenScriptId, "CreateSamllDog", sceneId, 3 )
 end
