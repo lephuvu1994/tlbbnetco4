@@ -173,10 +173,39 @@ x880001_g_Bz[38001019]={"t"  ,4}  -- né tránh
 
 
 
+-- NetCo4 19/10: thao Bao Chau cap L tra min(2L, 2 + L(L-1)/2) Phi Thuy Tam Tinh: khong bao gio loi hon dap nat (2) + so da ton nang 1->L.
+-- Goc tra 2L (cap 2: 4, cap 3: 6). Tui day -> bao, tra ve nil, KHONG thao (goc van thao + tru tien ma khong cong do).
+function  x880001_NetCo4_TraPT(  sceneId,  selfId,  lv  )
+local  n  =  2*lv
+local  tran  =  2  +  lv*(lv-1)/2
+if  tran  <  n  then  n  =  tran  end
+BeginAddItem(sceneId)
+AddItem(  sceneId,38001021,  n  )
+if  EndAddItem(sceneId,selfId)  <=  0  then
+x880001_NotifyTips(  sceneId,  selfId,  " Tay näi không ðü ch² tr¯ng "  )
+return  nil
+end
+AddItemListToHuman(sceneId,selfId)
+return  1
+end
+
 function  x880001_RL_SetRs(  sceneId,  selfId,  idx,arg1,arg2  )
 	 if  not  arg1  or  arg1  ==  -1  then      return  end
 local  eqidx  =  LuaFnGetItemTableIndexByIndex(  sceneId,  selfId,  arg1)
 local  itmidx  =  LuaFnGetItemTableIndexByIndex(  sceneId,  selfId,  arg2)
+-- NetCo4 19/10: chan vat pham sai loai (goc khong kiem: phieu KNB 39910001 -> 39910002, dap nat do bat ky ra Phi Thuy, dap nat ca Lenh Bai)
+if  idx  >=  1  and  idx  <=  4  and  (  eqidx  <  10158001  or  eqidx  >  10158005  )  then
+x880001_NotifyTips(  sceneId,  selfId,  " Chï có th¬ ð£t L®nh Bài vào "  )
+return
+end
+if  idx  ==  2  and  x880001_g_Bz[itmidx]  ==  nil  then
+x880001_NotifyTips(  sceneId,  selfId,  " Chï có th¬ khäm Bäo Châu "  )
+return
+end
+if  idx  ==  6  and  (  eqidx  <  38001000  or  eqidx  >  38001019  )  then
+x880001_NotifyTips(  sceneId,  selfId,  " Chï có th¬ phá vÞ Bäo Châu "  )
+return
+end
 if  idx  ==1  then    -- l®nh bài lên c¤p   
 	 if  eqidx  ==  10158005  then
 	 	 x880001_NotifyTips(  sceneId,  selfId,  " Vß½ng L®nh ðã ðÕt t¾i c¤p ðµ t¯i ða, không th¬ tiªn hành tång c¤p "  )  
@@ -403,10 +432,7 @@ return
 end	   
 
 
-BeginAddItem(sceneId)
-AddItem(  sceneId,38001021,  a*2  )  
-EndAddItem(sceneId,selfId)
-AddItemListToHuman(sceneId,selfId)  
+if  x880001_NetCo4_TraPT(  sceneId,  selfId,  a  )  ~=  1  then  return  end   -- NetCo4 19/10 (goc: tra a*2)
 
 
 friendName  =gsub(Lingpai1,"(LP"..strrep("%w",0)..")%w%d("..strrep("%w",14)..")","%1"..("00").."%2")	 
@@ -414,29 +440,20 @@ elseif  arg2  ==  1  then
 if    b  <1    then
 	 return
 end	   
-BeginAddItem(sceneId)
-AddItem(  sceneId,38001021,  b*2  )  
-EndAddItem(sceneId,selfId)
-AddItemListToHuman(sceneId,selfId)  
+if  x880001_NetCo4_TraPT(  sceneId,  selfId,  b  )  ~=  1  then  return  end   -- NetCo4 19/10 (goc: tra b*2)
 friendName  =gsub(Lingpai1,"(LP"..strrep("%w",2)..")%w%d("..strrep("%w",12)..")","%1"..("00").."%2")
 elseif  arg2  ==  2  then
 if  c  <1  then  	 
 return
 end
-BeginAddItem(sceneId)
-AddItem(  sceneId,38001021,  c*2  )  
-EndAddItem(sceneId,selfId)
-AddItemListToHuman(sceneId,selfId)  
+if  x880001_NetCo4_TraPT(  sceneId,  selfId,  c  )  ~=  1  then  return  end   -- NetCo4 19/10 (goc: tra c*2)
 
 friendName  =gsub(Lingpai1,"(LP"..strrep("%w",4)..")%w%d("..strrep("%w",10)..")","%1"..("00").."%2")	 
 elseif  arg2  ==  3  then
 if  d  <  1  then  	 
 return
 end  
-BeginAddItem(sceneId)
-AddItem(  sceneId,38001021,  d*2  )  
-EndAddItem(sceneId,selfId)
-AddItemListToHuman(sceneId,selfId)  
+if  x880001_NetCo4_TraPT(  sceneId,  selfId,  d  )  ~=  1  then  return  end   -- NetCo4 19/10 (goc: tra d*2)
 friendName  =gsub(Lingpai1,"(LP"..strrep("%w",6)..")%w%d("..strrep("%w",8)..")","%1"..("00").."%2")	 
 end	 
 LuaFnCostMoneyWithPriority(  sceneId,  selfId,  100000  );
@@ -458,28 +475,27 @@ end
 
 
 	 
-if  idx  ==  6  then      -- ðánh nát 
-	 if  eqidx  <1  then  
-	 	 return
-	 end
-	 
-local  transfer1  =  GetBagItemTransfer(sceneId,selfId,arg1)	 
-LuaFnEraseItem(  sceneId,  selfId,  arg1)	 
-local  nMoneyJZ  =  GetMoneyJZ(sceneId,selfId)
-local  nMoneyJB  =  GetMoney(sceneId,selfId)
-local  nMoneySelf  =  nMoneyJZ  +  nMoneyJB
-if  nMoneySelf  <  100000  then
+if  idx  ==  6  then      -- NetCo4 19/10: dap nat Bao Chau -> 2 Phi Thuy Tam Tinh. Kiem tien + tui TRUOC, xoa 1 lan (goc xoa truoc, xoa 2 lan)
+if  GetMoneyJZ(sceneId,selfId)  +  GetMoney(sceneId,selfId)  <  100000  then
 x880001_NotifyTips(  sceneId,  selfId,    "#G Vàng không ðü ! "  )
 return
 end
-TryRecieveItem(  sceneId,  selfId,38001021,  1)
-local  pos  =  TryRecieveItem(  sceneId,  selfId,38001021,  1)
-local  transfer  =  GetBagItemTransfer(sceneId,selfId,pos)	 	 
-LuaFnEraseItem(  sceneId,  selfId,  arg1)	 
+local  transfer1  =  GetBagItemTransfer(sceneId,selfId,arg1)
+BeginAddItem(sceneId)
+AddItem(  sceneId,38001021,  2  )
+if  EndAddItem(sceneId,selfId)  <=  0  then
+x880001_NotifyTips(  sceneId,  selfId,  " Tay näi không ðü ch² tr¯ng "  )
+return
+end
+local  xoa  =  LuaFnEraseItem(  sceneId,  selfId,  arg1)
+if  xoa  ==  nil  or  xoa  <=  0  then
+return
+end
+AddItemListToHuman(sceneId,selfId)
 LuaFnCostMoneyWithPriority(  sceneId,  selfId,  100000  );
-x880001_NotifyTips(  sceneId,  selfId,  " Phân giäi thành công "  )	 
+x880001_NotifyTips(  sceneId,  selfId,  " Phân giäi thành công "  )
 LuaFnSendSpecificImpactToUnit(sceneId,  selfId,  selfId,  selfId,18,  0)
-local  str  =  format(  "#ccc33cc Chúc m×ng ".."#{_INFOUSR%s}#c66ccff ðã ðem #{_INFOMSG%s1} phân giäi thành #{_INFOMSG%s2}#H",  GetName(sceneId,selfId),transfer1,transfer  )
+local  str  =  format(  "#ccc33cc Chúc m×ng ".."#{_INFOUSR%s}#c66ccff ðã ðem #{_INFOMSG%s1} phân giäi thành 2 Phï Thúy Tâm Tinh#H",  GetName(sceneId,selfId),transfer1  )
 BroadMsgByChatPipe(  sceneId,  selfId,  str,  4  )
 end
 
