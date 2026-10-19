@@ -323,79 +323,46 @@ end
 	 
 if  bq  ==0  then  return  end    -- không biªt sai l¥m   
 	 	 
-if  bq  ==  1  then	 
-local  a,b,c,d  =  x880001_LPQXX(sceneId,selfId,Lingpai1)	 
-local  sun
-if  arg2  ==  0  then  
-if  a  >8  then  
-x880001_NotifyTips(  sceneId,  selfId,  " Ðü "  )	 
+if  bq  ==  1  then
+-- NetCo4 19/10: bam Thang cap 1 lan = len lien toi cap 9 hoac toi khi het Phi Thuy Tam Tinh / vang.
+-- Gia moi cap nhu goc: cap L -> L+1 ton L Phi Thuy Tam Tinh + 100000. Ban goc: tag truoc-lenhbai-nhanh-19-10
+local  a,b,c,d  =  x880001_LPQXX(sceneId,selfId,Lingpai1)
+if  arg2  ==  nil  or  arg2  <  0  or  arg2  >  3  then  return  end
+local  dsc  =  {a,b,c,d}
+local  cap  =  dsc[arg2+1]
+if  cap  ==  nil  or  cap  <  1  then
+x880001_NotifyTips(  sceneId,  selfId,  " Ô này chßa khäm Bäo Châu "  )
 return
 end
-
-if    LuaFnGetAvailableItemCount(sceneId,  selfId,  38001021)  <  1*a      then
-x880001_NotifyTips(  sceneId,  selfId,  " Nhà ngß½i phäi có "..(1*a).." Phï Thúy Tâm Tinh ta m¾i có th¬ giúp ngày thång c¤p "  )	 
-return
-end	 
-
-if  LuaFnDelAvailableItem(sceneId,  selfId,  38001021,  1*a)  ==  0  then
-x880001_NotifyTips(  sceneId,  selfId,  " Nhà ngß½i phäi có "..(1*a).." Phï Thúy Tâm Tinh ta m¾i có th¬ giúp ngày thång c¤p "  )
+if  cap  >  8  then
+x880001_NotifyTips(  sceneId,  selfId,  " Ðü "  )
 return
 end
-
-sun  =  a  +1
-friendName  =gsub(Lingpai1,"(LP"..strrep("%w",1)..")%d("..strrep("%w",14)..")","%1"..(sun).."%2")	 
-elseif  arg2  ==  1  then  
-if    b  >8    then  
-x880001_NotifyTips(  sceneId,  selfId,  " Ðü "  )	 
+local  co  =  LuaFnGetAvailableItemCount(sceneId,  selfId,  38001021)
+local  len  =  cap
+local  ton  =  0
+while  len  <=  8  and  co  >=  ton  +  len  and  nMoneySelf  >=  100000*(len-cap+1)  do
+	ton  =  ton  +  len
+	len  =  len  +  1
+end
+if  len  ==  cap  then
+if  co  <  cap  then
+x880001_NotifyTips(  sceneId,  selfId,  " Nhà ngß½i phäi có "..cap.." Phï Thúy Tâm Tinh ta m¾i có th¬ giúp ngß½i thång c¤p "  )
+end
 return
 end
-if    LuaFnGetAvailableItemCount(sceneId,  selfId,  38001021)  <  1*b      then
-x880001_NotifyTips(  sceneId,  selfId,  " Nhà ngß½i phäi có "..(1*b).." Phï Thúy Tâm Tinh ta m¾i có th¬ giúp ngày thång c¤p "  )	 
-return
-end	 
-if  LuaFnDelAvailableItem(sceneId,  selfId,  38001021,  1*b)  ==  0  then
-  x880001_NotifyTips(  sceneId,  selfId,  " Nhà ngß½i phäi có "..(1*b).." Phï Thúy Tâm Tinh ta m¾i có th¬ giúp ngày thång c¤p "  )
-  return
-end
-sun  =  b  +1	 
-friendName  =gsub(Lingpai1,"(LP"..strrep("%w",3)..")%d("..strrep("%w",12)..")","%1"..(sun).."%2")	 	 
-elseif  arg2  ==  2  then
-if  c  >8  then  
-x880001_NotifyTips(  sceneId,  selfId,  " Ðü "  )	 
+if  LuaFnDelAvailableItem(sceneId,  selfId,  38001021,  ton)  ==  0  then
+x880001_NotifyTips(  sceneId,  selfId,  " Nhà ngß½i phäi có "..ton.." Phï Thúy Tâm Tinh ta m¾i có th¬ giúp ngß½i thång c¤p "  )
 return
 end
-if    LuaFnGetAvailableItemCount(sceneId,  selfId,  38001021)  <  1*c      then
-x880001_NotifyTips(  sceneId,  selfId,  " Nhà ngß½i phäi có "..(1*c).." Phï Thúy Tâm Tinh ta m¾i có th¬ giúp ngày thång c¤p "  )	 
-return
-end	 
-  if  LuaFnDelAvailableItem(sceneId,  selfId,  38001021,  1*c)  ==  0  then
-  x880001_NotifyTips(  sceneId,  selfId,  " Nhà ngß½i phäi có "..(1*c).." Phï Thúy Tâm Tinh ta m¾i có th¬ giúp ngày thång c¤p "  )
-return
-end
-sun  =  c  +1	 
-friendName  =gsub(Lingpai1,"(LP"..strrep("%w",5)..")%d("..strrep("%w",10)..")","%1"..(sun).."%2")	 	 
-elseif  arg2  ==  3  then
-if  d  >  8  then  
-x880001_NotifyTips(  sceneId,  selfId,  " ð¥y "  )	 
-return
-end
-if    LuaFnGetAvailableItemCount(sceneId,  selfId,  38001021)  <  1*d      then
-x880001_NotifyTips(  sceneId,  selfId,  " Nhà ngß½i phäi có "..(1*d).." Phï Thúy Tâm Tinh ta m¾i có th¬ giúp ngày thång c¤p "  )	 
-return
-end	   
-if  LuaFnDelAvailableItem(sceneId,  selfId,  38001021,  1*d)  ==  0  then
-x880001_NotifyTips(  sceneId,  selfId,  " Nhà ngß½i phäi có "..(1*d).." Phï Thúy Tâm Tinh ta m¾i có th¬ giúp ngày thång c¤p "  )
-return
-end
-sun  =  d  +1	 
-friendName  =gsub(Lingpai1,"(LP"..strrep("%w",7)..")%d("..strrep("%w",8)..")","%1"..(sun).."%2")	 	 
-end	 
-LuaFnCostMoneyWithPriority(  sceneId,  selfId,  100000  );
+local  vt  =  2*arg2+1
+friendName  =gsub(Lingpai1,"(LP"..strrep("%w",vt)..")%d("..strrep("%w",15-vt)..")","%1"..(len).."%2")
+LuaFnCostMoneyWithPriority(  sceneId,  selfId,  100000*(len-cap)  );
 LuaFnSetItemCreator(  sceneId,  selfId,  arg1,  friendName  )
 LuaFnRefreshItemInfo(  sceneId,  selfId,  arg1  )
-x880001_NotifyTips(  sceneId,  selfId,  " cß¶ng hóa thành công "  )
+x880001_NotifyTips(  sceneId,  selfId,  " Cß¶ng hóa thành công: c¤p "..cap.." lên c¤p "..len..", tiêu hao "..ton.." Phï Thúy Tâm Tinh và "..(10*(len-cap)).." vàng "  )
 LuaFnSendSpecificImpactToUnit(sceneId,  selfId,  selfId,  selfId,18,  0)
-end	 
+end
 	 
 	 
 end
