@@ -172,7 +172,8 @@ for (const id in scriptMon) for (const lab of scriptMon[id]) { if (!MA[id] || !M
 // 18/10: bando 2 -> 0.5% (hoang01-05 AFK ~1.000 phieu / 1,5 ngay); Thap giu 0.5% + 5 giay; Tuyet Lang Ho quai hoi sinh 75 -> 8 giay (tools/tuyetlangho-8giay-18-10.js).
 // 18/10 18:4x: bando + thap 0.5 -> 0.2% (hoang01-05 o Tuyet Lang Ho 8 giay ~136 phieu/gio ca nhom, moi thanh vien tu roll).
 // 19/10 10:46: thap (Thap Khac Lap Ma Can) 0.2 -> 0.1% (hoang01-06 treo Thap ~1.200 quai / 15 phut ca nhom); bando giu 0.2.
-{ const BANDO = { 'xuelanghu_monster.ini': 0.2, 'takelamagan_monster.ini': 0.1, 'hanxieling_monster.ini': 0.2, 'shenghuogong_monster.ini': 0.2 };
+// 19/10: Tuyet Lang Ho + Thap -> 1 nguoi roll 0.5% (roithem tlh1 / thap1): to chi roll 1 lan / quai -> ti le / quai dung la con so nay.
+{ const BANDO = { 'xuelanghu_monster.ini': 0.5, 'takelamagan_monster.ini': 0.5, 'hanxieling_monster.ini': 0.2, 'shenghuogong_monster.ini': 0.2 };
   for (const id in spawn) { const them = []; for (const s of spawn[id]) if (s[1] > 0 && maps[s[0]] && BANDO[String(maps[s[0]][2]).toLowerCase()]) them.push([s[0], 0, 0, 0, [39910001, BANDO[String(maps[s[0]][2]).toLowerCase()]]]);
     for (const x of them) if (!spawn[id].some((y) => y[0] === x[0] && y[4] && y[4][0] === 39910001)) spawn[id].push(x); } }
 

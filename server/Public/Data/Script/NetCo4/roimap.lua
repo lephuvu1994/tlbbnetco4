@@ -61,8 +61,10 @@ x950001_g_RoiPhoBan2 = {
 
 -- [13/10] ban do -> khoa roithem.txt (roi them do admin cau hinh tren web, ngoai mon co dinh cua x950001_g_Roi)
 x950001_g_MapCfg = { [62] = "hhv", [82] = "hhv", [182] = "hhv",   -- Hau Hoa Vien 1 / 2 / 3
-	[179] = "bando", [432] = "bando", [537] = "bando",   -- [16/10] Tuyet Lang Ho / Han Huyet Linh / Thanh Hoa Cung (phieu 1.000 KNB, roithem bando)
-	[427] = "thap" }   -- [17/10] Thap Khac Lap Ma Can tach khoa rieng (quai nhieu, hoi sinh 5 giay -> phieu thap hon, roithem thap)
+	[179] = "tlh1", [432] = "bando", [537] = "bando",   -- [16/10] Tuyet Lang Ho / Han Huyet Linh / Thanh Hoa Cung (phieu 1.000 KNB, roithem bando)
+	[427] = "thap1" }   -- [19/10] Tuyet Lang Ho (179) tach khoi bando -> tlh1; Thap -> thap1 (ca 2 "1 nguoi roll", x950001_g_Roll1)
+-- [19/10] khoa "1 nguoi roll": quai chet chi roll 1 lan, trung thi roi cho 1 thanh vien to o gan (ngau nhien). Khoa khac: moi thanh vien roll rieng.
+x950001_g_Roll1 = { thap1 = 1, tlh1 = 1 }   -- (17/10 Thap tach khoa rieng "thap"; 19/10 doi sang thap1)
 
 function x950001_OnDie( sceneId, selfId, killerId )
 	local kcfg = x950001_g_MapCfg[sceneId]
@@ -146,10 +148,31 @@ function x950001_RoiCfg( sceneId, selfId, killerId, khoa )
 	end
 	closefile( h )
 	for i = 1, getn( ds ) do
-		x950001_Chia( sceneId, selfId, killerId, ds[i] )
+		if x950001_g_Roll1[ khoa ] then
+			x950001_Chia1( sceneId, selfId, killerId, ds[i] )
+		else
+			x950001_Chia( sceneId, selfId, killerId, ds[i] )
+		end
 	end
 end
 
+-- [19/10] 1 nguoi roll (khoa trong x950001_g_Roll1): roll 1 lan cho ca to, trung thi roi cho 1 thanh vien o gan (ngau nhien, ke ca nguoi giet)
+function x950001_Chia1( sceneId, selfId, killerId, r )
+	if LuaFnIsObjValid( sceneId, killerId ) ~= 1 then
+		return
+	end
+	local playerId = killerId
+	if GetCharacterType( sceneId, killerId ) == 3 then
+		playerId = GetPetCreator( sceneId, killerId )
+	end
+	if LuaFnHasTeam( sceneId, playerId ) == 1 then
+		local n = GetNearTeamCount( sceneId, playerId )
+		if n >= 1 then
+			playerId = GetNearTeamMember( sceneId, playerId, random( 0, n - 1 ) )
+		end
+	end
+	x950001_Roll( sceneId, selfId, playerId, r )
+end
 -- moi thanh vien to doi o gan roll rieng
 function x950001_Chia( sceneId, selfId, killerId, r )
 	if LuaFnIsObjValid( sceneId, killerId ) ~= 1 then
