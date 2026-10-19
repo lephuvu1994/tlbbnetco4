@@ -1014,8 +1014,8 @@ function  x892101_WuhunHunBinShu(  sceneId,  selfId,  targetId,NumText)
         if  NumText  <  632  or  NumText  >  639  then
 	 return
 	 end
-	 if  mod((NumText  -  632),8)+1  >=  6  then
-	 x892101_NotifyFailBox(  sceneId,  selfId,    " #cFF0000Hi®n ta chßa cho hþp H°n Bång Châu lên C¤p 6, höi hoài sÇn cu¯n B¡c Minh Th¥n Công ta phang toét ð¥u bây gi¶!"  )
+	 if  mod((NumText  -  632),8)+1  >=  7  then
+	 x892101_NotifyFailBox(  sceneId,  selfId,    " #cFF0000Hi®n ta chßa cho hþp H°n Bång Châu lên C¤p 7, höi hoài sÇn cu¯n B¡c Minh Th¥n Công ta phang toét ð¥u bây gi¶!"  )
 	 return
 	 end
 	 local  nMoneyJB  =  GetMoney(sceneId,selfId)
@@ -1059,7 +1059,11 @@ function  x892101_WuhunHunBinShu(  sceneId,  selfId,  targetId,NumText)
 	 
         end
 	 if  addnum2  ==  0  then
-	 x892101_ShowNotice(  sceneId,  selfId,  targetId,  " Trên ngß¶i không có H°n Bång Châu ho£c ðã b¸ khóa ",2)
+	 local  tbao  =  "Chßa ðü H°n Bång Châu ð¬ hþp lên c¤p "..stopid..": c¥n 5 viên cùng c¤p (không b¸ khóa) m¾i hþp lên c¤p kª tiªp. Ðang có:"
+	 for  k  =  1,stopid-1  do
+	 	tbao  =  tbao.." c¤p "..k..": "..LuaFnGetAvailableItemCount(sceneId,  selfId,  x892101_g_hubin2[k]).." viên;"
+	 end
+	 x892101_ShowNotice(  sceneId,  selfId,  targetId,  tbao,2)
 	 return
 	 end
 
