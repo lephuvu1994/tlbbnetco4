@@ -781,7 +781,12 @@ def act(form):
             return msg + " Dang restart server (khoang 3 phut)."
         return msg
     if a == "amkhitay":   # 19/10: cong tac thuoc tinh nhan diem khi tay am khi (Yen Thanh) - c1..c5 = Luc LinhKhi TheLuc DinhLuc ThanPhap; hieu luc ngay
-        ok, msg = amkhi.tay_luu([1 if v("c%d" % i) == "1" else 0 for i in range(1, 6)], v("ai"))
+        # 20/10: bot (admin. > Cong cu) chi chuyen truong ten toan chu -> gui bat="1,0,0,0,1"; form HTML panel gui c1..c5
+        if v("bat"):
+            bat = v("bat").split(",")
+        else:
+            bat = [1 if v("c%d" % i) == "1" else 0 for i in range(1, 6)]
+        ok, msg = amkhi.tay_luu(bat, v("ai"))
         if not ok:
             return msg
         audit("tay am khi: %s" % msg)
@@ -1126,7 +1131,9 @@ class H(BaseHTTPRequestHandler):
             if method == "GET" and u.path == "/api/doche":   # 02/10: danh sach do che 8x/9x + mau dang ap
                 return self._json({"ok": True, "data": maudoche.du_lieu(), "mau": maudoche.doc_mau()})
             if method == "GET" and u.path == "/api/amkhi":   # 04/10: trong so tay 3 dong am khi (goc + dang ap)
-                return self._json({"ok": True, "data": amkhi.du_lieu()})
+                d = amkhi.du_lieu()
+                d["tay"] = amkhi.tay_doc()   # 20/10: cong tac tay diem am khi (Yen Thanh) [Luc, Linh khi, The luc, Dinh luc, Than phap]
+                return self._json({"ok": True, "data": d})
             if method == "GET" and u.path == "/api/items":
                 qs = parse_qs(u.query)
                 if qs.get("all") == ["1"]:  # ca danh muc cho bot mini game (shop item / qua moi ngay)

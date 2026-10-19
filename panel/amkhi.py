@@ -83,13 +83,13 @@ def tay_luu(bat, ai=""):
     if sum(bat) == 5:
         if os.path.exists(TAY):
             os.remove(TAY)
-        return True, "Bat ca 5: tay am khi ngau nhien nhu goc"
+        return True, "Da luu: bat ca 5, tay am khi ngau nhien nhu goc"   # "Da " = bot bao thanh cong
     ai = "".join(c for c in str(ai) if c.isalnum() or c in "._@-")[:40]
     tmp = TAY + ".tmp"
     with open(tmp, "w", encoding="ascii", newline="\n") as f:
         f.write(" ".join(str(x) for x in bat) + "\n# ai=%s t=%d\n" % (ai, int(time.time())))
     os.replace(tmp, TAY)
-    return True, "Tay am khi chi do diem vao: " + ", ".join(TAY_TEN[i] for i in range(5) if bat[i])
+    return True, "Da luu: tay am khi chi do diem vao " + ", ".join(TAY_TEN[i] for i in range(5) if bat[i])
 
 
 def du_lieu():
