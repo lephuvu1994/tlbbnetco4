@@ -1,18 +1,19 @@
 # FAMILY - liên kết nhiều tài khoản game dùng chung ví web (thiết kế 20/10)
 
-Bot repo `bialk/BotDoMin`. Chủ server chốt 20/10. Chưa code (trừ ghi chú cuối).
+Bot repo `bialk/BotDoMin`. Code: `family.js`, `fam.client.js` (/fam.js), sửa webplay.js / index.js / thuongpho.js / *.client.js - commit bialk 92e3ade..(20/10), CHƯA deploy prod. Thử ở web local (D:	lbb-localweb-local.sh).
 
-## Chủ server chốt
-1. Link: nhập **tài khoản + mật khẩu** acc muốn thêm (kiểm qua GM panel `kiem_mk` như đăng nhập). Nút **🔗 Liên kết** cạnh **🔑 Mật khẩu** (thanh trên, `#mkBtn` webplay.js), dùng chung popup.
-2. Ví dụ hoang01 link 02-05; đăng nhập **acc nào cũng vào chung family**.
-3. Khi vào family: **gộp hết** KNB + Rương Ích Kỷ + Thương Phố của acc đó vào chung (acc nào cũng tự chuyển cho nhau được nên không chặn).
-4. Điểm danh: nhận **đủ cho mọi acc** trong family (mỗi acc 1 lần / ngày), vào ví chung.
-5. Túi boss: vẫn theo **ai có mặt** lúc giết (02-05 đi → chỉ 02-05 có túi, 01 không) - đúng như `tuiboss.log` hiện tại; family **nhận hết** túi của mọi nhân vật trong family vào ví / rương chung.
-6. Rút đồ / KNB vào game: **popup chọn nhân vật** (chỉ nhân vật thuộc family).
-7. Đồ **khóa** (Thương Phố `k=1`): **"Rương đồ khóa"** riêng - popup chọn nhân vật → thấy đồ khóa của nhân vật đó, chỉ rút về đúng nhân vật đó. Đồ không khóa thì gộp chung, rút cho nhân vật nào cũng được.
-8. **Chỉ trưởng family** (acc tạo) đuổi được người khác; thành viên tự rời được.
-9. Acc **rời / bị đuổi**: mất hết Rương Ích Kỷ + Thương Phố + KNB (tài sản ở lại family), acc ra về 0.
-10. Không đặt trần điểm danh / số acc (chủ server chấp nhận cày nhiều acc; đã cảnh báo 1 lần: 60.000 KNB/acc/ngày × số acc, nếu người chơi tự tạo được acc).
+## Chủ server chốt (20/10, bản cuối - thay bản đầu)
+1. Link: nút **🔗 Liên kết** cạnh **🔑 Mật khẩu**, nhập **tài khoản + mật khẩu** acc muốn thêm (kiểm qua GM panel `kiem_mk`, chung giới hạn sai 10 lần / 10 phút theo IP).
+2. Acc đã liên kết **KHÔNG đăng nhập web riêng nữa** (phiên cũ bị đá) - **chỉ trưởng** đăng nhập, quản lý ví + kho cho cả family. Discord: thành viên chỉ còn /diemdanh, /nghien.
+3. **KNB + Rương Ích Kỷ dùng chung** (ví gốc = ví trưởng). Vào family: gộp KNB + rương + lượt Vòng quay. Đồ túi boss của mọi nhân vật vào rương chung.
+4. **Thương Phố KHÔNG gộp**: mỗi tài khoản 1 kho (theo GUID như cũ); trưởng chọn tài khoản bằng **ô bấm** (không dropdown) để xem / rút đúng kho tài khoản đó; đồ 🔒 cố định dính nhân vật đã gửi. Vào / rời family không đụng Thương Phố.
+5. Rút vào game (Rương Ích Kỷ, KNB, vàng): **popup chọn tài khoản nhận**; hạn rút / ngày tính theo nhân vật nhận.
+6. Điểm danh / Nghiện / thưởng chuỗi: 1 lần bấm làm hộ mọi tài khoản (mỗi tài khoản 1 lần / ngày, sổ riêng), tiền vào ví chung.
+7. Túi boss: vẫn theo **ai có mặt** lúc giết; hiện túi mọi nhân vật (ghi 👤 chủ túi), nhận vào ví / rương chung.
+8. Tặng / chuyển KNB: danh sách người nhận **ẩn thành viên family** (chỉ hiện ví trưởng); gửi cho thành viên -> vào ví trưởng; trong cùng family bị chặn.
+9. **Chỉ trưởng đuổi** được; bị đuổi: mất KNB + Rương Ích Kỷ (ở lại family), về ví riêng 0. Trưởng không rời khi còn thành viên.
+10. Nạp NPC Ví Web / Long Văn / hoàn Thương Phố về rương / admin phát KNB toàn server / admin tặng rương: tiền / đồ của thành viên -> ví gốc.
+11. "Toàn bộ nhân lên" - CHƯA làm: quà admin hằng ngày, Pet Boss, món ⭐ mua 1 lần, lượt Ghép Ngọc, giới hạn shop 🔥 / nhóm. Taxi + vay nợ: đề nghị KHÔNG nhân (lách), chờ chủ server chốt.
 
 ## Hiện trạng phải phá (agent 20/10)
 - 1 tài khoản = 1 ví = 1 GUID: chặn ở `/api/tlbb/lienket`, `/api/tlbb/taoclone` (panel.js ~1454-1507), test `thu/taikhoan-test.js`.
