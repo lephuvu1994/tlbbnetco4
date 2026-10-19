@@ -13,7 +13,11 @@ Bot repo `bialk/BotDoMin`. Code: `family.js`, `fam.client.js` (/fam.js), sửa w
 8. Tặng / chuyển KNB: danh sách người nhận **ẩn thành viên family** (chỉ hiện ví trưởng); gửi cho thành viên -> vào ví trưởng; trong cùng family bị chặn.
 9. **Chỉ trưởng đuổi** được; bị đuổi: mất KNB + Rương Ích Kỷ (ở lại family), về ví riêng 0. Trưởng không rời khi còn thành viên.
 10. Nạp NPC Ví Web / Long Văn / hoàn Thương Phố về rương / admin phát KNB toàn server / admin tặng rương: tiền / đồ của thành viên -> ví gốc.
-11. "Toàn bộ nhân lên" - CHƯA làm: quà admin hằng ngày, Pet Boss, món ⭐ mua 1 lần, lượt Ghép Ngọc, giới hạn shop 🔥 / nhóm. Taxi + vay nợ: đề nghị KHÔNG nhân (lách), chờ chủ server chốt.
+11. Nhân × số tài khoản: điểm danh, chuỗi (1 lần bấm = 1 gói mỗi tài khoản có gói), Nghiện, hạn rút KNB / vàng (chung ở ví gốc, chỉ đếm tài khoản đã gắn nhân vật), túi boss (theo ai có mặt).
+12. KHÔNG nhân: **quà admin hằng ngày** (family nhận 1 lần / ngày - chống farm), **admin tặng / phát KNB** (tặng 1 tài khoản bất kỳ = family nhận đúng số đó; phát toàn server / đặt tất cả = 1 phần mỗi family). Chưa chốt: Pet Boss, món ⭐ mua 1 lần, Ghép Ngọc, shop 🔥; taxi + vay nợ đề nghị không nhân.
+13. Bị đuổi / rời: **khoá tới 00:00 giờ VN** (không đăng nhập web, không Discord, không liên kết lại), ví đã về trắng; qua ngày mới dùng lại.
+14. Admin KHÔNG cần công cụ family. Khoá (khoa_tk) tài khoản trưởng = cả family không vào web được tới khi mở khoá (giữ nguyên). Tài khoản / nhân vật bị khoá trong family: không được làm hộ điểm danh / nghiện, không nhận / rút.
+15. Chặn ở gốc: updatePoints / logDog / ichKyAdd / ichKyTake + module Vòng quay / Ghép Ngọc / Pet Boss tự đổi ví thành viên -> ví gốc (mọi đường admin / game / chuyển tiền).
 
 ## Hiện trạng phải phá (agent 20/10)
 - 1 tài khoản = 1 ví = 1 GUID: chặn ở `/api/tlbb/lienket`, `/api/tlbb/taoclone` (panel.js ~1454-1507), test `thu/taikhoan-test.js`.
