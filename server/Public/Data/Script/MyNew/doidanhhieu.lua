@@ -52,7 +52,7 @@ function x111997_OnEventRequest( sceneId, selfId, targetId, eventId )
 		EndEvent( sceneId )
 		DispatchEventList( sceneId, selfId, targetId )
 	
-	elseif GetNumText() == 102 then
+	elseif GetNumText() == -102 then   -- [NetCo4 20/10] tat: phat free 10422016 + 10423024 (menu da an, client sua van goi duoc)
 		BeginAddItem(sceneId)
 		AddItem( sceneId, 30900078, 7 )
 		AddItem( sceneId, 30900079, 7 )

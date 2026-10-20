@@ -277,6 +277,10 @@ function x895111_WuhunMagicUp(sceneId, selfId,tepp,equipitm,equipitmo)   -------
 	x895111_NotifyTips( sceneId, selfId, "túi ðeo thiªu 2 không gian" )	
 	return
 	end	
+	-- [NetCo4 20/10] chong nhan doi do cho MOI nhanh (deu phat mon moi truoc roi SHANG_BAOS moi xoa mon cu) - tools/sua-trunglau-loi-20-10.js
+	if x895111_DuChoNgoc( sceneId, selfId, equipitm ) ~= 1 then
+		return
+	end
 
 	--if (equipitm < 10300000 or equipitm > 10307042) or (equipitmo < 10300000 or equipitmo > 10307042) then
 	--x895111_NotifyTips( sceneId, selfId, "Êý¾Ý´íÎó£¬ÇëÖØÊÔÒ»´Î" )  
@@ -648,6 +652,9 @@ if tepp == 23 then  --Õæ¡¤ÖØÂ¥ ÖØÏ´	 OK
 	   return
 	end
 
+        if x895111_DuChoNgoc( sceneId, selfId, equipitm ) ~= 1 then   -- [NetCo4 20/10] chong nhan doi do
+           return
+        end
         local ret = x895111_CostCheak( sceneId, selfId, x895111_MoXueShi,1,1000000 ) 
 	if ret == 0 then
 	   return
@@ -1033,6 +1040,9 @@ x895111_NotifyTips( sceneId, selfId, "sai l¥m ko biªt" )
 return
 end
 
+if x895111_DuChoNgoc( sceneId, selfId, equipitm ) ~= 1 then   -- [NetCo4 20/10] chong nhan doi do (tools/sua-trunglau-loi-20-10.js)
+return
+end
 if LuaFnGetAvailableItemCount(sceneId, selfId, 39901012) < 250 then
 x895111_NotifyTips( sceneId, selfId, "C¥n [Thiên ð¸a huy«n tinh] 250 cái" )	
 return
@@ -1293,6 +1303,16 @@ function x895111_CostCheak( sceneId, selfId, cailiaoID,num,money )
     return 1 	    
 end
 
+
+-- [NetCo4 20/10] SHANG_BAOS thoat som (KHONG xoa mon cu) khi mon cu co ngoc + tui nguyen lieu < 2 + tui dao cu < 2 SAU khi nhan mon moi
+-- -> kiem truoc khi tru nguyen lieu / phat mon moi (mon moi chiem 1 o dao cu => can >= 3 o dao cu neu tui nguyen lieu < 2).
+function x895111_DuChoNgoc( sceneId, selfId, pos )
+	if GetGemEmbededCount( sceneId, selfId, pos ) > 0 and LuaFnGetMaterialBagSpace( sceneId, selfId ) < 2 and LuaFnGetPropertyBagSpace( sceneId, selfId ) < 3 then
+		x895111_NotifyTips( sceneId, selfId, "Trang b¸ có bäo thÕch: c¥n tr¯ng 2 ô Nguyên Li®u ho£c 3 ô ÐÕo Cø" )
+		return 0
+	end
+	return 1
+end
 
 function x895111_SHANG_BAOS(sceneId, selfId,pos,pos1)   --´Ëº¯ÊýÖ»ÓÐ×°±¸µã·¢Éú±ä»¯²ÅC¥n µ÷ÓÃ  ±ØÐëÊÇUI°æ
 ----------------------¼ì²é--------------------
