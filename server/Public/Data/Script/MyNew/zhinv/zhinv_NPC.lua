@@ -388,10 +388,10 @@ function  x910052_Openinfant(  sceneId,  selfId,id  )
 	 local  SKData  =  GetMissionData(sceneId,selfId,x910052_SKData)  --Get_XParam_INT(3)  -- hài tØ kÛ nång ðích loÕi hình cùng c¤p b§c   8  con s¯   , kÛ nång loÕi hình 0-9 , 0-4  bång - ðµc kháng , sau mµt v¸ là kÛ nång c¤p b§c 1-9 , 5-9  bång - ðµc   giäm kháng .   
 	 if  IFLV  >=  31  then
 	 	 if  SKData  ==  nil  or  SKData  <  1  then
-	 	 	 local  SKL1  =  (random(8))*10000000  +  1000000
-	 	 	 local  SKL2  =  (random(8))*100000  +  10000
-	 	 	 local  SKL3  =  (random(8))*1000  +  100
-	 	 	 local  SKL4  =  (random(8))*10  +  1
+	 	 	 local  SKL1  =  (x910052_NetCo4_KnRand())*10000000  +  1000000
+	 	 	 local  SKL2  =  (x910052_NetCo4_KnRand())*100000  +  10000
+	 	 	 local  SKL3  =  (x910052_NetCo4_KnRand())*1000  +  100
+	 	 	 local  SKL4  =  (x910052_NetCo4_KnRand())*10  +  1
 	 	 	 local  SKDatanew  =  SKL1+  SKL2  +  SKL3  +  SKL4
 	 	 	 if  SKDatanew  ~=  nil  and  SKDatanew  >  0  then
 	 	 	 	 SetMissionData(sceneId,selfId,x910052_SKData,SKDatanew)
@@ -594,7 +594,7 @@ function  x910052_PickUpToBag(  sceneId,  selfId,index  )  -- b¡t lÕi ði¬n t¸ch
 	 local  res  =  TryRecieveItem(  sceneId,  selfId,  GiveCardID,1  )
 	 LuaFnItemBind(  sceneId,  selfId,  res)
 	 x910052_UpdateBUFF(sceneId,  selfId)--  UI  --BUFF
-	 CallScriptFunction(  892002,  "checkallsuxing",  sceneId,  selfId  )
+	 CallScriptFunction(  892002,  "AHa_ReMyBuff",  sceneId,  selfId  )
 	 x910052_Openinfant(  sceneId,  selfId,888  )
 end
 
@@ -635,7 +635,7 @@ function  x910052_SCInfantHeroType(sceneId,  selfId,index)  -- lña ch÷n anh hùng
 	 	 x910052_NotifyTip(sceneId,  selfId,"#{FYLYD_160810_205}")
 	 	 LuaFnSendSpecificImpactToUnit(sceneId,  selfId,  selfId,  selfId,  49,  0)
 	 end
-	 CallScriptFunction(  892002,  "checkallsuxing",  sceneId,  selfId  )
+	 CallScriptFunction(  892002,  "AHa_ReMyBuff",  sceneId,  selfId  )
 end
 
 function  x910052_CompositeBooks(sceneId,  selfId,bag1,bag2)  -- hþp thành 
@@ -670,7 +670,7 @@ function  x910052_CompositeBooks(sceneId,  selfId,bag1,bag2)  -- hþp thành
 	 end
 	 local  type1  =  floor(mod(itemId1,10))
 	 local  type2  =  floor(mod(itemId2,10))
-	 if  type1  <  1  or  type1  >=  4  or  type1  ==  nil  then
+	 if  type1  <  1  or  type1  >  4  or  type1  ==  nil  then   -- NetCo4 20/10: cho hop bac 4 (Cam)
 	 x910052_NotifyTip(sceneId,  selfId," ði¬n t¸ch không cách nào næa tiªn hành hþp thành ")
 	 	 return
 	 end
@@ -685,6 +685,9 @@ function  x910052_CompositeBooks(sceneId,  selfId,bag1,bag2)  -- hþp thành
 	 end
 
 	 local  DJgiveID  =  itemId1  +  1
+	 if  type1  ==  4  then   -- NetCo4 20/10: 2 Dien Tich Cam giong nhau -> 1 Dien Tich Cam ngau nhien (24 cuon), dung mo ta client
+	 	 DJgiveID  =  31001000  +  random(4)*100  +  random(6)*10  +  4
+	 end
 
 	 if  DJgiveID  >  31001464  or  DJgiveID  <  31001111  or  DJgiveID  ==  nil  then
 	 	 return
@@ -809,6 +812,39 @@ function  x910052_StudyBooks(sceneId,  selfId,bag)  -- nghiên t§p thång sao
 
 end
 
+-- NetCo4 20/10: admin chon LOAI ky nang con duoc ra khi tay (panel -> ./txt/NetCo4Cfg/concaikn.txt, 1 dong 8 so 0/1 = loai 1..8:
+-- Khang Bang / Hoa / Huyen / Doc, Giam khang Bang / Hoa / Huyen / Doc). Khong file / bat ca 8 / tat ca 8 -> random 8 loai nhu goc.
+x910052_NetCo4_KnFile = "./txt/NetCo4Cfg/concaikn.txt"
+function x910052_NetCo4_KnLoai()
+	local ds = {}
+	local h = openfile( x910052_NetCo4_KnFile, "r" )
+	if h ~= nil then
+		local line = read( h, "*l" )
+		closefile( h )
+		if line ~= nil then
+			local p = 1
+			for t = 1, 8 do
+				local _, e, c = strfind( line, "([01])", p )
+				if c == nil then
+					break
+				end
+				if c == "1" then
+					tinsert( ds, t )
+				end
+				p = e + 1
+			end
+		end
+	end
+	if getn( ds ) == 0 then
+		ds = { 1, 2, 3, 4, 5, 6, 7, 8 }
+	end
+	return ds
+end
+function x910052_NetCo4_KnRand()
+	local ds = x910052_NetCo4_KnLoai()
+	return ds[ random( getn( ds ) ) ]
+end
+
 function  x910052_RefereshNewInfantSkill(sceneId,  selfId,ee,jj)  -- thay thª n£ng t¡m kÛ nång   
 	 local  skdataw  =  GetMissionData(sceneId,selfId,x910052_SXCLHR)
 	 if  skdataw  ==  nil  or  skdataw  <  1  then
@@ -830,10 +866,19 @@ function  x910052_RefereshNewInfantSkill(sceneId,  selfId,ee,jj)  -- thay thª n£
 	 else
 	 	 return
 	 end
+	 -- NetCo4 20/10: lay LOAI tu lan tay, giu CAP hien tai (nang cap sau khi tay khong bi ghi de), xoa lan tay da dung
+	 local tay8 = format("%08d", nweskd)
+	 local hien8 = format("%08d", skdata)
+	 local ghep = ""
+	 for q = 1, 4 do
+	 	 ghep = ghep .. strsub(tay8, q*2-1, q*2-1) .. strsub(hien8, q*2, q*2)
+	 end
+	 nweskd = tonumber(ghep)
+	 SetMissionData(sceneId,selfId,x910052_NSkNData,0)
 	 SetMissionData(sceneId,selfId,x910052_SKData,nweskd)
 	 x910052_NotifyTip(sceneId,  selfId,"#{CXYH_140813_27}")
 	 LuaFnSendSpecificImpactToUnit(sceneId,  selfId,  selfId,  selfId,  49,  0)
-	 CallScriptFunction(  892002,  "checkallsuxing",  sceneId,  selfId  )
+	 CallScriptFunction(  892002,  "AHa_ReMyBuff",  sceneId,  selfId  )
 	 BeginUICommand(sceneId)
 	 	 UICommand_AddInt(  sceneId,  ee  )
 	 	 UICommand_AddInt(  sceneId,  nweskd  )
@@ -868,7 +913,7 @@ function  x910052_GetNewSkillGroup(sceneId,  selfId,id)  -- n£ng t¡m kÛ nång    
 	 	 skLVTB[e]  =  tonumber(strsub(skdatastr,e*2,e*2))
 	 end
 	 for  w  =  1,4  do
-	 	 skTPTB[w]  =  random(8)
+	 	 skTPTB[w]  =  x910052_NetCo4_KnRand()   -- NetCo4 20/10: loai do admin bat
 	 end
 	 local  NEWSKDT  =  ""
 	 for  q  =  1,4  do
@@ -914,6 +959,10 @@ function  x910052_InfantSkillLevelUp(sceneId,  selfId,SKID,targetId)  -- kÛ nång
 	 end
 	 local  skLVTB  =  {1000000,10000,100,1}
 	 local  nsklv  =  floor(mod(skdata,skLVTB[SKID]*10)/skLVTB[SKID])
+	 if  nsklv  >=  9  or  x910052_SKEdt_RT[nsklv]  ==  nil  then   -- NetCo4 20/10: cap 9 = toi da (truoc mat Ngo Linh Chau + 5 vang roi loi)
+	 	 x910052_NotifyTip(sceneId,  selfId," KÛ nång này ðã ðÕt c¤p t¯i ða (c¤p 9) ")
+	 	 return
+	 end
 	 local  SKEdt_RT  =  x910052_SKEdt_RT[nsklv]
 	 if  skLVTB[SKID]  ~=  nil  and  skLVTB[SKID]  >  0  then
 	 	 skdata  =  skdata  +  skLVTB[SKID]
@@ -925,7 +974,7 @@ function  x910052_InfantSkillLevelUp(sceneId,  selfId,SKID,targetId)  -- kÛ nång
 	 	 	 SetMissionData(sceneId,selfId,x910052_SKData,skdata)
 	 	 	 x910052_NotifyTip(sceneId,  selfId,"#{ZNJCS_130825_89}")
 	 	 	 LuaFnSendSpecificImpactToUnit(sceneId,  selfId,  selfId,  selfId,  49,  0)
-	 	 	 CallScriptFunction(  892002,  "checkallsuxing",  sceneId,  selfId  )
+	 	 	 CallScriptFunction(  892002,  "AHa_ReMyBuff",  sceneId,  selfId  )
 	 	 	 BeginUICommand(sceneId)
 	 	 	 UICommand_AddInt(  sceneId,  targetId  )
 	 	 	 UICommand_AddInt(  sceneId,  skdata  )

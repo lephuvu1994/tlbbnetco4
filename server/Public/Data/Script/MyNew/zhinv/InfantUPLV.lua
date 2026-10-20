@@ -236,7 +236,7 @@ function  x890631_OnActivateOnce(  sceneId,  selfId  )
 	 local  IFANTLV1_TP  =  0
 	 local  IFANTLV1_tpdd  =  IFANTLV1
 	 if  x890631_Infant_UPLVTB[IFANTLV1_tpdd]  ~=  nil  then
-	 	 while  Infantexpn  >=  x890631_Infant_UPLVTB[IFANTLV1_tpdd]  do
+	 	 while  x890631_Infant_UPLVTB[IFANTLV1_tpdd]  ~=  nil  and  IFANTLV1_tpdd  <  119  and  Infantexpn  >=  x890631_Infant_UPLVTB[IFANTLV1_tpdd]  do   -- NetCo4 20/10: dung o cap 119 (bang cap 120 nil)
 	 	 	 Infantexpn  =  Infantexpn  -  x890631_Infant_UPLVTB[IFANTLV1_tpdd]
 	 	 	 IFANTLV1_TP  =  IFANTLV1_TP+1
 	 	 	 IFANTLV1_tpdd  =  IFANTLV1_tpdd+1

@@ -20,6 +20,7 @@ from urllib.parse import parse_qs, urlencode, urlparse
 
 import maudoche   # 02/10: mau do che 8x/9x (panel/maudoche.py)
 import amkhi      # 04/10: trong so tay 3 dong am khi (panel/amkhi.py)
+import concai     # 20/10: loai ky nang con duoc ra khi tay (panel/concai.py)
 import trunglau   # 08/10: custom Trung Lau dong moi (panel/trunglau.py)
 import vohon      # 09/10: custom Vo Hon - ti le chieu tung o linh ngo / tay (panel/vohon.py)
 import tuchat     # 10/10: custom % tay tu chat - giam dinh lai o Trieu Tiet (panel/tuchat.py)
@@ -780,6 +781,12 @@ def act(form):
             restart_game()
             return msg + " Dang restart server (khoang 3 phut)."
         return msg
+    if a == "concaikn":   # 20/10: loai ky nang con duoc ra khi tay - bat="1,0,..." (8 so) tu bot, hoac c1..c8 tu form panel; hieu luc ngay
+        bat = v("bat").split(",") if v("bat") else [1 if v("c%d" % i) == "1" else 0 for i in range(1, 9)]
+        ok, msg = concai.luu(bat, v("ai"))
+        if ok:
+            audit("tay ky nang con: %s" % msg)
+        return msg
     if a == "amkhitay":   # 19/10: cong tac thuoc tinh nhan diem khi tay am khi (Yen Thanh) - c1..c5 = Luc LinhKhi TheLuc DinhLuc ThanPhap; hieu luc ngay
         # 20/10: bot (admin. > Cong cu) chi chuyen truong ten toan chu -> gui bat="1,0,0,0,1"; form HTML panel gui c1..c5
         if v("bat"):
@@ -954,6 +961,11 @@ def page(msg="", q=""):
                '<b>Tay diem Am khi (Yen Thanh) - duoc nhan diem:</b>%s<button>Luu</button>'
                '<span class="muted">Bat ca 5 = ngau nhien nhu goc. Bo tick = tay khong bao gio do diem vao thuoc tinh do. Hieu luc ngay, khong restart.</span></form><br>'
                % (TOKEN, "".join('<label><input type="checkbox" name="c%d" value="1"%s> %s</label> ' % (i + 1, " checked" if tay[i] else "", amkhi.TAY_TEN[i]) for i in range(5))))
+    kn = concai.doc()   # 20/10: loai ky nang con duoc ra khi tay (NPC Truong Ton Ba Ba)
+    out.append('<form method="post" class="row"><input type="hidden" name="t" value="%s"><input type="hidden" name="a" value="concaikn">'
+               '<b>Tay ky nang con - loai duoc ra:</b>%s<button>Luu</button>'
+               '<span class="muted">Bat ca 8 = ngau nhien nhu goc. Hieu luc ngay, khong restart.</span></form><br>'
+               % (TOKEN, "".join('<label><input type="checkbox" name="c%d" value="1"%s> %s</label> ' % (i + 1, " checked" if kn[i] else "", concai.TEN[i]) for i in range(8))))
     out.append('<table><tr><th>GUID</th><th>Tai khoan</th><th>Nhan vat</th>'
                '<th>Cap</th><th>Online</th><th>GM</th><th>Qua dang cho</th><th>Phat qua</th></tr>')
     for g, acc, name, lv in chs:
@@ -1133,6 +1145,7 @@ class H(BaseHTTPRequestHandler):
             if method == "GET" and u.path == "/api/amkhi":   # 04/10: trong so tay 3 dong am khi (goc + dang ap)
                 d = amkhi.du_lieu()
                 d["tay"] = amkhi.tay_doc()   # 20/10: cong tac tay diem am khi (Yen Thanh) [Luc, Linh khi, The luc, Dinh luc, Than phap]
+                d["concai"] = concai.doc()   # 20/10: loai ky nang con duoc ra khi tay (8 so) - bot hien o Cong cu
                 return self._json({"ok": True, "data": d})
             if method == "GET" and u.path == "/api/items":
                 qs = parse_qs(u.query)

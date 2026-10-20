@@ -267,7 +267,7 @@ function x890546_OnActivateOnce( sceneId, selfId )
 	SetMissionData(sceneId,selfId,MD_INFANTBOOKTP,BKHTYPE)
 	SetMissionData( sceneId, selfId, RIDEIMPACT1, 0 )
 	x890546_ShowNotice( sceneId, selfId, "#H Trang b¸ thành công Ði¬n T¸ch")
-	CallScriptFunction( 892002, "checkallsuxing", sceneId, selfId )
+	CallScriptFunction( 892002, "AHa_ReMyBuff", sceneId, selfId )   -- NetCo4 20/10: checkallsuxing khong ton tai
 	CallScriptFunction( 910052, "Openinfant", sceneId, selfId,888) --FYLYD_140528_219	#HÒÑ³É¹¦×°±¸Ò»±¾µä¼®¡£
 	return 1;
 end
