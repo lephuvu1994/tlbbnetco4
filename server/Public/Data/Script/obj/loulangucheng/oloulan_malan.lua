@@ -39,11 +39,11 @@ local nam = LuaFnGetName(sceneId,selfId)
 	local strGUID = LuaFnGetGUID( sceneId, selfId )
 
 	local key = GetNumText()
-	if key == 8890 then   -- [NetCo4 20/10] giftcode: mo cua so nhap ma (UI 2004) -> client goi 888899 x888899_OpenCard(card)
+	if key == 8890 then   -- [NetCo4 20/10] giftcode: mo cua so nhap ma (UI 20170431) -> client goi 999999 x999999_XuKaJiHuo2 (CDK.lua)
 		BeginUICommand( sceneId )
 			UICommand_AddInt( sceneId, targetId )
 		EndUICommand( sceneId )
-		DispatchUICommand( sceneId, selfId, 2004 )
+		DispatchUICommand( sceneId, selfId, 20170431 )   -- [NetCo4 20/10] UI nhap ma "TL" + 6 ky tu -> 999999 XuKaJiHuo2 (2004 di Billing, khong dung duoc)
 		return
 	end
 if key ~= 8886 and key ~= 15000 and key ~= 30030 then return end -- [don-dep] chan qua cua server cu ([NetCo4 01/10] them 8886; 02/10 tat 8887 qua Tan Thu + len cap 99)

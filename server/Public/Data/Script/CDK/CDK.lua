@@ -651,5 +651,129 @@ end
 
 -- Ham cu con trong AllowableScriptFunc.txt (Gift Code): de trong cho client goi khong loi.
 function x999999_XuKaJiHuo1( sceneId, selfId ) end
-function x999999_XuKaJiHuo2( sceneId, selfId ) end
+-- [NetCo4 20/10] GIFTCODE (tools/giftcode-tl-20-10.js). Client UI 20170431 (NPC Hoi Uc Thien Long > Nhap Giftcode): ma 8 ky tu "TL" + 6,
+-- client tu kiem "TL" roi gui 6 ky tu con lai (ma byte) vao day. Bot BotDoMin giftcode.js ghi giftcode.txt + giftcode-acc.txt, doc giftcode-dung.txt:
+--   giftcode.txt      CODE|hetHan|tongLuot|item <id> <n>;knb <n>;vang <n>;diemtang <n>   (hetHan epoch, 0 = khong het; tongLuot 0 = khong gioi han)
+--   giftcode-acc.txt  <guid> <tai khoan>          giftcode-dung.txt  CODE|tai khoan|guid|epoch (ghi them)
+x999999_g_GCKyTu = { [48]="0", [49]="1", [50]="2", [51]="3", [52]="4", [53]="5", [54]="6", [55]="7", [56]="8", [57]="9", [65]="A", [66]="B", [67]="C", [68]="D", [69]="E", [70]="F", [71]="G", [72]="H", [73]="I", [74]="J", [75]="K", [76]="L", [77]="M", [78]="N", [79]="O", [80]="P", [81]="Q", [82]="R", [83]="S", [84]="T", [85]="U", [86]="V", [87]="W", [88]="X", [89]="Y", [90]="Z", [97]="A", [98]="B", [99]="C", [100]="D", [101]="E", [102]="F", [103]="G", [104]="H", [105]="I", [106]="J", [107]="K", [108]="L", [109]="M", [110]="N", [111]="O", [112]="P", [113]="Q", [114]="R", [115]="S", [116]="T", [117]="U", [118]="V", [119]="W", [120]="X", [121]="Y", [122]="Z" }
+x999999_g_GCLoai = { item=1, knb=1, vang=1, diemtang=1 }
+
+function x999999_XuKaJiHuo2( sceneId, selfId, a, b, c, d, e, f )
+	local ma = "TL"
+	local ds = { a, b, c, d, e, f }
+	for i = 1, 6 do
+		local k = x999999_g_GCKyTu[ tonumber( ds[i] or 0 ) or 0 ]
+		if k == nil then
+			x999999_GCTip( sceneId, selfId, "M\227 ch\239 g\176m ch\230 v\224 s\175: TL + 6 k\253 t\241" )
+			return
+		end
+		ma = ma..k
+	end
+	x999999_GCNhap( sceneId, selfId, ma )
+end
+
+function x999999_GCTip( sceneId, selfId, msg )
+	BeginEvent( sceneId )
+		AddText( sceneId, msg )
+	EndEvent( sceneId )
+	DispatchMissionTips( sceneId, selfId )
+end
+
+function x999999_GCDoc( ten )
+	local ds = {}
+	local h = openfile( x999999_g_Dir..ten, "r" )
+	if h == nil then
+		return ds
+	end
+	local line = read( h, "*l" )
+	while line do
+		tinsert( ds, line )
+		line = read( h, "*l" )
+	end
+	closefile( h )
+	return ds
+end
+
+function x999999_GCNhap( sceneId, selfId, ma )
+	local ds = x999999_GCDoc( "giftcode.txt" )
+	local hetHan = nil
+	local tong = 0
+	local qua = ""
+	for i = 1, getn( ds ) do
+		local s, e, c, hh, tl, q = strfind( ds[i], "^([^|]+)|(%d+)|(%d+)|(.*)$" )
+		if c == ma then
+			hetHan = tonumber( hh )
+			tong = tonumber( tl )
+			qua = q
+			break
+		end
+	end
+	if hetHan == nil then
+		x999999_GCTip( sceneId, selfId, "M\227 kh\244ng t\176n t\213i: "..ma )
+		return
+	end
+	local now = LuaFnGetCurrentTime()
+	if hetHan > 0 and now > hetHan then
+		x999999_GCTip( sceneId, selfId, "M\227 \240\227 h\170t h\213n" )
+		return
+	end
+	local gs = LuaFnGetGUID( sceneId, selfId )..""
+	local acc = nil
+	local dsa = x999999_GCDoc( "giftcode-acc.txt" )
+	for i = 1, getn( dsa ) do
+		local s, e, g, a = strfind( dsa[i], "^(%d+) (%S+)" )
+		if g == gs then
+			acc = a
+			break
+		end
+	end
+	if acc == nil then
+		x999999_GCTip( sceneId, selfId, "Nh\226n v\167t m\190i, th\216 l\213i sau 1 ph\250t" )
+		return
+	end
+	local dung = x999999_GCDoc( "giftcode-dung.txt" )
+	local n = 0
+	for i = 1, getn( dung ) do
+		local s, e, c, a = strfind( dung[i], "^([^|]+)|([^|]+)|" )
+		if c == ma then
+			n = n + 1
+			if a == acc then
+				x999999_GCTip( sceneId, selfId, "T\224i kho\228n c\252a b\213n \240\227 d\249ng m\227 n\224y r\176i" )
+				return
+			end
+		end
+	end
+	if tong > 0 and n >= tong then
+		x999999_GCTip( sceneId, selfId, "M\227 \240\227 h\170t l\223\254t s\216 d\248ng" )
+		return
+	end
+	-- ghi DA DUNG truoc khi phat (loi giua chung thi mat qua, khong nhan 2 lan)
+	local h = openfile( x999999_g_Dir.."giftcode-dung.txt", "a" )
+	if h == nil then
+		x999999_GCTip( sceneId, selfId, "L\178i h\174 th\175ng, b\225o admin" )
+		return
+	end
+	write( h, ma.."|"..acc.."|"..gs.."|"..now.."\n" )
+	closefile( h )
+	-- qua -> hang doi NetCo4Qua (quatang.lua 950000) roi phat ngay; tui day thi phan con lai nhan o lan doi ban do sau
+	local hq = openfile( "./txt/NetCo4Qua/"..gs..".txt", "a" )
+	if hq == nil then
+		x999999_GCTip( sceneId, selfId, "L\178i h\174 th\175ng, b\225o admin" )
+		return
+	end
+	write( hq, "\n" )
+	local q = qua..";"
+	local s, e, mot = strfind( q, "^([^;]*);" )
+	while s do
+		local s2, e2, k = strfind( mot, "^(%a+) %d" )
+		if k and x999999_g_GCLoai[k] then
+			write( hq, mot.."\n" )
+		end
+		q = strsub( q, e + 1 )
+		s, e, mot = strfind( q, "^([^;]*);" )
+	end
+	closefile( hq )
+	x999999_GCTip( sceneId, selfId, "Nh\167p giftcode th\224nh c\244ng: "..ma )
+	CallScriptFunction( 950000, "NhanQua", sceneId, selfId )
+end
 function x999999_XuKaJiHuo3( sceneId, selfId ) end
