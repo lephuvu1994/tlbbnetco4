@@ -24,7 +24,7 @@ function x001113_OnDefaultEvent( sceneId, selfId, targetId )
 --[NetCo4 02/10 tat qua Tan Thu + len 99] 		end
 --if GetLevel( sceneId, selfId ) <= 90 then
 		AddNumText( sceneId, x001113_g_scriptId, "#G Nh§n BUFF 2.5 mi­n phí (Level 105)", 6, 15000 )
-		AddNumText( sceneId, x001113_g_scriptId, "#G Nh§p Giftcode (thØ)", 6, 8890 )   -- [NetCo4 20/10] thu nhap giftcode (tools/giftcode-thu-20-10.js)
+		AddNumText( sceneId, x001113_g_scriptId, "#G Nh§p Giftcode", 6, 8890 )   -- [NetCo4 20/10] giftcode (tools/giftcode-20-10.js)
 		--end		
 		--AddNumText( sceneId, x001113_g_scriptId, "#g0f0ff0 Nh§n Ði¬m T£ng ", 6, 8888 )
 		--AddNumText( sceneId, x001113_g_scriptId, "#g0f0ff0 Ki¬m tra ðång nh§p", 6, 8889 )
@@ -39,7 +39,7 @@ local nam = LuaFnGetName(sceneId,selfId)
 	local strGUID = LuaFnGetGUID( sceneId, selfId )
 
 	local key = GetNumText()
-	if key == 8890 then   -- [NetCo4 20/10] THU giftcode: mo cua so nhap ma (UI 2004) -> client goi 888899 x888899_OpenCard(card)
+	if key == 8890 then   -- [NetCo4 20/10] giftcode: mo cua so nhap ma (UI 2004) -> client goi 888899 x888899_OpenCard(card)
 		BeginUICommand( sceneId )
 			UICommand_AddInt( sceneId, targetId )
 		EndUICommand( sceneId )
