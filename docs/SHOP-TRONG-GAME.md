@@ -29,6 +29,7 @@ Khi sửa shop game thì **không đụng shop web**.
 | 02/10 | 136 | Thần khí 42, bản 2.000 | Không đổi kệ. Dòng thuộc tính cố định khi mua (sửa EquipBase + ItemSegValue, xem dưới) | 4f483fd | truoc-thankhi42-02-10 |
 | 02/10 | 102, 133, 134 | Sách kỹ năng trân thú | Cả 3 kệ trả bằng **KNB**, giá mới theo bảng dưới | 2cde507 | truoc-sachpet-shopbaby-02-10 |
 | 02/10 | 270 | Khu Buôn Bán > **Shop BaBy** | **Tắt**: làm trống kệ, bỏ 19 món | 2cde507 | truoc-sachpet-shopbaby-02-10 |
+| 20/10 | 270 | Khu Buôn Bán > **Shop BaBy** | **Mở lại** (chủ server): đủ 19 món, giá cũ (bảng dưới) - tools/mo-shopbaby-20-10.js. Cần restart | | truoc-mo-shopbaby-20-10 |
 | 03/10 | 153 → 155 | Tiệm Bảo Thạch | **Điểm Kim Chi Tiễn 20109101** (đục lỗ thứ 4): bỏ khỏi kệ 153 (2.000 Điểm Tặng), chuyển sang kệ 155 (KNB, tab có Kim Toa / Điểm Chuế Phù), giá **20.000 KNB**, đứng sau Gia Công Phù. Loại tiền đặt chung cho cả kệ nên không đổi tại chỗ được; 8 món còn lại của kệ 153 giữ Điểm Tặng | 586ee07 | truoc-kimchitien-03-10 |
 | 03/10 | 153 | Tiệm Bảo Thạch (tab Hợp Thành Phù / Điêu Trác Phù) | **Thay cho dòng trên.** Kim Chi Tiễn về lại kệ 153 (ô thứ 3), **cả kệ đổi sang KNB**, giữ nguyên con số giá: Tương Khảm Phù cao cấp 98, Trích Trừ Phù cấp 9 98, **Điểm Kim Chi Tiễn 20.000**, Điêu Trác Phù cấp 4–7 4.000–7.000, Dong Luyện Phù 500, Hợp Thành Phù sơ cấp 500. Kệ 155 trả về như gốc | 7cc2ada | truoc-ke153-knb-03-10 |
 | 03/10 | 180 | Khu Buôn Bán > Vật phẩm mới | **Hàn Ngọc Tinh Túy 20310111**: 3.000 → **20.000 KNB**, ngang Kim Chi Tiễn. Cả 2 đều là nguyên liệu đục lỗ thứ 4 (`SlotCost.txt` cho trang bị thường, `stiletto.lua` cho Lệnh Bài/Võ Hồn/Long Văn/Tọa Kỵ/Thời Trang). Lưu ý: Hàn Ngọc còn là nguyên liệu 4 viên/lần của 60 công thức chế đồ (`ItemCompound.txt`: Tịch Diệt/Thiên Ẩn/Tru Ma… Oản, Kiên, Yêu Hoàn, Giới, Hộ Phù), không có nguồn rơi | (commit này) | truoc-hanngoc-20000-03-10 |
@@ -65,7 +66,7 @@ Mua ra luôn có đúng 10 dòng:
 - Cây mua trước 02/10 **giữ bộ dòng cũ** (5 dòng), nhưng **số được tính lại** theo đoạn 4400. Lý do: server tính lại số mỗi lần nhân vật vào game. Kết quả là ngoại/nội công lên 3000, chính xác 1500, hội tâm 15, thân pháp 50, còn Cường lực/Nội lực giữ như cũ, vì đoạn 4400 có giá trị 63 giống đoạn gốc (sửa ở 1c82ac1). Kiếm và Trượng cũ vẫn giữ dòng nội công.
 - Bản 10.000 KNB, ID đuôi 005, không đổi.
 
-## Shop BaBy (kệ 270): 19 món đã bỏ
+## Shop BaBy (kệ 270): 19 món (bỏ 02/10, mở lại 20/10)
 
 Kệ 270 là nơi duy nhất bán các món này. Muốn bán lại thì lấy dòng 270 từ tag `truoc-sachpet-shopbaby-02-10`.
 
