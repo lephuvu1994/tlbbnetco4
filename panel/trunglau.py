@@ -33,8 +33,8 @@ F_RATE = "Server/Config/ItemSegRate.txt"
 TENVIET = os.path.join(REPO, "docs", "vat-pham", "ten-viet.tsv")
 
 # dong moi 10553100-10553114 + 2 ma CU giao dich duoc han (khong khoa): Gioi 10422016, Ngoc 10423024 (them 08/10, chu server can ban trade)
-IDS = [str(i) for i in range(10553100, 10553115)] + ["10422016", "10423024"] + [str(i) for i in range(10157001, 10157010)] + ["10410121", "10410127", "10410126"] + ["10423025"]   # 14/10: + Chan-Trung Lau Ngoc ban cu (doan 4530, chi admin phat, khong nang, chinh rieng); 09/10: + Long Van +1..+9 (doan 4518-4526); 13/10: + mu Trung Lau Khoi (doan 4527) + mu top 2 / top 3 (doan 4528 / 4529, tools/mu-top23-13-10.js)
-SEG0 = 4501                      # doan rieng theo thu tu IDS: 10553100 -> 4501 ... 10553114 -> 4515, 10422016 -> 4516, 10423024 -> 4517, Long Van 10157001..009 -> 4518..4526 (doan goc 4244 dung chung ~430 mon), 10410121 -> 4527, 10410127 -> 4528, 10410126 -> 4529 (doan goc 100 dung chung 351 mon), 10423025 -> 4530 (hieu ung rieng 5965, engine tu ap theo cot 19)
+IDS = [str(i) for i in range(10553100, 10553115)] + ["10422016", "10423024"] + [str(i) for i in range(10157001, 10157010)] + ["10410121", "10410127", "10410126"] + ["10423025"] + ["10422018"]   # 20/10: + Gioi cu 10422018 = ban "Chan" gia cua Gioi admin (doan 4531, hieu ung rieng 7585, tools/trung-admin-20-10.js); 14/10: + Chan-Trung Lau Ngoc ban cu (doan 4530, chi admin phat, khong nang, chinh rieng); 09/10: + Long Van +1..+9 (doan 4518-4526); 13/10: + mu Trung Lau Khoi (doan 4527) + mu top 2 / top 3 (doan 4528 / 4529, tools/mu-top23-13-10.js)
+SEG0 = 4501                      # doan rieng theo thu tu IDS: 10553100 -> 4501 ... 10553114 -> 4515, 10422016 -> 4516, 10423024 -> 4517, Long Van 10157001..009 -> 4518..4526 (doan goc 4244 dung chung ~430 mon), 10410121 -> 4527, 10410127 -> 4528, 10410126 -> 4529 (doan goc 100 dung chung 351 mon), 10423025 -> 4530 (hieu ung rieng 5965, engine tu ap theo cot 19), 10422018 -> 4531
 # THEM MA MOI: chi them vao CUOI IDS (doan cap theo vi tri - chen giua lam lech doan cua moi ma phia sau)
 MAX_DONG = 16                    # tran so dong cua engine (cot 93)
 DONG = ["Sinh lực tối đa", "Sinh lực tối đa %", "Hồi sinh lực", "Nội lực tối đa (MP)", "Nội lực tối đa % (MP)", "Hồi nội lực (MP)",
@@ -215,7 +215,7 @@ def nguoi_giu(sql, viscii):
 # ------------------------------------------------------------------ kiem + ap
 def kiem_mon(i, m, rate_cap, co=None):
     if i not in IDS:
-        return "Mã %s không nằm trong danh sách chỉnh được (Trùng Lâu 10553100-10553114, 10422016, 10423024; Long Văn 10157001-10157009; mũ Trùng Lâu Khôi 10410121, mũ top 2 10410127, mũ top 3 10410126; Chân-Trùng Lâu Ngọc bản cũ 10423025)" % i
+        return "Mã %s không nằm trong danh sách chỉnh được (Trùng Lâu 10553100-10553114, 10422016, 10423024; Long Văn 10157001-10157009; mũ Trùng Lâu Khôi 10410121, mũ top 2 10410127, mũ top 3 10410126; Chân-Trùng Lâu Ngọc bản cũ 10423025; Giới admin bản Chân 10422018)" % i
     dong = m.get("dong")
     if not isinstance(dong, list) or not dong:
         return "Mã %s: chưa chọn dòng nào" % i
@@ -364,11 +364,13 @@ def luu_mon(i, m, ai=""):
     return ok, msg
 
 
-# 08/10 (chu server): Thuong -> Chan khi nang o NPC Tuyet Phi Phi (wuyazi85o.lua tepp 36). 10422018 / 10423026 khong co tren trang.
+# 08/10 (chu server): Thuong -> Chan khi nang o NPC Tuyet Phi Phi (wuyazi85o.lua tepp 36). 10423026 khong co tren trang.
 # Nhieu ma Thuong chung 1 Chan (Lien / Gioi / Ngoc): chep ma nao thi Chan theo ma do (lan sau de lan truoc) - chu server: khong tach.
+# 20/10: Trung Lau admin (giao dich duoc, khong nang o NPC): Gioi 10553113 -> "Chan" gia 10422018, Ngoc 10553114 -> Chan 10423025 (chi de chep tren trang).
 CHAN = {"10553100": "10553103", "10553112": "10553103",
-        "10553101": "10553104", "10553113": "10553104", "10422016": "10553104",
-        "10553102": "10553105", "10553114": "10553105", "10423024": "10553105",
+        "10553101": "10553104", "10422016": "10553104",
+        "10553102": "10553105", "10423024": "10553105",
+        "10553113": "10422018", "10553114": "10423025",
         "10553106": "10553107", "10553108": "10553109", "10553110": "10553111"}
 CONG_TT = (6, 9, 12, 15)          # Bang / Hoa / Huyen / Doc cong ("thuoc tinh"): Chan = Thuong + 50 (khong ra dung thi + 51)
 CONG_TT_THEM, NHAN_KHAC = 50, 1.3  # moi dong con lai: Chan = Thuong x 1,3

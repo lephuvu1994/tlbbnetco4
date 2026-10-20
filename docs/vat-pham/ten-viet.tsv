@@ -3992,7 +3992,7 @@
 10422015	Xích Luyện Giới	Nhẫn	70	khóa	赤炼戒
 10422016	Trùng Lâu Giới	Nhẫn	50	giao dịch được	重楼戒
 10422017	Thất Bảo Thuyền Quyên	Nhẫn	65	khóa	七宝婵娟
-10422018	Trùng Lâu Giới	Nhẫn	50	khóa	重楼戒
+10422018	Trùng Lâu Giới	Nhẫn	50	giao dịch được	重楼戒
 10422019	Băng Ngọc Phong Nguyệt	Nhẫn	85	khóa	冰玉风月
 10422020	Sát Tâm	Nhẫn	95	khóa	煞心
 10422021	Dao Sắt	Nhẫn	15	khóa	瑶瑟
@@ -4139,7 +4139,7 @@
 10423022	Hạo Linh Tĩnh Ảnh	Hộ phù	60	khóa	皓灵静影
 10423023	Xích Luyện Ngọc	Hộ phù	70	khóa	赤炼玉
 10423024	Trùng Lâu Ngọc	Hộ phù	50	giao dịch được	重楼玉
-10423025	Chân-Trùng Lâu Ngọc	Hộ phù	50	khóa	真·重楼玉
+10423025	Chân-Trùng Lâu Ngọc	Hộ phù	50	giao dịch được	真·重楼玉
 10423026	Trùng Lâu Ngọc	Hộ phù	50	khóa	重楼玉
 10423027	Hộ Phù	Hộ phù	10	khóa	护符
 10423028	Hộ Phù	Hộ phù	15	khóa	护符
@@ -15255,8 +15255,8 @@
 10553110	Trùng Lâu Giáp	Áo	50	khóa	重楼甲
 10553111	Chân-Trùng Lâu Giáp	Áo	50	khóa	真·重楼甲
 10553112	Trùng Lâu Liên	Dây chuyền	50	khóa	重楼链
-10553113	Trùng Lâu Giới	Nhẫn	50	khóa	重楼戒
-10553114	Trùng Lâu Ngọc	Hộ phù	50	khóa	重楼玉
+10553113	Trùng Lâu Giới	Nhẫn	50	giao dịch được	重楼戒
+10553114	Trùng Lâu Ngọc	Hộ phù	50	giao dịch được	重楼玉
 10553200	#e330066#gfffff0 Tiên Lữ Tình Duyến	#gf00ff0 Th Tiên Trang	1	khóa khi mặc	#e330066#gfffff0 Tiên Lữ Tình Duyến
 10553201	#e330066#gfffff0 Tiên Lữ Tình Duyến	#gf00ff0 Th Tiên Trang	1	khóa khi mặc	#e330066#gfffff0 Tiên Lữ Tình Duyến
 10553202	#e330066#gfffff0 Tiên Lữ Tình Duyến	#gf00ff0 Th Tiên Trang	1	khóa khi mặc	#e330066#gfffff0 Tiên Lữ Tình Duyến

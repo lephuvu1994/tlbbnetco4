@@ -218,7 +218,7 @@ function x894005_OnDie( sceneId, selfId, killerId )
 
 	--取得当前场景里的人数
 	local num = LuaFnGetCopyScene_HumanCount( sceneId )
-        local chonglouItem = {10553112,10553113,10553114}
+        local chonglouItem = {10553112,10553112,10553112}
         local chonglou = -1
 	local mems = {}
 	for i = 0, num - 1 do
