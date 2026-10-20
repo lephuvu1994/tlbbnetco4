@@ -366,7 +366,8 @@ def luu_mon(i, m, ai=""):
 
 # 08/10 (chu server): Thuong -> Chan khi nang o NPC Tuyet Phi Phi (wuyazi85o.lua tepp 36). 10423026 khong co tren trang.
 # Nhieu ma Thuong chung 1 Chan (Lien / Gioi / Ngoc): chep ma nao thi Chan theo ma do (lan sau de lan truoc) - chu server: khong tach.
-# 20/10: Trung Lau admin (giao dich duoc, khong nang o NPC): Gioi 10553113 -> "Chan" gia 10422018, Ngoc 10553114 -> Chan 10423025 (chi de chep tren trang).
+# 20/10: Trung Lau admin (giao dich duoc): Gioi 10553113 -> "Chan" gia 10422018, Ngoc 10553114 -> Chan 10423025 - NANG o NPC cung ra dung ma nay
+# (wuyazi85o.lua, tools/trung-admin-nang-20-10.js); 10422018 / 10423026 khong nang tiep.
 CHAN = {"10553100": "10553103", "10553112": "10553103",
         "10553101": "10553104", "10422016": "10553104",
         "10553102": "10553105", "10423024": "10553105",

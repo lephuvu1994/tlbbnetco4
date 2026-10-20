@@ -989,8 +989,8 @@ if tepp ==36 then
      return
   end
 
-      if whz == 10553113 or whz == 10553114 or whz == 10422018 or whz == 10423026 then   -- [NetCo4 20/10] Trung Lau admin (chi admin / gift code): khong nang
-         x895111_NotifyTips( sceneId, selfId, "Trùng Lâu admin không nâng lên Chân ðßþc" )
+      if whz == 10422018 or whz == 10423026 then   -- [NetCo4 20/10] Trung Lau admin: 10422018 da la ban "Chan" (Gioi), 10423026 bo khong dung -> khong nang
+         x895111_NotifyTips( sceneId, selfId, "Món này ðã là bän Chân admin, không nâng tiªp ðßþc" )
          return
       end
       if whz ~= 10553100 and whz ~= 10553101 and whz ~= 10553102 and whz ~= 10553106 and whz ~= 10553108 and whz ~= 10553110 and whz ~= 10553112 and whz ~= 10553113 and whz ~= 10553114 and whz ~= 10422016 and whz ~= 10422018 and whz ~= 10423024 and whz ~= 10423026 then   -- [NetCo4 08/10] them Trung Lau cu (Gioi/Ngoc 1042xxxx) 
@@ -1019,10 +1019,10 @@ elseif whz == 10553110 then
 
 elseif whz == 10553112 then
       idx = 10553103
-elseif whz == 10553113 then
-      idx = 10553104
-elseif whz == 10553114 then
-      idx = 10553105
+elseif whz == 10553113 then   -- [NetCo4 20/10] Gioi admin -> ban "Chan" admin 10422018 (truoc: Chan nguoi choi 10553104)
+      idx = 10422018
+elseif whz == 10553114 then   -- [NetCo4 20/10] Ngoc admin -> Chan-Trung Lau Ngoc admin 10423025 (truoc: Chan nguoi choi 10553105)
+      idx = 10423025
 elseif whz == 10422016 or whz == 10422018 then   -- [NetCo4 08/10] Trung Lau Gioi cu -> Chan Trung Lau Gioi
       idx = 10553104
 elseif whz == 10423024 or whz == 10423026 then   -- [NetCo4 08/10] Trung Lau Ngoc cu -> Chan Trung Lau Ngoc
