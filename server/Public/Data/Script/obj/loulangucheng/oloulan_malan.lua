@@ -24,6 +24,7 @@ function x001113_OnDefaultEvent( sceneId, selfId, targetId )
 --[NetCo4 02/10 tat qua Tan Thu + len 99] 		end
 --if GetLevel( sceneId, selfId ) <= 90 then
 		AddNumText( sceneId, x001113_g_scriptId, "#G Nh§n BUFF 2.5 mi­n phí (Level 105)", 6, 15000 )
+		AddNumText( sceneId, x001113_g_scriptId, "#G Nh§p Giftcode (thØ)", 6, 8890 )   -- [NetCo4 20/10] thu nhap giftcode (tools/giftcode-thu-20-10.js)
 		--end		
 		--AddNumText( sceneId, x001113_g_scriptId, "#g0f0ff0 Nh§n Ði¬m T£ng ", 6, 8888 )
 		--AddNumText( sceneId, x001113_g_scriptId, "#g0f0ff0 Ki¬m tra ðång nh§p", 6, 8889 )
@@ -38,6 +39,13 @@ local nam = LuaFnGetName(sceneId,selfId)
 	local strGUID = LuaFnGetGUID( sceneId, selfId )
 
 	local key = GetNumText()
+	if key == 8890 then   -- [NetCo4 20/10] THU giftcode: mo cua so nhap ma (UI 2004) -> client goi 888899 x888899_OpenCard(card)
+		BeginUICommand( sceneId )
+			UICommand_AddInt( sceneId, targetId )
+		EndUICommand( sceneId )
+		DispatchUICommand( sceneId, selfId, 2004 )
+		return
+	end
 if key ~= 8886 and key ~= 15000 and key ~= 30030 then return end -- [don-dep] chan qua cua server cu ([NetCo4 01/10] them 8886; 02/10 tat 8887 qua Tan Thu + len cap 99)
 	if key == 8886 then -- [NetCo4 01/10] nhan lai Tan Thu Trang Bi [10 cap], 1 lan/ngay
 		x001113_TanThuTrangBi( sceneId, selfId, targetId )

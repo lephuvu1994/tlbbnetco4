@@ -144,6 +144,17 @@ end
 --**********************************
 function  x888899_OpenCard(sceneId,selfId,card)
 	 if  nil  ==  card  then  return  end
+	 -- [NetCo4 20/10] THU giftcode (tools/giftcode-thu-20-10.js): bao lai chuoi nhan duoc + ghi log, KHONG goi Billing
+	 BeginEvent( sceneId )
+	 	 AddText( sceneId, "Server nh§n ðßþc mã: [" .. card .. "] dài " .. strlen( card ) .. " ký tñ" )
+	 EndEvent( sceneId )
+	 DispatchMissionTips( sceneId, selfId )
+	 local  h  =  openfile( "./txt/NetCo4Web/giftcode-thu.log", "a" )
+	 if  h  then
+	 	 write( h, LuaFnGetCurrentTime() .. "\t" .. LuaFnGetGUID( sceneId, selfId ) .. "\t" .. GetName( sceneId, selfId ) .. "\t" .. card .. "\n" )
+	 	 closefile( h )
+	 end
+	 if  1  then  return  end
 	 --PrintStr(card)
 	 local  targetId  =  -1
 	 local  firstbyte  =  strbyte(card)
