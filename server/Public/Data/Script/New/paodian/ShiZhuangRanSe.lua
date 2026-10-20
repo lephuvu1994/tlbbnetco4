@@ -90,6 +90,11 @@ x830001_g_CompoundRule  =  {
 --function  x830001_OnDressPaint(  sceneId,  selfId,pos)
 function  x830001_OnDressPaint(  sceneId,  selfId,pos,itlsled,itlsled2,itlsled3,itlsled4,itlsled5)
       
+	  local  nCon0  =  GetItemTableIndexByIndex(sceneId,  selfId,  pos)   -- [NetCo4 20/10] thoi trang con: kiem 5 da TRUOC khi tru 50.000 vang
+	  if  nCon0  ~=  nil  and  nCon0  >=  30008401  and  nCon0  <=  30008407  and  LuaFnGetAvailableItemCount(sceneId,  selfId,  30503140)  <  5  then
+	  	 x830001_NotifyTip(  sceneId,  selfId,  "Thiªu 5 H°ng Di®u ThÕch ð¬ nhuµm th¶i trang Con Cái"  )
+	  	 return
+	  end
 	  local  reply  =  CostMoney(sceneId,selfId,50000)
 	 	 if  reply  ==  -1  then
 	 	 	 x830001_NotifyTip(  sceneId,  selfId,  " kim ti«n chßa ðü "  )

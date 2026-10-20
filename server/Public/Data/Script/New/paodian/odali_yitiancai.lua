@@ -2,6 +2,7 @@
 -- rút ra tß·ng 
 -- bình thß¶ng 
 x830000_g_scriptId  =  830000
+x830000_g_ScriptId  =  830000   -- [NetCo4 20/10] AddNumText ben duoi dung ten S hoa (truoc khong khai bao = nil)
 --**********************************
 -- sñ ki®n ðóng h² nh§p kh¦u 
 --**********************************
@@ -80,7 +81,7 @@ local  isMarried  =  LuaFnIsMarried(sceneId,  selfId)
 	 end
 
 
-	 if  GetNumText()  ==  222  then
+	 if  GetNumText()  ==  -222  then   -- [NetCo4 20/10] tat: phat free Kim Toa 30503134/135/137 (menu da an)
                                 TryRecieveItem(  sceneId,  selfId,  30503134,  1)  
                                 TryRecieveItem(  sceneId,  selfId,  30503135,  1)  
                               --  TryRecieveItem(  sceneId,  selfId,  30503136,  1)  -- th¶i trang xÑng sÑc thanh tr× phù không h« næa sØ døng , trñc tiªp dùng bäo thÕch tháo xu¯ng phù thay thª 

@@ -155,7 +155,7 @@ function  x910052_OnEventRequest(  sceneId,  selfId,  targetId,  eventId  )
 	 DispatchEventList(sceneId,selfId,targetId)
                 end
 		
-			if key   == 1110 then
+			if key   == -1110 then   -- [NetCo4 20/10] tat: phat free Ai Tam Ngoan Cu 38000187 (menu da an)
 	
 	BeginAddItem(sceneId)
 			
@@ -176,6 +176,10 @@ function  x910052_OnEventRequest(  sceneId,  selfId,  targetId,  eventId  )
 	 	 x910052_NotifyTip(  sceneId,  selfId," Con Cái ðang tri®u h°i , không th¬ vÑt bö "  )
 	 	 return
 	 	 end
+                      if GetMissionData(sceneId, selfId, MD_MISS_MOSTER_DATA) > 0 or GetMissionData(sceneId, selfId, MD_INFANTBOOKTP) > 0 then   -- [NetCo4 20/10] khong xoa do dang gan
+                      x910052_NotifyTip(  sceneId,  selfId,"Hãy tháo th¶i trang và Ði¬n T¸ch cüa Con Cái trß¾c khi vÑt bö (vÑt bö s¨ m¤t ð° ðang g¡n)"  )
+                      return
+                      end
                       SetMissionData(sceneId,  selfId,364,0)
                       SetMissionData(sceneId,  selfId,365,0)
                       SetMissionData(sceneId,  selfId,366,0)
@@ -190,6 +194,7 @@ function  x910052_OnEventRequest(  sceneId,  selfId,  targetId,  eventId  )
 					  for i=13000 ,32000 do 
                       LuaFnCancelSpecificImpact(sceneId,selfId,i)
 	                 end
+                      CallScriptFunction( 892002, "AHa_ReMyBuff", sceneId, selfId )   -- [NetCo4 20/10] gan lai buff chi so (thang linh, tu luyen...) vua bi xoa theo
 	       x910052_NotifyTip(sceneId,  selfId," hài tØ ðã vÑt bö ! ")
                   return
                   end
@@ -219,6 +224,11 @@ function  x910052_OnEventRequest(  sceneId,  selfId,  targetId,  eventId  )
 	 	 if  SXCLHR  ==  nil  or  SXCLHR  <=  0  then
 	 	 	 x910052_NotifyTip(sceneId,  selfId," xin/m¶i trß¾c dçn nuôi Con Cái ")
 	 	 	 return
+	 	 end
+	 	 local  myIance0  =  GetMissionData(sceneId,  selfId,MD_MISS_MOSTER_OBJ)   -- [NetCo4 20/10] kiem trieu hoi TRUOC khi tru KNB
+	 	 if  myIance0  >  0  then
+	 	 x910052_NotifyTip(  sceneId,  selfId,"Con Cái ðang tri®u h°i, hãy thu v« r°i m¾i ð±i gi¾i tính"  )
+	 	 return
 	 	 end
 	 	 local  UKret  =  YuanBao(sceneId,selfId,-1,2,10000)
 	 	 if  UKret  ==  -1  then
