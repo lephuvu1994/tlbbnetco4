@@ -2226,6 +2226,7 @@ LuaFnEraseItem(  sceneId,  selfId,  itemid  )
 LuaFnSendSpecificImpactToUnit(sceneId,  selfId,  selfId,  selfId,  49,  0);
 LuaFnCostMoneyWithPriority(  sceneId,  selfId,  50000  );
 x892101_NotifyFailBox(  sceneId,  selfId,    " chúc m×ng ngß½i , thành công tång lên Võ H°n "..x892101_iText[qfbb[idssea]].." phát tri¬n thuµc tính ðªn "..(tonumber(  qfb[idssea])+1)  .." c¤p ! "  )
+x892101_NangNhanhDong(  sceneId,  selfId,  equitid,  idssea  )   -- [NetCo4 21/10] nang tiep toi cap 8 - tools/vohon-nangnhanh-21-10.js
 end
 --***************************************************************************
 -- Võ H°n tång lên phát tri¬n thuµc tính thông báo 
@@ -2715,4 +2716,67 @@ GemEnchasing(  sceneId,  selfId,  bagpos01,  pos  )
 end
 end
 
+end
+
+-- [NetCo4 21/10] chu server: nang nhanh dong thuoc tinh mo rong Vo Hon (sau khi cap dau thanh cong o WuhunAttrUpLevel).
+-- Moi cap: 1 Nhuan Hon Thach dung cap (bang x892101_WuhunSuxingve) + 50000 tien nhu goc. Toi cap 8 hoac het da / tien thi dung.
+function x892101_NangNhanhDong( sceneId, selfId, equitid, idssea )
+	local them = 0
+	local lydo = ""
+	local capMoi = 0
+	local chu = ""
+	for lan = 1, 7 do
+		if LuaFnIsItemAvailable( sceneId, selfId, equitid ) ~= 1 then
+			break
+		end
+		local _, skilstring = LuaFnGetItemCreator( sceneId, selfId, equitid )
+		if skilstring == nil then
+			break
+		end
+		local bd = strfind( skilstring, "&WH%w%w"..strrep("%w",16)..strrep("%w",6).."%w" )
+		if bd == nil then
+			break
+		end
+		local vt = 0
+		local dem = 0
+		for k = 0, 7 do
+			local p = bd + 5 + k * 2
+			if strsub( skilstring, p, p + 1 ) ~= "00" then
+				dem = dem + 1
+				if dem == idssea then
+					vt = p
+				end
+			end
+		end
+		if vt == 0 then
+			break
+		end
+		chu = strsub( skilstring, vt, vt )
+		local cap = tonumber( strsub( skilstring, vt + 1, vt + 1 ) )
+		if cap == nil or cap < 1 or cap >= 8 or x892101_WuhunSuxingve[chu] == nil then
+			break
+		end
+		local da = x892101_WuhunSuxingve[chu][cap]
+		if LuaFnGetAvailableItemCount( sceneId, selfId, da ) < 1 then
+			lydo = ", d×ng: thiªu #{_ITEM"..da.."}"
+			break
+		end
+		if GetMoney( sceneId, selfId ) + GetMoneyJZ( sceneId, selfId ) < 50000 then
+			lydo = ", d×ng: không ðü vàng (5 vàng / c¤p)"
+			break
+		end
+		if LuaFnDelAvailableItem( sceneId, selfId, da, 1 ) ~= 1 then
+			break
+		end
+		LuaFnCostMoneyWithPriority( sceneId, selfId, 50000 )
+		capMoi = cap + 1
+		LuaFnSetItemCreator( sceneId, selfId, equitid, strsub( skilstring, 1, vt ) .. capMoi .. strsub( skilstring, vt + 2 ) )
+		them = them + 1
+	end
+	if them > 0 then
+		LuaFnSendSpecificImpactToUnit( sceneId, selfId, selfId, selfId, 49, 0 )
+		x892101_NotifyFailBox( sceneId, selfId, "Nâng nhanh: thêm "..them.." c¤p, dòng"..x892101_iText[chu].."lên c¤p "..capMoi..lydo )
+	elseif lydo ~= "" then
+		x892101_NotifyFailBox( sceneId, selfId, "Nâng nhanh"..lydo )
+	end
 end
