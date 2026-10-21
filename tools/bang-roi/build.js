@@ -148,13 +148,13 @@ for (const id in scriptMon) for (const lab of scriptMon[id]) { if (!MA[id] || !M
   them('Q Tô Châu', dai(4060, 4169), Q);
   them('Q Lâu Lan', dai(13000, 13269), Q);
   // 13/10: + Li Hỏa 20700063 30% mỗi quân cờ (roithem.txt: kycuoc_co 30 20700063)
-  them('Kỳ Cuộc', [...dai(1770, 1809), ...dai(12000, 12039), ...dai(12050, 12089)], [[30600084, 100], [20700063, 30]]);   // 16/10: Tử Vi 20 -> 100
+  them('Kỳ Cuộc', [...dai(1770, 1809), ...dai(12000, 12039), ...dai(12050, 12089)], [[30600084, 100], [20700063, 100]]);   // 16/10: Tử Vi 20 -> 100; 21/10: Li Hỏa 30 -> 100 (kycuoc_co 100 20700063)
   // 16/10: boss Viễn Cổ Kỳ Hồn (RoiCfg "kycuoc_boss", roithem: kycuoc_boss 100 30600084) - ngoài hộp bảng 50049
-  them('Kỳ Cuộc', dai(1850, 1859), [[30600084, 100]]);
+  them('Kỳ Cuộc', dai(1850, 1859), [[30600084, 100], [20700063, 100]]);   // 21/10: + Li Hỏa 100% (kycuoc_boss 100 20700063)
   // 13/10: Túc Cầu boss Tôn Mỹ Mỹ (efuben_cuju x402040_OnDie -> RoiCfg "tuccau", roithem: tuccau 30 20700063) Li Hỏa 30%
   // 14/10: Li Hỏa 30% cho TOÀN BỘ quái Túc Cầu: quả nhỏ / giữa 3680-3719, bóng lớn 9160-9199 (efuben_cuju_4 x402045_OnDie -> RoiCfg "tuccau") + boss 3720-3729
   { const bong = []; for (const n of [9160, 9170, 9180, 9190, 39160, 39170, 39180, 39190]) for (let k = 0; k < 10; k++) bong.push(String(n + k));
-    them('Túc Cầu', [...dai(3680, 3729), ...bong], [[20700063, 30]]);
+    them('Túc Cầu', [...dai(3680, 3729), ...bong], [[20700063, 100]]);   // 21/10: Li Hỏa 30 -> 100 (tuccau 100 20700063)
     them('Túc Cầu', dai(3720, 3729), [[30600084, 100]]); }   // 16/10: boss Túc Cầu Tử Vi 100% (roithem tuccau 100 30600084); quả túc cầu ghi ở khối trên
   // 14/10: Lâu Lan Tầm Bảo (seek_treasure.lua x808039_OnDie -> roimap RoiDo): MỌI quái (nhỏ 12102-12119, giữa 12120-12137, boss 12138-12146) Tử Phủ Tinh Tủy 40%
   { const L = []; for (let i = 12102; i <= 12146; i++) L.push(String(i)); them('Lâu Lan Tầm Bảo', L, [[38002047, 40]]); }
