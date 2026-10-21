@@ -44,6 +44,8 @@ stamp=$(date +%Y%m%d-%H%M%S)
 bk="$BACKUP_DIR/cap-nhat-$stamp"
 rsync -rlt --checksum --backup --backup-dir="$bk" --filter="$FILTER" "$SRC" "$DST"
 git -C "$REPO" rev-parse HEAD > "$BACKUP_DIR/da-deploy-commit"
+# 21/10: chi giu 20 ban cap-nhat moi nhat (truoc 387 ban = 2,1 GB)
+ls -dt "$BACKUP_DIR"/cap-nhat-* 2>/dev/null | tail -n +21 | xargs -r rm -rf --
 # 01/10: KHOA CAP admin chon tren web (panel act capmax) nam NGOAI repo -> ap lai, khong thi ConfigInfo.ini cua repo de len
 CAPMAX="$DST/Server/txt/NetCo4Cfg/capmax.txt"
 if [ -s "$CAPMAX" ]; then

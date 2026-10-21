@@ -341,6 +341,10 @@ def ap(cfg):
     os.makedirs(bk, exist_ok=True)
     for f in (F_EB, F_SV, F_SI):
         shutil.copy2(_game(f), os.path.join(bk, os.path.basename(f)))
+    # 21/10: chi giu 10 ban moi nhat (moi ban ~12,6 MB; cap-nhat ap lai Trung Lau moi lan -> 256 ban = 3,2 GB)
+    cu = sorted(d for d in os.listdir(BACKUP) if d.startswith("trunglau-") and os.path.isdir(os.path.join(BACKUP, d)))
+    for d in cu[:-10]:
+        shutil.rmtree(os.path.join(BACKUP, d), ignore_errors=True)
     _ghi_dong(_game(F_EB), thay_eb)
     _ghi_dong(_game(F_SV), {}, bo={str(SEG0 + n) for n in range(len(IDS))}, them=sorted(them_sv, key=lambda r: int(r[0])))
     _ghi_dong(_game(F_SI), thay_si)
