@@ -1086,6 +1086,12 @@ local ID = LuaFnGetItemTableIndexByIndex( sceneId, selfId, 109 )
            end
 		LuaFnSendSpecificImpactToUnit(sceneId, selfId, selfId, selfId,xxxxassx, 0)
 	end		
+	else   -- [NetCo4 21/10] khong con Long Van Huyet -> go buff % Sinh luc cu (truoc chi gan, khong go) - tools/go-huyet-lv-21-10.js
+		for i = 31401, 31429 do
+			if LuaFnHaveImpactOfSpecificDataIndex( sceneId, selfId, i ) == 1 then
+				LuaFnCancelSpecificImpact( sceneId, selfId, i )
+			end
+		end
 	end
 	if xueshangxbuff > 30200 then
 	local nRet = LuaFnHaveImpactOfSpecificDataIndex(sceneId, selfId,xueshangxbuff)
