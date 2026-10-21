@@ -106,6 +106,10 @@ function  x391060_MsgBox32Goc(sceneId,  selfId,lwIndex,txpp,lwIntex)
 	 local  lw21,lw22,lw23  =  x391060_wuhunjb(sceneId,  selfId,  lwIndex)
 	 local  lw20  =  tonumber(lw22)
 
+	 if  x391060_level2(sceneId,  selfId,  lwIndex)  >=  1  then   -- [NetCo4 21/10] mon da Thien Dao (t#p) khong nang Vuong Quyen (tools/thanglinh-vq-td-21-10.js)
+	 	 x391060_NotifyTip(  sceneId,  selfId,  "Trang b¸ ğã thång linh Thiên ĞÕo, không nâng Vß½ng Quy«n ğßşc næa"  )
+	 	 return
+	 end
 	 if  lw20  >=  9  then
 	 	 	 x391060_NotifyTip(  sceneId,  selfId,  " vß½ng quy«n thång linh ğã ğÕt ğÆng c¤p cao nh¤t , m¶i vào ğßşc thiên ğÕo thång linh "  )
 	 	 return

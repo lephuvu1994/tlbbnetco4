@@ -231,6 +231,7 @@ function x950000_NhanQua( sceneId, selfId )
 	x950000_HoiMauPet( sceneId, selfId )   -- [NetCo4 10/10] tran thu day mau khi doi ban do
 	x950000_CapMin( sceneId, selfId )
 	x950000_TamPhap1( sceneId, selfId )   -- [NetCo4 03/10] tam phap nhan vat cu ve 1 (1 lan)
+	x950000_SuaThangLinh( sceneId, selfId )   -- [NetCo4 21/10] mon Thien Dao bi gan nham Vuong Quyen -> bo w#p
 	CallScriptFunction( 999999, "NhanWeb", sceneId, selfId )   -- KNB chuyen tu web mini game (CDK/CDK.lua)
 	CallScriptFunction( 999999, "NhanTP", sceneId, selfId )   -- [NetCo4 06/10] do rut tu Thuong Pho (web) - chi dong du o trong
 	x950000_CapNhatTop( sceneId, selfId )   -- [NetCo4 03/10] Bang Top Server: Top Level + Top Tai Phu (KNB)
@@ -410,6 +411,33 @@ function x950000_NhanQua( sceneId, selfId )
 	end
 	if getn( left ) > 0 then
 		x950000_Tip( sceneId, selfId, "T\250i \240\165y, ph\165n c\242n l\213i s\168 nh\167n \183 l\165n \240\229ng nh\167p sau" )
+	end
+end
+
+-- [NetCo4 21/10] xian1z.lua tung cho "nang Vuong Quyen" mon da Thien Dao -> chuoi nguoi che co ca t#p<n> va w#p<n>: tooltip client cong 2 muc
+-- (> 19 thi mat dong Thang Linh) va XIEZI_SL cong du. Quet mon trang bi trong TUI, bo w#p<n> (giu Thien Dao). Mon dang mac: thao ra tui roi doi ban do.
+function x950000_SuaThangLinh( sceneId, selfId )
+	local het = LuaFnGetMaterialEndBagPos( sceneId, selfId )
+	if het == nil or het < 0 then
+		return
+	end
+	local n = 0
+	for p = 0, het do
+		local id = LuaFnGetItemTableIndexByIndex( sceneId, selfId, p )
+		if id ~= nil and id >= 10000010 and id < 10957019 then
+			local _, ten = LuaFnGetItemCreator( sceneId, selfId, p )
+			if ten ~= nil and strfind( ten, "t#p" ) ~= nil and strfind( ten, "w#p" ) ~= nil then
+				while strfind( ten, "w#p%d" ) ~= nil do
+					ten = gsub( ten, "w#p%d", "", 1 )
+				end
+				LuaFnSetItemCreator( sceneId, selfId, p, ten )
+				LuaFnRefreshItemInfo( sceneId, selfId, p )
+				n = n + 1
+			end
+		end
+	end
+	if n > 0 then
+		x950000_Tip( sceneId, selfId, "\208\227 s\216a th\229ng linh cho "..n.." m\243n (b\246 V\223\189ng Quy\171n g\161n nh\165m tr\234n \240\176 Thi\234n \208\213o)" )
 	end
 end
 
