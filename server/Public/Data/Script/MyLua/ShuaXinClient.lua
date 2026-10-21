@@ -2524,18 +2524,21 @@ local aay = {1,2,3,4,5,15,6,7,12,14,11,13}
 		end 
       end
 ---------2º∂ Ù–‘-----
-    if LPe ~= "0" then 
-	LPA=LPA+1	
-	end	
-    if LPf ~= "0" then 
-	LPD=LPD+1	
-	end	
-    if LPg ~= "0" then 
-	LPS =LPS+1	
-	end		
-
+    -- [NetCo4 21/10] Mo rong thuoc tinh: cong DUNG chu + cap cua tung o (truoc luon +1 vao Huyet / The luc / Chinh xac) - tools/lenhbai-baochau-21-10.js
+    local LV = { a=tonumber(LPA), b=tonumber(LPB), c=tonumber(LPC), d=tonumber(LPD), e=tonumber(LPE), f=tonumber(LPF), g=tonumber(LPG), h=tonumber(LPH), i=tonumber(LPI), j=tonumber(LPJ),
+                 k=tonumber(LPK), l=tonumber(LPL), m=tonumber(LPM), n=tonumber(LPN), o=tonumber(LPO), p=tonumber(LPP), q=tonumber(LPQ), r=tonumber(LPR), s=tonumber(LPS), t=tonumber(LPT) }
+    local _, _, me0, me1, mf0, mf1, mg0, mg1 = strfind( lpstring, "LP%w%d%w%d%w%d%w%d(%w)(%d)(%w)(%d)(%w)(%d)" )
+    if me0 ~= nil and LV[me0] ~= nil then LV[me0] = LV[me0] + tonumber(me1) end
+    if mf0 ~= nil and LV[mf0] ~= nil then LV[mf0] = LV[mf0] + tonumber(mf1) end
+    if mg0 ~= nil and LV[mg0] ~= nil then LV[mg0] = LV[mg0] + tonumber(mg1) end
+    LPA, LPB, LPC, LPD, LPE, LPF, LPG, LPH, LPI, LPJ = LV.a, LV.b, LV.c, LV.d, LV.e, LV.f, LV.g, LV.h, LV.i, LV.j
+    LPK, LPL, LPM, LPN, LPO, LPP, LPQ, LPR, LPS, LPT = LV.k, LV.l, LV.m, LV.n, LV.o, LV.p, LV.q, LV.r, LV.s, LV.t
 	end
-	return tonumber(LPA)*2+xs2,tonumber(LPB)*2+ll2,tonumber(LPC)*2+lq2,tonumber(LPD)*2+tl2,tonumber(LPE)*2+dl2,tonumber(LPF)*2+sf2,tonumber(LPG)*2+bg2,tonumber(LPH)*2+hg2,tonumber(LPI)*2+xg2,tonumber(LPJ)*2+dg2,tonumber(LPK)*2,tonumber(LPL)*2,tonumber(LPM)*2,tonumber(LPN)*2,tonumber(LPO)*2+ng2,tonumber(LPP)*2+wg2,tonumber(LPQ)*2+nf2,tonumber(LPR)*2+wf2,tonumber(LPS)*2+mz2,tonumber(LPT)*2+sb2,tonumber(LPh)
+	-- [NetCo4 21/10] don vi dai buff = cap x gia tri tooltip moi cap / gia tri 1 don vi dai (truoc: cap x 2 cho moi loai)
+	return floor(tonumber(LPA)*10)+xs2, floor(tonumber(LPB)*10)+ll2, floor(tonumber(LPC)*10)+lq2, floor(tonumber(LPD)*10)+tl2, floor(tonumber(LPE)*10)+dl2, floor(tonumber(LPF)*5)+sf2,
+		floor(tonumber(LPG)*50/15)+bg2, floor(tonumber(LPH)*50/15)+hg2, floor(tonumber(LPI)*50/15)+xg2, floor(tonumber(LPJ)*50/15)+dg2,
+		floor(tonumber(LPK)*5), floor(tonumber(LPL)*5), floor(tonumber(LPM)*5), floor(tonumber(LPN)*5),
+		floor(tonumber(LPO)*500/200)+ng2, floor(tonumber(LPP)*500/200)+wg2, floor(tonumber(LPQ)*2)+nf2, floor(tonumber(LPR)*2)+wf2, floor(tonumber(LPS)*4)+mz2, floor(tonumber(LPT)*200/80)+sb2, tonumber(LPh)
 end	
 
 
