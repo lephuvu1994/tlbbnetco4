@@ -687,7 +687,7 @@ function x892002_AHa_ReMyBuff(sceneId, selfId)  --函数入口
 	end	
 
 
-	local lvshux1 = {0,4,8,12,16,20,24,28,30,36,40,44,48,52,56,60,64,68,72,76,80,84,88,92,96,100}
+	local lvshux1 = {0,4,8,12,16,20,24,28,32,36,40,44,48,52,56,60,64,68,72,76,80,84,88,92,96,100}
 	local sx,b,h,x,d,b1,h1,x1,d1 = CallScriptFunction( 892003, "GetL_DElw", sceneId,selfId,118)--龙纹
 	local qqh1,qqh2,qqh3,qqh4 = x892002_WHget_sx(sceneId, selfId)
 	SetMissionData( sceneId, selfId, 502,lvshux1[b1+qqh1+1])
@@ -2081,11 +2081,18 @@ function x892002_WHget_sx(sceneId, selfId) --武魂2/调用
 	local itemId=LuaFnGetItemTableIndexByIndex( sceneId, selfId, 110 )
 	if itemId>1 then
 	     local er,kz,r,d,sx,jn ,shuxingtab =x892002_Get_WH_SXe(sceneId, selfId,110)
+		local whCan = {}   -- [NetCo4 21/10] hieu ung cua dong hien tai; dong cu (tay/doi Vo Hon) bi go o duoi - tools/vohon-21-10.js
 		if er ==1 then 
           if getn(shuxingtab)>0 then
 			for i =1,getn(shuxingtab) do 
-			 if LuaFnHaveImpactOfSpecificDataIndex(sceneId, selfId,x892101_iTextkkp[shuxingtab[i]][4]) ~= 1 then 
-                LuaFnSendSpecificImpactToUnit(sceneId, selfId, selfId, selfId,x892101_iTextkkp[shuxingtab[i]][4], 0);
+			 -- [NetCo4 21/10] d/f/g/h (giam khang) tinh qua qqh, truoc van gui 10770 (= s8 bo qua khang Doc +80) -> bo
+			 local whL = strsub(shuxingtab[i],1,1)
+			 if whL ~= "d" and whL ~= "f" and whL ~= "g" and whL ~= "h" and x892101_iTextkkp[shuxingtab[i]] ~= nil then
+			  local whId = x892101_iTextkkp[shuxingtab[i]][4]
+			  whCan[whId] = 1
+			  if LuaFnHaveImpactOfSpecificDataIndex(sceneId, selfId,whId) ~= 1 then 
+                LuaFnSendSpecificImpactToUnit(sceneId, selfId, selfId, selfId,whId, 0);
+			  end
 			 end	
 				if strfind(shuxingtab[i],"d") then
 				local a = strsub(shuxingtab[i],2,2)
@@ -2106,6 +2113,11 @@ function x892002_WHget_sx(sceneId, selfId) --武魂2/调用
 				end
 			end
 		  end	
+		end
+		for i=10675,10770 do   -- [NetCo4 21/10] go hieu ung dong khong con tren Vo Hon dang mang
+			if whCan[i] == nil and LuaFnHaveImpactOfSpecificDataIndex(sceneId, selfId,i) == 1 then
+				LuaFnCancelSpecificImpact(sceneId,selfId,i)
+			end
 		end
 		else
 			for i=10675,10770 do 
