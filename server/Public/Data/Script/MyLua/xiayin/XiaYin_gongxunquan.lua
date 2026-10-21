@@ -86,10 +86,16 @@ function  x880007_OnActivateOnce(  sceneId,  selfId  )
         return
         end
           SetMissionData(  sceneId,  selfId,  RIDEIMPACT1,  0  )
+	   -- [NetCo4 21/10] an CA CHONG cung ma (OnDeplete da tru 1 cai) - tools/congHuan-ca-chong-21-10.js
+	   local  so  =  1
+	   local  conlai  =  LuaFnGetAvailableItemCount(  sceneId,  selfId,  itemmission  )
+	   if  conlai  >  0  and  LuaFnDelAvailableItem(  sceneId,  selfId,  itemmission,  conlai  )  ==  1  then
+	   	 so  =  1  +  conlai
+	   end
 	   local  jiayingonsangzhi  =  GetMissionData(  sceneId,  selfId,  XIAYIN_GONGXUN)
-	   SetMissionData(  sceneId,  selfId,XIAYIN_GONGXUN,jiayingonsangzhi+x880007_g_item[itemmission])
+	   SetMissionData(  sceneId,  selfId,XIAYIN_GONGXUN,jiayingonsangzhi+x880007_g_item[itemmission]*so)
 	   LuaFnSendSpecificImpactToUnit(sceneId,  selfId,  selfId,  selfId,  152,  0)
-          x880007_ShowNotice(  sceneId,  selfId,  " Các hÕ thành công gia tång ["..  x880007_g_item[itemmission].."] Ði¬m c¯ng hiªn! "  )
+          x880007_ShowNotice(  sceneId,  selfId,  " Các hÕ thành công gia tång ["..  (x880007_g_item[itemmission]*so).."] Ði¬m c¯ng hiªn! "  )
                       CallScriptFunction(  880006,  "HXY_E",sceneId,  selfId)
 	 return  1;
 end
