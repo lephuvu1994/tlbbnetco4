@@ -867,6 +867,11 @@ local ID = LuaFnGetItemTableIndexByIndex( sceneId, selfId, 109 )
 		
 
            SetMissionData(sceneId, selfId, XZ_LANSEDIAOWEN, 0)
+           -- [NetCo4 21/10] tran 10 (tong cap nhieu mon): Vong Vo > 10 bi bo qua, Minh Tuong / Ngu Kinh tran sang hieu ung loai khac
+           if ww > 10 then ww = 10 end
+           if mx > 10 then mx = 10 end
+           if yj > 10 then yj = 10 end
+           if bn > 10 then bn = 10 end
            for lans = 9789,9819 do
                LuaFnCancelSpecificImpact(sceneId,selfId,lans)
            end
@@ -876,7 +881,7 @@ local ID = LuaFnGetItemTableIndexByIndex( sceneId, selfId, 109 )
 	      local nRet = LuaFnHaveImpactOfSpecificDataIndex(sceneId, selfId,9789)
 	      if nRet ~= 1 then
 	 	 LuaFnSendSpecificImpactToUnit(sceneId, selfId, selfId, selfId, 9789, 0)
-                 SetMissionData(sceneId, selfId, XZ_LANSEDIAOWEN, ww )
+                 SetMissionData(sceneId, selfId, XZ_LANSEDIAOWEN, GetMissionData(sceneId, selfId, XZ_LANSEDIAOWEN) + ww )   -- [NetCo4 21/10] cong don (truoc ghi de)
 	      end
            end
            --Ú¤Ïë
@@ -885,7 +890,7 @@ local ID = LuaFnGetItemTableIndexByIndex( sceneId, selfId, 109 )
 	      local nRet = LuaFnHaveImpactOfSpecificDataIndex(sceneId, selfId,MXDW)
 	      if nRet ~= 1 then
 	 	 LuaFnSendSpecificImpactToUnit(sceneId, selfId, selfId, selfId, MXDW, 0)
-                 SetMissionData(sceneId, selfId, XZ_LANSEDIAOWEN, mx*100 )
+                 SetMissionData(sceneId, selfId, XZ_LANSEDIAOWEN, GetMissionData(sceneId, selfId, XZ_LANSEDIAOWEN) + mx*100 )
 	      end
            end
            --Óù¾¢
@@ -894,7 +899,7 @@ local ID = LuaFnGetItemTableIndexByIndex( sceneId, selfId, 109 )
 	      local nRet = LuaFnHaveImpactOfSpecificDataIndex(sceneId, selfId,YJDW)
 	      if nRet ~= 1 then
 	 	 LuaFnSendSpecificImpactToUnit(sceneId, selfId, selfId, selfId, YJDW, 0)
-                 SetMissionData(sceneId, selfId, XZ_LANSEDIAOWEN, yj*10000 )
+                 SetMissionData(sceneId, selfId, XZ_LANSEDIAOWEN, GetMissionData(sceneId, selfId, XZ_LANSEDIAOWEN) + yj*10000 )
 	      end
            end
            --±©Å­
@@ -903,7 +908,7 @@ local ID = LuaFnGetItemTableIndexByIndex( sceneId, selfId, 109 )
 	      local nRet = LuaFnHaveImpactOfSpecificDataIndex(sceneId, selfId,BNDW)
 	      if nRet ~= 1 then
 	 	 LuaFnSendSpecificImpactToUnit(sceneId, selfId, selfId, selfId, BNDW, 0)
-                 SetMissionData(sceneId, selfId, XZ_LANSEDIAOWEN, bn*1000000 )
+                 SetMissionData(sceneId, selfId, XZ_LANSEDIAOWEN, GetMissionData(sceneId, selfId, XZ_LANSEDIAOWEN) + bn*1000000 )
 	      end
            end
 	--Á¦Á¿
