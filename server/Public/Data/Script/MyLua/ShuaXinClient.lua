@@ -2800,24 +2800,26 @@ if ZH_ratio1 > 1 then
 ZH_ratio1=1
 end
 ZH_ratio = ZH_ratio + ZH_ratio1
+-- [NetCo4 21/10] he so giong client Infant.lua: tang deu theo tong Ngu Nghe (truoc chi nhay khi du 445) - tools/con-kynang-21-10.js
+local ZH_pct = floor( ( 100 + floor( 100 * ( ZH_Value1 + ZH_Value2 + ZH_Value3 + ZH_Value4 + ZH_Value5 ) / 445 ) ) * x892002_ZH_ratio )
 --100+math.floor( 100 * mainAttribute/ZH_MAX)) * ZH_ratio
 
 
 local SKILL1_ID = floor(SKILLDT/10000000)
 local SKILL1_LV = floor(mod(SKILLDT,10000000)/1000000)
-InfantBUFF2[SKILL1_ID] = InfantBUFF2[SKILL1_ID] + floor(floor(x892002_Infant_SKEffect[SKILL1_LV] * x892002_ZH_ratio * ZH_ratio)/1)
+InfantBUFF2[SKILL1_ID] = InfantBUFF2[SKILL1_ID] + floor(x892002_Infant_SKEffect[SKILL1_LV] * ZH_pct / 100)
 
 local SKILL2_ID = floor(mod(SKILLDT,1000000)/100000)
 local SKILL2_LV = floor(mod(SKILLDT,100000)/10000)
-InfantBUFF2[SKILL2_ID] = InfantBUFF2[SKILL2_ID] + floor(floor(x892002_Infant_SKEffect[SKILL2_LV] * x892002_ZH_ratio * ZH_ratio)/1)
+InfantBUFF2[SKILL2_ID] = InfantBUFF2[SKILL2_ID] + floor(x892002_Infant_SKEffect[SKILL2_LV] * ZH_pct / 100)
 
 local SKILL3_ID = floor(mod(SKILLDT,10000)/1000)
 local SKILL3_LV = floor(mod(SKILLDT,1000)/100)
-InfantBUFF2[SKILL3_ID] = InfantBUFF2[SKILL3_ID] + floor(floor(x892002_Infant_SKEffect[SKILL3_LV] * x892002_ZH_ratio * ZH_ratio)/1)
+InfantBUFF2[SKILL3_ID] = InfantBUFF2[SKILL3_ID] + floor(x892002_Infant_SKEffect[SKILL3_LV] * ZH_pct / 100)
 
 local SKILL4_ID = floor(mod(SKILLDT,100)/10)
 local SKILL4_LV = mod(SKILLDT,10)
-InfantBUFF2[SKILL4_ID] = InfantBUFF2[SKILL4_ID] + floor(floor(x892002_Infant_SKEffect[SKILL4_LV] * x892002_ZH_ratio * ZH_ratio)/1)
+InfantBUFF2[SKILL4_ID] = InfantBUFF2[SKILL4_ID] + floor(x892002_Infant_SKEffect[SKILL4_LV] * ZH_pct / 100)
 end
 
 InfantBUFF2[1] = floor(InfantBUFF2[1]/4)
