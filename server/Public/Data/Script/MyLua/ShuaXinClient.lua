@@ -483,6 +483,8 @@ end
 --闪避    31000  到    31399  一共400个 (闪避最大31920)  每次加80点
 
 
+-- [NetCo4 21/10] ti le % "den am" engine dung so voi so hien thi (MD 502-505) - tools/denam-o470-21-10.js
+x892002_DenAmTiLe = 50
 function x892002_AHa_ReMyBuff(sceneId, selfId)  --函数入口
 	--初始化buff 
 	--for i=1 ,32000 do 
@@ -687,13 +689,33 @@ function x892002_AHa_ReMyBuff(sceneId, selfId)  --函数入口
 	end	
 
 
-	local lvshux1 = {0,2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,40,42,44,46,48,50}   -- [NetCo4 21/10] den am chia doi: 2 / cap (truoc 4) - tools/denam-chiadoi-21-10.js
+	local lvshux1 = {0,4,8,12,16,20,24,28,32,36,40,44,48,52,56,60,64,68,72,76,80,84,88,92,96,100}   -- [NetCo4 21/10] so HIEN THI 4 / cap; so engine dung = MD 470 (x892002_DenAmTiLe %) - tools/denam-o470-21-10.js
 	local sx,b,h,x,d,b1,h1,x1,d1 = CallScriptFunction( 892003, "GetL_DElw", sceneId,selfId,118)--龙纹
 	local qqh1,qqh2,qqh3,qqh4 = x892002_WHget_sx(sceneId, selfId)
 	SetMissionData( sceneId, selfId, 502,lvshux1[b1+qqh1+1])
 	SetMissionData( sceneId, selfId, 503,lvshux1[h1+qqh2+1])
 	SetMissionData( sceneId, selfId, 504,lvshux1[x1+qqh3+1])
 	SetMissionData( sceneId, selfId, 505,lvshux1[d1+qqh4+1])
+	-- [NetCo4 21/10] engine (deploy/va-server/va-den-am.py) doc "den am" o MD 470: 4 he goi 1 o (Bang byte 0, Hoa 1, Huyen 2, Doc 3)
+	local daTL = x892002_DenAmTiLe
+	if daTL == nil or daTL < 0 then
+		daTL = 50
+	end
+	local daSo = { lvshux1[b1+qqh1+1], lvshux1[h1+qqh2+1], lvshux1[x1+qqh3+1], lvshux1[d1+qqh4+1] }
+	local daGoi = 0
+	local daNhan = 1
+	for i = 1, 4 do
+		local v = 0
+		if daSo[i] ~= nil then
+			v = floor( daSo[i] * daTL / 100 )
+		end
+		if v > 100 then
+			v = 100
+		end
+		daGoi = daGoi + v * daNhan
+		daNhan = daNhan * 256
+	end
+	SetMissionData( sceneId, selfId, 470, daGoi )
 	----------------------破抗冰
 	-- [NetCo4 21/10] "den am" (MD 502-505 o tren) do engine tinh (deploy/va-server/va-den-am.py) - bo hieu ung kich hoat
 	-- 31430/31470/31510/12960 (+cap) va debuff vinh vien 31450/31490/31530/12980 (+cap) da gan len nguoi bi danh - tools/vohon-denam-21-10.js
