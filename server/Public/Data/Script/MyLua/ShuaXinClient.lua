@@ -756,6 +756,7 @@ function x892002_AHa_ReMyBuff(sceneId, selfId)  --函数入口
 ----------下面是武意-------
 
        local WuYiSX_XSX = mod(GetMissionData(sceneId,selfId,WUYI_1),10000)   --血上限
+       WuYiSX_XSX = floor( WuYiSX_XSX * 3 / 2 )   -- [NetCo4 21/10] 1 diem Vo Y Sinh luc = +1.500 nhu client (dai HP 1.000 / don vi) - tools/voy-mau-21-10.js
        local WuYiSX_BING = floor(GetMissionData(sceneId,selfId,WUYI_2)/10000)  --冰攻
        local WuYiSX_HUO = mod(GetMissionData(sceneId,selfId,WUYI_2),10000)   --火攻
        local WuYiSX_XUAN = floor(GetMissionData(sceneId,selfId,WUYI_3)/10000)  --玄功
