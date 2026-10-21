@@ -847,6 +847,22 @@ local ID = LuaFnGetItemTableIndexByIndex( sceneId, selfId, 109 )
 	xueshangxbuff =xueshangxbuff +xueshangx+xiayin_ts+LPA+wq_sld+GetZHENy[6]+InfantBUFF[6]+WuYiSX_XSX  ----得到血上限 宝剑/令牌/武意
 	shuxinghuixin=shuxinghuixin+GetZHENy[14]+InfantBUFF[14]
 	shuxinghuifang=shuxinghuifang+GetZHENy[15]+InfantBUFF[15]
+	-- [NetCo4 21/10] thang linh cong them (tools/thanglinh-du-chiso-21-10.js): truoc chi 5 chi so + Sinh luc, tooltip client hien them
+	-- Chinh xac / Ne / Hoi cong / Noi-Ngoai thu nhung server khong cong. Moi diem: Chinh xac +44, Ne +20, Ngoai / Noi thu +44, Hoi cong +1,
+	-- Hoi thu +1, Bang / Hoa / Huyen / Doc cong +10. Khong cong khang. Tran dai giu nguyen (dung chung moi nguon).
+	if wq_sld > 0 then
+		mingzhongbuff = mingzhongbuff + floor( wq_sld * 44 / 100 )   -- 1 don vi = 100 chinh xac
+		shuxingshanbi = shuxingshanbi + floor( wq_sld / 4 )   -- 1 don vi = 80 ne tranh
+		shuxingwaifang = shuxingwaifang + floor( wq_sld * 44 / 100 )   -- 1 don vi = 100 ngoai thu
+		shuxingneifang = shuxingneifang + floor( wq_sld * 44 / 100 )   -- 1 don vi = 100 noi thu
+		shuxinghuixin = shuxinghuixin + floor( wq_sld / 3 )   -- 1 don vi = 3 hoi cong
+		shuxinghuifang = shuxinghuifang + floor( wq_sld / 2 )   -- 1 don vi = 2 hoi thu
+		local tlTT = floor( wq_sld * 2 / 3 )   -- 1 don vi = 15 thuoc tinh cong -> +10 / diem
+		shuxingtable1 = shuxingtable1 + tlTT
+		shuxingtable2 = shuxingtable2 + tlTT
+		shuxingtable3 = shuxingtable3 + tlTT
+		shuxingtable4 = shuxingtable4 + tlTT
+	end
 		
 
            SetMissionData(sceneId, selfId, XZ_LANSEDIAOWEN, 0)
