@@ -54,6 +54,11 @@ local nam = LuaFnGetName(sceneId,selfId)
 			AddText( sceneId, "#YBuff ðang g¡n (m÷i ngu°n cµng lÕi):" )
 			AddText( sceneId, "Cß¶ng lñc +"..x001113_TLBuff( sceneId, selfId, 13000, 13699 ) * 10 .." / Nµi lñc +"..x001113_TLBuff( sceneId, selfId, 13700, 14399 ) * 10 .." / Th¬ lñc +"..x001113_TLBuff( sceneId, selfId, 14400, 15599 ) * 10 )
 			AddText( sceneId, "Trí lñc +"..x001113_TLBuff( sceneId, selfId, 15600, 16299 ) * 10 .." / Thân pháp +"..x001113_TLBuff( sceneId, selfId, 16300, 16999 ) * 10 .." / Sinh lñc +"..x001113_TLBuff( sceneId, selfId, 30200, 30999 ) * 1000 )
+			local amk = "không có"
+			if LuaFnHaveImpactOfSpecificDataIndex( sceneId, selfId, 32400 ) == 1 then
+				amk = "+10%"
+			end
+			AddText( sceneId, "% Sinh lñc ðang g¡n: Long Vån +"..( x001113_TLBuff( sceneId, selfId, 31400, 31429 ) * 3 ).."% / Ám khí (30 phút) "..amk )   -- [NetCo4 21/10] tools/xem-hp-pct-21-10.js
 			AddText( sceneId, "#cA0A0A0Tr¥n m²i chï s¯: 6.990 (Th¬ lñc 11.990), Sinh lñc 799.000 - vßþt tr¥n thì ph¥n dß không tính" )
 		EndEvent( sceneId )
 		DispatchEventList( sceneId, selfId, targetId )
