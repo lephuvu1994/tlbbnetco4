@@ -1600,7 +1600,7 @@ if  skilstring  ==  nil  then
 x892101_NotifyFailBox(  sceneId,  selfId,    " M¶i bö vào Võ H°n ðã Lînh Ngµ KÛ Nång nªu mu¯n tiªp tøc ! ! "  )
 return
 end
-local  skilx,skilz,WuHunSkillStr1,WuHunSkillStr2,WuHunSkillStr3  =  strfind(skilstring,"_"..strrep("%w",16).."(%w%d)(%w%d)(%w%d)"..strrep("%w",9))
+local  skilx,skilz,WuHunSkillStr1,WuHunSkillStr2,WuHunSkillStr3  =  strfind(skilstring,"&WH"..strrep("%w",18).."(%w%d)(%w%d)(%w%d)"..strrep("%w",1))   -- [NetCo4 21/10] mau cu "_" khong khop Vo Hon &WH
 if  nil  ==  skilx  or  nil  ==  skilz  or  nil  ==  WuHunSkillStr1  or  nil  ==  WuHunSkillStr2    or  nil  ==  WuHunSkillStr3    then
 x892101_NotifyFailBox(  sceneId,  selfId,    " M¶i bö vào Võ H°n ðã Lînh Ngµ KÛ Nång nªu mu¯n tiªp tøc ! ! "  )
 return
@@ -2797,4 +2797,68 @@ x892101_GetWh_XinXT_Goc = x892101_GetWh_XinXT
 function x892101_GetWh_XinXT( sceneId, selfId, keyids, m_Equip_Idx, m_Equip_Item, keyid )
 	x892101_GetWh_XinXT_Goc( sceneId, selfId, keyids, m_Equip_Idx, m_Equip_Item, keyid )
 	CallScriptFunction( 892002, "AHa_ReMyBuff", sceneId, selfId )
+end
+
+-- [NetCo4 21/10] nang nhanh ky nang Vo Hon: cap dau thanh cong -> nang tiep toi cap 6 (moi cap nhu goc) - tools/vohon-kynang-nhanh-21-10.js
+function x892101_NN_CapKN( sceneId, selfId, equitid, o )
+	if o == nil or o < 1 or o > 3 then
+		return -1
+	end
+	local _, s = LuaFnGetItemCreator( sceneId, selfId, equitid )
+	if s == nil then
+		return -1
+	end
+	local x, z, a1, l1, a2, l2, a3, l3 = strfind( s, "&WH"..strrep("%w",18).."(%w)(%d)(%w)(%d)(%w)(%d)"..strrep("%w",1) )
+	if x == nil then
+		return -1
+	end
+	local t = { l1, l2, l3 }
+	local v = tonumber( t[o] )
+	if v == nil then
+		return -1
+	end
+	return v
+end
+
+function x892101_NN_Nuot( sceneId, selfId, msg )
+	x892101_NN_Msg = msg
+end
+
+x892101_WuhunSkillUp_Goc = x892101_WuhunSkillUp
+function x892101_WuhunSkillUp( sceneId, selfId, equitid, idosoebn )
+	local truoc = x892101_NN_CapKN( sceneId, selfId, equitid, idosoebn )
+	x892101_WuhunSkillUp_Goc( sceneId, selfId, equitid, idosoebn )
+	local cap = x892101_NN_CapKN( sceneId, selfId, equitid, idosoebn )
+	if truoc < 0 or cap <= truoc then
+		return
+	end
+	local them = 0
+	local lydo = ""
+	local baoGoc = x892101_NotifyFailBox
+	for lan = 1, 5 do
+		if cap >= 6 then
+			break
+		end
+		x892101_NN_Msg = ""
+		x892101_NotifyFailBox = x892101_NN_Nuot
+		x892101_WuhunSkillUp_Goc( sceneId, selfId, equitid, idosoebn )
+		x892101_NotifyFailBox = baoGoc
+		local moi = x892101_NN_CapKN( sceneId, selfId, equitid, idosoebn )
+		if moi <= cap then
+			lydo = x892101_NN_Msg
+			break
+		end
+		cap = moi
+		them = them + 1
+	end
+	x892101_NotifyFailBox = baoGoc
+	if them > 0 then
+		local t = "Nâng nhanh kÛ nång: thêm "..them.." c¤p, gi¶ c¤p "..cap
+		if lydo ~= "" then
+			t = t..", d×ng: "..lydo
+		end
+		x892101_NotifyFailBox( sceneId, selfId, t )
+	elseif lydo ~= "" then
+		x892101_NotifyFailBox( sceneId, selfId, "Nâng nhanh kÛ nång, d×ng: "..lydo )
+	end
 end
