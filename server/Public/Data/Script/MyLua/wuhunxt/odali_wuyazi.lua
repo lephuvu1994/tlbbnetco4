@@ -2791,3 +2791,10 @@ function x892101_TruMot( sceneId, selfId, pos )
 	end
 	LuaFnEraseItem( sceneId, selfId, pos )
 end
+
+-- [NetCo4 21/10] lam moi buff chi so ngay sau moi thao tac o bang Vo Hon (truoc chi lam moi khi dang nhap / doi ban do)
+x892101_GetWh_XinXT_Goc = x892101_GetWh_XinXT
+function x892101_GetWh_XinXT( sceneId, selfId, keyids, m_Equip_Idx, m_Equip_Item, keyid )
+	x892101_GetWh_XinXT_Goc( sceneId, selfId, keyids, m_Equip_Idx, m_Equip_Item, keyid )
+	CallScriptFunction( 892002, "AHa_ReMyBuff", sceneId, selfId )
+end
