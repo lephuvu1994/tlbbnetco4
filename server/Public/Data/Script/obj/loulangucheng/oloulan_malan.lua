@@ -25,6 +25,7 @@ function x001113_OnDefaultEvent( sceneId, selfId, targetId )
 --if GetLevel( sceneId, selfId ) <= 90 then
 		AddNumText( sceneId, x001113_g_scriptId, "#G Nh§n BUFF 2.5 mi­n phí (Level 105)", 6, 15000 )
 		AddNumText( sceneId, x001113_g_scriptId, "#G Nh§p Giftcode", 6, 8890 )   -- [NetCo4 20/10] giftcode (tools/giftcode-20-10.js)
+		AddNumText( sceneId, x001113_g_scriptId, "#G Xem Thång Linh", 6, 8891 )   -- [NetCo4 21/10] tools/xem-thanglinh-21-10.js
 		--end		
 		--AddNumText( sceneId, x001113_g_scriptId, "#g0f0ff0 Nh§n Ði¬m T£ng ", 6, 8888 )
 		--AddNumText( sceneId, x001113_g_scriptId, "#g0f0ff0 Ki¬m tra ðång nh§p", 6, 8889 )
@@ -39,6 +40,24 @@ local nam = LuaFnGetName(sceneId,selfId)
 	local strGUID = LuaFnGetGUID( sceneId, selfId )
 
 	local key = GetNumText()
+	if key == 8891 then   -- [NetCo4 21/10] xem thang linh + buff chi so DANG GAN (doc truc tiep)
+		CallScriptFunction( 892002, "AHa_ReMyBuff", sceneId, selfId )
+		local sl = GetMissionData( sceneId, selfId, XIEZI_SL )
+		local d = mod( sl, 1000 )
+		if d >= 400 then
+			d = 0
+		end
+		BeginEvent( sceneId )
+			AddText( sceneId, "#YThång Linh: #W"..d.." ði¬m (Vß½ng Quy«n "..mod( floor( sl / 1000 ), 100 ).." món, Thiên ÐÕo "..floor( sl / 100000 ).." món)" )
+			AddText( sceneId, "Thång linh cµng: #G+"..( d * 10 ).."#W Cß¶ng / Nµi / Th¬ / Trí / Thân, #G+"..( d * 1000 ).."#W Sinh lñc" )
+			AddText( sceneId, "#YBuff ðang g¡n (m÷i ngu°n cµng lÕi):" )
+			AddText( sceneId, "Cß¶ng lñc +"..x001113_TLBuff( sceneId, selfId, 13000, 13699 ) * 10 .." / Nµi lñc +"..x001113_TLBuff( sceneId, selfId, 13700, 14399 ) * 10 .." / Th¬ lñc +"..x001113_TLBuff( sceneId, selfId, 14400, 15599 ) * 10 )
+			AddText( sceneId, "Trí lñc +"..x001113_TLBuff( sceneId, selfId, 15600, 16299 ) * 10 .." / Thân pháp +"..x001113_TLBuff( sceneId, selfId, 16300, 16999 ) * 10 .." / Sinh lñc +"..x001113_TLBuff( sceneId, selfId, 30200, 30999 ) * 1000 )
+			AddText( sceneId, "#cA0A0A0Tr¥n m²i chï s¯: 6.990 (Th¬ lñc 11.990), Sinh lñc 799.000 - vßþt tr¥n thì ph¥n dß không tính" )
+		EndEvent( sceneId )
+		DispatchEventList( sceneId, selfId, targetId )
+		return
+	end
 	if key == 8890 then   -- [NetCo4 20/10] giftcode: mo cua so nhap ma (UI 20170431) -> client goi 999999 x999999_XuKaJiHuo2 (CDK.lua)
 		BeginUICommand( sceneId )
 			UICommand_AddInt( sceneId, targetId )
@@ -550,4 +569,14 @@ function x001113_NotifyFailTips(sceneId,selfId,Tip)
 	EndEvent(sceneId)
 	DispatchMissionTips(sceneId,selfId)
 	
+end
+
+-- [NetCo4 21/10] so don vi buff dang gan trong dai [a+1, b] (0 = khong co) - tools/xem-thanglinh-21-10.js
+function x001113_TLBuff( sceneId, selfId, a, b )
+	for i = a + 1, b do
+		if LuaFnHaveImpactOfSpecificDataIndex( sceneId, selfId, i ) == 1 then
+			return i - a
+		end
+	end
+	return 0
 end
