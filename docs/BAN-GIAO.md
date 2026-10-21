@@ -62,7 +62,7 @@ File này là **điểm bắt đầu** cho mọi phiên Claude mới, kể cả 
 |---|---|
 | Game | Chạy từ **17/10 19:10**. VPS repo = **`fe5864f`** (= HEAD lúc viết, đã cap-nhat -y). **Chờ restart** để `StandardImpact.txt` (nerf Bàng Xí) có hiệu lực; chủ server nói sẽ tự restart tay |
 | Billing | **billing_go v1.3.5** (từ 16/10, xem CLAUDE.md). Đừng đưa lại bản 2019 (gây treo "Đang kiểm tra mật mã"). Panel đọc online từ `billing.log` |
-| `Server/Server` | Bản vá (tự đi theo + tắt [Giúp] Thẻ Tài Phú), md5 hiện `996f8758`. Trả về `.upx-goc` là mất cả 2 vá |
+| `Server/Server` | Bản vá (tự đi theo + tắt [Giúp] Thẻ Tài Phú), md5 `996f8758` (sao lưu `Server.truoc-denam`). **21/10: chờ thay bằng `Server.denam`** md5 `3032a629` = thêm vá "giảm kháng đến âm" (`deploy/va-server/va-den-am.py`, đi cùng Lua `tools/vohon-denam-21-10.js`). Trả về `.upx-goc` là mất hết vá |
 | Bot | VPS `panel.js` md5 `479ffe55`. Danh mục vật phẩm bot cache lúc khởi động → tên Chân Nguyên trong shop/vòng quay vẫn còn `#G` tới lần restart bot sau (chủ server chưa cho restart) |
 | Online | ~6 người lúc viết |
 

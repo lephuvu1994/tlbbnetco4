@@ -695,29 +695,17 @@ function x892002_AHa_ReMyBuff(sceneId, selfId)  --函数入口
 	SetMissionData( sceneId, selfId, 504,lvshux1[x1+qqh3+1])
 	SetMissionData( sceneId, selfId, 505,lvshux1[d1+qqh4+1])
 	----------------------破抗冰
-	if b1 > 0 or qqh1 > 0 then  
-	local nRet = LuaFnHaveImpactOfSpecificDataIndex(sceneId, selfId,31430+b1+qqh1)
-	if nRet ~= 1 then
-		LuaFnSendSpecificImpactToUnit(sceneId, selfId, selfId, selfId, 31430+b1+qqh1, 0)
-	end
-	end
-	if h1 > 0 or qqh2 > 0 then  
-	local nRet = LuaFnHaveImpactOfSpecificDataIndex(sceneId, selfId,31470+h1+qqh2)
-	if nRet ~= 1 then
-		LuaFnSendSpecificImpactToUnit(sceneId, selfId, selfId, selfId, 31470+h1+qqh2, 0)
-	end	
-	end
-	if x1 > 0 or qqh3 > 0 then  
-	local nRet = LuaFnHaveImpactOfSpecificDataIndex(sceneId, selfId,31510+x1+qqh3)
-	if nRet ~= 1 then
-		LuaFnSendSpecificImpactToUnit(sceneId, selfId, selfId, selfId, 31510+x1+qqh3, 0)
-	end
-	end
-	if d1 > 0 or qqh4 > 0 then
-	local nRet = LuaFnHaveImpactOfSpecificDataIndex(sceneId, selfId,12960+d1+qqh4)
-	if nRet ~= 1 then
-		LuaFnSendSpecificImpactToUnit(sceneId, selfId, selfId, selfId, 12960+d1+qqh4, 0)
-	end
+	-- [NetCo4 21/10] "den am" (MD 502-505 o tren) do engine tinh (deploy/va-server/va-den-am.py) - bo hieu ung kich hoat
+	-- 31430/31470/31510/12960 (+cap) va debuff vinh vien 31450/31490/31530/12980 (+cap) da gan len nguoi bi danh - tools/vohon-denam-21-10.js
+	for i = 0, 19 do
+		LuaFnCancelSpecificImpact(sceneId,selfId,31430+i)
+		LuaFnCancelSpecificImpact(sceneId,selfId,31450+i)
+		LuaFnCancelSpecificImpact(sceneId,selfId,31470+i)
+		LuaFnCancelSpecificImpact(sceneId,selfId,31490+i)
+		LuaFnCancelSpecificImpact(sceneId,selfId,31510+i)
+		LuaFnCancelSpecificImpact(sceneId,selfId,31530+i)
+		LuaFnCancelSpecificImpact(sceneId,selfId,12960+i)
+		LuaFnCancelSpecificImpact(sceneId,selfId,12980+i)
 	end
 	----------------------
 -------------下面是豪侠印（体力和身法每次20点，命中每次100点，闪避每次80点）
