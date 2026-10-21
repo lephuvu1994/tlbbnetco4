@@ -687,7 +687,7 @@ function x892002_AHa_ReMyBuff(sceneId, selfId)  --º¯ÊýÈë¿Ú
 	end	
 
 
-	local lvshux1 = {0,4,8,12,16,20,24,28,32,36,40,44,48,52,56,60,64,68,72,76,80,84,88,92,96,100}
+	local lvshux1 = {0,2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,40,42,44,46,48,50}   -- [NetCo4 21/10] den am chia doi: 2 / cap (truoc 4) - tools/denam-chiadoi-21-10.js
 	local sx,b,h,x,d,b1,h1,x1,d1 = CallScriptFunction( 892003, "GetL_DElw", sceneId,selfId,118)--ÁúÎÆ
 	local qqh1,qqh2,qqh3,qqh4 = x892002_WHget_sx(sceneId, selfId)
 	SetMissionData( sceneId, selfId, 502,lvshux1[b1+qqh1+1])
