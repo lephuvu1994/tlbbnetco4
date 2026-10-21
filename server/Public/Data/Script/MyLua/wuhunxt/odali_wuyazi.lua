@@ -1502,7 +1502,7 @@ x892101_NotifyFailBox(  sceneId,  selfId,  " Võ H°n hþp thành th¤t bÕi ")
 return
 end
 
-LuaFnEraseItem(  sceneId,  selfId,  svbzbbcf  )
+x892101_TruMot(  sceneId,  selfId,  svbzbbcf  )   -- [NetCo4 21/10] tru 1 (truoc xoa ca chong)
 
 LuaFnSetItemCreator(sceneId,  selfId,  todoso,  friendName);
 local  szItemTransfer  =  GetBagItemTransfer(  sceneId,  selfId,  todoso  )
@@ -2134,7 +2134,7 @@ end
 LuaFnSetItemCreator(sceneId,  selfId,  equitid,  friendName);
 local  szItemTransfer  =  GetBagItemTransfer(  sceneId,  selfId,  equitid  )
 local  yihunsi  =  GetBagItemTransfer(  sceneId,  selfId,  itemid  )
-LuaFnEraseItem(  sceneId,  selfId,  itemid  )
+x892101_TruMot(  sceneId,  selfId,  itemid  )   -- [NetCo4 21/10] tru 1 (truoc xoa ca chong)
 --x892101_WuhunAttrSubGongGao(  sceneId,  selfId,  szItemTransfer,yihunsi,x892101_iText[skilstring2],x892101_iText[x892101_WuhunAttrSubItem[skilstring2][myitemid2]]  )
 LuaFnSendSpecificImpactToUnit(sceneId,  selfId,  selfId,  selfId,  49,  0);
 LuaFnCostMoneyWithPriority(  sceneId,  selfId,  50000  );
@@ -2222,7 +2222,7 @@ return
 end
 LuaFnSetItemCreator(sceneId,  selfId,  equitid,  skilstring3);
 local  runhustr  =  GetBagItemTransfer(  sceneId,  selfId,  itemid  )
-LuaFnEraseItem(  sceneId,  selfId,  itemid  )
+x892101_TruMot(  sceneId,  selfId,  itemid  )   -- [NetCo4 21/10] tru 1 (truoc xoa ca chong)
 LuaFnSendSpecificImpactToUnit(sceneId,  selfId,  selfId,  selfId,  49,  0);
 LuaFnCostMoneyWithPriority(  sceneId,  selfId,  50000  );
 x892101_NotifyFailBox(  sceneId,  selfId,    " chúc m×ng ngß½i , thành công tång lên Võ H°n "..x892101_iText[qfbb[idssea]].." phát tri¬n thuµc tính ðªn "..(tonumber(  qfb[idssea])+1)  .." c¤p ! "  )
@@ -2375,7 +2375,7 @@ function  x892101_WuhunTypeSlot(  sceneId,  selfId,  m_Equip_Idx,  m_Equip_Item)
 	 	 end
                 LuaFnSetItemCreator(sceneId,  selfId,  m_Equip_Idx,  friendName);
 	 	 local  szItemTransfer  =  GetBagItemTransfer(  sceneId,  selfId,  m_Equip_Idx  )
-	 	 LuaFnEraseItem(  sceneId,  selfId,  m_Equip_Item  )
+	 	 x892101_TruMot(  sceneId,  selfId,  m_Equip_Item  )   -- [NetCo4 21/10] tru 1 (truoc xoa ca chong)
 	 	 LuaFnSendSpecificImpactToUnit(sceneId,  selfId,  selfId,  selfId,  49,  0);
                 LuaFnCostMoneyWithPriority(  sceneId,  selfId,  800000  );
                 x892101_NotifyFailBox(  sceneId,  selfId,    "#G Chúc m×ng, m· rµng ô KÛ Nång thành công ! "  )	 
@@ -2557,7 +2557,7 @@ function  x892101_WuhunAttrStudey(  sceneId,  selfId,  m_Equip_Idx,  m_Equip_Ite
       return
       end
                 LuaFnSetItemCreator(sceneId,  selfId,  m_Equip_Idx,  Name);
-	 	 LuaFnEraseItem(  sceneId,  selfId,  m_Equip_Item  )
+	 	 x892101_TruMot(  sceneId,  selfId,  m_Equip_Item  )   -- [NetCo4 21/10] tru 1 (truoc xoa ca chong)
 	 	 LuaFnSendSpecificImpactToUnit(sceneId,  selfId,  selfId,  selfId,  49,  0);
                 LuaFnCostMoneyWithPriority(  sceneId,  selfId,  50000  );
                 x892101_NotifyFailBox(  sceneId,  selfId,    "#G Chúc m×ng ,Võ H°n phát tri¬n thuµc tính thành công! "  )	 
@@ -2779,4 +2779,15 @@ function x892101_NangNhanhDong( sceneId, selfId, equitid, idssea )
 	elseif lydo ~= "" then
 		x892101_NotifyFailBox( sceneId, selfId, "Nâng nhanh"..lydo )
 	end
+end
+
+-- [NetCo4 21/10] tru 1 mon o o tui pos: chong > 1 thi tru 1 cung ID (LuaFnEraseItem xoa ca chong), con 1 thi xoa o nhu cu
+function x892101_TruMot( sceneId, selfId, pos )
+	local id = LuaFnGetItemTableIndexByIndex( sceneId, selfId, pos )
+	if id ~= nil and id > 0 and LuaFnGetItemCountInBagPos( sceneId, selfId, pos ) > 1 then
+		if LuaFnDelAvailableItem( sceneId, selfId, id, 1 ) == 1 then
+			return
+		end
+	end
+	LuaFnEraseItem( sceneId, selfId, pos )
 end
