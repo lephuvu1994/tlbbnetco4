@@ -487,6 +487,14 @@ end
 x892002_DenAmTiLe = 50
 function x892002_AHa_ReMyBuff(sceneId, selfId)
 	-- [NetCo4 22/10] go nut chieu Vo Y quyen 5 (bam la client do), hieu ung da tu phat o SuangHaia - tools/voy-tramphong-thaybuff-22-10.js
+	-- [NetCo4 22/10] them lai chieu bi truyen quyen 1-4 da hoc ma thieu (tu phat can chieu da hoc) - tools/voy-themchieu-22-10.js
+	local vyQ = { mod(GetMissionData(sceneId,selfId,WUYI_SKILL_A),10000), floor(GetMissionData(sceneId,selfId,WUYI_SKILL_BC)/10000), mod(GetMissionData(sceneId,selfId,WUYI_SKILL_BC),10000), floor(GetMissionData(sceneId,selfId,WUYI_SKILL_DE)/10000) }
+	for vyI = 1, 4 do
+		local vySk = floor(vyQ[vyI]/100)
+		if vySk >= 1 and vySk <= 12 and floor((vySk+2)/3) == vyI and mod(vyQ[vyI],100) >= 1 and HaveSkill(sceneId, selfId, 930+vySk) < 0 then
+			AddSkill(sceneId, selfId, 930+vySk)
+		end
+	end
 	DelSkill(sceneId, selfId, 943)
 	DelSkill(sceneId, selfId, 944)
 	DelSkill(sceneId, selfId, 945)  --º¯ÊýÈë¿Ú
