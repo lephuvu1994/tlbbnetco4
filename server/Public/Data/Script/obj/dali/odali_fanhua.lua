@@ -276,6 +276,8 @@ end
 --**********************************
 -- sñ ki®n ðóng h² nh§p kh¦u 
 --**********************************
+-- [NetCo4 22/10] he so noi tuc rieng cho Vo Y >= 150 (1 = tat) - tools/voy-tren150-22-10.js
+x002015_VoYTren150 = 5
 function  x002015_WuyiExpUp(  sceneId,selfId,number  )
 
         if  number  ==  nil  or  number  <  1  then
@@ -285,6 +287,9 @@ function  x002015_WuyiExpUp(  sceneId,selfId,number  )
               number  =  number  +  500
         end
         x002015_JianCe(sceneId,selfId)
+        if  x002015_VoYTren150  ~=  nil  and  x002015_VoYTren150  >  1  and  mod(GetMissionData(sceneId,selfId,WUYI_LEVEL),10000)  >=  150  then   -- [NetCo4 22/10]
+              number  =  number  *  x002015_VoYTren150
+        end
 
         local  WuyiLev  =  mod(GetMissionData(sceneId,selfId,WUYI_LEVEL),10000)
         local  KillNum  =  mod(GetMissionData(sceneId,selfId,WUYI_KILL_NUM),10000)
