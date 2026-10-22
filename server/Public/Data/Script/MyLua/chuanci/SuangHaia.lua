@@ -99,7 +99,15 @@ function x899039_WuYiCheck(sceneId, selfId)
         if (WY_Book_4_skill == 10 or WY_Book_4_skill == 11) and GetMissionData(sceneId,selfId,446) <= bayGio then
            w4 = 1
         end
-        local TickStep = w1 + w2 + w3 + w4
+        -- [NetCo4 22/10] quyen 5 (Tuyet Chi Thu) tu phat, server gan thang hieu ung (bam chieu bi do o client) - tools/voy-tramphong-tuphat-22-10.js
+        local B5 = mod(GetMissionData(sceneId,selfId,WUYI_SKILL_DE),10000)
+        local WY_Book_5_skill = floor(B5/100)
+        local WY_Book_5_lev = mod(B5,100)
+        local w5 = 0
+        if WY_Book_5_skill >= 13 and WY_Book_5_skill <= 15 and WY_Book_5_lev >= 1 and WY_Book_5_lev <= 10 and GetMissionData(sceneId,selfId,455) <= bayGio then
+           w5 = 1
+        end
+        local TickStep = w1 + w2 + w3 + w4 + w5
         if TickStep <= 0 then
            return
         end
@@ -110,8 +118,19 @@ function x899039_WuYiCheck(sceneId, selfId)
            skillnum = WY_Book_2_skill
         elseif TickStep <= w1 + w2 + w3 then
            skillnum = WY_Book_3_skill
-        else
+        elseif TickStep <= w1 + w2 + w3 + w4 then
            skillnum = WY_Book_4_skill
+        else
+           local hu = 1570 + (WY_Book_5_skill - 13) * 10 + WY_Book_5_lev - 1
+           if WY_Book_5_skill == 14 then
+              local tg = LuaFnGetTargetObjID(sceneId, selfId)
+              if tg ~= nil and tg >= 0 and tg ~= selfId and LuaFnIsObjValid(sceneId, tg) == 1 then
+                 LuaFnSendSpecificImpactToUnit( sceneId, selfId, selfId, tg, hu, 0 )
+              end
+           end
+           LuaFnSendSpecificImpactToUnit( sceneId, selfId, selfId, selfId, hu, 0 )
+           SetMissionData(sceneId,selfId,455,bayGio+300)
+           return
         end
 
         if skillnum ~= 0 then
