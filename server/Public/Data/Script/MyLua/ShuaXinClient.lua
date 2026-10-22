@@ -485,7 +485,11 @@ end
 
 -- [NetCo4 21/10] ti le % "den am" engine dung so voi so hien thi (MD 502-505) - tools/denam-o470-21-10.js
 x892002_DenAmTiLe = 50
-function x892002_AHa_ReMyBuff(sceneId, selfId)  --函数入口
+function x892002_AHa_ReMyBuff(sceneId, selfId)
+	-- [NetCo4 22/10] go nut chieu Vo Y quyen 5 (bam la client do), hieu ung da tu phat o SuangHaia - tools/voy-tramphong-thaybuff-22-10.js
+	DelSkill(sceneId, selfId, 943)
+	DelSkill(sceneId, selfId, 944)
+	DelSkill(sceneId, selfId, 945)  --函数入口
 	--初始化buff 
 	--for i=1 ,32000 do 
    -- LuaFnCancelSpecificImpact(sceneId,selfId,i)

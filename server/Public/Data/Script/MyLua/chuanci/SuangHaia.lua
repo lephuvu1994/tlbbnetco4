@@ -122,6 +122,9 @@ function x899039_WuYiCheck(sceneId, selfId)
            skillnum = WY_Book_4_skill
         else
            local hu = 1570 + (WY_Book_5_skill - 13) * 10 + WY_Book_5_lev - 1
+           if WY_Book_5_skill == 13 then
+              hu = 1490 + WY_Book_5_lev - 1   -- [NetCo4 22/10] Tram Phong: buff 1570-1579 lam client do -> dung buff Bat Quy cung cap
+           end
            if WY_Book_5_skill == 14 then
               local tg = LuaFnGetTargetObjID(sceneId, selfId)
               if tg ~= nil and tg >= 0 and tg ~= selfId and LuaFnIsObjValid(sceneId, tg) == 1 then

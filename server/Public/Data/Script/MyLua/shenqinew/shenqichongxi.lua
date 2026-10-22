@@ -689,7 +689,9 @@ function  x900033_XIEZI_WUYI(sceneId,selfId,xieziId,sxpot,skillId)
 
                 if  floor(TianFuSkill[sxpot]/100)  ==  0  then
                             TianFuSkill[sxpot]  =  skillId  *  100  +  1
+                            if  skillId  <  13  then   -- [NetCo4 22/10] quyen 5 khong them nut (bam la client do), tu phat o SuangHaia
                             AddSkill(sceneId,  selfId,TianFuSkill_ID[skillId])
+                            end
                 else
                     if  floor(TianFuSkill[sxpot]/100)  ~=  skillId  then
 	           x900033_NotifyTips(  sceneId,  selfId,  " xin/m¶i lña ch÷n chính xác kÛ nång tiªn hành thång c¤p ! "  )
