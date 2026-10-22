@@ -136,12 +136,40 @@ function x899039_WuYiCheck(sceneId, selfId)
            return
         end
 
+        -- [NetCo4 22/10] server gan THANG buff + ghi thoi gian cho ngay (truoc: client tu dung chieu, quai chet nhanh = mat buff) - tools/voy-ganthang-22-10.js
         if skillnum ~= 0 then
-           BeginUICommand(sceneId)
-	     UICommand_AddInt(sceneId,x899039_g_WuYiSkill_ID[skillnum])
-	     UICommand_AddString(sceneId,"ski13")
-	     EndUICommand(sceneId)
-           DispatchUICommand(sceneId,selfId,2014092002)
+           local vyQ = floor((skillnum + 2) / 3)
+           local vyLv = 0
+           if vyQ == 1 then
+              vyLv = mod(GetMissionData(sceneId,selfId,WUYI_SKILL_A),100)
+           elseif vyQ == 2 then
+              vyLv = mod(floor(GetMissionData(sceneId,selfId,WUYI_SKILL_BC)/10000),100)
+           elseif vyQ == 3 then
+              vyLv = mod(GetMissionData(sceneId,selfId,WUYI_SKILL_BC),100)
+           else
+              vyLv = mod(floor(GetMissionData(sceneId,selfId,WUYI_SKILL_DE)/10000),100)
+           end
+           if vyLv < 1 or vyLv > 10 then
+              return
+           end
+           local hu = 1450 + (skillnum - 1) * 10 + vyLv - 1
+           if skillnum == 2 then
+              local tg = LuaFnGetTargetObjID(sceneId, selfId)
+              if tg ~= nil and tg >= 0 and tg ~= selfId and LuaFnIsObjValid(sceneId, tg) == 1 and GetHp(sceneId, tg) > 0 then
+                 LuaFnSendSpecificImpactToUnit( sceneId, selfId, selfId, tg, hu, 0 )
+              end
+           else
+              LuaFnSendSpecificImpactToUnit( sceneId, selfId, selfId, selfId, hu, 0 )
+           end
+           if vyQ == 1 then
+              SetMissionData(sceneId,selfId,WUYI_SKILL_ITEM,bayGio+20)
+           elseif vyQ == 2 then
+              SetMissionData(sceneId,selfId,444,bayGio+300)
+           elseif vyQ == 3 then
+              SetMissionData(sceneId,selfId,445,bayGio+300)
+           else
+              SetMissionData(sceneId,selfId,446,bayGio+300)
+           end
         end
 
 end
