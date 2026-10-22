@@ -79,25 +79,24 @@ function x899039_WuYiCheck(sceneId, selfId)
         local WY_Book_3_skill = floor(mod(GetMissionData(sceneId,selfId,WUYI_SKILL_BC),10^4)/100)
         local WY_Book_4_skill = floor(GetMissionData(sceneId,selfId,WUYI_SKILL_DE)/10^6)
 
-        if GetMissionData(sceneId,selfId,WUYI_SKILL_ITEM) > LuaFnGetCurrentTime() then
-           return
-        end
+        -- [NetCo4 22/10] moi quyen cho rieng (truoc: 1 o WUYI_SKILL_ITEM khoa chung) - tools/voy-bitruyen-22-10.js
+        local bayGio = LuaFnGetCurrentTime()
 
         -- [NetCo4 15/10] Chi chon trong cac cuon DA HOC, giu trong so cu (cuon 1 = 3, cuon 2/3/4 = 1).
         -- Ban cu: trung cuon trong thi gan lai TickStep nhung khong xet lai -> mat luot (hoc it cuon = it ra chieu).
         -- Cuon 4 chi tu phat 10/11 (12 Thong Minh tu phat o XinFa888); cuon 5 (13-15) la chieu tu bam, khong tu phat.
         local skillnum = 0
         local w1, w2, w3, w4 = 0, 0, 0, 0
-        if WY_Book_1_skill >= 1 and WY_Book_1_skill <= 3 then
+        if WY_Book_1_skill >= 1 and WY_Book_1_skill <= 3 and GetMissionData(sceneId,selfId,WUYI_SKILL_ITEM) <= bayGio then
            w1 = 3
         end
-        if WY_Book_2_skill >= 4 and WY_Book_2_skill <= 6 then
+        if WY_Book_2_skill >= 4 and WY_Book_2_skill <= 6 and GetMissionData(sceneId,selfId,444) <= bayGio then
            w2 = 1
         end
-        if WY_Book_3_skill >= 7 and WY_Book_3_skill <= 9 then
+        if WY_Book_3_skill >= 7 and WY_Book_3_skill <= 9 and GetMissionData(sceneId,selfId,445) <= bayGio then
            w3 = 1
         end
-        if WY_Book_4_skill == 10 or WY_Book_4_skill == 11 then
+        if (WY_Book_4_skill == 10 or WY_Book_4_skill == 11) and GetMissionData(sceneId,selfId,446) <= bayGio then
            w4 = 1
         end
         local TickStep = w1 + w2 + w3 + w4

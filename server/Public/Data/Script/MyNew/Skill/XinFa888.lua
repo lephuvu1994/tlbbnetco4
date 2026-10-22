@@ -44,7 +44,7 @@ function x808241_OnImpactFadeOut( sceneId, selfId, impactId )
         end
 
       if floor(GetMissionData(sceneId,selfId,WUYI_SKILL_DE)/10^6) == 12 then
-         if (GetMissionData(sceneId,selfId,WUYI_SKILL_ITEM) - LuaFnGetCurrentTime()) < 100 then
+         if (GetMissionData(sceneId,selfId,446) - LuaFnGetCurrentTime()) < 100 then   -- [NetCo4 22/10] quyen 4 cho rieng (MD 446)
             local WuYi_TongMing = random(9)
             if WuYi_TongMing < 5 then
                BeginUICommand(sceneId)

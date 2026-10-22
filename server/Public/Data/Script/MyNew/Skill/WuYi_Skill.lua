@@ -43,45 +43,46 @@ function x808243_OnImpactFadeOut( sceneId, selfId, impactId )
         if impactId >= 1601 and impactId <= 1603 then
               WuYiSkill_Lev = mod(GetMissionData(sceneId,selfId,WUYI_SKILL_A),100)
 	      LuaFnSendSpecificImpactToUnit( sceneId, selfId, selfId, selfId, x808243_g_WuYiSkill[impactId-1600][WuYiSkill_Lev], 0 )
-              SetMissionData(sceneId,selfId,WUYI_SKILL_ITEM,LuaFnGetCurrentTime()+20)
+              SetMissionData(sceneId,selfId,WUYI_SKILL_ITEM,LuaFnGetCurrentTime()+20)   -- [NetCo4 22/10] quyen 1 cho rieng 20 giay
         end
 
         if impactId >= 1604 and impactId <= 1606 then
               WuYiSkill_Lev = floor(mod(GetMissionData(sceneId,selfId,WUYI_SKILL_BC),10^6)/10^4)
 	      LuaFnSendSpecificImpactToUnit( sceneId, selfId, selfId, selfId, x808243_g_WuYiSkill[impactId-1600][WuYiSkill_Lev], 0 )
-              SetMissionData(sceneId,selfId,WUYI_SKILL_ITEM,LuaFnGetCurrentTime()+300)
+              SetMissionData(sceneId,selfId,444,LuaFnGetCurrentTime()+300)   -- [NetCo4 22/10] quyen 2 cho rieng (MD 444)
         end
 
         if impactId >= 1607 and impactId <= 1609 then
               WuYiSkill_Lev = mod(GetMissionData(sceneId,selfId,WUYI_SKILL_BC),100)
 	      LuaFnSendSpecificImpactToUnit( sceneId, selfId, selfId, selfId, x808243_g_WuYiSkill[impactId-1600][WuYiSkill_Lev], 0 )
-              SetMissionData(sceneId,selfId,WUYI_SKILL_ITEM,LuaFnGetCurrentTime()+300)
+              SetMissionData(sceneId,selfId,445,LuaFnGetCurrentTime()+300)   -- [NetCo4 22/10] quyen 3 cho rieng (MD 445)
         end
 
         if impactId >= 1610 and impactId <= 1612 then
               WuYiSkill_Lev = floor(mod(GetMissionData(sceneId,selfId,WUYI_SKILL_DE),10^6)/10^4)
 	      LuaFnSendSpecificImpactToUnit( sceneId, selfId, selfId, selfId, x808243_g_WuYiSkill[impactId-1600][WuYiSkill_Lev], 0 )
-              SetMissionData(sceneId,selfId,WUYI_SKILL_ITEM,LuaFnGetCurrentTime()+300)
+              SetMissionData(sceneId,selfId,446,LuaFnGetCurrentTime()+300)   -- [NetCo4 22/10] quyen 4 cho rieng (MD 446)
         end
 
 
-        if impactId >= 1613 then
-              WuYiSkill_Lev = floor(mod(GetMissionData(sceneId,selfId,WUYI_SKILL_DE),10^6)/10^4)
-	      LuaFnSendSpecificImpactToUnit( sceneId, selfId, selfId, selfId, x808243_g_WuYiSkill[impactId-1600][WuYiSkill_Lev], 0 )
-              SetMissionData(sceneId,selfId,WUYI_SKILL_ITEM,LuaFnGetCurrentTime()+300)
+        -- [NetCo4 22/10] quyen 5 (chieu tu bam, engine da hoi 5 phut): cap = mod(DE,100) (truoc doc nham cap quyen 4), dung tung ID
+        -- (truoc "if >= 1613/1614/1615" lien tiep -> 1615 gui 3 lan), khong khoa quyen 1-4 nua
+        if impactId == 1613 then
+              WuYiSkill_Lev = mod(GetMissionData(sceneId,selfId,WUYI_SKILL_DE),100)
+	      if x808243_g_WuYiSkill[13][WuYiSkill_Lev] ~= nil then LuaFnSendSpecificImpactToUnit( sceneId, selfId, selfId, selfId, x808243_g_WuYiSkill[13][WuYiSkill_Lev], 0 ) end
         end
 
-        if impactId >= 1614 then
-              WuYiSkill_Lev = floor(mod(GetMissionData(sceneId,selfId,WUYI_SKILL_DE),10^6)/10^4)
-	      LuaFnSendSpecificImpactToUnit( sceneId, selfId, selfId, targetId, x808243_g_WuYiSkill[impactId-1600][WuYiSkill_Lev], 0 )
-	      LuaFnSendSpecificImpactToUnit( sceneId, selfId, selfId, selfId, x808243_g_WuYiSkill[impactId-1600][WuYiSkill_Lev], 0 )
-              SetMissionData(sceneId,selfId,WUYI_SKILL_ITEM,LuaFnGetCurrentTime()+300)
+        if impactId == 1614 then
+              WuYiSkill_Lev = mod(GetMissionData(sceneId,selfId,WUYI_SKILL_DE),100)
+	      if x808243_g_WuYiSkill[14][WuYiSkill_Lev] ~= nil then
+	      LuaFnSendSpecificImpactToUnit( sceneId, selfId, selfId, targetId, x808243_g_WuYiSkill[14][WuYiSkill_Lev], 0 )
+	      LuaFnSendSpecificImpactToUnit( sceneId, selfId, selfId, selfId, x808243_g_WuYiSkill[14][WuYiSkill_Lev], 0 )
+	      end
         end
 
-        if impactId >= 1615 then
-              WuYiSkill_Lev = floor(mod(GetMissionData(sceneId,selfId,WUYI_SKILL_DE),10^6)/10^4)
-	      LuaFnSendSpecificImpactToUnit( sceneId, selfId, selfId, selfId, x808243_g_WuYiSkill[impactId-1600][WuYiSkill_Lev], 0 )
-              SetMissionData(sceneId,selfId,WUYI_SKILL_ITEM,LuaFnGetCurrentTime()+300)
+        if impactId == 1615 then
+              WuYiSkill_Lev = mod(GetMissionData(sceneId,selfId,WUYI_SKILL_DE),100)
+	      if x808243_g_WuYiSkill[15][WuYiSkill_Lev] ~= nil then LuaFnSendSpecificImpactToUnit( sceneId, selfId, selfId, selfId, x808243_g_WuYiSkill[15][WuYiSkill_Lev], 0 ) end
         end
 
 end
