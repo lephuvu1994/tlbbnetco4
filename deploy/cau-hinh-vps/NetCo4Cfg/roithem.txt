@@ -1,0 +1,12 @@
+kycuoc_co 2 @ngoc6b
+sattinh 25 @ngoc6a,@ngoc6b
+kycuoc_co 100 20700063
+kycuoc_boss 100 20700063
+tuccau 100 20700063
+hhv 30 20700063
+kycuoc_co 100 30600084
+kycuoc_boss 100 30600084
+tuccau 100 30600084
+bando 0.2 39910001
+thap1 0.5 39910001
+tlh1 0.5 39910001

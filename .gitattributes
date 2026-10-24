@@ -15,3 +15,6 @@ panel/*.cmd -text
 deploy/client/*.cmd -text
 deploy/client/*.txt -text
 deploy/client/TuDongVaoTo/* -text
+
+# Ban chup cau hinh admin tren VPS (NetCo4Cfg) - giu nguyen tung byte
+deploy/cau-hinh-vps/** -text
