@@ -59,3 +59,19 @@ File thô (ELF, disassembly, gói client trích từ RAM...) **không nằm trê
 - `billing-moi/`: billing thay thế.
 
 `nghien-cuu/scratchpad-phien-24-10/`: script phân tích của phiên đóng mùa.
+
+## 6. Công cụ ngoài đã xem (24/10) và kết luận về sửa client
+
+Mã nguồn lưu ở `nghien-cuu/cong-cu-ngoai/` (chưa chạy file nào):
+
+| Công cụ | Làm được | Ghi chú |
+|---|---|---|
+| [tlbb-axp-tool](https://github.com/xudou1992/tlbb-axp-tool) (Python, MIT) | Giải / đóng gói AXP (25 kiểu mã hóa), bản vá XZIP, mã hóa / giải mã cả thư mục | Đáng dùng nhất. Cần Python 3.13 + flask + pywebview |
+| [AxpPackerTLBB](https://github.com/odasm/AxpPackerTLBB) | Đóng gói AXP | Nhỏ, ít tài liệu |
+| [TLBB-Tools-for-E](https://github.com/catontheway/TLBB-Tools-for-E) | Đóng / giải gói, launcher, updater (E-lang) | Cần module `.ec` riêng để biên dịch |
+| [372dragon](https://github.com/ts4m97/372dragon) | **Mã nguồn client TLBB đầy đủ** (C/C++, OGRE) | Nền 0.85, nói giao thức của **server Skynet/Lua riêng** (MongoDB), không phải server engine gốc của mình → không dùng thẳng được. Dự án đang tạm dừng, chưa nghiệm thu |
+
+Kết luận đã kiểm (`Fairy.log`):
+- Client NetCo4 **bỏ qua `Bin/FairyResources.cfg` trên đĩa**: file ghi `Data/Config.axp`, `Data/Interface.axp`, `FileSystem=../Data/NetCo4`, nhưng log thật nạp `../Bin/Config.axp`, `../Bin/Interface.axp` (bản nhúng trong `OgreMain.dll`) và **không** nạp `Data/NetCo4`. Thư mục `Data/NetCo4/CharTitle.txt` là đồ chết.
+- Các công cụ trên chỉ có tác dụng với client để `Config.axp` **ngoài đĩa**. Diễn đàn (clbgamesvn) xác nhận việc ẩn `Config.axp` / `Interface.axp` vào client là cố ý để chống người khác dựng server.
+- Muốn thêm item thật / sửa tooltip: cần **client khác có `Config.axp` ngoài đĩa**, cùng phiên bản server (hỏi admin bản chưa khóa). Không phá lớp bảo vệ `OgreMain.dll`.
