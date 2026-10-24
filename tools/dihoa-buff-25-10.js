@@ -8,7 +8,11 @@
 //   node tools/dihoa-buff-25-10.js [--ghi]
 const fs = require('fs'), path = require('path');
 const F = path.join(__dirname, '../server/Server/Config/StandardImpact.txt');
-const DOI = { 693: [[276, 900], 1800], 694: [[300, 1000], 2000] };   // [gia tri cu chap nhan (goc / ban 1000 da ghi)], moi
+// Lan 3 (chu server): sat thuong 1800 / 2000 -> 2700 / 3000, hoi chieu 108s -> 70s (SkillData_V1.txt 2885-2896 cot 6 "冷却时间",
+// engine nap ../Public/Config/SkillData_V1.txt). Client co ban SkillData rieng -> neu nut van xam 108s thi client giu hoi chieu, tra lai 108s.
+const DOI = { 693: [[276, 900, 1800], 2700], 694: [[300, 1000, 2000], 3000] };   // [gia tri cu chap nhan], moi
+const F_SD = path.join(__dirname, '../server/Public/Config/SkillData_V1.txt');
+const HOICHIEU = [108000, 70000];   // 2885-2896 cot 6
 const THOIGIAN = { 800: [20000, 28000], 801: [21000, 30000] };   // cot 20, ms
 const raw = fs.readFileSync(F);
 const s = raw.toString('latin1');
@@ -34,6 +38,20 @@ for (const [id, [cu, moi]] of Object.entries(THOIGIAN)) {
   c[20] = String(moi);
   L[i] = c.join('\t');
 }
+const sd = fs.readFileSync(F_SD).toString('latin1');
+const E2 = sd.includes('\r\n') ? '\r\n' : '\n';
+const L2 = sd.split(E2);
+for (let id = 2885; id <= 2896; id++) {
+  const i = L2.findIndex((l) => l.split('\t')[0] === String(id));
+  const c = i < 0 ? [] : L2[i].split('\t');
+  if (i < 0 || !HOICHIEU.includes(Number(c[6]))) { console.log('LOI SkillData ' + id + ': hoi chieu = ' + c[6]); loi++; continue; }
+  c[6] = String(HOICHIEU[1]);
+  L2[i] = c.join('\t');
+}
+console.log('SkillData 2885-2896: hoi chieu -> ' + HOICHIEU[1] + ' ms');
 if (loi) { console.log(loi + ' loi, KHONG ghi'); process.exit(1); }
-if (process.argv.includes('--ghi')) { fs.writeFileSync(F, Buffer.from(L.join(E), 'latin1')); console.log('DA GHI ' + F); }
+if (process.argv.includes('--ghi')) {
+  fs.writeFileSync(F, Buffer.from(L.join(E), 'latin1')); console.log('DA GHI ' + F);
+  fs.writeFileSync(F_SD, Buffer.from(L2.join(E2), 'latin1')); console.log('DA GHI ' + F_SD);
+}
 else console.log('(chay thu, them --ghi de luu)');
