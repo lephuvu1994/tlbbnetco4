@@ -18,7 +18,8 @@ const sql = [];
 const tom = [];
 sql.push('-- clone do bialk -> biabiabia ' + new Date().toISOString());
 sql.push('INSERT INTO t_iteminfo (charguid,guid,world,server,itemtype,pos,p1,p2,p3,p4,p5,p6,p7,p8,p9,p10,p11,p12,p13,p14,p15,p16,p17,creator,isvalid,dbversion,fixattr,var,visualid,maxgemid)');
-sql.push(' SELECT ' + DICH + ',' + GOC + '+pos,world,server,itemtype,pos,p1,p2,p3,p4,p5,p6,p7,p8,p9,p10,p11,p12,p13,p14,p15,p16,p17,creator,isvalid,dbversion,fixattr,var,visualid,maxgemid');
+// dbversion PHAI = t_char.dbversion cua nhan vat DICH: server chi nap dong "dbversion=%d" (giu cua nguon -> do vo hinh, 25/10)
+sql.push(' SELECT ' + DICH + ',' + GOC + '+pos,world,server,itemtype,pos,p1,p2,p3,p4,p5,p6,p7,p8,p9,p10,p11,p12,p13,p14,p15,p16,p17,creator,isvalid,(SELECT dbversion FROM t_char WHERE charguid=' + DICH + '),fixattr,var,visualid,maxgemid');
 sql.push(' FROM t_iteminfo WHERE charguid=' + NGUON + ' AND isvalid=1 AND pos BETWEEN 100 AND 118;');
 for (const l of fs.readFileSync(VAO, 'utf8').trim().split('\n')) {
   const c = l.split('\t');
