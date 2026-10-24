@@ -605,6 +605,7 @@ function  x900033_XIEZI_WUYI(sceneId,selfId,xieziId,sxpot,skillId)
                 local  SoDoi  =  DiemCo
                 if  ItemCo  <  SoDoi  then  SoDoi  =  ItemCo  end
                 if  TienCo  <  SoDoi  then  SoDoi  =  TienCo  end
+                if  SoDoi  >  10  then  SoDoi  =  10  end   -- [NetCo4 25/10] tam diem toi da 10 diem / lan (can bang)
                 if  SoDoi  <=  0  then
                       x900033_NotifyTips(  sceneId,  selfId,  " C¥n TØ Phü Tinh Tüy và 50.000 kim ti«n cho m²i ði¬m mu¯n d¶i. "  )
                       return

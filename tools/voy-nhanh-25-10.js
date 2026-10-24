@@ -77,6 +77,7 @@ thaySpan(
     '                local  SoDoi  =  DiemCo',
     '                if  ItemCo  <  SoDoi  then  SoDoi  =  ItemCo  end',
     '                if  TienCo  <  SoDoi  then  SoDoi  =  TienCo  end',
+    '                if  SoDoi  >  10  then  SoDoi  =  10  end   -- [NetCo4 25/10] tam diem toi da 10 diem / lan (can bang)',
     '                if  SoDoi  <=  0  then',
     '                      x900033_NotifyTips(  sceneId,  selfId,  "' + vn(' Cần Tử Phủ Tinh Tủy và 50.000 kim tiền cho mỗi điểm muốn dời. ') + '"  )',
     '                      return',
