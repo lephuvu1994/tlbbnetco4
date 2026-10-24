@@ -328,7 +328,26 @@ if os.path.exists(_p):
         c = line.rstrip("\r\n").split("\t")
         if len(c) >= 6 and c[0].isdigit():
             VN[c[0]] = "%s [%s, cấp %s, %s] %s" % (c[1], c[2], c[3], c[4], c[5])
-ITEMS = [(i, VN.get(i, n), k) for i, n, k in ITEMS]
+# 25/10: am khi trung ten (Kim Si Linh Vu 41 ma = 4 he x 10 cap + ban dac biet): ghi kem he / chi so tu hieu-ung-than-khi.tsv
+AK = {}
+_p = os.path.join(REPO, "docs", "vat-pham", "hieu-ung-than-khi.tsv")
+if os.path.exists(_p):
+    _he = {"冰": "Băng", "火": "Hỏa", "电": "Huyền", "毒": "Độc"}
+    for line in open(_p, encoding="utf-8"):
+        c = line.rstrip("\r\n").split("\t")
+        if len(c) < 7 or "系攻击修正" not in c[3]:
+            continue
+        ts = dict(x.strip().split("=", 1) for x in c[3].split(";") if "=" in x)
+        g = [(k[0], v) for k, v in ts.items() if k.endswith("系攻击修正")]
+        if not g:
+            continue
+        he = _he.get(g[0][0], g[0][0])
+        note = "%s công +%s, kháng %s +%s" % (he, g[0][1], he, ts.get(g[0][0] + "系抗性修正", "0"))
+        if "MAX_HP修正" in ts:
+            note += ", HP +" + "{:,}".format(int(ts["MAX_HP修正"])).replace(",", ".")
+        for m in re.findall(r"(\d{8}) ", c[6] + " "):
+            AK[m] = note
+ITEMS = [(i, VN.get(i, n) + (" — " + AK[i] if i in AK else ""), k) for i, n, k in ITEMS]
 ITEM_NAME = {i: n for i, n, _ in ITEMS}
 # 30/09: ID pet hop le (PetAttrTable.txt, GBK) cho qua loai "pet" - chi admin phat event (docs/pet-huyen-hoa.md)
 PET_IDS = set()
