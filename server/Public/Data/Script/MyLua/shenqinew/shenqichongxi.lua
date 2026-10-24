@@ -544,6 +544,7 @@ function  x900033_XIEZI_WUYI(sceneId,selfId,xieziId,sxpot,skillId)
 	               x900033_NotifyTips(  sceneId,  selfId,  " ngß½i không có dß th×a vû ý l£n/lën linh , không th¬ tiªn hành hóa khí thao tác ~"  )	 
 	               return
 	         end
+                for KLap = 1, QianLingNum do   -- [NetCo4 25/10] luyen khi: 1 bam dung het diem tiem linh
                 SetMissionData(sceneId,selfId,WUYI_1,GetMissionData(sceneId,selfId,WUYI_1)-10000)
                 local  SuiJiPoint  =  random(1,9)
                 if  SuiJiPoint  ==  1  then
@@ -565,11 +566,11 @@ function  x900033_XIEZI_WUYI(sceneId,selfId,xieziId,sxpot,skillId)
                 elseif  SuiJiPoint  ==  9  then
                       SetMissionData(sceneId,selfId,WUYI_5,GetMissionData(sceneId,selfId,WUYI_5)+1)
                 end
-
+                end
                 CallScriptFunction(892002,"AHa_ReMyBuff",sceneId,selfId)
-                LuaFnSendSpecificImpactToUnit(sceneId,  selfId,  selfId,  selfId,  148,  0)  -- ð£c hi®u 
-	         x900033_NotifyTips(  sceneId,  selfId,  " chúc m×ng ngài , thêm ði¬m thành công , vû ý ?"..SXnam[SuiJiPoint].."? ði¬m ðªm +1"  )
-                x900033_WUYI_Refresh1(sceneId,selfId,SuiJiPoint)  	 
+                LuaFnSendSpecificImpactToUnit(sceneId,  selfId,  selfId,  selfId,  148,  0)
+                x900033_NotifyTips(  sceneId,  selfId,  " Ðã luy®n khí "..QianLingNum.." ði¬m ti«m linh, cµng ngçu nhiên vào thuµc tính. "  )
+                for KI = 1, 9 do x900033_WUYI_Refresh1(sceneId,selfId,KI) end
               return
           end
 
@@ -593,59 +594,44 @@ function  x900033_XIEZI_WUYI(sceneId,selfId,xieziId,sxpot,skillId)
                             WuYiSX[7]  =  mod(GetMissionData(sceneId,selfId,WUYI_4),10000)
                             WuYiSX[8]  =  floor(GetMissionData(sceneId,selfId,WUYI_5)/10000)
                             WuYiSX[9]  =  mod(GetMissionData(sceneId,selfId,WUYI_5),10000)
-
-                if  WuYiSX[KillPoint]  <=  0  then
-	             x900033_NotifyTips(  sceneId,  selfId,  " trß¾c m£t thuµc tính v¸ không có chút ðªm , không cách nào t¡m ði¬m . "  )
-                      return
-                else
-	             x900033_NotifyTips(  sceneId,  selfId,  " trß¾c m£t thuµc tính v¸ ði¬m ðªm , "..WuYiSX[KillPoint]..""  )
-                end
-
-	 local  HumanMoney  =  LuaFnGetMoney(  sceneId,  selfId  )
-    	 local  HumanMoneyJZ  =  GetMoneyJZ(  sceneId,  selfId  );
-	 if  HumanMoney  +  HumanMoneyJZ  <  50000  then
-	 	 x900033_NotifyTips(  sceneId,  selfId,  " kim ti«n chßa ðü #{_EXCHG50000}"  )
-	 	 return
-	 end
-
-                if  LuaFnGetAvailableItemCount(sceneId,  selfId,  38002047)  <  1  then    -- phøc hi ng÷c biên s¯ 
-                      x900033_NotifyTips(  sceneId,  selfId,  " c¥n [ tØ phü tinh tüy ]  1 cá "  )	 
+                -- [NetCo4 25/10] tam diem: 1 bam doi HET diem thuoc tinh nay, tru dung Tu Phu Tinh Tuy + 50.000 moi diem
+                local  DiemCo  =  WuYiSX[KillPoint]
+                if  DiemCo  <=  0  then
+                      x900033_NotifyTips(  sceneId,  selfId,  " Thuµc tính này không có ði¬m, không th¬ t¡m. "  )
                       return
                 end
-
-                if    LuaFnDelAvailableItem(sceneId,selfId,38002047,1)  ~=  1  then
-                        x900033_NotifyTips(  sceneId,  selfId,  "[ tØ phü tinh tüy ] kh¤u tr× th¤t bÕi "  )
-                        return
+                local  ItemCo  =  LuaFnGetAvailableItemCount(sceneId,  selfId,  38002047)
+                local  TienCo  =  floor((LuaFnGetMoney(sceneId,selfId)+GetMoneyJZ(sceneId,selfId))/50000)
+                local  SoDoi  =  DiemCo
+                if  ItemCo  <  SoDoi  then  SoDoi  =  ItemCo  end
+                if  TienCo  <  SoDoi  then  SoDoi  =  TienCo  end
+                if  SoDoi  <=  0  then
+                      x900033_NotifyTips(  sceneId,  selfId,  " C¥n TØ Phü Tinh Tüy và 50.000 kim ti«n cho m²i ði¬m mu¯n d¶i. "  )
+                      return
                 end
-
-	 local  nDelJZ,  nDelMoney  =  LuaFnCostMoneyWithPriority(sceneId,  selfId,  50000);
+                local  nDelJZ,  nDelMoney  =  LuaFnCostMoneyWithPriority(sceneId,  selfId,  SoDoi*50000)
                 if  nDelJZ  ==  -1  then
-	 	 x900033_NotifyTips(  sceneId,  selfId,  " kim ti«n kh¤u tr× th¤t bÕi "  )
-	 	 return
-	 end
-
-                local  NewPoint  =  random(1,9)
-                if  NewPoint  ==  KillPoint  then
-                      if  KillPoint  <=  5  then
-                            NewPoint  =  KillPoint  +  1
-                      else
-                            NewPoint  =  KillPoint  -  1
-                      end
+                      x900033_NotifyTips(  sceneId,  selfId,  " Kim ti«n kh¤u tr× th¤t bÕi. "  )
+                      return
                 end
-
-                WuYiSX[KillPoint]  =  WuYiSX[KillPoint]  -  1
-                WuYiSX[NewPoint]  =  WuYiSX[NewPoint]  +  1
-
+                LuaFnDelAvailableItem(sceneId,selfId,38002047,SoDoi)
+                for KLap = 1, SoDoi do
+                      local  NewPoint  =  random(1,9)
+                      if  NewPoint  ==  KillPoint  then
+                            if  KillPoint  <=  5  then  NewPoint  =  KillPoint  +  1  else  NewPoint  =  KillPoint  -  1  end
+                      end
+                      WuYiSX[KillPoint]  =  WuYiSX[KillPoint]  -  1
+                      WuYiSX[NewPoint]  =  WuYiSX[NewPoint]  +  1
+                end
                 SetMissionData(sceneId,selfId,WUYI_1,WuYiSX[0]*10^4+WuYiSX[1])
                 SetMissionData(sceneId,selfId,WUYI_2,WuYiSX[2]*10^4+WuYiSX[3])
                 SetMissionData(sceneId,selfId,WUYI_3,WuYiSX[4]*10^4+WuYiSX[5])
                 SetMissionData(sceneId,selfId,WUYI_4,WuYiSX[6]*10^4+WuYiSX[7])
                 SetMissionData(sceneId,selfId,WUYI_5,WuYiSX[8]*10^4+WuYiSX[9])
-
                 CallScriptFunction(892002,"AHa_ReMyBuff",sceneId,selfId)
-                LuaFnSendSpecificImpactToUnit(sceneId,  selfId,  selfId,  selfId,  148,  0)  -- ð£c hi®u 
-	         x900033_NotifyTips(  sceneId,  selfId,  " chúc m×ng ngài , thành công d¶i ði 1 cá ði¬m ðªm t¾i vû ý ?"..SXnam[NewPoint].."?"  )	 
-                x900033_WUYI_Refresh1(sceneId,selfId,NewPoint)
+                LuaFnSendSpecificImpactToUnit(sceneId,  selfId,  selfId,  selfId,  148,  0)
+                x900033_NotifyTips(  sceneId,  selfId,  " Ðã d¶i "..SoDoi.." ði¬m sang thuµc tính khác. "  )
+                for KI = 1, 9 do x900033_WUYI_Refresh1(sceneId,selfId,KI) end
               return
           end
 
