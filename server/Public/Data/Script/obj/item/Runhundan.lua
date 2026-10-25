@@ -1,9 +1,9 @@
--- 300068 Vien +5 diem tiem nang tu do (NetCo4 18/10). Vat pham 30103041 Thuong Lang Bach Loc Hoan, chi admin phat.
+-- 300068 Vien +10 diem (25/10: 5 -> 10, chu server) tiem nang tu do (NetCo4 18/10). Vat pham 30103041 Thuong Lang Bach Loc Hoan, chi admin phat.
 -- Luong skill-like (giong Tien Dan 333007): OnDeplete tru dung 1 vien trong o chong.
 
 x300068_g_scriptId = 300068
 x300068_g_ItemId = 30103041
-x300068_g_Diem = 5
+x300068_g_Diem = 10
 
 function x300068_OnDefaultEvent( sceneId, selfId, bagIndex )
 end
@@ -38,7 +38,7 @@ function x300068_OnActivateOnce( sceneId, selfId )
 	SetPlayerRemainPoints( sceneId, selfId, RemainPoint + x300068_g_Diem )
 	AuditRunHunDan( sceneId, selfId, x300068_g_ItemId )
 	BeginEvent( sceneId )
-		AddText( sceneId, "Các hÕ ðã nh§n ðßþc 5 ði¬m tìm nång." )
+		AddText( sceneId, "Các hÕ ðã nh§n ðßþc 10 ði¬m tìm nång." )
 	EndEvent( sceneId )
 	DispatchMissionTips( sceneId, selfId )
 	return 1
