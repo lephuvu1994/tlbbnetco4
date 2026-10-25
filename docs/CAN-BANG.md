@@ -446,3 +446,9 @@ StandardImpact 793 "步步生花陷阱伤害" (logic 001 = sát thương trực 
 - Kết hợp máu boss 200% gốc cùng ngày: Bàng Xí (9,3 triệu máu lúc 120%) nay ~15,5 triệu, AoE ~50k mỗi 5 giây, cuồng bạo sau 10 phút → tổ phải hạ trong 10 phút.
 - Ngày 18/10 chỉ có nerf quái này; các thay đổi khác 18/10 là tỉ lệ rơi phiếu bản đồ và hồi sinh quái. Sát Tinh (nerf 06/10) đã bỏ từ 11/10.
 - Tool `tools/bo-nerf-bangxi-25-10.js`, tag `truoc-bo-nerf-bangxi-25-10`.
+
+## 25/10 (sau đó) - Máu boss THEO CẤP: cấp ≥ 100 = 200% gốc, cấp ≤ 99 = 120% gốc (chủ server cân lại) - cần cap-nhat + RESTART
+- Phó bản chọn bậc quái (DataID riêng, cấp ghi sẵn ở `MonsterAttrExTable.txt` cột 3) theo cấp trung bình tổ đội → tổ < 100 gặp bậc ≤ 99, tổ 100+ gặp bậc 100+.
+- 2.195 boss cấp ≥ 100 giữ 200% gốc; 2.052 boss cấp ≤ 99 về 120% gốc (công thức cũ `floor(gốc × 12 / 10)`, khớp từng ô với bản trước `c616916~1`, 0 lệch).
+- Ví dụ: Cáp Đại Bá PMF (9540, cấp 95) 4.298.928 (120%); Bàng Xí (14145, cấp 120) HP 7,2 triệu / MaxHP tự lên cấp (cột 59) 15,5 triệu (200%).
+- Tool `tools/mau-boss-theo-cap-25-10.js`, tag `truoc-mau-boss-theo-cap-25-10` (trạng thái "tất cả 200%").
