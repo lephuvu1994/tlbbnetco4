@@ -437,6 +437,6 @@ StandardImpact 793 "步步生花陷阱伤害" (logic 001 = sát thương trực 
 - **Di Hoa Tiếp Mộc lần 3** (chủ server: vẫn thấy chưa đổi, muốn mạnh hơn): sát thương nổ 1.800 / 2.000 → **2.700 / 3.000**; hồi chiêu SkillData 2885–2896 cột 6 108 → **70 giây** (`Public/Config/SkillData_V1.txt`, engine nạp đúng file này). Chưa biết client có tự giữ hồi chiêu 108 giây không (bảng client riêng): nếu nút vẫn xám 108 giây thì trả về 108. Lưu ý vụ nổ chỉ trúng **người/quái ĐỨNG GẦN** mục tiêu (bán kính 4, tối đa 4) — đánh 1 chọi 1 sẽ không thấy số nổ.
 
 ## 25/10 - Máu boss toàn game = 200% gốc (chủ server; chỉ boss, quái thường giữ nguyên) - cần cap-nhat + RESTART
-- 4.247 dòng boss (`MonsterAttrExTable.txt` cột 19 HP + cột 59 MaxHP khi tự lên cấp theo tổ đội), gốc = `651afc2`: 120% gốc → **200% gốc** (×1,67 so với trước). 7.169 ô, không ô nào vượt int32 (boss máu lớn nhất 16635: 645 triệu → 1,29 tỉ... xem lại sau nếu cần).
+- 4.247 dòng boss (`MonsterAttrExTable.txt` cột 19 HP + cột 59 MaxHP khi tự lên cấp theo tổ đội), gốc = `651afc2`: 120% gốc → **200% gốc** (×1,67 so với trước). 7.169 ô, không ô nào vượt int32 (boss máu lớn nhất 16635: 387 triệu → 645 triệu, trần int32 2,147 tỉ).
 - Chủ server được hỏi 2 lần phạm vi: chọn "chỉ boss" (không phải toàn bộ quái / quái phó bản), "200% gốc" (không phải ×2 hiện tại = 240%).
 - Ảnh hưởng: boss Sát Tinh, boss phó bản, boss thế giới lâu chết hơn ~67%; quái cày phiếu ngoài đồng không đổi. Tool `tools/mau-boss-goc-200-25-10.js`, tag `truoc-mau-boss-200-25-10`.
