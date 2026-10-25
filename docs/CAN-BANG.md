@@ -452,3 +452,5 @@ StandardImpact 793 "步步生花陷阱伤害" (logic 001 = sát thương trực 
 - 2.195 boss cấp ≥ 100 giữ 200% gốc; 2.052 boss cấp ≤ 99 về 120% gốc (công thức cũ `floor(gốc × 12 / 10)`, khớp từng ô với bản trước `c616916~1`, 0 lệch).
 - Ví dụ: Cáp Đại Bá PMF (9540, cấp 95) 4.298.928 (120%); Bàng Xí (14145, cấp 120) HP 7,2 triệu / MaxHP tự lên cấp (cột 59) 15,5 triệu (200%).
 - Tool `tools/mau-boss-theo-cap-25-10.js`, tag `truoc-mau-boss-theo-cap-25-10` (trạng thái "tất cả 200%").
+- **Sát thương boss theo cấp** (cùng lượt, chủ server): cấp ≥ 100 = **150% gốc**, cấp ≤ 99 = **110% gốc**. 8 cột công `MonsterAttrExTable.txt` (15 ngoại, 17 nội, 30/33/36/39 4 hệ, 55 MaxAtt, 57 MaxMag), gốc `651afc2` (trước khi chạy mọi ô công boss = gốc, 0 lệch). 18.064 ô / 4.247 boss. **Không đổi** sát thương cố định trong impact chiêu boss (vd Bàng Xí 2868 = 50.556 vừa bỏ nerf). Tool `tools/cong-boss-theo-cap-25-10.js`, tag `truoc-cong-boss-theo-cap-25-10`.
+- Tổng kết boss 25/10: **cấp ≤ 99: máu 120% / công 110% gốc; cấp ≥ 100: máu 200% / công 150% gốc**; mọi nerf máu/công cũ (giảm 35%, 80/90%, Sát Tinh −60%/−30%) đã về gốc trước khi nhân; Bàng Xí bỏ nerf 18/10.
