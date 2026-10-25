@@ -91,18 +91,23 @@ class CongDiem:
 
     # ------------------------------------------------------------------ xep / huy
     def xep(self, guid, d, ai):
+        # 25/10: 1 o = -1 -> "DON HET": luc ap (da thoat) o do nhan TAT CA diem tu do con lai (diem moi can trong game chua luu DB van tinh)
         try:
             d = [int(x) for x in d]
         except (TypeError, ValueError):
             return {"ok": False, "error": "Số điểm phải là số nguyên"}
-        if len(d) != 5 or min(d) < 0 or sum(d) < 1 or sum(d) > TRAN:
-            return {"ok": False, "error": "Nhập 5 ô ≥ 0, tổng từ 1 đến %d" % TRAN}
+        het = [i for i, v in enumerate(d) if v == -1]
+        if len(d) != 5 or len(het) > 1 or any(v < 0 for i, v in enumerate(d) if i not in het):
+            return {"ok": False, "error": "Nhập 5 ô ≥ 0 (tối đa 1 ô chọn Dồn hết)"}
+        co = sum(v for v in d if v > 0)
+        if (not het and co < 1) or co > TRAN:
+            return {"ok": False, "error": "Tổng từ 1 đến %d (hoặc chọn Dồn hết)" % TRAN}
         nv = self.nhan_vat(guid)
         if not nv:
             return {"ok": False, "error": "Không tìm thấy nhân vật"}
         with self.lock:
             self._ghi(guid, "cho", {"d": d, "luc": time.strftime("%Y-%m-%d %H:%M:%S"), "ai": str(ai)[:40]})
-        self.audit("cong diem xep GUID %s (%s) %s tong %d [%s]" % (guid, nv["ten"], d, sum(d), ai))
+        self.audit("cong diem xep GUID %s (%s) %s tong %d%s [%s]" % (guid, nv["ten"], d, co, " + DON HET o %d" % het[0] if het else "", ai))
         return self.trang_thai(guid)
 
     def huy(self, guid, ai):
@@ -161,7 +166,16 @@ class CongDiem:
         if not self.an_toan(guid, nv["acc"]):
             return
         d = [int(x) for x in cho["d"]]
+        if -1 in d:   # Don het: o -1 nhan phan con lai cua diem tu do DA LUU (sau khi thoat = so that)
+            i = d.index(-1)
+            d[i] = 0
+            d[i] = max(0, nv["diem"] - sum(d))
         s = sum(d)
+        if s < 1:
+            with self.lock:
+                self._ghi(guid, "kq", {"ok": False, "d": d, "luc": time.strftime("%Y-%m-%d %H:%M:%S"), "msg": "Không cộng: nhân vật không có điểm tự do. Yêu cầu đã huỷ."})
+                os.remove(self._p(guid, "cho"))
+            return
         with self.lock:
             if self._doc(guid, "cho") != cho:   # nguoi choi vua doi / huy
                 return
