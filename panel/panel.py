@@ -25,6 +25,7 @@ import trunglau   # 08/10: custom Trung Lau dong moi (panel/trunglau.py)
 import vohon      # 09/10: custom Vo Hon - ti le chieu tung o linh ngo / tay (panel/vohon.py)
 import tuchat     # 10/10: custom % tay tu chat - giam dinh lai o Trieu Tiet (panel/tuchat.py)
 import tinhthong  # 10/10: Tinh Thong admin chon 3 dong cho do cong / do thu (panel/tinhthong.py)
+import congdiem   # 25/10: nguoi choi chia diem tu do tren web, ghi DB khi da thoat (panel/congdiem.py)
 
 HOST, PORT = "0.0.0.0", 8443         # HTTPS, mo ra internet (ufw allow 8443), bat buoc dang nhap
 PUBLIC_IP = "103.216.118.123"
@@ -1088,6 +1089,9 @@ def login_page(msg):
     return LOGIN_PAGE.replace("{MSG}", msg)
 
 
+CD = congdiem.CongDiem(GAME, sql, viscii, billing_online, audit)   # 25/10: luong nen bat o __main__
+
+
 class H(BaseHTTPRequestHandler):
     def _host_ok(self):
         return self.headers.get("Host", "") in ("%s:%d" % (h, PORT) for h in (PUBLIC_IP, "127.0.0.1", "localhost"))
@@ -1157,6 +1161,22 @@ class H(BaseHTTPRequestHandler):
         try:
             if method == "GET" and u.path == "/api/state":
                 return self._json({"ok": True, "state": api_state()})
+            if u.path == "/api/congdiem":   # 25/10: web nguoi choi (bot chi goi cho dung nhan vat da lien ket vi)
+                if method == "GET":
+                    g = parse_qs(u.query).get("guid", [""])[0]
+                    return self._json(CD.trang_thai(g) if RE_INT.match(g) else {"ok": False, "error": "GUID không hợp lệ"})
+                n = int(self.headers.get("Content-Length", 0) or 0)
+                if n > 2000:
+                    return self._json({"ok": False, "error": "du lieu qua lon"}, 413)
+                b = json.loads(self.rfile.read(n).decode("utf-8", "replace") or "{}")
+                g, op, ai = str(b.get("guid", "")), str(b.get("op", "")), str(b.get("ai", ""))[:40]
+                if not RE_INT.match(g):
+                    return self._json({"ok": False, "error": "GUID không hợp lệ"})
+                if op == "xep":
+                    return self._json(CD.xep(g, b.get("d"), ai))
+                if op == "huy":
+                    return self._json(CD.huy(g, ai))
+                return self._json({"ok": False, "error": "op khong hop le"})
             if method == "GET" and u.path == "/api/pets":   # 30/09: danh sach pet theo nhom cho o chon tren tab GM web (tai 1 lan)
                 return self._json({"ok": True, "groups": [{"name": g, "pets": [{"id": i, "name": n} for i, n in l]} for g, l in PET_GROUPS], "skins": PET_SKINS})
             if method == "GET" and u.path == "/api/doche":   # 02/10: danh sach do che 8x/9x + mau dang ap
@@ -1356,6 +1376,7 @@ if __name__ == "__main__":
         raise SystemExit("Thieu PANEL_PASS (>=16 ky tu) trong deploy/secrets.env")
     os.makedirs(QUEUE, exist_ok=True)
     os.makedirs(POPUP, exist_ok=True)
+    CD.chay()   # 25/10: cong diem web - ap yeu cau khi nhan vat da thoat
     crt, key = CERT_DIR + "/panel.crt", CERT_DIR + "/panel.key"
     if not os.path.exists(crt):
         os.makedirs(CERT_DIR, mode=0o700, exist_ok=True)
