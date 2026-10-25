@@ -440,3 +440,9 @@ StandardImpact 793 "步步生花陷阱伤害" (logic 001 = sát thương trực 
 - 4.247 dòng boss (`MonsterAttrExTable.txt` cột 19 HP + cột 59 MaxHP khi tự lên cấp theo tổ đội), gốc = `651afc2`: 120% gốc → **200% gốc** (×1,67 so với trước). 7.169 ô, không ô nào vượt int32 (boss máu lớn nhất 16635: 387 triệu → 645 triệu, trần int32 2,147 tỉ).
 - Chủ server được hỏi 2 lần phạm vi: chọn "chỉ boss" (không phải toàn bộ quái / quái phó bản), "200% gốc" (không phải ×2 hiện tại = 240%).
 - Ảnh hưởng: boss Sát Tinh, boss phó bản, boss thế giới lâu chết hơn ~67%; quái cày phiếu ngoài đồng không đổi. Tool `tools/mau-boss-goc-200-25-10.js`, tag `truoc-mau-boss-200-25-10`.
+
+## 25/10 - BỎ nerf Bàng Xí (Tứ Tuyệt Trang 14145) của 18/10 (chủ server) - cần cap-nhat + RESTART
+- `StandardImpact.txt` dòng 2868 Tinh La Kỳ Bố 20.000 + 5,2 → **50.556 + 12,99766997** (= bản trước nerf `fe5864f~1`; chỉ đổi dòng này, giữ các thay đổi khác của file). Cuồng bạo (×100 sát thương) 20 → **10 phút** (`ai_liqiushui.lua`).
+- Kết hợp máu boss 200% gốc cùng ngày: Bàng Xí (9,3 triệu máu lúc 120%) nay ~15,5 triệu, AoE ~50k mỗi 5 giây, cuồng bạo sau 10 phút → tổ phải hạ trong 10 phút.
+- Ngày 18/10 chỉ có nerf quái này; các thay đổi khác 18/10 là tỉ lệ rơi phiếu bản đồ và hồi sinh quái. Sát Tinh (nerf 06/10) đã bỏ từ 11/10.
+- Tool `tools/bo-nerf-bangxi-25-10.js`, tag `truoc-bo-nerf-bangxi-25-10`.

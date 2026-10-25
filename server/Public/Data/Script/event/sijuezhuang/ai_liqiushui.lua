@@ -83,7 +83,7 @@ x893069_SkillD_SpecObj = 59
 x893069_SkillE_Buff1	= 10234
 x893069_SkillE_Buff2	= 10235
 --开始进入狂暴状态的时间....
-x893069_EnterKuangBaoTime	= 20*60*1000   -- [NetCo4 18/10] 10 -> 20 phut (cuong bao 10235 = sat thuong x100), tools/nerf-bangxi-18-10.js
+x893069_EnterKuangBaoTime	= 10*60*1000   -- [NetCo4 25/10] bo nerf 18/10 (20 -> 10 phut lai), tools/bo-nerf-bangxi-25-10.js
 
 --F十步一杀....
 x893069_SkillF_ID		= 1643
