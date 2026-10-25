@@ -374,7 +374,8 @@ function x950000_NhanQua( sceneId, selfId )
 				tinsert( left, "pet "..a )
 			end
 		elseif kind == "tamphap" then
-			-- [NetCo4 16/10] "tamphap <cap>": nang moi tam phap cua mon phai dang o len <cap> (chi nang, khong ha).
+			-- [NetCo4 16/10] "tamphap <cap>": dat moi tam phap cua mon phai dang o ve DUNG <cap>.
+			-- [NetCo4 25/10] chu server: truoc chi nang (lv < cap), nay NANG HOAC HA (lv ~= cap) de admin ha tam phap lo nang qua.
 			-- Chua vao mon phai thi giu dong lai, vao phai roi doi ban do se nhan.
 			local mp = GetMenPai( sceneId, selfId )
 			if mp == nil or mp < 0 or mp > 12 or mp == 9 then
@@ -383,7 +384,7 @@ function x950000_NhanQua( sceneId, selfId )
 				local ds = x950000_g_TPList[mp + 1]
 				for j = 1, getn( ds ) do
 					local lv = LuaFnGetXinFaLevel( sceneId, selfId, ds[j] )
-					if lv ~= nil and lv < tonumber( a ) then
+					if lv ~= nil and lv ~= tonumber( a ) then
 						LuaFnSetXinFaLevel( sceneId, selfId, ds[j], tonumber( a ) )
 					end
 				end
